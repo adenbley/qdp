@@ -149,6 +149,7 @@ nobase_include_HEADERS = \
 		qdp_inner.h \
 		qdp_init.h \
 		qdp_io.h \
+		qdp_qlimewriter.h \
 		qdp_stdio.h \
 		qdp_layout.h \
 		qdp_map.h \
