@@ -367,6 +367,8 @@ namespace QDP
     */
     virtual ~BinaryReader() {}
 
+    int precision;
+
     //! Read data on the primary node only
     /*!
       \param output The location to which data is read
@@ -453,6 +455,7 @@ namespace QDP
     //! Get the internal input stream
     virtual std::istream& getIstream() = 0;
   };
+
 
 
   // Telephone book of basic primitives

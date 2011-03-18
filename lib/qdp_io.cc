@@ -5,6 +5,7 @@
 
 #include "qdp.h"
 #include "qdp_byteorder.h"
+#include <typeinfo>
 
 namespace QDP
 {
@@ -672,11 +673,22 @@ namespace QDP
     readPrimitive<bool>(input);
   }
 
+  // template< typename T>
+  // void BinaryReader::readPrimitive(T& input)
+  // {
+  //   char buffer[sizeof(T)];
+  //   readArray((char*)&buffer, sizeof(T), 1);
+  //   input = *(T*)(&buffer[0]);
+  // }
+
+
+
   template< typename T>
   void BinaryReader::readPrimitive(T& input)
   {
     readArray((char*)&input, sizeof(T), 1);
   }
+
 
   void BinaryReader::readArray(char* input, size_t size, size_t nmemb)
   {

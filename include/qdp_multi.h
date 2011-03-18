@@ -72,6 +72,18 @@ public:
       return *this;
     }
 
+  // fw
+  template< typename T2>
+  multi1d& operator=(const multi1d<T2>& s1)
+    {
+      if (size() != s1.size())   
+	resize(s1.size());
+
+      for(int i=0; i < n1; ++i)
+	F[i] = s1[i];
+      return *this;
+    }
+
   //! Equal operator uses underlying = of T
   template<class T1>
   multi1d<T>& operator=(const T1& s1)
