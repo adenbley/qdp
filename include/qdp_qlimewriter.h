@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <climits>
 #include "qdp_byteorder.h"
 
 extern "C"
@@ -26,6 +27,12 @@ namespace QDP
   // #include <cstdio>
   // #include "common/logger.h"
 
+
+  enum QLimeReturn {
+    QLIME_UNDEF = INT_MAX,
+    QLIME_SUCCESS = LIME_SUCCESS,
+    QLIME_EOF = LIME_EOF,
+  };
 
 
   //! Interface to Lime
@@ -63,6 +70,36 @@ namespace QDP
     const string& recordName(void) const { return _recordName; }
     const int recordSize(void) const { return _recordSize; }
   };
+
+
+
+  class QLimeReader
+  {
+  private:
+    FILE*		_fp;			//!< File pointer
+    LimeReader*		_r;			//!< Pointer to Lime reader handler
+
+  public:
+    QLimeReader(const char*);
+    ~QLimeReader();
+
+    bool read(void*, uint64_t&) const;
+    bool seek(off_t, int) const;
+
+    const char* recordName(void) const;
+    off_t recordSize(void) const { return limeReaderBytes(_r); }	//!< Record size in bytes
+
+    QLimeReturn nextRecord(void) const;
+
+    bool isMessageBegin(void) const { return (limeReaderMBFlag(_r) != 0); }
+    bool isMessageEnd(void) const { return (limeReaderMEFlag(_r) != 0); }
+
+    bool eof(void) const { return (feof(_r->fp) != 0); }
+  };
+
+
+
+
 
   /*! @} */   // end of group io
 } // namespace QDP
