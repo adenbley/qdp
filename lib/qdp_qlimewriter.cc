@@ -147,7 +147,7 @@ namespace QDP
     uint64_t sizeWritten = size;
     limeWriteRecordData(buf, &sizeWritten, _w);
     if (sizeWritten != size)
-      QDP_error_exit("Failed to write all data\n");
+      QDP_error_exit("Failed to write all data %d %d\n",sizeWritten,size);
   }
 
 
@@ -229,7 +229,7 @@ QLimeReturn QLimeReader::nextRecord(void) const
   int status = limeReaderNextRecord(_r);
   QLimeReturn ret = QLIME_UNDEF;
 
-  QDP::QDPIO::cout << "nextRecord completed with status " << status << "\n";
+  //QDP::QDPIO::cout << "nextRecord completed with status " << status << "\n";
 
   switch (status) {
     case LIME_SUCCESS:
