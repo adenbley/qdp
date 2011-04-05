@@ -111,6 +111,7 @@ namespace QDP {
 #include "qdp_params.h"
 #include "qdp_layout.h"
 #include "qdp_io.h"
+#include "qdp_qlimewriter.h"
 #include "qdp_stdio.h"
 #include "qdp_xmlio.h"
 #include "qdp_qdpio.h"
