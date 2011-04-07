@@ -142,6 +142,8 @@ namespace QDP {
 #include "qdp_outer.h"
 #include "qdp_outersubtype.h"
 
+#include "qdp_pretty.h"
+
 // Replaces previous ifdef structure. Structure moved into the header file
 #include "qdp_defs.h"
 #include "qdp_globalfuncs.h"

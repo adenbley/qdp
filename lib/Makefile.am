@@ -15,13 +15,19 @@ AM_CXXFLAGS = $(INCFLAGS) @BAGEL_QDP_CXXFLAGS@ @LIBXML2_CXXFLAGS@ @QMP_CFLAGS@  
 
 lib_LIBRARIES = libqdp.a
 
+
+NVCC = nvcc
+SUFFIXES = .cu
+.cu.$(OBJEXT):
+	$(NVCC) -c -o $@ $< $(AM_CXXFLAGS)
+
 ## Base set of sources and conditionally included sources
 libqdp_a_SOURCES = qdp_map.cc qdp_subset.cc qdp_random.cc qdp.cc \
 	qdp_layout.cc qdp_io.cc qdp_qlimewriter.cc qdp_iogauge.cc qdp_byteorder.cc qdp_util.cc \
 	qdp_qdpio.cc qdp_xmlio.cc qdp_stdio.cc \
         qdp_profile.cc qdp_strnlen.cc qdp_crc32.cc \
         qdp_stopwatch.cc qdp_qio_strings.cc qdp_map_obj_disk.cc \
-        qdp_rannyu.cc
+        qdp_rannyu.cc qdp_pretty.cc qdp_cuda.cu
 
 # Scalar	
 if ARCH_SCALAR

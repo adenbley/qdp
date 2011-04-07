@@ -6,11 +6,15 @@
 #include "qdp_config.h"
 #include "qdp_allocator.h"
 
+#include "qdp_cuda.h"
+
 /*! \file
  * \brief Outer grid classes
  */
 
 namespace QDP {
+
+  void getDeviceMem(void *mem , size_t size);
 
 /*! \defgroup fiberbundle Fiberbundle types and operations
  *
@@ -121,7 +125,47 @@ public:
   OScalar(const OScalar& a): F(a.F) {/*fprintf(stderr,"copy OScalar\n");*/}
 
 
+  void getHostMem()
+  {
+    QDPCUDA::getHostMem((void**)(&Fh),sizeof(T)*Layout::sitesOnNode());
+    hostMem=true;
+  }
+  void freeHostMem()
+  {
+    QDPCUDA::freeHostMem((void *)(Fh));
+    hostMem=false;
+  }
+  void getDeviceMem()
+  {
+    QDPCUDA::getDeviceMem((void**)(&Fd),sizeof(T)*Layout::sitesOnNode());
+    deviceMem=true;
+  }
+  void freeDeviceMem()
+  {
+    QDPCUDA::freeDeviceMem((void*)(Fd));
+    deviceMem=false;
+  }
+  void copyToHost()
+  {
+    QDPCUDA::copyToHost(Fh,Fd,sizeof(T)*Layout::sitesOnNode());
+    F=*Fh;
+  }
+  void copyToDevice()
+  {
+    *Fh=F;
+    QDPCUDA::copyToDevice(Fd,Fh,sizeof(T)*Layout::sitesOnNode());
+  }
+  bool onDevice() const
+  {
+    return deviceMem;
+  }
+
+
+
 public:
+  bool deviceMem,hostMem;
+  T* Fd;
+  T* Fh;
   inline T& elem() {return F;}
   inline const T& elem() const {return F;}
 
@@ -250,20 +294,26 @@ template<class T>
 class OLattice: public QDPType<T, OLattice<T> >
 {
 public:
-  OLattice() 
+  OLattice() : deviceMem(false),hostMem(false)
     {
+      
       alloc_mem("create");
     }
   ~OLattice()
     {
-      free_mem();
+      if (deviceMem)
+	freeDeviceMem();
+      if (hostMem)
+	freeHostMem();
+      else
+	free_mem();
     }
 
 
   //---------------------------------------------------------
   //! conversion by constructor  OLattice<T> = OScalar<T1>
   template<class T1>
-  OLattice(const OScalar<T1>& rhs)
+  OLattice(const OScalar<T1>& rhs) : deviceMem(false),hostMem(false)
     {
       alloc_mem("construct from OScalar");
       this->assign(rhs);
@@ -272,7 +322,7 @@ public:
 
   //! conversion by constructor  OLattice<T> = OLattice<T1>
   template<class T1>
-  OLattice(const OLattice<T1>& rhs)
+  OLattice(const OLattice<T1>& rhs) : deviceMem(false),hostMem(false)
     {
       alloc_mem("construct from OLattice");
       this->assign(rhs);
@@ -281,7 +331,7 @@ public:
 
   //! conversion by constructor  OLattice = Expr
   template<class RHS, class T1>
-  OLattice(const QDPExpr<RHS, OLattice<T1> >& rhs)
+  OLattice(const QDPExpr<RHS, OLattice<T1> >& rhs ): deviceMem(false),hostMem(false)
     {
       alloc_mem("construct from expr");
       this->assign(rhs);
@@ -289,7 +339,7 @@ public:
 
 
   //! construct OLattice = const
-  OLattice(const typename WordType<T>::Type_t& rhs)
+  OLattice(const typename WordType<T>::Type_t& rhs) : deviceMem(false),hostMem(false)
     {
       alloc_mem("construct from const");
 
@@ -299,7 +349,7 @@ public:
 
 
   //! construct OLattice = 0
-  OLattice(const Zero& rhs)
+  OLattice(const Zero& rhs) : deviceMem(false),hostMem(false)
     {
       alloc_mem("construct from zero");
       this->assign(rhs);
@@ -423,9 +473,48 @@ public:
     }
   }
 #endif 
+
+
+
+  void getHostMem()
+  {
+    free_mem();
+    QDPCUDA::getHostMem((void**)(&F),sizeof(T)*Layout::sitesOnNode());
+    hostMem=true;
+  }
+  void freeHostMem()
+  {
+    QDPCUDA::freeHostMem((void *)(F));
+    alloc_mem("freeHostMem");    
+    hostMem=false;
+  }
+  void getDeviceMem()
+  {
+    QDPCUDA::getDeviceMem((void**)(&Fd),sizeof(T)*Layout::sitesOnNode());
+    deviceMem=true;
+  }
+  void freeDeviceMem()
+  {
+    QDPCUDA::freeDeviceMem((void*)(Fd));
+    deviceMem=false;
+  }
+  void copyToHost()
+  {
+    QDPCUDA::copyToHost(F,Fd,sizeof(T)*Layout::sitesOnNode());
+  }
+  void copyToDevice()
+  {
+    QDPCUDA::copyToDevice(Fd,F,sizeof(T)*Layout::sitesOnNode());
+  }
+  bool onDevice() const
+  {
+    return deviceMem;
+  }
   
   
 public:
+  bool deviceMem,hostMem;
+  T* Fd;
   inline T& elem(int i) {return F[i];}
   inline const T& elem(int i) const {return F[i];}
 
@@ -438,16 +527,16 @@ private:
    * However, GNU will align when vars are allocated on the stack (automatic vars).
    * So, force alignment in general by allocating slop space.
    */
-  inline void alloc_mem(const char* const p) 
-    {
-      // Barfs if allocator fails
-      try 
+  inline void alloc_mem(const char* const p)
+  {
+    // Barfs if allocator fails
+    try 
       {
 	slow=(T*)QDP::Allocator::theQDPAllocator::Instance().allocate(sizeof(T)*Layout::sitesOnNode(),QDP::Allocator::DEFAULT);
-      // slow is active 
+	// slow is active 
 	F=slow;
       }
-      catch(std::bad_alloc) 
+    catch(std::bad_alloc) 
       {
 	QDPIO::cerr << "Allocation failed in OLattice alloc_mem" << endl;
 	QDP::Allocator::theQDPAllocator::Instance().dump();
@@ -455,10 +544,10 @@ private:
       }
 
 #ifdef QDP_USE_QCDOC
-      // Make sure fast is set to 0x0
-      fast=0x0;
+    // Make sure fast is set to 0x0
+    fast=0x0;
 #endif
-    }
+  }
 
   //! Internal memory free
   inline void free_mem() 

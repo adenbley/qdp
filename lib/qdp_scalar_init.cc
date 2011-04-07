@@ -93,6 +93,17 @@ void QDP_initialize(int *argc, char ***argv)
     fprintf(stderr,"    -p        %%d [%d] profile level\n", 
 	    getProfileLevel());
 #endif
+    fprintf(stderr,"    -pretty-level found 1 no exe/exe\n");
+    fprintf(stderr,"                        2 orig/SPU\n");
+    fprintf(stderr,"              not found 16 no exe/exe\n");
+    fprintf(stderr,"                        32 no write/write\n");
+    fprintf(stderr,"                        256 do nothing if -1\n");
+    fprintf(stderr,"                        512 orig shift/spu shift\n");
+    fprintf(stderr,"    -pretty-filename    pr.lst is written whether found or not\n");
+    fprintf(stderr,"    -nspu               <INT>\n");
+    fprintf(stderr,"    -spuloops           <INT> default=1 (1st not timed)\n");
+    fprintf(stderr,"    -lattice            XxYxZxT\n");
+
 
     exit(1);
   }
@@ -107,6 +118,41 @@ void QDP_initialize(int *argc, char ***argv)
       setProgramProfileLevel(lev);
     }
 #endif
+    if (strcmp((*argv)[i], "-pretty-filename")==0) 
+    {
+      char fn[2048];
+      sscanf((*argv)[++i], "%s", fn);
+      setPrettyFn( string(fn) );
+    }
+
+    if (strcmp((*argv)[i], "-pretty-level")==0) 
+    {
+      int lev;
+      sscanf((*argv)[++i], "%d", &lev);
+      setPrettyLevel(lev);
+    }
+
+    // if (strcmp((*argv)[i], "-nspu")==0) 
+    // {
+    //   int lev;
+    //   sscanf((*argv)[++i], "%d", &lev);
+    //   setNSPU(lev);
+    // }
+
+    // if (strcmp((*argv)[i], "-spuloops")==0) 
+    // {
+    //   int loops;
+    //   sscanf((*argv)[++i], "%d", &loops);
+    //   setSPUloops(loops);
+    // }
+
+    // if (strcmp((*argv)[i], "-lattice")==0) 
+    // {
+    //   int x,y,z,t;
+    //   sscanf((*argv)[++i], "%dx%dx%dx%d", &x,&y,&z,&t);
+    //   setLattice(x,y,z,t);
+    // }
+
 
     if (i >= *argc) 
     {
