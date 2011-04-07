@@ -19,7 +19,7 @@ lib_LIBRARIES = libqdp.a
 NVCC = nvcc
 SUFFIXES = .cu
 .cu.$(OBJEXT):
-	$(NVCC) -c -o $@ $< $(AM_CXXFLAGS)
+	$(NVCC) -arch=sm_12 -c -o $@ $< $(AM_CXXFLAGS)
 
 ## Base set of sources and conditionally included sources
 libqdp_a_SOURCES = qdp_map.cc qdp_subset.cc qdp_random.cc qdp.cc \

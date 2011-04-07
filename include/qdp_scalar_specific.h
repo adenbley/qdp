@@ -7,6 +7,8 @@
 #ifndef QDP_SCALAR_SPECIFIC_H
 #define QDP_SCALAR_SPECIFIC_H
 
+#include "stdlib.h"
+#include <dlfcn.h>
 
 struct FlattenTag {
   inline
@@ -408,6 +410,37 @@ namespace QDP {
     } else {
       FlattenTag flatten;
       forEach(rhs, flatten , NullCombine());
+
+      int ret=system("~/git/root/src/cuda/cuqdp/scripts/gengpu.pl pr.lst noop.lst spufile dbfile.cc prfile.cc linkerfile checkfile");
+      if (ret) {
+	cout << "return value = " << ret << endl;
+	QDP_error_exit("Gengpu error\n");
+      }
+
+      ret=system("nvcc -arch=sm_20 --compiler-options -fPIC,-Wall -c spufile1000.cu -I../cuqdp/include -o /tmp/spufile1000.o");
+      if (ret) {
+	cout << "return value = " << ret << endl;
+	QDP_error_exit("Nvcc error\n");
+      }
+
+      void    *handle;
+      int     *iptr, (*fptr)(int);
+
+
+      /* open the needed object */
+      handle = dlopen("/tmp/spufile1000.o", RTLD_LOCAL | RTLD_LAZY);
+      if (!handle) {
+	cout << string(dlerror()) << endl;
+	QDP_error_exit("dlopen error\n");
+      }
+
+
+      /* find the address of function and data objects */
+      *(void **)(&fptr) = dlsym(handle, "function_1000");
+
+      /* invoke function, passing value of integer as a parameter */
+      (*fptr)(*iptr);
+
 
     }
 
