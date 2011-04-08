@@ -411,35 +411,61 @@ namespace QDP {
       FlattenTag flatten;
       forEach(rhs, flatten , NullCombine());
 
-      int ret=system("~/git/root/src/cuda/cuqdp/scripts/gengpu.pl pr.lst noop.lst spufile dbfile.cc prfile.cc linkerfile checkfile");
-      if (ret) {
-	cout << "return value = " << ret << endl;
-	QDP_error_exit("Gengpu error\n");
-      }
 
-      ret=system("nvcc -arch=sm_20 --compiler-options -fPIC,-Wall -c spufile1000.cu -I../cuqdp/include -o /tmp/spufile1000.o");
+      char *tmpname="/tmp/pretty-0";
+
+      FILE * fil = fopen(tmpname,"w");
+      fprintf(fil,"%s\n",__PRETTY_FUNCTION__);
+      fclose(fil);
+
+      string gen("~/git/root/src/cuda/cuqdp/scripts/pretty_gpu.pl ");
+      gen += string(tmpname) + string(" /tmp/spufile");
+      cout << gen << endl;
+      int ret;
+      // ret=system("~/git/root/src/cuda/cuqdp/scripts/pretty_gpu.pl pr.lst /tmp/spufile");
+      // if (ret) {
+      // 	cout << "return value = " << ret << endl;
+      // 	QDP_error_exit("Gengpu error\n");
+      // }
+
+      ret=system("nvcc -arch=sm_20 --compiler-options -fPIC,-shared -link /tmp/spufile.cu -I../cuqdp/include -o /tmp/spufile1000.o");
       if (ret) {
 	cout << "return value = " << ret << endl;
 	QDP_error_exit("Nvcc error\n");
       }
 
-      void    *handle;
-      int     *iptr, (*fptr)(int);
-
+      void *handle;
+      int  *iptr;
+      void (*fptr)(void);
+      
 
       /* open the needed object */
-      handle = dlopen("/tmp/spufile1000.o", RTLD_LOCAL | RTLD_LAZY);
+      handle = dlopen("/tmp/spufile1000.o",  RTLD_LAZY);
+      //handle = dlopen("/home/fwinter/git/root/src/cuda/cuqdp-test/libfunc.so", RTLD_LOCAL | RTLD_LAZY);
       if (!handle) {
 	cout << string(dlerror()) << endl;
 	QDP_error_exit("dlopen error\n");
+      } else {
+	cout << "LSB shared object loaded successfully" << endl;
       }
 
 
       /* find the address of function and data objects */
-      *(void **)(&fptr) = dlsym(handle, "function_1000");
+      //*(void **)(&fptr) = dlsym(handle, "function_1000_host");
+
+      char *err;
+      dlerror(); /* clear error code */
+      *(void **)(&fptr) = dlsym(handle, "function_host");
+      if ((err = dlerror()) != NULL) {
+	cout << string(err) << endl;
+	QDP_error_exit("dlsym error\n");
+      } else {
+	cout << "symbol found" << endl;
+      }
+
 
       /* invoke function, passing value of integer as a parameter */
-      (*fptr)(*iptr);
+      (*fptr)();
 
 
     }
