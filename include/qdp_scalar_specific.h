@@ -9,18 +9,9 @@
 
 #include "stdlib.h"
 #include <dlfcn.h>
+#include "/home/fwinter/git/root/src/cuda/cuqdp/include/iface.h"     // HACK: can be done via submodule
 
-struct FlattenTag {
-  inline
-  FlattenTag() : iadr(0), totalsize(0) {}
-  const static  size_t maxleaf = 20;
-  mutable size_t adr[maxleaf];
-  mutable unsigned int size[maxleaf];
-  mutable unsigned int custom[maxleaf];
-  mutable unsigned int leaftype[maxleaf];
-  mutable unsigned int iadr;
-  mutable unsigned int totalsize;
-};
+
 
 
 struct OnDeviceTag {
@@ -411,37 +402,48 @@ namespace QDP {
       FlattenTag flatten;
       forEach(rhs, flatten , NullCombine());
 
+// struct CUDA_iface_eval {
+//   void       *dest;
+//   FlattenTag *rhs;
+//   void       *opMeta;
+//   size_t      opMetaSize;
+// };
 
-      char *tmpname="/tmp/pretty-0";
+      CUDA_iface_eval * ifeval;
+      CUDA_iface_eval * ifeval_dev;
+      QDPCUDA::getHostMem(  (void**)(&ifeval),    sizeof(CUDA_iface_eval));
+      QDPCUDA::getDeviceMem((void**)(&ifeval_dev),sizeof(CUDA_iface_eval));
 
-      FILE * fil = fopen(tmpname,"w");
-      fprintf(fil,"%s\n",__PRETTY_FUNCTION__);
-      fclose(fil);
+      ifeval->dest = dest.Fd;     // !!!! HACK check for SubSet start
+      ifeval->opMeta = NULL;
+      ifeval->opMetaSize = 123;
+      QDPCUDA::getDeviceMem((void**)(&ifeval->flatten),sizeof(FlattenTag));
+      QDPCUDA::copyToDevice(ifeval->flatten,&flatten,sizeof(FlattenTag));
 
-      string gen("~/git/root/src/cuda/cuqdp/scripts/pretty_gpu.pl ");
-      gen += string(tmpname) + string(" /tmp/spufile");
+      QDPCUDA::copyToDevice(ifeval_dev,ifeval,sizeof(CUDA_iface_eval));
+      
+
+      string gen;
+      gen = "/home/fwinter/git/root/src/cuda/cuqdp/scripts/pretty_gpu.pl /tmp/spufile.cu";
       cout << gen << endl;
-      int ret;
-      // ret=system("~/git/root/src/cuda/cuqdp/scripts/pretty_gpu.pl pr.lst /tmp/spufile");
-      // if (ret) {
-      // 	cout << "return value = " << ret << endl;
-      // 	QDP_error_exit("Gengpu error\n");
-      // }
+      FILE * fileGenGpu;
+      fileGenGpu=popen(gen.c_str(),"w");
+      if (!fileGenGpu) {
+      	QDP_error_exit("error while calling PERL\n");
+      }
+      fprintf(fileGenGpu,"%s\n",__PRETTY_FUNCTION__);
+      pclose(fileGenGpu);
 
-      ret=system("nvcc -arch=sm_20 --compiler-options -fPIC,-shared -link /tmp/spufile.cu -I../cuqdp/include -o /tmp/spufile1000.o");
+      int ret;
+      ret=system("nvcc -arch=sm_20 --compiler-options -fPIC,-shared -link /tmp/spufile.cu -I../cuqdp/include -o /tmp/spufile.o");
       if (ret) {
 	cout << "return value = " << ret << endl;
 	QDP_error_exit("Nvcc error\n");
       }
 
       void *handle;
-      int  *iptr;
-      void (*fptr)(void);
-      
+      handle = dlopen("/tmp/spufile.o",  RTLD_LAZY);
 
-      /* open the needed object */
-      handle = dlopen("/tmp/spufile1000.o",  RTLD_LAZY);
-      //handle = dlopen("/home/fwinter/git/root/src/cuda/cuqdp-test/libfunc.so", RTLD_LOCAL | RTLD_LAZY);
       if (!handle) {
 	cout << string(dlerror()) << endl;
 	QDP_error_exit("dlopen error\n");
@@ -449,10 +451,7 @@ namespace QDP {
 	cout << "LSB shared object loaded successfully" << endl;
       }
 
-
-      /* find the address of function and data objects */
-      //*(void **)(&fptr) = dlsym(handle, "function_1000_host");
-
+      void (*fptr)(void *);
       char *err;
       dlerror(); /* clear error code */
       *(void **)(&fptr) = dlsym(handle, "function_host");
@@ -465,7 +464,7 @@ namespace QDP {
 
 
       /* invoke function, passing value of integer as a parameter */
-      (*fptr)();
+      (*fptr)(ifeval);
 
 
     }
