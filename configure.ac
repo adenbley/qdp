@@ -6,7 +6,9 @@ AC_LANG([C++])
 AC_PROG_CXX(g++ cxx CC)
 AC_PROG_RANLIB
 AC_CHECK_TOOL(AR, ar, [ar])
-AC_CHECK_TOOL(PERL, perl, [perl])
+
+
+
 
 dnl Initialise automake
 AM_INIT_AUTOMAKE
@@ -95,6 +97,14 @@ AC_ARG_ENABLE(filedb,
     [Build routines using FileDB]),
   [filedb_enabled="${enableval}"],
   [filedb_enabled="yes"]
+)
+
+dnl cudp
+AC_ARG_ENABLE(cudp,
+  AC_HELP_STRING([--enable-cudp],
+    [Build GPU enabled evaluate function]),
+  [cudp_enabled="${enableval}"],
+  [cudp_enabled="no"]
 )
 
 dnl --enable-sse
@@ -527,8 +537,32 @@ else
      AC_SUBST(FILEDB_DIR,"")
 fi
 
+
+dnl cudp
+if test "X${cudp_enabled}X" == "XyesX"; 
+then
+     AC_MSG_NOTICE([Configuring to use cudp, checking perl and pretty_gpu.pl])
+	AC_CHECK_TOOL(PERL, perl, [no])
+	if test "x${PERL}x" != "xperlx";
+	then
+	  AC_MSG_ERROR([Perl required])
+	fi
+	AC_CHECK_TOOL(PRETTYGPU, pretty_gpu.pl, [no])
+	if test "x${PRETTYGPU}x" != "xpretty_gpu.plx";
+	then
+	  AC_MSG_ERROR([pretty_gpu.pl required])
+	fi
+     AC_CONFIG_SUBDIRS(other_libs/cudp)
+     AC_DEFINE([BUILD_CUDP],[],[Build cudp])
+else 
+     AC_MSG_NOTICE([Not using cudp ])
+fi
+
 AM_CONDITIONAL(BUILD_FILEDB,
   [test "x${filedb_enabled}x" = "xyesx" ])
+
+AM_CONDITIONAL(BUILD_CUDP,
+  [test "x${cudp_enabled}x" = "xyesx" ])
 
 dnl Use Jie Chens threads library
 AC_ARG_WITH(qmt,

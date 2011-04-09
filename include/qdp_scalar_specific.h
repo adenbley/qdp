@@ -9,8 +9,10 @@
 
 #include "stdlib.h"
 #include <dlfcn.h>
-#include "/home/fwinter/git/root/src/cuda/cuqdp/include/iface.h"     // HACK: can be done via submodule
 
+#ifdef BUILD_CUDP
+#include "cudp_iface.h"
+#endif
 
 
 
@@ -22,6 +24,7 @@ struct OnDeviceTag {
 
 namespace QDP {
 
+#ifdef BUILD_CUDP
   template<class T, class C>
   struct LeafFunctor<QDPType<T,C>, FlattenTag>
   {
@@ -182,7 +185,7 @@ namespace QDP {
       //return Type_t();
     }
   };
-
+#endif
 
 
 
@@ -354,41 +357,12 @@ namespace QDP {
 
 
 
-  //! OLattice Op OLattice(Expression(source)) under an Subset
-  /*! 
-   * OLattice Op Expression, where Op is some kind of binary operation 
-   * involving the destination 
-   */
+#ifdef BUILD_CUDP
   template<class T, class T1, class Op, class RHS>
   //inline
   void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
 		const Subset& s)
   {
-    //  cerr << "In evaluateSubset(olattice,olattice)" << endl;
-
-#if defined(QDP_USE_PROFILING)   
-    static QDPProfile_t prof(dest, op, rhs);
-    prof.time -= getClockTime();
-#endif
-
-
-    if ( (getPrettyLevel() & 32)) {
-      ////////////////////
-      // Write pretty functions
-      ///////////////////
-      ofstream myfile;
-      if (getPrettyFn().size() > 0) {
-	if ( Layout::primaryNode() ) {
-	  myfile.open ( getPrettyFn().c_str() , ios::app );
-	  myfile << string(__PRETTY_FUNCTION__) <<"\n";
-	  myfile.close();
-	}
-      } else {
-	printf("please provide a file name\n");
-	exit(1);
-      }
-    }
-
     OnDeviceTag onDevTag;
     bool onDev = forEach(rhs, onDevTag , AndCombine());
     onDev = onDev && dest.onDevice();
@@ -401,13 +375,6 @@ namespace QDP {
     } else {
       FlattenTag flatten;
       forEach(rhs, flatten , NullCombine());
-
-// struct CUDA_iface_eval {
-//   void       *dest;
-//   FlattenTag *rhs;
-//   void       *opMeta;
-//   size_t      opMetaSize;
-// };
 
       CUDA_iface_eval * ifeval;
       CUDA_iface_eval * ifeval_dev;
@@ -424,7 +391,7 @@ namespace QDP {
       
 
       string gen;
-      gen = "/home/fwinter/git/root/src/cuda/cuqdp/scripts/pretty_gpu.pl /tmp/spufile.cu";
+      gen = "pretty_gpu.pl /tmp/spufile.cu";
       cout << gen << endl;
       FILE * fileGenGpu;
       fileGenGpu=popen(gen.c_str(),"w");
@@ -462,11 +429,7 @@ namespace QDP {
 	cout << "symbol found" << endl;
       }
 
-
-      /* invoke function, passing value of integer as a parameter */
       (*fptr)(ifeval);
-
-
     }
 
     ////////////////////
@@ -482,13 +445,19 @@ namespace QDP {
     //op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
     //}
 
-#if defined(QDP_USE_PROFILING)   
-    prof.time += getClockTime();
-    prof.count++;
-    prof.print();
-#endif
   }
+#else
+  //
+  // original QDP++ (no CUDP)
+  //
+  template<class T, class T1, class Op, class RHS>
+  //inline
+  void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
+		const Subset& s)
+  {
 
+  }
+#endif
 
 
   //-----------------------------------------------------------------------------
