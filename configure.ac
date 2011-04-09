@@ -554,8 +554,10 @@ then
 	fi
      AC_CONFIG_SUBDIRS(other_libs/cudp)
      AC_DEFINE([BUILD_CUDP],[],[Build cudp])
+     AC_SUBST(CUDP_DIR, [cudp])
 else 
      AC_MSG_NOTICE([Not using cudp ])
+     AC_SUBST(CUDP_DIR,"")
 fi
 
 AM_CONDITIONAL(BUILD_FILEDB,

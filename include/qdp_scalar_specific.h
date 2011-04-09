@@ -455,7 +455,35 @@ namespace QDP {
   void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
 		const Subset& s)
   {
+#if defined(QDP_USE_PROFILING)   
+    static QDPProfile_t prof(dest, op, rhs);
+    prof.time -= getClockTime();
+#endif
 
+    int numSiteTable = s.numSiteTable();
+
+    user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
+
+    dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
+
+    ////////////////////
+    // Original code
+    ///////////////////
+
+    // General form of loop structure
+    //const int *tab = s.siteTable().slice();
+    //for(int j=0; j < s.numSiteTable(); ++j) 
+    //{
+    //int i = tab[j];
+    //    fprintf(stderr,"eval(olattice,olattice): site %d\n",i);
+    //op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
+    //}
+
+#if defined(QDP_USE_PROFILING)   
+    prof.time += getClockTime();
+    prof.count++;
+    prof.print();
+#endif
   }
 #endif
 
