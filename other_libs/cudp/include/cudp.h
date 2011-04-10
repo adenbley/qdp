@@ -71,7 +71,7 @@ const int Ns = QDP_NS;
 using namespace std;   // I do not like this - fix later
 
 namespace QDP {
-#include <PETE/cuPETE.h>
+#include <cuPETE/cuPETE.h>
 }
 
 #include "cudp_util.h"

@@ -1,13 +1,13 @@
-cuPETE_HDRS =  PETE/cuCombiners.h \
-	       PETE/cuFunctors.h \
-              PETE/cuPETE.h \
-             PETE/cuTreeNodes.h \
-             PETE/cuCreateLeaf.h \
-             PETE/cuForEach.h \
-             PETE/cuForEachInOrder.h \
-             PETE/cuOperatorTags.h \
-             PETE/cuScalar.h \
-             PETE/cuTypeComputations.h
+cuPETE_HDRS =  cuPETE/cuCombiners.h \
+	       cuPETE/cuFunctors.h \
+              cuPETE/cuPETE.h \
+             cuPETE/cuTreeNodes.h \
+             cuPETE/cuCreateLeaf.h \
+             cuPETE/cuForEach.h \
+             cuPETE/cuForEachInOrder.h \
+             cuPETE/cuOperatorTags.h \
+             cuPETE/cuScalar.h \
+             cuPETE/cuTypeComputations.h
 
 
 # HEADERS for the memory allocator
@@ -15,7 +15,7 @@ cuMEMORY_HDRS = cudp_allocator.h \
 	      cudp_default_allocator.h
 
 # All the include files - avoid flattening of dirs by using nobase
-include_HEADERS = \
+nobase_include_HEADERS = \
 		cudp_config.h \
 		cudp_forward.h \
 		cudp_globalfuncs.h \

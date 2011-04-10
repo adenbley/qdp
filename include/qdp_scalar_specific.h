@@ -402,7 +402,8 @@ namespace QDP {
       pclose(fileGenGpu);
 
       int ret;
-      ret=system("nvcc -arch=sm_20 --compiler-options -fPIC,-shared -link /tmp/spufile.cu -I../cuqdp/include -o /tmp/spufile.o");
+      cout << gen << endl;
+      ret=system("nvcc -arch=sm_20 --compiler-options -fPIC,-shared -link /tmp/spufile.cu -I$QDP_INSTALL/include -o /tmp/spufile.o");
       if (ret) {
 	cout << "return value = " << ret << endl;
 	QDP_error_exit("Nvcc error\n");
