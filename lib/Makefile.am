@@ -93,3 +93,8 @@ endif
 if QDP_USE_QCDOC
 libqdp_a_SOURCES += qdp_qcdoc_allocator.cc
 endif
+
+if BUILD_CUDP
+libqdp_a_SOURCES += qdp_cudp_just.cc
+endif
+

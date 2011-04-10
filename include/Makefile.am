@@ -219,6 +219,10 @@ nobase_include_HEADERS = \
 		$(SSEVEC_HDRS) \
 	        $(BAGEL_HDRS)
 
+if BUILD_CUDP
+nobase_include_HEADERS += qdp_cudp_just.h
+endif
+
 nodist_include_HEADERS = qdp_config_internal.h
 
 

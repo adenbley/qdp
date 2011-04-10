@@ -388,49 +388,13 @@ namespace QDP {
       QDPCUDA::copyToDevice(ifeval->flatten,&flatten,sizeof(FlattenTag));
 
       QDPCUDA::copyToDevice(ifeval_dev,ifeval,sizeof(CUDA_iface_eval));
-      
 
-      string gen;
-      gen = "$QDP_INSTALL/bin/cudp_codegen.pl /tmp/spufile.cu";
-      cout << gen << endl;
-      FILE * fileGenGpu;
-      fileGenGpu=popen(gen.c_str(),"w");
-      if (!fileGenGpu) {
-      	QDP_error_exit("error while calling PERL\n");
-      }
-      fprintf(fileGenGpu,"%s\n",__PRETTY_FUNCTION__);
-      pclose(fileGenGpu);
+      theCudpJust(__PRETTY_FUNCTION__,ifeval);
 
-      int ret;
-      cout << gen << endl;
-      ret=system("nvcc -arch=sm_20 --compiler-options -fPIC,-shared -link /tmp/spufile.cu -I$QDP_INSTALL/include -o /tmp/spufile.o");
-      if (ret) {
-	cout << "return value = " << ret << endl;
-	QDP_error_exit("Nvcc error\n");
-      }
+      QDPCUDA::freeDeviceMem((void*)(ifeval->flatten));
+      QDPCUDA::freeHostMem(  (void*)(ifeval));
+      QDPCUDA::freeDeviceMem((void*)(ifeval_dev));
 
-      void *handle;
-      handle = dlopen("/tmp/spufile.o",  RTLD_LAZY);
-
-      if (!handle) {
-	cout << string(dlerror()) << endl;
-	QDP_error_exit("dlopen error\n");
-      } else {
-	cout << "LSB shared object loaded successfully" << endl;
-      }
-
-      void (*fptr)(void *);
-      char *err;
-      dlerror(); /* clear error code */
-      *(void **)(&fptr) = dlsym(handle, "function_host");
-      if ((err = dlerror()) != NULL) {
-	cout << string(err) << endl;
-	QDP_error_exit("dlsym error\n");
-      } else {
-	cout << "symbol found" << endl;
-      }
-
-      (*fptr)(ifeval);
     }
 
     ////////////////////

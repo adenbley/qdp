@@ -169,6 +169,9 @@ bool QDP_isInitialized() {return isInit;}
 //! Turn off the machine
 void QDP_finalize()
 {
+#ifdef BUILD_CUDP
+  theCudpJust.closeAllShared();
+#endif
 
   if ( ThreadReductions::norm2_results != 0x0 ) { 
    delete [] ThreadReductions::norm2_results;

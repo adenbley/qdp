@@ -152,6 +152,10 @@ namespace QDP {
 //#include "qdp_special.h"
 #include "qdp_random.h"
 
+#ifdef BUILD_CUDP
+#include "qdp_cudp_just.h"
+#endif
+
 // Include threading code here if applicable
 #include "qdp_dispatch.h"
 
