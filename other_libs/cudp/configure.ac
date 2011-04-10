@@ -10,8 +10,11 @@ AC_CHECK_TOOL(PERL, perl, [perl])
 
 AM_INIT_AUTOMAKE
 
-AC_CONFIG_FILES(Makefile)
-AC_CONFIG_FILES(include/Makefile)
+AC_CONFIG_FILES([
+Makefile
+include/Makefile
+scripts/Makefile
+])
 
 AC_OUTPUT
 

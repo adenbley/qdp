@@ -391,7 +391,7 @@ namespace QDP {
       
 
       string gen;
-      gen = "pretty_gpu.pl /tmp/spufile.cu";
+      gen = "$QDP_INSTALL/bin/cudp_codegen.pl /tmp/spufile.cu";
       cout << gen << endl;
       FILE * fileGenGpu;
       fileGenGpu=popen(gen.c_str(),"w");

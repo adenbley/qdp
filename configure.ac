@@ -541,17 +541,17 @@ fi
 dnl cudp
 if test "X${cudp_enabled}X" == "XyesX"; 
 then
-     AC_MSG_NOTICE([Configuring to use cudp, checking perl and pretty_gpu.pl])
+     AC_MSG_NOTICE([Configuring to use cudp, checking for perl...])
 	AC_CHECK_TOOL(PERL, perl, [no])
 	if test "x${PERL}x" != "xperlx";
 	then
 	  AC_MSG_ERROR([Perl required])
 	fi
-	AC_CHECK_TOOL(PRETTYGPU, pretty_gpu.pl, [no])
-	if test "x${PRETTYGPU}x" != "xpretty_gpu.plx";
-	then
-	  AC_MSG_ERROR([pretty_gpu.pl required])
-	fi
+dnl	AC_CHECK_TOOL(PRETTYGPU, pretty_gpu.pl, [no])
+dnl	if test "x${PRETTYGPU}x" != "xpretty_gpu.plx";
+dnl	then
+dnl	  AC_MSG_ERROR([pretty_gpu.pl required])
+dnl	fi
      AC_CONFIG_SUBDIRS(other_libs/cudp)
      AC_DEFINE([BUILD_CUDP],[],[Build cudp])
      AC_SUBST(CUDP_DIR, [cudp])
