@@ -33,11 +33,15 @@ namespace QDP {
     inline static Type_t apply(const OLattice<T> &a, const FlattenTag &f)
     {
       OLattice<T>& b = const_cast<OLattice<T>&>(a);
-    b.setF(f.adr[ f.iadr ]);
-    if (threadIdx.x==0)
-      printf("device: %d %llx\n",f.iadr,f.adr[ f.iadr ]);
-    f.iadr++;
-    return 0;
+      b.setF( f.listLeaf.front().pointer );
+      if (f.listLeaf.size() < 1)
+	printf("Oops!\n");
+      f.listLeaf.pop_front();
+      // b.setF(f.adr[ f.iadr ]);
+      // if (threadIdx.x==0)
+      //   printf("device: %d %llx\n",f.iadr,f.adr[ f.iadr ]);
+      // f.iadr++;
+      return 0;
     }
   };
 

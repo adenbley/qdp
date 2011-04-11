@@ -306,10 +306,10 @@ sub spu
     $ret.="    OLattice<T> dest;\n";
     $ret.="    ".$pretty{"partOp"}." op".argsempty($pretty{"partOp"}).";\n";
     $ret.="    Subset s;\n";
-    $ret.="    dest.setF(ival->dest);\n";
-    $ret.="    ival->flatten.iadr = 0;\n";
-    $ret.="    forEach(rhs, ival->flatten , NullCombine());\n";
-    $ret.="    evaluate( dest , op , rhs , s );\n";
+    $ret.="    //dest.setF(ival->dest);\n";
+    $ret.="    //ival->flatten.iadr = 0;\n";
+    $ret.="    //forEach(rhs, ival->flatten , NullCombine());\n";
+    $ret.="    //evaluate( dest , op , rhs , s );\n";
 
     return($ret);
 }
@@ -341,7 +341,7 @@ foreach $pretty (@prettys)
 using namespace QDP;
 using namespace std;
 
-__global__ void kernel(CUDA_iface_eval * ival)
+__global__ void kernel(IfaceCudp * ival)
 {
 $spucode;
 }
@@ -350,17 +350,32 @@ extern "C" void function_host(void * ptr)
 {
     cout << "function_host()" << endl;
 
-    CUDA_iface_eval * ival = static_cast<CUDA_iface_eval *>(ptr);
-    cout << "dest:" << ival->dest << endl;
-    for (int i=0;i<FlattenTag::maxleaf;i++)
-	cout << i << " " << ival->flatten.adr[i] << endl;
-
-    CUDA_iface_eval * ival_dev;
+    // make a copy of the incoming struct
+    IfaceCudp * ival;
     cudaError_t ret;
-    ret = cudaMalloc((void **)(&ival_dev),sizeof(CUDA_iface_eval));
-    cout << "cudaMalloc     " << sizeof(CUDA_iface_eval) << " : " << string(cudaGetErrorString(ret)) << endl;
+    ret = cudaMallocHost((void **)(&ival),sizeof(IfaceCudp));
+    cout << "cudaMallocHost     " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
 
-    ret = cudaMemcpy(ival_dev,ival,sizeof(CUDA_iface_eval),cudaMemcpyHostToDevice);
+    ret = cudaMemcpy(ival,ptr,sizeof(IfaceCudp),cudaMemcpyHostToHost);
+    cout << "cudaMemcpy to host to host: " << string(cudaGetErrorString(ret)) << endl;
+
+    //IfaceCudp * ival = static_cast<IfaceCudp *>(ptr);
+    cout << "dest:" << ival->dest << endl;
+    for (int i=0;i<ival->numberLeafs;i++)
+	cout << i << " " << ival->leafDataArray[i].pointer << endl;
+
+    FlattenTag::LeafData * save = ival->leafDataArray;
+
+    IfaceCudp * ival_dev;
+    ret = cudaMalloc((void **)(&ival_dev),sizeof(IfaceCudp));
+    cout << "cudaMalloc     " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
+
+    ret = cudaMalloc((void **)(&ival->leafDataArray),sizeof(FlattenTag::LeafData) * ival->numberLeafs);
+    cout << "cudaMalloc     " << sizeof(FlattenTag::LeafData) * ival->numberLeafs << " : " << string(cudaGetErrorString(ret)) << endl;
+
+    ret = cudaMemcpy(ival->leafDataArray,save ,sizeof(FlattenTag::LeafData) * ival->numberLeafs,cudaMemcpyHostToDevice);
+    cout << "cudaMemcpy to device: " << string(cudaGetErrorString(ret)) << endl;
+    ret = cudaMemcpy(ival_dev,ival,sizeof(IfaceCudp),cudaMemcpyHostToDevice);
     cout << "cudaMemcpy to device: " << string(cudaGetErrorString(ret)) << endl;
 
 
@@ -368,6 +383,12 @@ extern "C" void function_host(void * ptr)
     kernel<<< 1 , threads >>>( ival_dev );
     cudaError_t kernel_call = cudaGetLastError();
     cout << "kernel call: " << string(cudaGetErrorString(kernel_call)) << endl;
+
+    ret = cudaFreeHost(ival);
+    cout << "cudaFreeHost : " << string(cudaGetErrorString(ret)) << endl;
+
+    ret = cudaFree(ival->leafDataArray);
+    cout << "cudaFree     : " << string(cudaGetErrorString(ret)) << endl;
 
     ret = cudaFree(ival_dev);
     cout << "cudaFree     : " << string(cudaGetErrorString(ret)) << endl;

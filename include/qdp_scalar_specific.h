@@ -55,20 +55,24 @@ namespace QDP {
     typedef int Type_t;
     inline static Type_t apply(const OLattice<T> &a, const FlattenTag &f)
     {
-      if (f.iadr >= f.maxleaf) {
-	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
-	exit(1);
-      }
-      f.adr[ f.iadr ] = (void *)( a.Fd );
-      cout << f.iadr << "  <- " << f.adr[ f.iadr ] << endl;
-      f.size[ f.iadr ] = sizeof( a.elem( 0 ) );
-      f.custom[ f.iadr ] = 0;
-      f.leaftype[ f.iadr ] = 0;
-      f.totalsize += sizeof( a.elem( 0 ) );
-      f.iadr++;
-#if defined(SPU_DEBUG)
-      printf("LeafFunctor<OLattice<T>, FlattenTag>::apply =%lu\n",f.adr[ f.iadr-1 ]);
-#endif
+      FlattenTag::LeafData leafData;
+      leafData.pointer = (void *)( a.Fd ); 
+      f.listLeaf.push_back(leafData);
+
+      cout << f.listLeaf.size()-1 << " " << leafData.pointer << endl;
+
+      return 0;
+      // if (f.iadr >= f.maxleaf) {
+      // 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
+      // 	exit(1);
+      // }
+      // f.adr[ f.iadr ] = (void *)( a.Fd ); 
+      // cout << f.iadr << "  <- " << f.adr[ f.iadr ] << endl;
+      // f.size[ f.iadr ] = sizeof( a.elem( 0 ) );
+      // f.custom[ f.iadr ] = 0;
+      // f.leaftype[ f.iadr ] = 0;
+      // f.totalsize += sizeof( a.elem( 0 ) );
+      // f.iadr++;
       //return Type_t();
     }
   };
@@ -107,18 +111,17 @@ namespace QDP {
     typedef int Type_t;
     inline static Type_t apply(const OScalar<T> &a, const FlattenTag &f)
     {
-      if (f.iadr >= f.maxleaf) {
-	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
-	exit(1);
-      }
-      f.adr[ f.iadr ] = (void *)( &a.elem() );
-      f.size[ f.iadr ] = sizeof( a.elem() );
-      f.leaftype[ f.iadr ] = 1;
-      f.custom[ f.iadr ] = 0;
-      f.iadr++;
-#if defined(SPU_DEBUG)
-      printf("LeafFunctor<OScalar<T>, FlattenTag>::apply =%lu\n",f.adr[ f.iadr-1 ]);
-#endif
+      cout << "!!! HACK LeafFunctor<OScalar<T>, FlattenTag>" << endl;
+      return 0;
+      // if (f.iadr >= f.maxleaf) {
+      // 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
+      // 	exit(1);
+      // }
+      // f.adr[ f.iadr ] = (void *)( &a.elem() );
+      // f.size[ f.iadr ] = sizeof( a.elem() );
+      // f.leaftype[ f.iadr ] = 1;
+      // f.custom[ f.iadr ] = 0;
+      // f.iadr++;
       //cout << "ppu: im OScalar... not yet implemented" << endl;
       //exit(0);
     }
@@ -156,10 +159,8 @@ namespace QDP {
     typedef int Type_t;
     inline static Type_t apply(const GammaConst<N, m> &a, const FlattenTag &f)
     {
-#if defined(SPU_DEBUG)
-      printf("LeafFunctor<GammaConst<N, m>,FlattenTag>::apply \n");
-#endif
-      //return Type_t();
+      cout << "!!! HACK LeafFunctor<GammaConst<N>, FlattenTag>" << endl;
+      return 0;
     }
   };
 
@@ -171,18 +172,20 @@ namespace QDP {
     typedef int Type_t;
     inline static Type_t apply(const GammaType<N> &a, const FlattenTag &f)
     {
-      if (f.iadr >= f.maxleaf) {
-	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
-	exit(1);
-      }
-      f.adr[f.iadr]=0;
-      f.size[f.iadr]=0;
-      f.leaftype[ f.iadr ] = 2;
-      f.custom[ f.iadr ] = a.elem();
-      f.iadr++;
-#if defined(SPU_DEBUG)
-      printf("LeafFunctor<GammaType<N>,FlattenTag>::apply size = %d %d\n",sizeof(GammaType<N>),sizeof(a) );
-#endif
+      cout << "!!! HACK LeafFunctor<GammaType<N>, FlattenTag>" << endl;
+      return 0;
+//       if (f.iadr >= f.maxleaf) {
+// 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
+// 	exit(1);
+//       }
+//       f.adr[f.iadr]=0;
+//       f.size[f.iadr]=0;
+//       f.leaftype[ f.iadr ] = 2;
+//       f.custom[ f.iadr ] = a.elem();
+//       f.iadr++;
+// #if defined(SPU_DEBUG)
+//       printf("LeafFunctor<GammaType<N>,FlattenTag>::apply size = %d %d\n",sizeof(GammaType<N>),sizeof(a) );
+// #endif
       //return Type_t();
     }
   };
@@ -374,28 +377,43 @@ namespace QDP {
       user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
       dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
     } else {
-      CUDA_iface_eval * ifeval;
-      QDPCUDA::getHostMem(  (void**)(&ifeval),    sizeof(CUDA_iface_eval));
+      FlattenTag flattenTag;
+      forEach(rhs, flattenTag , NullCombine());
 
-      ifeval->flatten.iadr=0;
-      forEach(rhs, ifeval->flatten , NullCombine());
+      IfaceCudp * iface;
+      QDPCUDA::getHostMem(  (void**)(&iface),    sizeof(IfaceCudp));
+
+      iface->dest = dest.Fd;     // !!!! HACK check for SubSet start
+      iface->opMeta = NULL;
+      iface->opMetaSize = 123;
+
+      iface->numberLeafs = flattenTag.listLeaf.size();
+      QDPCUDA::getHostMem(  (void**)(&iface->leafDataArray),    sizeof(FlattenTag::LeafData) * iface->numberLeafs  );
+
+      int c=0;
+      for (FlattenTag::ListLeaf::iterator i = flattenTag.listLeaf.begin() ; i != flattenTag.listLeaf.end() ; ++i ) {
+	cout << "to iface " << i->pointer << endl;
+	iface->leafDataArray[c++] = *i;
+      }
+
+      theCudpJust( __PRETTY_FUNCTION__ , iface );
+
+      QDPCUDA::freeHostMem(  (void*)(iface->leafDataArray));
+      QDPCUDA::freeHostMem(  (void*)(iface));
+
 
       // CUDA_iface_eval * ifeval_dev;
       // QDPCUDA::getDeviceMem((void**)(&ifeval_dev),sizeof(CUDA_iface_eval));
 
-      ifeval->dest = dest.Fd;     // !!!! HACK check for SubSet start
-      ifeval->opMeta = NULL;
-      ifeval->opMetaSize = 123;
 
       // QDPCUDA::getDeviceMem((void**)(&ifeval->flatten),sizeof(FlattenTag));
       // QDPCUDA::copyToDevice(ifeval->flatten,flatten,sizeof(FlattenTag));
 
       // QDPCUDA::copyToDevice(ifeval_dev,ifeval,sizeof(CUDA_iface_eval));
 
-      theCudpJust( __PRETTY_FUNCTION__ , ifeval );
+      //theCudpJust( __PRETTY_FUNCTION__ , iface );
 
       //QDPCUDA::freeDeviceMem((void*)(ifeval->flatten));
-      QDPCUDA::freeHostMem(  (void*)(ifeval));
       //QDPCUDA::freeDeviceMem((void*)(ifeval_dev));
 
     }
