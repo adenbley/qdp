@@ -380,6 +380,11 @@ public:
   __device__
   inline T* getF() const {return F;}
 
+  __device__
+  inline void setF(void *mem) {
+    F = static_cast<T*>(mem);
+  }
+
   
 public:
   __device__

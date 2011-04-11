@@ -306,6 +306,7 @@ sub spu
     $ret.="    OLattice<T> dest;\n";
     $ret.="    ".$pretty{"partOp"}." op".argsempty($pretty{"partOp"}).";\n";
     $ret.="    Subset s;\n";
+    $ret.="    dest.setF(ival->dest);";
     $ret.="    evaluate( dest , op , rhs , s );\n";
 
     return($ret);
@@ -338,7 +339,7 @@ foreach $pretty (@prettys)
 using namespace QDP;
 using namespace std;
 
-__global__ void kernel()
+__global__ void kernel(CUDA_iface_eval * ival)
 {
 $spucode;
 }
@@ -352,9 +353,9 @@ extern "C" void function_host(void * ptr)
     cout << ival->opMetaSize << endl;
 
     dim3  threads( 320 , 1, 1);
-    //kernel<<< 1 , threads >>>();
-    //cudaError_t kernel_call = cudaGetLastError();
-    //cout << "kernel call: " << string(cudaGetErrorString(kernel_call)) << endl;
+    kernel<<< 1 , threads >>>(ival);
+    cudaError_t kernel_call = cudaGetLastError();
+    cout << "kernel call: " << string(cudaGetErrorString(kernel_call)) << endl;
 }
 
 END

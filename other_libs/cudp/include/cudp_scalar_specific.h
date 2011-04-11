@@ -229,7 +229,7 @@ void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OScalar<T1> >& 
 		const QDP::QDPExpr<RHS, QDP::OLattice<T1> >& rhs, 
 		const QDP::Subset& s )
   {
-  // General form of loop structure
+    // General form of loop structure
     //const int *tab = s.siteTable().slice();
     //    for(int j=0; j < s.numSiteTable(); ++j) 
       {
