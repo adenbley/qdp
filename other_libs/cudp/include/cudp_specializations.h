@@ -17,28 +17,28 @@ namespace QDP {
 //
 
 //! Make an int from an Integer
-inline int 
+__device__ inline int 
 toInt(const Integer& s) 
 {
   return toInt(s.elem());
 }
 
 //! Make a float from a Real32
-inline float
+__device__ inline float
 toFloat(const Real32& s) 
 {
   return toFloat(s.elem());
 }
 
   //! Make a double from a Real64
-inline double
+__device__ inline double
 toDouble(const Real64& s) 
 {
   return toDouble(s.elem());
 }
 
 //! Make a bool from a Boolean
-inline bool
+__device__ inline bool
 toBool(const Boolean& s) 
 {
   return toBool(s.elem());
@@ -211,7 +211,7 @@ struct CreateLeaf<int>
 {
   typedef int Inp_t;
   typedef Integer  Leaf_t;
-  inline static
+  __device__ inline static
   Leaf_t make(const Inp_t &a) { return Leaf_t(a); }
 };
 
@@ -220,7 +220,7 @@ struct CreateLeaf<float>
 {
   typedef float Inp_t;
   typedef Real32  Leaf_t;
-  inline static
+  __device__ inline static
   Leaf_t make(const Inp_t &a) { return Leaf_t(a); }
 };
 
@@ -229,7 +229,7 @@ struct CreateLeaf<double>
 {
   typedef double Inp_t;
   typedef Real64  Leaf_t;
-  inline static
+  __device__ inline static
   Leaf_t make(const Inp_t &a) { return Leaf_t(a); }
 };
 
@@ -238,7 +238,7 @@ struct CreateLeaf<bool>
 {
   typedef bool Inp_t;
   typedef Boolean  Leaf_t;
-  inline static
+  __device__ inline static
   Leaf_t make(const Inp_t &a) { return Leaf_t(a); }
 };
 
@@ -247,7 +247,7 @@ template<>
 struct CreateLeaf<OScalar<IntReal32> >
 {
   typedef OScalar<IntReal32> Leaf_t;
-  inline static
+  __device__ inline static
   Leaf_t make(const OScalar<IntReal32> &a) { return Leaf_t(a); }
 };
 
@@ -255,7 +255,7 @@ template<>
 struct CreateLeaf<OScalar<IntReal64> >
 {
   typedef OScalar<IntReal64> Leaf_t;
-  inline static
+  __device__ inline static
   Leaf_t make(const OScalar<IntReal64> &a) { return Leaf_t(a); }
 };
 
@@ -263,7 +263,7 @@ template<>
 struct CreateLeaf<OScalar<IntInteger> >
 {
   typedef OScalar<IntInteger> Leaf_t;
-  inline static
+  __device__ inline static
   Leaf_t make(const OScalar<IntInteger> &a) { return Leaf_t(a); }
 };
 
@@ -272,7 +272,7 @@ template<>
 struct CreateLeaf<OScalar<IntBoolean> >
 {
   typedef OScalar<IntBoolean> Leaf_t;
-  inline static
+  __device__ inline static
   Leaf_t make(const OScalar<IntBoolean> &a) { return Leaf_t(a); }
 };
 

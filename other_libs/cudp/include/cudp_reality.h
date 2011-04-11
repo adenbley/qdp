@@ -27,8 +27,9 @@ namespace QDP {
   template<class T> class RScalar
   {
   public:
+    __device__
     RScalar() {}
-    ~RScalar() {}
+    //~RScalar() {}
 
     //---------------------------------------------------------
     //! construct dest = const
@@ -36,10 +37,12 @@ namespace QDP {
 
     //! construct dest = rhs
     template<class T1>
+    __device__
     RScalar(const RScalar<T1>& rhs) : F(rhs.elem()) {}
 
     //! construct dest = rhs
     template<class T1>
+    __device__
     RScalar(const T1& rhs) : F(rhs) {}
 
 
@@ -47,6 +50,7 @@ namespace QDP {
     /*! Set equal to another RScalar */
     template<class T1>
     inline
+    __device__
     RScalar& operator=(const RScalar<T1>& rhs) 
     {
       elem() = rhs.elem();
@@ -56,6 +60,7 @@ namespace QDP {
     //! RScalar += RScalar
     template<class T1>
     inline
+    __device__
     RScalar& operator+=(const RScalar<T1>& rhs) 
     {
       elem() += rhs.elem();
@@ -65,6 +70,7 @@ namespace QDP {
     //! RScalar -= RScalar
     template<class T1>
     inline
+    __device__
     RScalar& operator-=(const RScalar<T1>& rhs) 
     {
       elem() -= rhs.elem();
@@ -74,6 +80,7 @@ namespace QDP {
     //! RScalar *= RScalar
     template<class T1>
     inline
+    __device__
     RScalar& operator*=(const RScalar<T1>& rhs) 
     {
       elem() *= rhs.elem();
@@ -83,6 +90,7 @@ namespace QDP {
     //! RScalar /= RScalar
     template<class T1>
     inline
+    __device__
     RScalar& operator/=(const RScalar<T1>& rhs) 
     {
       elem() /= rhs.elem();
@@ -92,6 +100,7 @@ namespace QDP {
     //! RScalar %= RScalar
     template<class T1>
     inline
+    __device__
     RScalar& operator%=(const RScalar<T1>& rhs) 
     {
       elem() %= rhs.elem();
@@ -101,6 +110,7 @@ namespace QDP {
     //! RScalar |= RScalar
     template<class T1>
     inline
+    __device__
     RScalar& operator|=(const RScalar<T1>& rhs) 
     {
       elem() |= rhs.elem();
@@ -110,6 +120,7 @@ namespace QDP {
     //! RScalar &= RScalar
     template<class T1>
     inline
+    __device__
     RScalar& operator&=(const RScalar<T1>& rhs) 
     {
       elem() &= rhs.elem();
@@ -118,6 +129,7 @@ namespace QDP {
 
     //! RScalar ^= RScalar
     template<class T1>
+    __device__
     inline
     RScalar& operator^=(const RScalar<T1>& rhs) 
     {
@@ -127,6 +139,7 @@ namespace QDP {
 
     //! RScalar <<= RScalar
     template<class T1>
+    __device__
     inline
     RScalar& operator<<=(const RScalar<T1>& rhs) 
     {
@@ -136,6 +149,7 @@ namespace QDP {
 
     //! RScalar >>= RScalar
     template<class T1>
+    __device__
     inline
     RScalar& operator>>=(const RScalar<T1>& rhs) 
     {
@@ -145,10 +159,13 @@ namespace QDP {
 
 
     //! Do deep copies here
+    __device__
     RScalar(const RScalar& a): F(a.F) {}
 
   public:
+    __device__
     T& elem() {return F;}
+    __device__
     const T& elem() const {return F;}
 
   private:
@@ -160,15 +177,18 @@ namespace QDP {
   template<class T> class RComplex
   {
   public:
+    __device__
     RComplex() {}
-    ~RComplex() {}
+    //~RComplex() {}
 
     //! Construct from two reality scalars
     template<class T1, class T2>
+    __device__
     RComplex(const RScalar<T1>& _re, const RScalar<T2>& _im): re(_re.elem()), im(_im.elem()) {}
 
     //! Construct from two scalars
     template<class T1, class T2>
+    __device__
     RComplex(const T1& _re, const T2& _im): re(_re), im(_im) {}
 
     //---------------------------------------------------------
@@ -176,6 +196,7 @@ namespace QDP {
     /*! Set the real part and zero the imag part */
     template<class T1>
     inline
+    __device__
     RComplex& operator=(const RScalar<T1>& rhs) 
     {
       real() = rhs.elem();
@@ -186,6 +207,7 @@ namespace QDP {
     //! RComplex += RScalar
     template<class T1>
     inline
+    __device__
     RComplex& operator+=(const RScalar<T1>& rhs) 
     {
       real() += rhs.elem();
@@ -195,6 +217,7 @@ namespace QDP {
     //! RComplex -= RScalar
     template<class T1>
     inline
+    __device__
     RComplex& operator-=(const RScalar<T1>& rhs) 
     {
       real() -= rhs.elem();
@@ -204,6 +227,7 @@ namespace QDP {
     //! RComplex *= RScalar
     template<class T1>
     inline
+    __device__
     RComplex& operator*=(const RScalar<T1>& rhs) 
     {
       real() *= rhs.elem();
@@ -214,6 +238,7 @@ namespace QDP {
     //! RComplex /= RScalar
     template<class T1>
     inline
+    __device__
     RComplex& operator/=(const RScalar<T1>& rhs) 
     {
       real() /= rhs.elem();
@@ -227,6 +252,7 @@ namespace QDP {
     /*! Set equal to another RComplex */
     template<class T1>
     inline
+    __device__
     RComplex& operator=(const RComplex<T1>& rhs) 
     {
       real() = rhs.real();
@@ -237,6 +263,7 @@ namespace QDP {
     //! RComplex += RComplex
     template<class T1>
     inline
+    __device__
     RComplex& operator+=(const RComplex<T1>& rhs) 
     {
       real() += rhs.real();
@@ -247,6 +274,7 @@ namespace QDP {
     //! RComplex -= RComplex
     template<class T1>
     inline
+    __device__
     RComplex& operator-=(const RComplex<T1>& rhs) 
     {
       real() -= rhs.real();
@@ -257,6 +285,7 @@ namespace QDP {
     //! RComplex *= RComplex
     template<class T1>
     inline
+    __device__
     RComplex& operator*=(const RComplex<T1>& rhs) 
     {
       RComplex<T> d;
@@ -270,6 +299,7 @@ namespace QDP {
     //! RComplex /= RComplex
     template<class T1>
     inline
+    __device__
     RComplex& operator/=(const RComplex<T1>& rhs) 
     {
       RComplex<T> d;
@@ -282,13 +312,18 @@ namespace QDP {
 
 
     //! Deep copy constructor
+    __device__
     RComplex(const RComplex& a): re(a.re), im(a.im) {}
 
   public:
+    __device__
     T& real() {return re;}
+    __device__
     const T& real() const {return re;}
 
+    __device__
     T& imag() {return im;}
+    __device__
     const T& imag() const {return im;}
 
   private:
@@ -837,6 +872,7 @@ namespace QDP {
   };
 
   template<class T1>
+    __device__
   inline typename UnaryReturn<RScalar<T1>, OpNot>::Type_t
   operator!(const RScalar<T1>& l)
   {
@@ -845,6 +881,7 @@ namespace QDP {
 
 
   template<class T1>
+    __device__
   inline typename UnaryReturn<RScalar<T1>, OpUnaryPlus>::Type_t
   operator+(const RScalar<T1>& l)
   {
@@ -853,7 +890,7 @@ namespace QDP {
 
 
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, OpUnaryMinus>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, OpUnaryMinus>::Type_t
   operator-(const RScalar<T1>& l)
   {
     return -l.elem();
@@ -861,7 +898,7 @@ namespace QDP {
 
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpAdd>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpAdd>::Type_t
   operator+(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem()+r.elem();
@@ -869,7 +906,7 @@ namespace QDP {
 
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpSubtract>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpSubtract>::Type_t
   operator-(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() - r.elem();
@@ -877,7 +914,7 @@ namespace QDP {
 
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpMultiply>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpMultiply>::Type_t
   operator*(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() * r.elem();
@@ -885,7 +922,7 @@ namespace QDP {
 
   // Optimized  adj(RScalar)*RScalar
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpAdjMultiply>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpAdjMultiply>::Type_t
   adjMultiply(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     /*! NOTE: removed transpose here !!!!!  */
@@ -896,7 +933,7 @@ namespace QDP {
 
   // Optimized  RScalar*adj(RScalar)
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpMultiplyAdj>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpMultiplyAdj>::Type_t
   multiplyAdj(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     /*! NOTE: removed transpose here !!!!!  */
@@ -907,7 +944,7 @@ namespace QDP {
 
   // Optimized  adj(RScalar)*adj(RScalar)
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpAdjMultiplyAdj>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpAdjMultiplyAdj>::Type_t
   adjMultiplyAdj(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     /*! NOTE: removed transpose here !!!!!  */
@@ -918,7 +955,7 @@ namespace QDP {
 
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpDivide>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpDivide>::Type_t
   operator/(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() / r.elem();
@@ -933,7 +970,7 @@ namespace QDP {
  
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpLeftShift>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpLeftShift>::Type_t
   operator<<(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() << r.elem();
@@ -947,7 +984,7 @@ namespace QDP {
  
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpRightShift>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpRightShift>::Type_t
   operator>>(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() >> r.elem();
@@ -955,28 +992,28 @@ namespace QDP {
 
 
   template<class T1, class T2 >
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpMod>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpMod>::Type_t
   operator%(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() % r.elem();
   }
 
   template<class T1, class T2 >
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpBitwiseXor>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpBitwiseXor>::Type_t
   operator^(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() ^ r.elem();
   }
 
   template<class T1, class T2 >
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpBitwiseAnd>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpBitwiseAnd>::Type_t
   operator&(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() & r.elem();
   }
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpBitwiseOr>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpBitwiseOr>::Type_t
   operator|(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() | r.elem();
@@ -991,7 +1028,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpLT>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpLT>::Type_t
   operator<(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() < r.elem();
@@ -1004,7 +1041,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpLE>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpLE>::Type_t
   operator<=(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() <= r.elem();
@@ -1017,7 +1054,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpGT>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpGT>::Type_t
   operator>(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() > r.elem();
@@ -1030,7 +1067,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpGE>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpGE>::Type_t
   operator>=(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() >= r.elem();
@@ -1043,7 +1080,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpEQ>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpEQ>::Type_t
   operator==(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() == r.elem();
@@ -1056,7 +1093,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpNE>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpNE>::Type_t
   operator!=(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() != r.elem();
@@ -1069,7 +1106,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpAnd>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpAnd>::Type_t
   operator&&(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() && r.elem();
@@ -1082,7 +1119,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpOr>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, OpOr>::Type_t
   operator||(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() || r.elem();
@@ -1095,7 +1132,7 @@ namespace QDP {
 
   // Adjoint
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnAdjoint>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnAdjoint>::Type_t
   adj(const RScalar<T1>& s1)
   {
     /*! NOTE: removed transpose here !!!!!  */
@@ -1107,7 +1144,7 @@ namespace QDP {
 
   // Conjugate
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnConjugate>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnConjugate>::Type_t
   conj(const RScalar<T1>& s1)
   {
     return s1.elem();  // The complex nature has been eaten here
@@ -1116,7 +1153,7 @@ namespace QDP {
 
   // Transpose
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnTranspose>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnTranspose>::Type_t
   transpose(const RScalar<T1>& s1)
   {
     /*! NOTE: removed transpose here !!!!!  */
@@ -1135,7 +1172,7 @@ namespace QDP {
   };
 
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnTrace>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnTrace>::Type_t
   trace(const RScalar<T1>& s1)
   {
     //  return trace(s1.elem());
@@ -1152,7 +1189,7 @@ namespace QDP {
   };
 
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnRealTrace>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnRealTrace>::Type_t
   realTrace(const RScalar<T1>& s1)
   {
     //  return trace_real(s1.elem());
@@ -1169,7 +1206,7 @@ namespace QDP {
   };
 
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnImagTrace>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnImagTrace>::Type_t
   imagTrace(const RScalar<T1>& s1)
   {
     //  return trace_imag(s1.elem());
@@ -1180,7 +1217,7 @@ namespace QDP {
 
   //! RScalar = trace(RScalar * RScalar)
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnTraceMultiply>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnTraceMultiply>::Type_t
   traceMultiply(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     //  return traceMultiply(l.elem(), r.elem());
@@ -1192,7 +1229,7 @@ namespace QDP {
 
   // RScalar = Re(RScalar)  [identity]
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnReal>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnReal>::Type_t
   real(const RScalar<T>& s1)
   {
     return s1.elem();
@@ -1201,7 +1238,7 @@ namespace QDP {
 
   // RScalar = Im(RScalar) [this is zero]
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnImag>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnImag>::Type_t
   imag(const RScalar<T>& s1)
   {
     typedef typename InternalScalar<T>::Type_t  S;
@@ -1211,7 +1248,7 @@ namespace QDP {
 
   // ArcCos
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnArcCos>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnArcCos>::Type_t
   acos(const RScalar<T1>& s1)
   {
     return acos(s1.elem());
@@ -1219,7 +1256,7 @@ namespace QDP {
 
   // ArcSin
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnArcSin>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnArcSin>::Type_t
   asin(const RScalar<T1>& s1)
   {
     return asin(s1.elem());
@@ -1227,7 +1264,7 @@ namespace QDP {
 
   // ArcTan
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnArcTan>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnArcTan>::Type_t
   atan(const RScalar<T1>& s1)
   {
     return atan(s1.elem());
@@ -1235,7 +1272,7 @@ namespace QDP {
 
   // Ceil(ing)
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnCeil>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnCeil>::Type_t
   ceil(const RScalar<T1>& s1)
   {
     return ceil(s1.elem());
@@ -1243,7 +1280,7 @@ namespace QDP {
 
   // Cos
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnCos>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnCos>::Type_t
   cos(const RScalar<T1>& s1)
   {
     return cos(s1.elem());
@@ -1251,7 +1288,7 @@ namespace QDP {
 
   // Cosh
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnHypCos>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnHypCos>::Type_t
   cosh(const RScalar<T1>& s1)
   {
     return cosh(s1.elem());
@@ -1259,7 +1296,7 @@ namespace QDP {
 
   // Exp
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnExp>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnExp>::Type_t
   exp(const RScalar<T1>& s1)
   {
     return exp(s1.elem());
@@ -1267,7 +1304,7 @@ namespace QDP {
 
   // Fabs
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnFabs>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnFabs>::Type_t
   fabs(const RScalar<T1>& s1)
   {
     return fabs(s1.elem());
@@ -1275,7 +1312,7 @@ namespace QDP {
 
   // Floor
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnFloor>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnFloor>::Type_t
   floor(const RScalar<T1>& s1)
   {
     return floor(s1.elem());
@@ -1283,7 +1320,7 @@ namespace QDP {
 
   // Log
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnLog>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnLog>::Type_t
   log(const RScalar<T1>& s1)
   {
     return log(s1.elem());
@@ -1291,7 +1328,7 @@ namespace QDP {
 
   // Log10
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnLog10>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnLog10>::Type_t
   log10(const RScalar<T1>& s1)
   {
     return log10(s1.elem());
@@ -1299,7 +1336,7 @@ namespace QDP {
 
   // Sin
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnSin>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnSin>::Type_t
   sin(const RScalar<T1>& s1)
   {
     return sin(s1.elem());
@@ -1307,7 +1344,7 @@ namespace QDP {
 
   // Sinh
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnHypSin>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnHypSin>::Type_t
   sinh(const RScalar<T1>& s1)
   {
     return sinh(s1.elem());
@@ -1315,7 +1352,7 @@ namespace QDP {
 
   // Sqrt
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnSqrt>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnSqrt>::Type_t
   sqrt(const RScalar<T1>& s1)
   {
     return sqrt(s1.elem());
@@ -1323,7 +1360,7 @@ namespace QDP {
 
   // Tan
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnTan>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnTan>::Type_t
   tan(const RScalar<T1>& s1)
   {
     return tan(s1.elem());
@@ -1331,7 +1368,7 @@ namespace QDP {
 
   // Tanh
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnHypTan>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnHypTan>::Type_t
   tanh(const RScalar<T1>& s1)
   {
     return tanh(s1.elem());
@@ -1340,7 +1377,7 @@ namespace QDP {
 
   //! RScalar<T> = pow(RScalar<T> , RScalar<T>)
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnPow>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnPow>::Type_t
   pow(const RScalar<T1>& s1, const RScalar<T2>& s2)
   {
     return pow(s1.elem(), s2.elem());
@@ -1348,7 +1385,7 @@ namespace QDP {
 
   //! RScalar<T> = atan2(RScalar<T> , RScalar<T>)
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnArcTan2>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnArcTan2>::Type_t
   atan2(const RScalar<T1>& s1, const RScalar<T2>& s2)
   {
     return atan2(s1.elem(), s2.elem());
@@ -1357,7 +1394,7 @@ namespace QDP {
 
   //! RScalar = outerProduct(RScalar, RScalar)
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnOuterProduct>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnOuterProduct>::Type_t
   outerProduct(const RScalar<T1>& l, const RScalar<T2>& r)
   {
     return l.elem() * r.elem();
@@ -1366,7 +1403,7 @@ namespace QDP {
 
   //! dest [float type] = source [seed type]
   template<class T1>
-  inline typename UnaryReturn<RScalar<T1>, FnSeedToFloat>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T1>, FnSeedToFloat>::Type_t
   seedToFloat(const RScalar<T1>& s1)
   {
     return seedToFloat(s1.elem());
@@ -1375,7 +1412,7 @@ namespace QDP {
   //! dest [some type] = source [some type]
   /*! Portable (internal) way of returning a single site */
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnGetSite>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnGetSite>::Type_t
   getSite(const RScalar<T>& s1, int innersite)
   {
     return getSite(s1.elem(), innersite);
@@ -1384,7 +1421,7 @@ namespace QDP {
   //! Extract color vector components 
   /*! Generically, this is an identity operation. Defined differently under color */
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnPeekColorVector>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnPeekColorVector>::Type_t
   peekColor(const RScalar<T>& l, int row)
   {
     return peekColor(l.elem(),row);
@@ -1393,7 +1430,7 @@ namespace QDP {
   //! Extract color matrix components 
   /*! Generically, this is an identity operation. Defined differently under color */
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnPeekColorMatrix>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnPeekColorMatrix>::Type_t
   peekColor(const RScalar<T>& l, int row, int col)
   {
     return peekColor(l.elem(),row,col);
@@ -1402,7 +1439,7 @@ namespace QDP {
   //! Extract spin vector components 
   /*! Generically, this is an identity operation. Defined differently under spin */
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnPeekSpinVector>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnPeekSpinVector>::Type_t
   peekSpin(const RScalar<T>& l, int row)
   {
     return peekSpin(l.elem(),row);
@@ -1411,7 +1448,7 @@ namespace QDP {
   //! Extract spin matrix components 
   /*! Generically, this is an identity operation. Defined differently under spin */
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnPeekSpinMatrix>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnPeekSpinMatrix>::Type_t
   peekSpin(const RScalar<T>& l, int row, int col)
   {
     return peekSpin(l.elem(),row,col);
@@ -1420,7 +1457,7 @@ namespace QDP {
   //-----------------------------------------------------------------------------
   //! QDP Int to int primitive in conversion routine
   template<class T> 
-  inline int 
+  __device__ inline int 
   toInt(const RScalar<T>& s) 
   {
     return toInt(s.elem());
@@ -1428,7 +1465,7 @@ namespace QDP {
 
   //! QDP Real to float primitive in conversion routine
   template<class T> 
-  inline float
+  __device__ inline float
   toFloat(const RScalar<T>& s) 
   {
     return toFloat(s.elem());
@@ -1436,7 +1473,7 @@ namespace QDP {
 
   //! QDP Double to double primitive in conversion routine
   template<class T> 
-  inline double
+  __device__ inline double
   toDouble(const RScalar<T>& s) 
   {
     return toDouble(s.elem());
@@ -1444,7 +1481,7 @@ namespace QDP {
 
   //! QDP Boolean to bool primitive in conversion routine
   template<class T> 
-  inline bool
+  __device__ inline bool
   toBool(const RScalar<T>& s) 
   {
     return toBool(s.elem());
@@ -1452,7 +1489,7 @@ namespace QDP {
 
   //! QDP Wordtype to primitive wordtype
   template<class T> 
-  inline typename WordType< RScalar<T> >::Type_t
+  __device__ inline typename WordType< RScalar<T> >::Type_t
   toWordType(const RScalar<T>& s) 
   {
     return toWordType(s.elem());
@@ -1463,7 +1500,7 @@ namespace QDP {
   //------------------------------------------
   //! dest = (mask) ? s1 : dest
   template<class T, class T1> 
-  inline
+  __device__ inline
   void copymask(RScalar<T>& d, const RScalar<T1>& mask, const RScalar<T>& s1) 
   {
     copymask(d.elem(),mask.elem(),s1.elem());
@@ -1471,7 +1508,7 @@ namespace QDP {
 
   //! dest [float type] = source [int type]
   template<class T, class T1>
-  inline
+  __device__ inline
   void cast_rep(T& d, const RScalar<T1>& s1)
   {
     cast_rep(d, s1.elem());
@@ -1480,7 +1517,7 @@ namespace QDP {
 
   //! dest [float type] = source [int type]
   template<class T, class T1>
-  inline
+  __device__ inline
   void recast_rep(RScalar<T>& d, const RScalar<T1>& s1)
   {
     cast_rep(d.elem(), s1.elem());
@@ -1489,7 +1526,7 @@ namespace QDP {
 
   //! dest [some type] = source [some type]
   template<class T, class T1>
-  inline void 
+  __device__ inline void 
   copy_site(RScalar<T>& d, int isite, const RScalar<T1>& s1)
   {
     copy_site(d.elem(), isite, s1.elem());
@@ -1498,7 +1535,7 @@ namespace QDP {
 
   //! gather several inner sites together
   template<class T, class T1>
-  inline void 
+  __device__ inline void 
   gather_sites(RScalar<T>& d, 
 	       const RScalar<T1>& s0, int i0, 
 	       const RScalar<T1>& s1, int i1,
@@ -1521,7 +1558,7 @@ namespace QDP {
   };
 
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnSum>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnSum>::Type_t
   sum(const RScalar<T>& s1)
   {
     return sum(s1.elem());
@@ -1536,7 +1573,7 @@ namespace QDP {
   };
 
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnGlobalMax>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnGlobalMax>::Type_t
   globalMax(const RScalar<T>& s1)
   {
     return globalMax(s1.elem());
@@ -1550,7 +1587,7 @@ namespace QDP {
   };
 
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnGlobalMin>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnGlobalMin>::Type_t
   globalMin(const RScalar<T>& s1)
   {
     return globalMin(s1.elem());
@@ -1571,7 +1608,7 @@ namespace QDP {
   };
 
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnLocalNorm2>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnLocalNorm2>::Type_t
   localNorm2(const RScalar<T>& s1)
   {
     return localNorm2(s1.elem());
@@ -1591,7 +1628,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnLocalInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnLocalInnerProduct>::Type_t
   localInnerProduct(const RScalar<T1>& s1, const RScalar<T2>& s2)
   {
     return localInnerProduct(s1.elem(), s2.elem());
@@ -1611,7 +1648,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnLocalInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnLocalInnerProductReal>::Type_t
   localInnerProductReal(const RScalar<T1>& s1, const RScalar<T2>& s2)
   {
     return localInnerProduct(s1.elem(), s2.elem());
@@ -1629,7 +1666,7 @@ namespace QDP {
   };
 
   template<class T1, class T2, class T3>
-  inline typename TrinaryReturn<RScalar<T1>, RScalar<T2>, RScalar<T3>, FnWhere>::Type_t
+  __device__ inline typename TrinaryReturn<RScalar<T1>, RScalar<T2>, RScalar<T3>, FnWhere>::Type_t
   where(const RScalar<T1>& a, const RScalar<T2>& b, const RScalar<T3>& c)
   {
     return where(a.elem(), b.elem(), c.elem());
@@ -1641,7 +1678,7 @@ namespace QDP {
   // Broadcast operations
   //! dest = 0
   template<class T> 
-  inline
+  __device__ inline
   void zero_rep(RScalar<T>& dest) 
   {
     zero_rep(dest.elem());
@@ -1650,7 +1687,7 @@ namespace QDP {
 
   //! dest [some type] = source [some type]
   template<class T, class T1>
-  inline void 
+  __device__ inline void 
   copy_site(RComplex<T>& d, int isite, const RComplex<T1>& s1)
   {
     copy_site(d.real(), isite, s1.real());
@@ -1661,7 +1698,7 @@ namespace QDP {
 
   //! gather several inner sites together
   template<class T, class T1>
-  inline void 
+  __device__ inline void 
   gather_sites(RComplex<T>& d, 
 	       const RComplex<T1>& s0, int i0, 
 	       const RComplex<T1>& s1, int i1,
@@ -1684,7 +1721,7 @@ namespace QDP {
 
   //! dest  = random  
   template<class T, class T1, class T2>
-  inline void
+  __device__ inline void
   fill_random(RScalar<T>& d, T1& seed, T2& skewed_seed, const T1& seed_mult)
   {
     fill_random(d.elem(), seed, skewed_seed, seed_mult);
@@ -1695,7 +1732,7 @@ namespace QDP {
   //! dest  = gaussian  
   /*! Real form of complex polar method */
   template<class T>
-  inline void
+  __device__ inline void
   fill_gaussian(RScalar<T>& d, RScalar<T>& r1, RScalar<T>& r2)
   {
     typedef typename InternalScalar<T>::Type_t  S;
@@ -1730,7 +1767,7 @@ namespace QDP {
 
   //! RComplex = +RComplex
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, OpUnaryPlus>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, OpUnaryPlus>::Type_t
   operator+(const RComplex<T1>& l)
   {
     typedef typename UnaryReturn<RComplex<T1>, OpUnaryPlus>::Type_t  Ret_t;
@@ -1742,7 +1779,7 @@ namespace QDP {
 
   //! RComplex = -RComplex
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, OpUnaryMinus>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, OpUnaryMinus>::Type_t
   operator-(const RComplex<T1>& l)
   {
     typedef typename UnaryReturn<RComplex<T1>, OpUnaryMinus>::Type_t  Ret_t;
@@ -1754,7 +1791,7 @@ namespace QDP {
 
   //! RComplex = RComplex + RComplex
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpAdd>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpAdd>::Type_t
   operator+(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpAdd>::Type_t  Ret_t;
@@ -1765,7 +1802,7 @@ namespace QDP {
 
   //! RComplex = RComplex + RScalar
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpAdd>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpAdd>::Type_t
   operator+(const RComplex<T1>& l, const RScalar<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpAdd>::Type_t  Ret_t;
@@ -1776,7 +1813,7 @@ namespace QDP {
 
   //! RComplex = RScalar + RComplex
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpAdd>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpAdd>::Type_t
   operator+(const RScalar<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpAdd>::Type_t  Ret_t;
@@ -1788,7 +1825,7 @@ namespace QDP {
 
   //! RComplex = RComplex - RComplex
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpSubtract>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpSubtract>::Type_t
   operator-(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpSubtract>::Type_t  Ret_t;
@@ -1799,7 +1836,7 @@ namespace QDP {
 
   //! RComplex = RComplex - RScalar
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpSubtract>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpSubtract>::Type_t
   operator-(const RComplex<T1>& l, const RScalar<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpSubtract>::Type_t  Ret_t;
@@ -1810,7 +1847,7 @@ namespace QDP {
 
   //! RComplex = RScalar - RComplex
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpSubtract>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpSubtract>::Type_t
   operator-(const RScalar<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpSubtract>::Type_t  Ret_t;
@@ -1824,7 +1861,7 @@ namespace QDP {
 
   //! RComplex = RScalar * RComplex
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpMultiply>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpMultiply>::Type_t
   operator*(const RScalar<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpMultiply>::Type_t  Ret_t;
@@ -1835,7 +1872,7 @@ namespace QDP {
 
   //! RComplex = RComplex * RScalar
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpMultiply>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpMultiply>::Type_t
   operator*(const RComplex<T1>& l, const RScalar<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpMultiply>::Type_t  Ret_t;
@@ -1845,7 +1882,7 @@ namespace QDP {
   }
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpMultiply>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpMultiply>::Type_t
   operator*(const RComplex<T1>& l, const RComplex<T2>& r) 
   {
     typedef typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpMultiply>::Type_t  Ret_t;
@@ -1856,7 +1893,7 @@ namespace QDP {
 
   // Optimized  adj(RComplex)*RComplex
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpAdjMultiply>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpAdjMultiply>::Type_t
   adjMultiply(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpAdjMultiply>::Type_t  Ret_t;
@@ -1875,7 +1912,7 @@ namespace QDP {
 
   // Optimized  RComplex*adj(RComplex)
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpMultiplyAdj>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpMultiplyAdj>::Type_t
   multiplyAdj(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpMultiplyAdj>::Type_t  Ret_t;
@@ -1893,7 +1930,7 @@ namespace QDP {
 
   // Optimized  adj(RComplex)*adj(RComplex)
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpAdjMultiplyAdj>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpAdjMultiplyAdj>::Type_t
   adjMultiplyAdj(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpAdjMultiplyAdj>::Type_t  Ret_t;
@@ -1912,7 +1949,7 @@ namespace QDP {
 
   //! RComplex = RComplex / RComplex
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpDivide>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpDivide>::Type_t
   operator/(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpDivide>::Type_t  Ret_t;
@@ -1925,7 +1962,7 @@ namespace QDP {
 
   //! RComplex = RComplex / RScalar
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpDivide>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpDivide>::Type_t
   operator/(const RComplex<T1>& l, const RScalar<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RScalar<T2>, OpDivide>::Type_t  Ret_t;
@@ -1938,7 +1975,7 @@ namespace QDP {
 
   //! RComplex = RScalar / RComplex
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpDivide>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpDivide>::Type_t
   operator/(const RScalar<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RScalar<T1>, RComplex<T2>, OpDivide>::Type_t  Ret_t;
@@ -1956,7 +1993,7 @@ namespace QDP {
 
   // Adjoint
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, FnAdjoint>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, FnAdjoint>::Type_t
   adj(const RComplex<T1>& l)
   {
     typedef typename UnaryReturn<RComplex<T1>, FnAdjoint>::Type_t  Ret_t;
@@ -1973,7 +2010,7 @@ namespace QDP {
 
   // Conjugate
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, FnConjugate>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, FnConjugate>::Type_t
   conj(const RComplex<T1>& l)
   {
     typedef typename UnaryReturn<RComplex<T1>, FnConjugate>::Type_t  Ret_t;
@@ -1984,7 +2021,7 @@ namespace QDP {
 
   // Transpose
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, FnTranspose>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, FnTranspose>::Type_t
   transpose(const RComplex<T1>& l)
   {
     typedef typename UnaryReturn<RComplex<T1>, FnTranspose>::Type_t  Ret_t;
@@ -2006,7 +2043,7 @@ namespace QDP {
   };
 
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, FnTrace>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, FnTrace>::Type_t
   trace(const RComplex<T1>& s1)
   {
     typedef typename UnaryReturn<RComplex<T1>, FnTrace>::Type_t  Ret_t;
@@ -2024,7 +2061,7 @@ namespace QDP {
   };
 
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, FnRealTrace>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, FnRealTrace>::Type_t
   realTrace(const RComplex<T1>& s1)
   {
     /*! NOTE: removed trace here !!!!!  */
@@ -2039,7 +2076,7 @@ namespace QDP {
   };
 
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, FnImagTrace>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, FnImagTrace>::Type_t
   imagTrace(const RComplex<T1>& s1)
   {
     /*! NOTE: removed trace here !!!!!  */
@@ -2048,7 +2085,7 @@ namespace QDP {
 
   //! RComplex = trace(RComplex * RComplex)
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpMultiply>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, OpMultiply>::Type_t
   traceMultiply(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     //  return traceMultiply(l.elem(), r.elem());
@@ -2068,7 +2105,7 @@ namespace QDP {
   };
 
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, FnReal>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, FnReal>::Type_t
   real(const RComplex<T1>& s1)
   {
     return s1.real();
@@ -2081,7 +2118,7 @@ namespace QDP {
   };
 
   template<class T1>
-  inline typename UnaryReturn<RComplex<T1>, FnImag>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T1>, FnImag>::Type_t
   imag(const RComplex<T1>& s1)
   {
     return s1.imag();
@@ -2095,7 +2132,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnCmplx>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnCmplx>::Type_t
   cmplx(const RScalar<T1>& s1, const RScalar<T2>& s2)
   {
     typedef typename BinaryReturn<RScalar<T1>, RScalar<T2>, FnCmplx>::Type_t  Ret_t;
@@ -2113,7 +2150,7 @@ namespace QDP {
   };
 
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnTimesI>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnTimesI>::Type_t
   timesI(const RScalar<T>& s1)
   {
     typename UnaryReturn<RScalar<T>, FnTimesI>::Type_t  d;
@@ -2125,7 +2162,7 @@ namespace QDP {
 
   // RComplex = i * RComplex
   template<class T>
-  inline typename UnaryReturn<RComplex<T>, FnTimesI>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T>, FnTimesI>::Type_t
   timesI(const RComplex<T>& s1)
   {
     typedef typename UnaryReturn<RComplex<T>, FnTimesI>::Type_t  Ret_t;
@@ -2144,7 +2181,7 @@ namespace QDP {
   };
 
   template<class T>
-  inline typename UnaryReturn<RScalar<T>, FnTimesMinusI>::Type_t
+  __device__ inline typename UnaryReturn<RScalar<T>, FnTimesMinusI>::Type_t
   timesMinusI(const RScalar<T>& s1)
   {
     typename UnaryReturn<RScalar<T>, FnTimesMinusI>::Type_t  d;
@@ -2157,7 +2194,7 @@ namespace QDP {
 
   // RComplex = -i * RComplex
   template<class T>
-  inline typename UnaryReturn<RComplex<T>, FnTimesMinusI>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T>, FnTimesMinusI>::Type_t
   timesMinusI(const RComplex<T>& s1)
   {
     typedef typename UnaryReturn<RComplex<T>, FnTimesMinusI>::Type_t  Ret_t;
@@ -2169,7 +2206,7 @@ namespace QDP {
 
   //! RComplex = outerProduct(RComplex, RComplex)
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, FnOuterProduct>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, FnOuterProduct>::Type_t
   outerProduct(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RComplex<T2>, FnOuterProduct>::Type_t  Ret_t;
@@ -2181,7 +2218,7 @@ namespace QDP {
 
   //! RComplex = outerProduct(RComplex, RScalar)
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, FnOuterProduct>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RScalar<T2>, FnOuterProduct>::Type_t
   outerProduct(const RComplex<T1>& l, const RScalar<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RScalar<T2>, FnOuterProduct>::Type_t  Ret_t;
@@ -2193,7 +2230,7 @@ namespace QDP {
 
   //! RComplex = outerProduct(RScalar, RComplex)
   template<class T1, class T2>
-  inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, FnOuterProduct>::Type_t
+  __device__ inline typename BinaryReturn<RScalar<T1>, RComplex<T2>, FnOuterProduct>::Type_t
   outerProduct(const RScalar<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RScalar<T1>, RComplex<T2>, FnOuterProduct>::Type_t  Ret_t;
@@ -2207,7 +2244,7 @@ namespace QDP {
   //! dest [some type] = source [some type]
   /*! Portable (internal) way of returning a single site */
   template<class T>
-  inline typename UnaryReturn<RComplex<T>, FnGetSite>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T>, FnGetSite>::Type_t
   getSite(const RComplex<T>& s1, int innersite)
   {
     typedef typename UnaryReturn<RComplex<T>, FnGetSite>::Type_t  Ret_t;
@@ -2219,7 +2256,7 @@ namespace QDP {
 
   //! dest = (mask) ? s1 : dest
   template<class T, class T1> 
-  inline
+  __device__ inline
   void copymask(RComplex<T>& d, const RScalar<T1>& mask, const RComplex<T>& s1) 
   {
     copymask(d.real(),mask.elem(),s1.real());
@@ -2235,7 +2272,7 @@ namespace QDP {
   };
 
   template<class T>
-  inline typename UnaryReturn<RComplex<T>, FnSum>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T>, FnSum>::Type_t
   sum(const RComplex<T>& s1)
   {
     typedef typename UnaryReturn<RComplex<T>, FnSum>::Type_t  Ret_t;
@@ -2258,7 +2295,7 @@ namespace QDP {
   };
 
   template<class T>
-  inline typename UnaryReturn<RComplex<T>, FnLocalNorm2>::Type_t
+  __device__ inline typename UnaryReturn<RComplex<T>, FnLocalNorm2>::Type_t
   localNorm2(const RComplex<T>& s1)
   {
     return localNorm2(s1.real()) + localNorm2(s1.imag());
@@ -2278,7 +2315,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, FnLocalInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, FnLocalInnerProduct>::Type_t
   localInnerProduct(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     typedef typename BinaryReturn<RComplex<T1>, RComplex<T2>, FnLocalInnerProduct>::Type_t  Ret_t;
@@ -2301,7 +2338,7 @@ namespace QDP {
   };
 
   template<class T1, class T2>
-  inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, FnLocalInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<RComplex<T1>, RComplex<T2>, FnLocalInnerProductReal>::Type_t
   localInnerProductReal(const RComplex<T1>& l, const RComplex<T2>& r)
   {
     return localInnerProduct(l.real(),r.real()) + localInnerProduct(l.imag(),r.imag());
@@ -2319,7 +2356,7 @@ namespace QDP {
   };
 
   template<class T1, class T2, class T3>
-  inline typename TrinaryReturn<RScalar<T1>, RComplex<T2>, RComplex<T3>, FnWhere>::Type_t
+  __device__ inline typename TrinaryReturn<RScalar<T1>, RComplex<T2>, RComplex<T3>, FnWhere>::Type_t
   where(const RScalar<T1>& a, const RComplex<T2>& b, const RComplex<T3>& c)
   {
     typedef typename TrinaryReturn<RScalar<T1>, RComplex<T2>, RComplex<T3>, FnWhere>::Type_t  Ret_t;
@@ -2340,7 +2377,7 @@ namespace QDP {
   };
 
   template<class T1, class T2, class T3>
-  inline typename TrinaryReturn<RScalar<T1>, RComplex<T2>, RComplex<T3>, FnWhere>::Type_t
+  __device__ inline typename TrinaryReturn<RScalar<T1>, RComplex<T2>, RComplex<T3>, FnWhere>::Type_t
   where(const RScalar<T1>& a, const RComplex<T2>& b, const RScalar<T3>& c)
   {
     typedef typename TrinaryReturn<RScalar<T1>, RComplex<T2>, RScalar<T3>, FnWhere>::Type_t  Ret_t;
@@ -2362,7 +2399,7 @@ namespace QDP {
   };
 
   template<class T1, class T2, class T3>
-  inline typename TrinaryReturn<RScalar<T1>, RScalar<T2>, RComplex<T3>, FnWhere>::Type_t
+  __device__ inline typename TrinaryReturn<RScalar<T1>, RScalar<T2>, RComplex<T3>, FnWhere>::Type_t
   where(const RScalar<T1>& a, const RScalar<T2>& b, const RComplex<T3>& c)
   {
     typedef typename TrinaryReturn<RScalar<T1>, RScalar<T2>, RComplex<T3>, FnWhere>::Type_t  Ret_t;
@@ -2378,7 +2415,7 @@ namespace QDP {
   // Broadcast operations
   //! dest = 0
   template<class T> 
-  inline
+  __device__ inline
   void zero_rep(RComplex<T>& dest) 
   {
     zero_rep(dest.real());
@@ -2388,7 +2425,7 @@ namespace QDP {
 
   //! dest  = random  
   template<class T, class T1, class T2>
-  inline void
+  __device__ inline void
   fill_random(RComplex<T>& d, T1& seed, T2& skewed_seed, const T1& seed_mult)
   {
     fill_random(d.real(), seed, skewed_seed, seed_mult);
@@ -2399,7 +2436,7 @@ namespace QDP {
   //! dest  = gaussian
   /*! RComplex polar method */
   template<class T>
-  inline void
+  __device__ inline void
   fill_gaussian(RComplex<T>& d, RComplex<T>& r1, RComplex<T>& r2)
   {
     typedef typename InternalScalar<T>::Type_t  S;

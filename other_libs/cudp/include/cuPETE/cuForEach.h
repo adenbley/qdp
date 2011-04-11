@@ -76,6 +76,7 @@ struct ForEach
 {
   typedef typename LeafFunctor<Expr, FTag>::Type_t Type_t;
   inline static
+  __device__
   Type_t apply(const Expr &expr, const FTag &f, const CTag &)
   {
     return LeafFunctor<Expr, FTag>::apply(expr, f);
@@ -83,6 +84,7 @@ struct ForEach
 };
 
 template<class Expr, class FTag, class CTag>
+  __device__
 inline typename ForEach<Expr,FTag,CTag>::Type_t
 forEach(const Expr &e, const FTag &f, const CTag &c)
 {
@@ -95,6 +97,7 @@ struct ForEach<UnaryNode<Op, A>, FTag, CTag>
   typedef typename ForEach<A, FTag, CTag>::Type_t TypeA_t;
   typedef typename Combine1<TypeA_t, Op, CTag>::Type_t Type_t;
   inline static
+  __device__
   Type_t apply(const UnaryNode<Op, A> &expr, const FTag &f, 
     const CTag &c) 
   {
@@ -111,6 +114,7 @@ struct ForEach<BinaryNode<Op, A, B>, FTag, CTag >
   typedef typename ForEach<B, FTag, CTag>::Type_t TypeB_t;
   typedef typename Combine2<TypeA_t, TypeB_t, Op, CTag>::Type_t Type_t;
   inline static
+  __device__
   Type_t apply(const BinaryNode<Op, A, B> &expr, const FTag &f,
 	       const CTag &c) 
   {
@@ -130,6 +134,7 @@ struct ForEach<TrinaryNode<Op, A, B, C>, FTag, CTag >
   typedef typename Combine3<TypeA_t, TypeB_t, TypeC_t, Op, CTag>::Type_t 
     Type_t;
   inline static
+  __device__
   Type_t apply(const TrinaryNode<Op, A, B, C> &expr, const FTag &f,
 	       const CTag &c) 
   {
@@ -150,6 +155,7 @@ struct ForEach<Expression<T>, FTag, CTag>
 {
   typedef typename ForEach<T, FTag, CTag>::Type_t Type_t;
   inline static
+  __device__
   Type_t apply(const Expression<T> &expr, const FTag &f, 
 	       const CTag &c) 
   {
@@ -166,6 +172,7 @@ struct ForEach<Reference<T>, FTag, CTag>
 {
   typedef typename ForEach<T, FTag, CTag>::Type_t Type_t;
   inline static
+  __device__
   Type_t apply(const Reference<T> &ref, const FTag &f, 
 	       const CTag &c) 
   {

@@ -92,7 +92,9 @@ struct LeafFunctor
 struct EvalLeaf1
 {
   int i1_m;
+  __device__
   inline EvalLeaf1(int i1) : i1_m(i1) { }
+  __device__
   inline int val1() const { return i1_m; }
 };
   
@@ -101,6 +103,7 @@ struct LeafFunctor<Scalar<T>, EvalLeaf1>
 {
   typedef T Type_t;
   inline static
+  __device__
   const Type_t &apply(const Scalar<T> &s, const EvalLeaf1 &) 
   {
     return s.value();
@@ -112,8 +115,11 @@ struct LeafFunctor<Scalar<T>, EvalLeaf1>
 struct EvalLeaf2
 {
   int i1_m, i2_m;
+  __device__
   inline EvalLeaf2(int i1, int i2) : i1_m(i1), i2_m(i2) { }
+  __device__
   inline int val1() const { return i1_m; }
+  __device__
   inline int val2() const { return i2_m; }
 };
   
@@ -122,6 +128,7 @@ struct LeafFunctor<Scalar<T>, EvalLeaf2>
 {
   typedef T Type_t;
   inline static
+  __device__
   const Type_t &apply(const Scalar<T> &s, const EvalLeaf2 &) 
   {
     return s.value();
@@ -133,10 +140,14 @@ struct LeafFunctor<Scalar<T>, EvalLeaf2>
 struct EvalLeaf3
 {
   int i1_m, i2_m, i3_m;
+  __device__
   inline EvalLeaf3(int i1, int i2, int i3) 
     : i1_m(i1), i2_m(i2), i3_m(i3) { }
+  __device__
   inline int val1() const { return i1_m; }
+  __device__
   inline int val2() const { return i2_m; }
+  __device__
   inline int val3() const { return i3_m; }
 };
   
@@ -145,6 +156,7 @@ struct LeafFunctor<Scalar<T>, EvalLeaf3>
 {
   typedef T Type_t;
   inline static
+  __device__
   const Type_t &apply(const Scalar<T> &s, const EvalLeaf3 &) 
   {
     return s.value();
@@ -156,11 +168,16 @@ struct LeafFunctor<Scalar<T>, EvalLeaf3>
 struct EvalLeaf4
 {
   int i1_m, i2_m, i3_m, i4_m;
+  __device__
   inline EvalLeaf4(int i1, int i2, int i3, int i4) 
     : i1_m(i1), i2_m(i2), i3_m(i3), i4_m(i4) { }
+  __device__
   inline int val1() const { return i1_m; }
+  __device__
   inline int val2() const { return i2_m; }
+  __device__
   inline int val3() const { return i3_m; }
+  __device__
   inline int val4() const { return i4_m; }
 };
   
@@ -169,6 +186,7 @@ struct LeafFunctor<Scalar<T>, EvalLeaf4>
 {
   typedef T Type_t;
   inline static
+  __device__
   const Type_t &apply(const Scalar<T> &s, const EvalLeaf4 &) 
   {
     return s.value();
@@ -180,12 +198,18 @@ struct LeafFunctor<Scalar<T>, EvalLeaf4>
 struct EvalLeaf5
 {
   int i1_m, i2_m, i3_m, i4_m, i5_m;
+  __device__
   inline EvalLeaf5(int i1, int i2, int i3, int i4, int i5) 
     : i1_m(i1), i2_m(i2), i3_m(i3), i4_m(i4), i5_m(i5) { }
+  __device__
   inline int val1() const { return i1_m; }
+  __device__
   inline int val2() const { return i2_m; }
+  __device__
   inline int val3() const { return i3_m; }
+  __device__
   inline int val4() const { return i4_m; }
+  __device__
   inline int val5() const { return i5_m; }
 };
 
@@ -194,6 +218,7 @@ struct LeafFunctor<Scalar<T>, EvalLeaf5>
 {
   typedef T Type_t;
   inline static
+  __device__
   const Type_t &apply(const Scalar<T> &s, const EvalLeaf5 &)
   {
     return s.value();
@@ -205,13 +230,20 @@ struct LeafFunctor<Scalar<T>, EvalLeaf5>
 struct EvalLeaf6
 {
   int i1_m, i2_m, i3_m, i4_m, i5_m, i6_m;
+  __device__
   inline EvalLeaf6(int i1, int i2, int i3, int i4, int i5, int i6) 
     : i1_m(i1), i2_m(i2), i3_m(i3), i4_m(i4), i5_m(i5), i6_m(i6) { }
+  __device__
   inline int val1() const { return i1_m; }
+  __device__
   inline int val2() const { return i2_m; }
+  __device__
   inline int val3() const { return i3_m; }
+  __device__
   inline int val4() const { return i4_m; }
+  __device__
   inline int val5() const { return i5_m; }
+  __device__
   inline int val6() const { return i6_m; }
 };
   
@@ -220,6 +252,7 @@ struct LeafFunctor<Scalar<T>, EvalLeaf6>
 {
   typedef T Type_t;
   inline static
+  __device__
   const Type_t &apply(const Scalar<T> &s, const EvalLeaf6 &) 
   {
     return s.value();
@@ -231,15 +264,23 @@ struct LeafFunctor<Scalar<T>, EvalLeaf6>
 struct EvalLeaf7
 {
   int i1_m, i2_m, i3_m, i4_m, i5_m, i6_m, i7_m;
+  __device__
   inline EvalLeaf7(int i1, int i2, int i3, int i4, int i5, int i6,
     int i7) 
     : i1_m(i1), i2_m(i2), i3_m(i3), i4_m(i4), i5_m(i5), i6_m(i6), i7_m(i7) { }
+  __device__
   inline int val1() const { return i1_m; }
+  __device__
   inline int val2() const { return i2_m; }
+  __device__
   inline int val3() const { return i3_m; }
+  __device__
   inline int val4() const { return i4_m; }
+  __device__
   inline int val5() const { return i5_m; }
+  __device__
   inline int val6() const { return i6_m; }
+  __device__
   inline int val7() const { return i7_m; }
 };
   
@@ -248,6 +289,7 @@ struct LeafFunctor<Scalar<T>, EvalLeaf7>
 {
   typedef T Type_t;
   inline static
+  __device__
   const Type_t &apply(const Scalar<T> &s, const EvalLeaf7 &) 
   {
     return s.value();
@@ -274,6 +316,7 @@ struct LeafFunctor<T, IncrementLeaf>
 {
   typedef int Type_t;
   inline static
+  __device__
   Type_t apply(const T &cl, const IncrementLeaf &) 
   {
     T &l = const_cast<T &>(cl);
@@ -291,6 +334,7 @@ struct LeafFunctor<const T*, IncrementLeaf>
 {
   typedef int Type_t;
   inline static
+  __device__
   Type_t apply(const T* & const ci, const IncrementLeaf &)
   {
     T* &i = const_cast<T* &>(ci);
@@ -306,6 +350,7 @@ struct LeafFunctor<Scalar<T>, IncrementLeaf>
 {
   typedef int Type_t;
   inline static
+  __device__
   Type_t apply(const Scalar<T> &, const IncrementLeaf &) 
   {
     return 0;
@@ -332,6 +377,7 @@ struct LeafFunctor<T, DecrementLeaf>
 {
   typedef int Type_t;
   inline static
+  __device__
   Type_t apply(const T &cl, const DecrementLeaf &) 
   {
     T &l = const_cast<T &>(cl);
@@ -347,6 +393,7 @@ struct LeafFunctor<const T*, DecrementLeaf>
 {
   typedef int Type_t;
   inline static
+  __device__
   Type_t apply(const T* & const ci, const IncrementLeaf &)
   {
     T* &i = const_cast<T* &>(ci);
@@ -361,6 +408,7 @@ struct LeafFunctor<Scalar<T>, DecrementLeaf>
 {
   typedef int Type_t;
   inline static
+  __device__
   Type_t apply(const Scalar<T> &, const DecrementLeaf &) 
   {
     return 0;
@@ -387,6 +435,7 @@ struct LeafFunctor<ForwardIterator, DereferenceLeaf>
 {
   typedef typename std::iterator_traits<ForwardIterator>::value_type Type_t;
   inline static
+  __device__
   Type_t apply(const ForwardIterator &i, const DereferenceLeaf &)
   {
     return *i;
@@ -401,6 +450,7 @@ struct LeafFunctor<const T*, DereferenceLeaf>
 {
   typedef T Type_t;
   inline static
+  __device__
   Type_t apply(const T *i, const DereferenceLeaf &)
   {
     return *i;
@@ -413,6 +463,7 @@ struct LeafFunctor<Scalar<T>, DereferenceLeaf>
 {
   typedef T Type_t;
   inline static
+  __device__
   const Type_t &apply(const Scalar<T> &s, const DereferenceLeaf &) 
   {
     return s.value();

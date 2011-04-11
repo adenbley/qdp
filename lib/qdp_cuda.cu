@@ -11,7 +11,7 @@ namespace QDPCUDA {
   {
     cudaError_t ret;
     ret = cudaMalloc(mem,size);
-    cout << "cudaMalloc     " << size << " : " << string(cudaGetErrorString(ret)) << endl;
+    cout << "cudaMalloc     " << size << " : " << *mem << " " << string(cudaGetErrorString(ret)) << endl;
   }
   void freeDeviceMem(void *mem)
   {

@@ -31,6 +31,7 @@ public:
   { }
 
   //! Accessor that returns the expression.
+  __device__
   const Expression_t& expression() const
   {
     return expr_m;
@@ -65,6 +66,7 @@ struct MakeReturn
 {
   typedef QDPExpr<T, C>  Expression_t;
   inline static
+  __device__
   Expression_t make(const T &a) { return Expression_t(a); }
 };
 
@@ -75,6 +77,7 @@ struct CreateLeaf<QDPExpr<T,C> >
   typedef typename Input_t::Expression_t Leaf_t;
 
   inline static
+  __device__
   const Leaf_t &make(const Input_t& a)
   {
     return a.expression();
@@ -87,6 +90,7 @@ struct ForEach<QDPExpr<T,DTag>, FTag, CTag>
 {
   typedef typename ForEach<T, FTag, CTag>::Type_t Type_t;
   inline static
+  __device__
   Type_t apply(const QDPExpr<T,DTag>& expr, const FTag &f, 
 	       const CTag &c) 
   {
@@ -104,6 +108,7 @@ struct Combine1<Reference<A>, Op, OpCombine>
 {
   typedef typename UnaryReturn<A, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(Reference<A> a, Op op, OpCombine) { return op(a.reference()); }
 };
 
@@ -112,6 +117,7 @@ struct Combine2<Reference<A>, Reference<B>, Op, OpCombine>
 {
   typedef typename BinaryReturn<A, B, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(Reference<A> a, Reference<B> b, Op op, OpCombine)
   {
     return op(a.reference(), b.reference());
@@ -123,6 +129,7 @@ struct Combine2<Reference<A>, B, Op, OpCombine>
 {
   typedef typename BinaryReturn<A, B, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(Reference<A> a, B b, Op op, OpCombine)
   {
     return op(a.reference(), b);
@@ -134,6 +141,7 @@ struct Combine2<A, Reference<B>, Op, OpCombine>
 {
   typedef typename BinaryReturn<A, B, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(A a, Reference<B> b, Op op, OpCombine)
   {
     return op(a, b.reference());
@@ -146,6 +154,7 @@ struct Combine3<Reference<A>, B, C, Op, OpCombine>
 {
   typedef typename TrinaryReturn<A, B, C, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(Reference<A> a, B b, C c, Op op, OpCombine)
   {
     return op(a.reference(), b, c);
@@ -157,6 +166,7 @@ struct Combine3<A, Reference<B>, C, Op, OpCombine>
 {
   typedef typename TrinaryReturn<A, B, C, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(A a, Reference<B> b, C c, Op op, OpCombine)
   {
     return op(a, b.reference(), c);
@@ -168,6 +178,7 @@ struct Combine3<A, B, Reference<C>, Op, OpCombine>
 {
   typedef typename TrinaryReturn<A, B, C, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(A a, B b, Reference<C> c, Op op, OpCombine)
   {
     return op(a, b, c.reference());
@@ -180,6 +191,7 @@ struct Combine3<Reference<A>, Reference<B>, C, Op, OpCombine>
 {
   typedef typename TrinaryReturn<A, B, C, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(Reference<A> a, Reference<B> b, C c, Op op, OpCombine)
   {
     return op(a.reference(), b.reference(), c);
@@ -191,6 +203,7 @@ struct Combine3<A, Reference<B>, Reference<C>, Op, OpCombine>
 {
   typedef typename TrinaryReturn<A, B, C, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(A a, Reference<B> b, Reference<C> c, Op op, OpCombine)
   {
     return op(a, b.reference(), c.reference());
@@ -202,6 +215,7 @@ struct Combine3<Reference<A>, B, Reference<C>, Op, OpCombine>
 {
   typedef typename TrinaryReturn<A, B, C, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(Reference<A> a, B b, Reference<C> c, Op op, OpCombine)
   {
     return op(a.reference(), b, c.reference());
@@ -213,6 +227,7 @@ struct Combine3<Reference<A>, Reference<B>, Reference<C>, Op, OpCombine>
 {
   typedef typename TrinaryReturn<A, B, C, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(Reference<A> a, Reference<B> b, Reference<C> c, Op op, OpCombine)
   {
     return op(a.reference(), b.reference(), c.reference());

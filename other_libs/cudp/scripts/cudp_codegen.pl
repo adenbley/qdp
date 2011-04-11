@@ -306,7 +306,9 @@ sub spu
     $ret.="    OLattice<T> dest;\n";
     $ret.="    ".$pretty{"partOp"}." op".argsempty($pretty{"partOp"}).";\n";
     $ret.="    Subset s;\n";
-    $ret.="    dest.setF(ival->dest);";
+    $ret.="    dest.setF(ival->dest);\n";
+    $ret.="    ival->flatten.iadr = 0;\n";
+    $ret.="    forEach(rhs, ival->flatten , NullCombine());\n";
     $ret.="    evaluate( dest , op , rhs , s );\n";
 
     return($ret);
@@ -349,13 +351,27 @@ extern "C" void function_host(void * ptr)
     cout << "function_host()" << endl;
 
     CUDA_iface_eval * ival = static_cast<CUDA_iface_eval *>(ptr);
+    cout << "dest:" << ival->dest << endl;
+    for (int i=0;i<FlattenTag::maxleaf;i++)
+	cout << i << " " << ival->flatten.adr[i] << endl;
 
-    cout << ival->opMetaSize << endl;
+    CUDA_iface_eval * ival_dev;
+    cudaError_t ret;
+    ret = cudaMalloc((void **)(&ival_dev),sizeof(CUDA_iface_eval));
+    cout << "cudaMalloc     " << sizeof(CUDA_iface_eval) << " : " << string(cudaGetErrorString(ret)) << endl;
 
-    dim3  threads( 320 , 1, 1);
-    kernel<<< 1 , threads >>>(ival);
+    ret = cudaMemcpy(ival_dev,ival,sizeof(CUDA_iface_eval),cudaMemcpyHostToDevice);
+    cout << "cudaMemcpy to device: " << string(cudaGetErrorString(ret)) << endl;
+
+
+    dim3  threads( 32 , 1, 1);
+    kernel<<< 1 , threads >>>( ival_dev );
     cudaError_t kernel_call = cudaGetLastError();
     cout << "kernel call: " << string(cudaGetErrorString(kernel_call)) << endl;
+
+    ret = cudaFree(ival_dev);
+    cout << "cudaFree     : " << string(cudaGetErrorString(ret)) << endl;
+
 }
 
 END

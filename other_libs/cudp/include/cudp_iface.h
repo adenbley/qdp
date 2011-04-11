@@ -5,7 +5,7 @@ struct FlattenTag {
   inline
   FlattenTag() : iadr(0), totalsize(0) {}
   const static  size_t maxleaf = 20;
-  mutable size_t adr[maxleaf];
+  mutable void * adr[maxleaf];
   mutable unsigned int size[maxleaf];
   mutable unsigned int custom[maxleaf];
   mutable unsigned int leaftype[maxleaf];
@@ -15,7 +15,7 @@ struct FlattenTag {
 
 struct CUDA_iface_eval {
   void       *dest;
-  FlattenTag *flatten;
+  FlattenTag flatten;
   void       *opMeta;
   size_t      opMetaSize;
 };

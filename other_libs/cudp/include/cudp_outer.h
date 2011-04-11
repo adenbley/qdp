@@ -438,6 +438,7 @@ struct CreateLeaf<OScalar<T> >
 //  typedef OScalar<T> Leaf_t;
   typedef Reference<OScalar<T> > Leaf_t;
   inline static
+  __device__
   Leaf_t make(const OScalar<T> &a) { return Leaf_t(a); }
 };
 
@@ -447,6 +448,7 @@ struct CreateLeaf<OLattice<T> >
 //  typedef OLattice<T> Leaf_t;
   typedef Reference<OLattice<T> > Leaf_t;
   inline static
+  __device__
   Leaf_t make(const OLattice<T> &a) { return Leaf_t(a); }
 };
 
@@ -467,6 +469,7 @@ struct LeafFunctor<OScalar<T>, ElemLeaf>
 {
 //  typedef T Type_t;
   typedef Reference<T> Type_t;
+  __device__
   inline static Type_t apply(const OScalar<T> &a, const ElemLeaf &f)
     {return Type_t(a.elem());}
 };
@@ -476,6 +479,7 @@ struct LeafFunctor<OScalar<T>, EvalLeaf1>
 {
 //  typedef T Type_t;
   typedef Reference<T> Type_t;
+  __device__
   inline static Type_t apply(const OScalar<T> &a, const EvalLeaf1 &f)
     {return Type_t(a.elem());}
 };
@@ -485,6 +489,7 @@ struct LeafFunctor<OLattice<T>, EvalLeaf1>
 {
 //  typedef T Type_t;
   typedef Reference<T> Type_t;
+  __device__
   inline static Type_t apply(const OLattice<T> &a, const EvalLeaf1 &f)
     {return Type_t(a.elem(f.val1()));}
 };
@@ -1340,6 +1345,7 @@ struct BinaryReturn<OScalar<T1>, OLattice<T2>, OpRightShift > {
 //! QDP Wordtype to primitive wordtype
 template<class T> 
 inline typename WordType< OScalar<T> >::Type_t
+  __device__
 toWordType(const OScalar<T>& s) 
 {
   return toWordType(s.elem());
@@ -1354,6 +1360,7 @@ struct UnaryReturn<OScalar<T>, FnGetSite> {
 
 template<class T>
 inline typename UnaryReturn<OScalar<T>, FnGetSite>::Type_t
+  __device__
 getSite(const OScalar<T>& s1, int innersite)
 {
   typename UnaryReturn<OScalar<T>, FnGetSite>::Type_t  d;
@@ -1365,6 +1372,7 @@ getSite(const OScalar<T>& s1, int innersite)
 
 //! dest = 0
 template<class T> 
+  __device__
 void zero_rep(OScalar<T>& dest) 
 {
   zero_rep(dest.elem());
@@ -1372,6 +1380,7 @@ void zero_rep(OScalar<T>& dest)
 
 //! dest = (mask) ? s1 : dest
 template<class T1, class T2> 
+  __device__
 void copymask(OScalar<T2>& dest, const OScalar<T1>& mask, const OScalar<T2>& s1) 
 {
   copymask(dest.elem(), mask.elem(), s1.elem());
@@ -1379,6 +1388,7 @@ void copymask(OScalar<T2>& dest, const OScalar<T1>& mask, const OScalar<T2>& s1)
 
 //! dest [some type] = source [some type]
 template<class T, class T1>
+  __device__
 void cast_rep(T& d, const OScalar<T1>& s1)
 {
   cast_rep(d, s1.elem());
@@ -1386,6 +1396,7 @@ void cast_rep(T& d, const OScalar<T1>& s1)
 
 //! dest [some type] = source [some type]
 template<class T, class T1>
+  __device__
 void recast_rep(OScalar<T>& d, const OScalar<T1>& s1)
 {
   cast_rep(d.elem(), s1.elem());
@@ -1397,11 +1408,13 @@ void recast_rep(OScalar<T>& d, const OScalar<T1>& s1)
 //! dest  = random  
 /*! Implementation is in the specific files */
 template<class T>
+  __device__
 void random(OScalar<T>& d);
 
 
 //! dest  = gaussian
 template<class T, class S>
+  __device__
 void gaussian(OSubScalar<T,S>& d)
 {
   OScalar<T>  r1, r2;

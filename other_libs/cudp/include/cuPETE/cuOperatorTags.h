@@ -59,6 +59,7 @@ struct FnArcCos: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnArcCos)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnArcCos >::Type_t
   operator()(const T &a) const
   {
@@ -70,6 +71,7 @@ struct FnArcSin: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnArcSin)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnArcSin >::Type_t
   operator()(const T &a) const
   {
@@ -81,6 +83,7 @@ struct FnArcTan: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnArcTan)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnArcTan >::Type_t
   operator()(const T &a) const
   {
@@ -92,6 +95,7 @@ struct FnCeil: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnCeil)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnCeil >::Type_t
   operator()(const T &a) const
   {
@@ -103,6 +107,7 @@ struct FnCos: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnCos)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnCos >::Type_t
   operator()(const T &a) const
   {
@@ -114,6 +119,7 @@ struct FnHypCos: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnHypCos)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnHypCos >::Type_t
   operator()(const T &a) const
   {
@@ -125,6 +131,7 @@ struct FnExp: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnExp)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnExp >::Type_t
   operator()(const T &a) const
   {
@@ -136,6 +143,7 @@ struct FnFabs: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnFabs)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnFabs >::Type_t
   operator()(const T &a) const
   {
@@ -147,6 +155,7 @@ struct FnFloor: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnFloor)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnFloor >::Type_t
   operator()(const T &a) const
   {
@@ -158,6 +167,7 @@ struct FnLog: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnLog)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnLog >::Type_t
   operator()(const T &a) const
   {
@@ -169,6 +179,7 @@ struct FnLog10: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnLog10)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnLog10 >::Type_t
   operator()(const T &a) const
   {
@@ -180,6 +191,7 @@ struct FnSin: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnSin)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnSin >::Type_t
   operator()(const T &a) const
   {
@@ -191,6 +203,7 @@ struct FnHypSin: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnHypSin)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnHypSin >::Type_t
   operator()(const T &a) const
   {
@@ -202,6 +215,7 @@ struct FnSqrt: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnSqrt)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnSqrt >::Type_t
   operator()(const T &a) const
   {
@@ -213,6 +227,7 @@ struct FnTan: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnTan)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnTan >::Type_t
   operator()(const T &a) const
   {
@@ -224,6 +239,7 @@ struct FnHypTan: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnHypTan)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, FnHypTan >::Type_t
   operator()(const T &a) const
   {
@@ -235,6 +251,7 @@ struct OpUnaryMinus: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpUnaryMinus)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, OpUnaryMinus >::Type_t
   operator()(const T &a) const
   {
@@ -246,6 +263,7 @@ struct OpUnaryPlus: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpUnaryPlus)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, OpUnaryPlus >::Type_t
   operator()(const T &a) const
   {
@@ -257,6 +275,7 @@ struct OpBitwiseNot: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseNot)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, OpBitwiseNot >::Type_t
   operator()(const T &a) const
   {
@@ -268,6 +287,7 @@ struct OpIdentity: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpIdentity)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, OpIdentity >::Type_t
   operator()(const T &a) const
   {
@@ -279,6 +299,7 @@ struct OpNot: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpNot)
   template<class T>
+  __device__
   inline typename UnaryReturn<T, OpNot >::Type_t
   operator()(const T &a) const
   {
@@ -296,6 +317,7 @@ struct OpCast: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS_TEMPLATE(OpCast, T1)
   template<class T2>
+  __device__
   inline UnaryReturn<T2, OpCast<T1> >
   operator()(const T2 &a) const
   {
@@ -312,6 +334,7 @@ struct OpAdd: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpAdd)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpAdd >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -323,6 +346,7 @@ struct OpSubtract: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpSubtract)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpSubtract >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -334,6 +358,7 @@ struct OpMultiply: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpMultiply)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpMultiply >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -345,6 +370,7 @@ struct OpDivide: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpDivide)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpDivide >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -356,6 +382,7 @@ struct OpMod: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpMod)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpMod >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -367,6 +394,7 @@ struct OpBitwiseAnd: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseAnd)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpBitwiseAnd >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -378,6 +406,7 @@ struct OpBitwiseOr: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseOr)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpBitwiseOr >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -389,6 +418,7 @@ struct OpBitwiseXor: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseXor)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpBitwiseXor >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -400,6 +430,7 @@ struct FnLdexp: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnLdexp)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, FnLdexp >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -411,6 +442,7 @@ struct FnPow: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnPow)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, FnPow >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -422,6 +454,7 @@ struct FnFmod: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnFmod)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, FnFmod >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -433,6 +466,7 @@ struct FnArcTan2: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnArcTan2)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, FnArcTan2 >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -444,6 +478,7 @@ struct OpLT: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpLT)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpLT >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -460,6 +495,7 @@ struct OpLE: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpLE)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpLE >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -476,6 +512,7 @@ struct OpGT: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpGT)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpGT >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -492,6 +529,7 @@ struct OpGE: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpGE)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpGE >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -508,6 +546,7 @@ struct OpEQ: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpEQ)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpEQ >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -524,6 +563,7 @@ struct OpNE: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpNE)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpNE >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -540,6 +580,7 @@ struct OpAnd: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpAnd)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpAnd >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -556,6 +597,7 @@ struct OpOr: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpOr)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpOr >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -572,6 +614,7 @@ struct OpLeftShift: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpLeftShift)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpLeftShift >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -588,6 +631,7 @@ struct OpRightShift: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpRightShift)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpRightShift >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -604,6 +648,7 @@ struct OpAddAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpAddAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpAddAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -621,6 +666,7 @@ struct OpSubtractAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpSubtractAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpSubtractAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -640,6 +686,7 @@ struct OpMultiplyAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpMultiplyAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpMultiplyAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -658,6 +705,7 @@ struct OpDivideAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpDivideAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpDivideAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -676,6 +724,7 @@ struct OpModAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpModAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpModAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -694,6 +743,7 @@ struct OpBitwiseOrAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseOrAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpBitwiseOrAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -712,6 +762,7 @@ struct OpBitwiseAndAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseAndAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpBitwiseAndAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -730,6 +781,7 @@ struct OpBitwiseXorAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseXorAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpBitwiseXorAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -747,6 +799,7 @@ struct OpLeftShiftAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpLeftShiftAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpLeftShiftAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -764,6 +817,7 @@ struct OpRightShiftAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpRightShiftAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpRightShiftAssign >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
@@ -781,6 +835,7 @@ struct OpAssign: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(OpAssign)
   template<class T1, class T2>
+  __device__
   inline typename BinaryReturn<T1, T2, OpAssign >::Type_t
   operator()(const  T1 &a, const T2 &b) const
   {
@@ -797,6 +852,7 @@ struct FnWhere: public BaseOp
 {
   PETE_EMPTY_CONSTRUCTORS(FnWhere)
   template<class T1, class T2, class T3>
+  __device__
   inline typename TrinaryReturn<T1, T2, T3, FnWhere >::Type_t
   operator()(const T1 &a, const T2 &b, const T3 &c) const
   {

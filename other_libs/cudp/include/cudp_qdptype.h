@@ -463,6 +463,7 @@ struct CreateLeaf<QDPType<T,C> >
   typedef Reference<Inp_t> Leaf_t;
 //  typedef Inp_t Leaf_t;
   inline static
+  __device__
   Leaf_t make(const Inp_t &a) { return Leaf_t(a); }
 };
 
@@ -478,6 +479,7 @@ struct LeafFunctor<QDPType<T,C>, ElemLeaf>
 {
   typedef Reference<T> Type_t;
 //  typedef T Type_t;
+  __device__
   inline static Type_t apply(const QDPType<T,C> &a, const ElemLeaf &f)
     { 
       return Type_t(a.elem());
@@ -489,6 +491,7 @@ struct LeafFunctor<QDPType<T,C>, EvalLeaf1>
 {
   typedef Reference<T> Type_t;
 //  typedef T Type_t;
+  __device__
   inline static Type_t apply(const QDPType<T,C> &a, const EvalLeaf1 &f)
     { 
       return Type_t(a.elem(f.val1()));

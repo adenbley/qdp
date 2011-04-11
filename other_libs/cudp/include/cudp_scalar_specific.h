@@ -8,7 +8,134 @@
 #ifndef QDP_SCALAR_SPECIFIC_H
 #define QDP_SCALAR_SPECIFIC_H
 
+#include "cudp_iface.h"
+#include <iostream>
+
 namespace QDP {
+
+  template<class T, class C>
+  struct LeafFunctor<QDPType<T,C>, FlattenTag>
+  {
+    typedef int Type_t;
+    __device__
+    static Type_t apply(const QDPType<T,C> &s, const FlattenTag &f)
+    { 
+      return LeafFunctor<C,FlattenTag>::apply(static_cast<const C&>(s),f);
+    }
+  };
+
+  template<class T>
+  struct LeafFunctor<OLattice<T>, FlattenTag>
+  {
+    //typedef Reference<T> Type_t;
+    typedef int Type_t;
+    __device__
+    inline static Type_t apply(const OLattice<T> &a, const FlattenTag &f)
+    {
+      OLattice<T>& b = const_cast<OLattice<T>&>(a);
+    b.setF(f.adr[ f.iadr ]);
+    if (threadIdx.x==0)
+      printf("device: %d %llx\n",f.iadr,f.adr[ f.iadr ]);
+    f.iadr++;
+    return 0;
+    }
+  };
+
+
+//   template<class T>
+//   struct LeafFunctor<OScalar<T>, FlattenTag>
+//   {
+//     //typedef Reference<T> Type_t;
+//     typedef int Type_t;
+//     inline static Type_t apply(const OScalar<T> &a, const FlattenTag &f)
+//     {
+//       if (f.iadr >= f.maxleaf) {
+// 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
+// 	exit(1);
+//       }
+//       f.adr[ f.iadr ] = (size_t)( &a.elem() );
+//       f.size[ f.iadr ] = sizeof( a.elem() );
+//       f.leaftype[ f.iadr ] = 1;
+//       f.custom[ f.iadr ] = 0;
+//       f.iadr++;
+//       //cout << "ppu: im OScalar... not yet implemented" << endl;
+//       //exit(0);
+//     }
+//   };
+
+
+  // template<>
+  // struct LeafFunctor<OScalar<PScalar<PScalar<RScalar<int> > > >, FlattenTag>
+  // {
+  //   //typedef Reference<T> Type_t;
+  //   typedef int Type_t;
+  //   inline static Type_t apply(const OScalar<PScalar<PScalar<RScalar<int> > > > &a, const FlattenTag &f)
+  //     {
+  //       cout << "ppu: im OScalar" << endl;
+
+  //       union {
+  // 	unsigned int ui;
+  // 	int si;
+  //       } tmp;
+
+  //       tmp.si = a.elem().elem().elem().elem();
+
+  //       f.size[ f.iadr ] = tmp.ui;
+  //       f.iadr++;
+  //       printf("LeafFunctor<OScalar<PScalar<PScalar<RScalar<int> > > >, FlattenTag>::apply\n");
+  //     }
+  // };
+
+
+
+//   template<int N, int m>
+//   struct LeafFunctor<GammaConst<N, m>, FlattenTag>
+//   {
+//     //typedef Reference<T> Type_t;
+//     typedef int Type_t;
+//     inline static Type_t apply(const GammaConst<N, m> &a, const FlattenTag &f)
+//     {
+// #if defined(SPU_DEBUG)
+//       printf("LeafFunctor<GammaConst<N, m>,FlattenTag>::apply \n");
+// #endif
+//       //return Type_t();
+//     }
+//   };
+
+
+//   template<int N>
+//   struct LeafFunctor<GammaType<N>, FlattenTag>
+//   {
+//     //typedef Reference<T> Type_t;
+//     typedef int Type_t;
+//     inline static Type_t apply(const GammaType<N> &a, const FlattenTag &f)
+//     {
+//       if (f.iadr >= f.maxleaf) {
+// 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
+// 	exit(1);
+//       }
+//       f.adr[f.iadr]=0;
+//       f.size[f.iadr]=0;
+//       f.leaftype[ f.iadr ] = 2;
+//       f.custom[ f.iadr ] = a.elem();
+//       f.iadr++;
+// #if defined(SPU_DEBUG)
+//       printf("LeafFunctor<GammaType<N>,FlattenTag>::apply size = %d %d\n",sizeof(GammaType<N>),sizeof(a) );
+// #endif
+//       //return Type_t();
+//     }
+//   };
+
+
+
+
+
+
+
+
+
+
+
 
 // Use separate defs here. This will cause subroutine calls under g++
 
@@ -229,6 +356,14 @@ void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OScalar<T1> >& 
 		const QDP::QDPExpr<RHS, QDP::OLattice<T1> >& rhs, 
 		const QDP::Subset& s )
   {
+    //dest.elem(0).elem(0,0).elem(0,0).real() = rhs.expression().child().elem(0).elem(0,0).elem(0,0).real();
+    if (threadIdx.x==0)
+      op(dest.elem(0), forEach(rhs, EvalLeaf1(0), OpCombine()));
+    // T tmp=forEach(rhs, EvalLeaf1(0), OpCombine());
+    // if (threadIdx.x==0)
+    //   printf("%f\n", tmp.elem(0,0).elem(0,0).real() );
+    // dest.elem(0)=tmp;//forEach(rhs, EvalLeaf1(0), OpCombine());
+
     // General form of loop structure
     //const int *tab = s.siteTable().slice();
     //    for(int j=0; j < s.numSiteTable(); ++j) 

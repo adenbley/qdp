@@ -59,7 +59,8 @@ namespace QDP {
 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
 	exit(1);
       }
-      f.adr[ f.iadr ] = (size_t)( &a.elem( 0 ) );
+      f.adr[ f.iadr ] = (void *)( a.Fd );
+      cout << f.iadr << "  <- " << f.adr[ f.iadr ] << endl;
       f.size[ f.iadr ] = sizeof( a.elem( 0 ) );
       f.custom[ f.iadr ] = 0;
       f.leaftype[ f.iadr ] = 0;
@@ -110,7 +111,7 @@ namespace QDP {
 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
 	exit(1);
       }
-      f.adr[ f.iadr ] = (size_t)( &a.elem() );
+      f.adr[ f.iadr ] = (void *)( &a.elem() );
       f.size[ f.iadr ] = sizeof( a.elem() );
       f.leaftype[ f.iadr ] = 1;
       f.custom[ f.iadr ] = 0;
@@ -373,27 +374,29 @@ namespace QDP {
       user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
       dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
     } else {
-      FlattenTag flatten;
-      forEach(rhs, flatten , NullCombine());
-
       CUDA_iface_eval * ifeval;
-      CUDA_iface_eval * ifeval_dev;
       QDPCUDA::getHostMem(  (void**)(&ifeval),    sizeof(CUDA_iface_eval));
-      QDPCUDA::getDeviceMem((void**)(&ifeval_dev),sizeof(CUDA_iface_eval));
+
+      ifeval->flatten.iadr=0;
+      forEach(rhs, ifeval->flatten , NullCombine());
+
+      // CUDA_iface_eval * ifeval_dev;
+      // QDPCUDA::getDeviceMem((void**)(&ifeval_dev),sizeof(CUDA_iface_eval));
 
       ifeval->dest = dest.Fd;     // !!!! HACK check for SubSet start
       ifeval->opMeta = NULL;
       ifeval->opMetaSize = 123;
-      QDPCUDA::getDeviceMem((void**)(&ifeval->flatten),sizeof(FlattenTag));
-      QDPCUDA::copyToDevice(ifeval->flatten,&flatten,sizeof(FlattenTag));
 
-      QDPCUDA::copyToDevice(ifeval_dev,ifeval,sizeof(CUDA_iface_eval));
+      // QDPCUDA::getDeviceMem((void**)(&ifeval->flatten),sizeof(FlattenTag));
+      // QDPCUDA::copyToDevice(ifeval->flatten,flatten,sizeof(FlattenTag));
 
-      theCudpJust(__PRETTY_FUNCTION__,ifeval);
+      // QDPCUDA::copyToDevice(ifeval_dev,ifeval,sizeof(CUDA_iface_eval));
 
-      QDPCUDA::freeDeviceMem((void*)(ifeval->flatten));
+      theCudpJust( __PRETTY_FUNCTION__ , ifeval );
+
+      //QDPCUDA::freeDeviceMem((void*)(ifeval->flatten));
       QDPCUDA::freeHostMem(  (void*)(ifeval));
-      QDPCUDA::freeDeviceMem((void*)(ifeval_dev));
+      //QDPCUDA::freeDeviceMem((void*)(ifeval_dev));
 
     }
 

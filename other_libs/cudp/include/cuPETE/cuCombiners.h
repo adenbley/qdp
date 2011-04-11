@@ -85,6 +85,7 @@ struct Combine1
 {
   typedef A Type_t;
   inline static
+  __device__
   Type_t combine(const A &a, const Op &, const Tag &) { return a; }
 };
 
@@ -100,6 +101,7 @@ struct Combine3
   typedef typename Combine2<A, B, Op, Tag>::Type_t Type1_t;
   typedef typename Combine2<Type1_t, C, Op, Tag>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(const A& a,const B& b,const C& c,const Op& op,const Tag& t)
   {
     return
@@ -126,6 +128,7 @@ struct Combine3
 //-----------------------------------------------------------------------------
 
 template<class A, class Op, class Tag>
+  __device__
 inline typename Combine1<A, Op, Tag>::Type_t
 peteCombine(const A &a, const Op &op, const Tag &t)
 {
@@ -133,6 +136,7 @@ peteCombine(const A &a, const Op &op, const Tag &t)
 }
 
 template<class A, class B, class Op, class Tag>
+  __device__
 inline typename Combine2<A, B, Op, Tag>::Type_t
 peteCombine(const A &a, const B &b, const Op &op, const Tag &t)
 {
@@ -140,6 +144,7 @@ peteCombine(const A &a, const B &b, const Op &op, const Tag &t)
 }
 
 template<class A, class B, class C, class Op, class Tag>
+  __device__
 inline typename Combine3<A, B, C, Op, Tag>::Type_t
 peteCombine(const A &a, const B &b, const C &c, const Op &op, const Tag &t)
 {
@@ -175,6 +180,7 @@ struct Combine1<A, Op, TreeCombine >
 {
   typedef UnaryNode<Op, A> Type_t;
   inline static
+  __device__
   Type_t combine(const A &a, const Op &op, const TreeCombine &t)
   {
     return Type_t(op, a);
@@ -186,6 +192,7 @@ struct Combine2<A, B, Op, TreeCombine >
 {
   typedef BinaryNode<Op, A, B> Type_t;
   inline static
+  __device__
   Type_t combine(const A &a, const B &b, const Op &op, 
     const TreeCombine &t) 
   {
@@ -198,6 +205,7 @@ struct Combine3<A, B, C, Op, TreeCombine >
 {
   typedef TrinaryNode<Op, A, B, C> Type_t;
   inline static
+  __device__
   Type_t combine(const A &a, const B &b, const C &c, const Op &op,
     const TreeCombine &t) 
   {    
@@ -226,6 +234,7 @@ struct Combine1<A, Op, OpCombine>
 {
   typedef typename UnaryReturn<A, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(A a, Op op, OpCombine) { return op(a); }
 };
 
@@ -234,6 +243,7 @@ struct Combine2<A, B, Op, OpCombine>
 {
   typedef typename BinaryReturn<A, B, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(A a, B b, Op op, OpCombine)
   {
     return op(a, b);
@@ -245,6 +255,7 @@ struct Combine3<A, B, C, Op, OpCombine>
 {
   typedef typename TrinaryReturn<A, B, C, Op>::Type_t Type_t;
   inline static
+  __device__
   Type_t combine(A a, B b, C c, Op op, OpCombine)
   {
     return op(a, b, c);
@@ -272,6 +283,7 @@ struct Combine2<bool, bool, Op, AndCombine>
 {
   typedef bool Type_t;
   inline static
+  __device__
   Type_t combine(bool a, bool b, Op, AndCombine)
   {
     return (a && b);
@@ -299,6 +311,7 @@ struct Combine2<bool, bool, Op, OrCombine>
 {
   typedef bool Type_t;
   inline static
+  __device__
   Type_t combine(bool a, bool b, Op, OrCombine)
   {
     return (a || b);
@@ -327,6 +340,7 @@ struct Combine2<int, int, Op, NullCombine>
 {
   typedef int Type_t;
   inline static
+  __device__
   Type_t combine(int, int, Op, NullCombine)
   {
     return 0;
@@ -354,6 +368,7 @@ struct Combine2<int, int, Op, SumCombine>
 {
   typedef int Type_t;
   inline static
+  __device__
   Type_t combine(int a, int b, Op, SumCombine)
   {
     return a + b;
