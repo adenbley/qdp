@@ -24,6 +24,12 @@ namespace QDP
       cout << "building cudp function..." << endl;
       Filename filename = buildFunction(pretty);
       CudpFunction cudpFunction = loadShared(filename);
+
+      // Sanity check
+      for(MapFunction::iterator iter = mapFunction.begin() ; iter != mapFunction.end() ; ++iter ) 
+	if (iter->second == cudpFunction)
+	  QDP_error_exit("Same memory address found for another cudp function. Giving up!\n");
+
       mapFunction.insert(MapFunction::value_type(pretty,cudpFunction));
       cudpFunction(data);
     }
@@ -85,10 +91,9 @@ namespace QDP
     if ((err = dlerror()) != NULL) {
       cout << string(err) << endl;
       QDP_error_exit("dlsym error\n");
-    } else {
-      cout << "symbol found" << endl;
-    }
+    } 
 
+    cout << "symbol found" << endl;
     return fptr;
   }
 

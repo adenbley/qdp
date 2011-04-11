@@ -22,7 +22,6 @@ namespace QDP {
     typedef list<void *> ListHandle;
     typedef string Filename;
 
-  public:
     void operator()(string pretty,void * data);
     void closeAllShared();
 
