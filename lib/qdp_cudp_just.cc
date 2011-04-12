@@ -58,7 +58,7 @@ namespace QDP
     pclose(fileGenGpu);
 
     int ret;
-    gen = "nvcc -arch=sm_20 --compiler-options -fPIC,-shared -link " + file_cu + " -I$QDP_INSTALL/include -o " + file_o;
+    gen = "nvcc -v -arch=sm_20 --compiler-options -fPIC,-shared -link " + file_cu + " -I$QDP_INSTALL/include -o " + file_o;
     cout << gen << endl;
     ret=system(gen.c_str());
     if (ret) {

@@ -13,6 +13,7 @@
 
 namespace QDP {
 
+
   template<class T, class C>
   struct LeafFunctor<QDPType<T,C>, FlattenTag>
   {
@@ -20,7 +21,9 @@ namespace QDP {
     __device__
     static Type_t apply(const QDPType<T,C> &s, const FlattenTag &f)
     { 
+#ifdef __CUDA_ARCH__
       return LeafFunctor<C,FlattenTag>::apply(static_cast<const C&>(s),f);
+#endif
     }
   };
 
@@ -32,16 +35,20 @@ namespace QDP {
     __device__
     inline static Type_t apply(const OLattice<T> &a, const FlattenTag &f)
     {
+#ifdef __CUDA_ARCH__
       OLattice<T>& b = const_cast<OLattice<T>&>(a);
-      b.setF( f.listLeaf.front().pointer );
-      if (f.listLeaf.size() < 1)
-	printf("Oops!\n");
-      f.listLeaf.pop_front();
-      // b.setF(f.adr[ f.iadr ]);
-      // if (threadIdx.x==0)
-      //   printf("device: %d %llx\n",f.iadr,f.adr[ f.iadr ]);
-      // f.iadr++;
+
+      if (f.count >= f.numberLeafs) {
+	printf("Oops: f.count >= f.numberLeafs!\n");
+      }
+
+      b.setF( f.leafDataArray[ f.count ].pointer );
+      if (threadIdx.x==0)
+        printf("device: %d %llx\n",f.count,f.leafDataArray[ f.count ].pointer );
+      f.count++;
+
       return 0;
+#endif
     }
   };
 

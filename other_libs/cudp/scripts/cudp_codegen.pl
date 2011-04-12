@@ -302,14 +302,21 @@ sub spu
 	$ret.=$def."\n";
     }
 
+
+    $ret.="    #ifdef __CUDA_ARCH__\n";
+
     $ret.="    QDPExpr<RHS, OLattice<T1> > rhs(".$rhs.");\n";
     $ret.="    OLattice<T> dest;\n";
     $ret.="    ".$pretty{"partOp"}." op".argsempty($pretty{"partOp"}).";\n";
     $ret.="    Subset s;\n";
-    $ret.="    //dest.setF(ival->dest);\n";
-    $ret.="    //ival->flatten.iadr = 0;\n";
-    $ret.="    //forEach(rhs, ival->flatten , NullCombine());\n";
-    $ret.="    //evaluate( dest , op , rhs , s );\n";
+    $ret.="    dest.setF(ival->dest);\n";
+    $ret.="    FlattenTag flattenTag;\n";
+    $ret.="    flattenTag.numberLeafs = ival->numberLeafs;\n";
+    $ret.="    flattenTag.leafDataArray = ival->leafDataArray;\n";
+    $ret.="    forEach(rhs, flattenTag , NullCombine());\n";
+    $ret.="    evaluate( dest , op , rhs , s );\n";
+
+    $ret.="    #endif\n";
 
     return($ret);
 }
