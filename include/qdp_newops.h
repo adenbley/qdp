@@ -118,6 +118,14 @@ struct FnPeekColorMatrix
     return (peekColor(a,row,col));
   }
 
+#ifdef BUILD_CUDP
+  FlattenTag::NodeData packNode() const {
+    std::stringstream packString;
+    packString << row << " " << col;
+    return packString.str();
+  }
+#endif
+
 private:
   int row, col;
 };
@@ -166,6 +174,14 @@ struct FnPeekColorVector
   {
     return (peekColor(a,row));
   }
+
+#ifdef BUILD_CUDP
+  FlattenTag::NodeData packNode() const {
+    std::stringstream packString;
+    packString << row;
+    return packString.str();
+  }
+#endif
 
 private:
   int row;
@@ -224,10 +240,8 @@ struct FnPeekSpinMatrix
   }
 #endif
 
-
 private:
   int row,col;
-
 };
 
 //! Extract spin matrix components
@@ -260,44 +274,6 @@ peekSpin(const QDPExpr<T1,C1> & l, int row, int col)
 }
 
 
-// fw  inserted to read the data from the node
-//
-#ifdef BUILD_CUDP
-template<class A, class CTag>
-struct ForEach<UnaryNode<FnPeekSpinMatrix, A>, FlattenTag , CTag>
-{
-  typedef typename ForEach<A, FlattenTag, CTag>::Type_t TypeA_t;
-  typedef typename Combine1<TypeA_t, FnPeekSpinMatrix, CTag>::Type_t Type_t;
-  inline static
-  Type_t apply(const UnaryNode<FnPeekSpinMatrix, A> &expr, const FlattenTag &f, 
-	       const CTag &c)
-  {
-    FlattenTag::NodeData nodeData;
-
-    nodeData = expr.operation().packNode();
-    f.listNode.push_back(nodeData);
-
-    cout << f.listNode.size()-1 << " " << nodeData << endl;
-    std::istringstream iss(nodeData);
-    int num;
-    iss >> num;
-    cout << "got:" << num << endl;
-
-    //  fprintf(stderr,"ForEach<Unary<FnMap>>: site = %d, new = %d\n",f.val1(),ff.val1());
-
-    return Combine1<TypeA_t, FnPeekSpinMatrix, CTag>::
-      combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),
-	      expr.operation(), c);
-  }
-};
-#endif
-//
-// fw
-
-
-
-
-
 
 
 
@@ -315,6 +291,14 @@ struct FnPeekSpinVector
   {
     return (peekSpin(a,row));
   }
+
+#ifdef BUILD_CUDP
+  FlattenTag::NodeData packNode() const {
+    std::stringstream packString;
+    packString << row;
+    return packString.str();
+  }
+#endif
 
 private:
   int row;
@@ -367,6 +351,14 @@ struct FnPokeColorMatrix
     pokeColor(const_cast<T1&>(a),b,row,col);
     return const_cast<T1&>(a);
   }
+
+#ifdef BUILD_CUDP
+  FlattenTag::NodeData packNode() const {
+    std::stringstream packString;
+    packString << row << " " << col;
+    return packString.str();
+  }
+#endif
 
 private:
   int row, col;
@@ -441,6 +433,14 @@ struct FnPokeColorVector
     return const_cast<T1&>(a);
   }
 
+#ifdef BUILD_CUDP
+  FlattenTag::NodeData packNode() const {
+    std::stringstream packString;
+    packString << row;
+    return packString.str();
+  }
+#endif
+
 private:
   int row;
 };
@@ -512,6 +512,14 @@ struct FnPokeSpinMatrix
     pokeSpin(const_cast<T1&>(a),b,row,col);
     return const_cast<T1&>(a);
   }
+
+#ifdef BUILD_CUDP
+  FlattenTag::NodeData packNode() const {
+    std::stringstream packString;
+    packString << row << " " << col;
+    return packString.str();
+  }
+#endif
 
 private:
   int row, col;
@@ -585,6 +593,14 @@ struct FnPokeSpinVector
     return const_cast<T1&>(a);
   }
 
+#ifdef BUILD_CUDP
+  FlattenTag::NodeData packNode() const {
+    std::stringstream packString;
+    packString << row;
+    return packString.str();
+  }
+#endif
+
 private:
   int row;
 };
@@ -639,6 +655,85 @@ pokeSpin(const QDPSubType<T1,C1>& l, const QDPExpr<T2,C2>& r, int row)
   evaluate(ll,FnPokeSpinVector(row),r,s);
   return ll;
 }
+
+
+
+//-----------------------------------------------------------------------------
+// fw  inserted to read the data from the node
+//-----------------------------------------------------------------------------
+#ifdef BUILD_CUDP
+// template<class A, class CTag>
+// struct ForEach<UnaryNode<FnPeekSpinMatrix, A>, FlattenTag , CTag>
+// {
+//   typedef typename ForEach<A, FlattenTag, CTag>::Type_t TypeA_t;
+//   typedef typename Combine1<TypeA_t, FnPeekSpinMatrix, CTag>::Type_t Type_t;
+//   inline static
+//   Type_t apply(const UnaryNode<FnPeekSpinMatrix, A> &expr, const FlattenTag &f, 
+// 	       const CTag &c)
+//   {
+//     FlattenTag::NodeData nodeData;
+//     nodeData = expr.operation().packNode();
+//     f.listNode.push_back(nodeData);
+
+//     return Combine1<TypeA_t, FnPeekSpinMatrix, CTag>::
+//       combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),
+// 	      expr.operation(), c);
+//   }
+// };
+
+
+template<class A, class CTag, class FnTag>
+struct ForEach_Base;
+
+
+template<class A, class CTag, class FnTag>
+struct ForEach_Base<UnaryNode<FnTag, A>, FlattenTag , CTag>
+{
+  typedef typename ForEach<A, FlattenTag, CTag>::Type_t TypeA_t;
+  typedef typename Combine1<TypeA_t, FnTag, CTag>::Type_t Type_t;
+  inline static
+  Type_t apply(const UnaryNode<FnTag, A> &expr, const FlattenTag &f, 
+	       const CTag &c)
+  {
+    FlattenTag::NodeData nodeData;
+    nodeData = expr.operation().packNode();
+    f.listNode.push_back(nodeData);
+
+    cout << nodeData << endl;
+
+    return Combine1<TypeA_t, FnTag, CTag>::
+      combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),
+	      expr.operation(), c);
+  }
+};
+
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPeekSpinMatrix,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPeekSpinMatrix,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPeekSpinVector,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPeekSpinVector,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPeekColorMatrix,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPeekColorMatrix,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPeekColorVector,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPeekColorVector,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPokeSpinMatrix,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPokeSpinMatrix,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPokeSpinVector,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPokeSpinVector,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPokeColorMatrix,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPokeColorMatrix,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPokeColorVector,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPokeColorVector,A>,FlattenTag,CTag>{};
+#endif
+//
+// fw
+
+
+
+
+
+
+
+
 
 
 
@@ -1167,6 +1262,7 @@ peteCast(const T1&, const QDPType<T2,C2>& l)
   return MakeReturn<Tree_t,Container_t>::make(Tree_t(
     CreateLeaf<QDPType<T2,C2> >::make(l)));
 }
+
 
 } // namespace QDP
 
