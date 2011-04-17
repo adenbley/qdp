@@ -33,6 +33,4 @@
 #include "cudp_primspinmat.h"
 #include "cudp_primspinvec.h"
 
-//#include "cudp_primitive_cell64.h"
-
 #endif

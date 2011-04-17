@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_globalfuncs.h,v 1.3 2007/06/10 14:32:08 edwards Exp $
 
 /*! \file
  * \brief Global functions on QDPType
@@ -319,7 +318,7 @@ namespace QDP
 	d = spinProjectDir3Minus(s1);
 	break;
       default:
-	//cerr << "Spin project: illegal direction\n";
+	cerr << "Spin project: illegal direction\n";
 	exit(1);
       }
       break;
@@ -340,13 +339,13 @@ namespace QDP
 	d = spinProjectDir3Plus(s1);
 	break;
       default:
-	//cerr << "Spin project: illegal direction\n";
+	cerr << "Spin project: illegal direction\n";
 	exit(1);
       }
       break;
 
     default:
-      //cerr << "Spin project: isign must be pos or neg.\n";
+      cerr << "Spin project: isign must be pos or neg.\n";
       exit(1);
     }
 
@@ -379,7 +378,7 @@ namespace QDP
       case 3:
 	return spinReconstructDir3Minus(s1);
       default:
-	//cerr << "Spin reconstruct: illegal direction\n";
+	cerr << "Spin reconstruct: illegal direction\n";
 	exit(1);
       }
       break;
@@ -396,13 +395,13 @@ namespace QDP
       case 3:
 	return spinReconstructDir3Plus(s1);
       default:
-	//cerr << "Spin reconstruct: illegal direction\n";
+	cerr << "Spin reconstruct: illegal direction\n";
 	exit(1);
       }
       break;
 
     default:
-      //cerr << "Spin reconstruct: isign must be pos or neg.\n";
+      cerr << "Spin reconstruct: isign must be pos or neg.\n";
       exit(1);
     }
 

@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: qdp.h,v 1.63 2009/04/17 00:46:36 bjoo Exp $
 
 /*! \file
  * \brief Primary include file for QDP
@@ -31,55 +30,85 @@
 #ifndef QDP_INCLUDE
 #define QDP_INCLUDE
 
-#include <qdp_config.h>
-#include "qdp_precision.h"
-
-
-#define PETE_USER_DEFINED_EXPRESSION 
-
-const int Nd = QDP_ND;
-const int Nc = QDP_NC;
-const int Ns = QDP_NS;
-
-
-
+/* Get local configuration options (ARCH_SCALAR/PARSCALAR, Nd, Nc, Ns) */
+#include <cudp_config.h>
 #include "cudp_precision.h"
 
+// GNU specific stuff
+#if defined(__GNUC__)
+// Under g++, enforce using V3 or greater
+#if __GNUC__ < 3
+#error "QDP++ requires g++ 3.0 or higher. This version of the g++ compiler is not supported"
+#endif
+#endif
+
+// Under gcc, set some attributes
+#if defined(__GNUC__)
+// gcc
 #define QDP_ALIGN8   __attribute__ ((aligned (8)))
 #define QDP_ALIGN16  __attribute__ ((aligned (16)))
 #define QDP_INLINE   __attribute__ ((always_inline))
+// The attributes in QDP_CONST is buggering g++-3.4 
+//#define QDP_CONST    __attribute__ ((const,pure))
 #define QDP_CONST
 #define QDP_CINLINE  __attribute__ ((always_inline,const,pure))
-#define QDP_ALIGNMENT_SIZE  128
+#else
+// default
+#define QDP_ALIGN8
+#define QDP_ALIGN16
+#define QDP_INLINE
+#define QDP_CONST
+#define QDP_CINLINE
+#endif
 
-// #include<iostream>
-// #include<cstdlib>
+#if (QDP_USE_SSE == 1 || QDP_USE_SSE2 == 1) && ! defined(__GNUC__)
+// SSE requires GNUC
+#undef QDP_USE_SSE
+#undef QDP_USE_SSE2
 
-// #include<cstring>
+#define QDP_USE_SSE   0
+#define QDP_USE_SSE2  0
+#endif
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+// Commented this out and set QDP_ALIGNMENT_SIZE to be 16 all the time
+// This is a minimal waste of space and should allow an SSE dslash
+// to be used even if the QDP itself is not compiled with SSE.
+#if 0
+// Alignment size: SSE requires a larger alignment
+// This should probably move under more compiler specific info
+#if QDP_USE_SSE == 1
+#define QDP_ALIGNMENT_SIZE  16
+#else
+#define QDP_ALIGNMENT_SIZE  8
+#endif
 
-//#include<new>
-#include<cmath>
-#include<assert.h>
-
-
-
+#else
+#define QDP_ALIGNMENT_SIZE 16
+#endif
+// YUKKY - Eventually get rid of these includes
+#include <cstdio>
+#include <cstdlib>
+#include <ostream>
+#include <iostream>
 
 using namespace std;   // I do not like this - fix later
 
+using std::iostream;
+using std::ostream;
+// END OF YUKKINESS
+
+
+// Basic includes
+#define PETE_USER_DEFINED_EXPRESSION
 namespace QDP {
 #include <cuPETE/cuPETE.h>
 }
 
-#include "cudp_util.h"
-// #include "cudp_init.h"
+#include "cudp_init.h"
 #include "cudp_forward.h"
 #include "cudp_multi.h"
 
-
+#include "cudp_params.h"
 #include "cudp_layout.h"
 // #include "cudp_filebuf.h"
 // #include "cudp_io.h"
@@ -100,11 +129,9 @@ namespace QDP {
 #include "QDPOperators.h"
 }
 
-
-
-//#include "cudp_cell.h"
-
+// Include the allocator stuff here, before QDP_outer
 #include "cudp_allocator.h"
+
 #include "cudp_newops.h"
 #include "cudp_optops.h"
 // #include "cudp_profile.h"
@@ -117,17 +144,75 @@ namespace QDP {
 #include "cudp_defs.h"
 #include "cudp_globalfuncs.h"
 #include "cudp_specializations.h"
+
+//#include "cudp_special.h"
 #include "cudp_random.h"
+
+// Include threading code here if applicable
 #include "cudp_dispatch.h"
 
+namespace ThreadReductions { 
+ 
+}
 
-
+#if defined(ARCH_SCALAR)
+// Architectural specific code to a single node/single proc box
+#warning "Using scalar architecture"
 #include "cudp_scalar_specific.h"
 
+// Include SSE code here if applicable
+#if QDP_USE_SSE == 1
+#include "cudp_scalarsite_sse.h"
+#elif QDP_USE_BAGEL_QDP == 1
+// USE_BAGEL_QDP
+#include "cudp_scalarsite_bagel_qdp.h"
+#else
+// Use Generics only
+#include "cudp_scalarsite_generic.h"
+#endif
 
+#elif defined(ARCH_PARSCALAR)
+// Architectural specific code to a parallel/single proc box
+#warning "Using parallel scalar architecture"
+#include "cudp_parscalar_specific.h"
 
-//#include "cudp_flopcount.h"
+// Include optimized code here if applicable
+#if QDP_USE_SSE == 1
+#include "cudp_scalarsite_sse.h"
+#elif QDP_USE_BAGEL_QDP == 1
+// Use BAGEL_QDP 
+#include "cudp_scalarsite_bagel_qdp.h"
+#else
+// Use generics
+#include "cudp_scalarsite_generic.h"
+#endif
 
+#elif defined(ARCH_SCALARVEC)
+// Architectural specific code to a single node/single proc box 
+// with vector extension
+#warning "Using scalar architecture with vector extensions"
+#include "cudp_scalarvec_specific.h"
 
+// Include optimized code here if applicable
+#if QDP_USE_SSE == 1
+#include "cudp_scalarvecsite_sse.h"
+#endif
+
+#elif defined(ARCH_PARSCALARVEC)
+// Architectural specific code to a parallel/single proc box
+// with vector extension
+#warning "Using parallel scalar architecture with vector extensions"
+#include "cudp_parscalarvec_specific.h"
+
+// Include optimized code here if applicable
+#if QDP_USE_SSE == 1
+#include "cudp_scalarvecsite_sse.h"
+#endif
+
+#else
+#error "Unknown architecture ARCH"
+#endif
+
+#include "cudp_flopcount.h"
 
 #endif  // QDP_INCLUDE

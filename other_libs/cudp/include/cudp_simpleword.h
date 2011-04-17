@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_simpleword.h,v 1.14 2007/06/10 14:32:09 edwards Exp $
 
 /*! \file
  * \brief QDP Operations on built-in types
@@ -8,12 +7,12 @@
 #ifndef QDP_SIMPLEWORD_H
 #define QDP_SIMPLEWORD_H
 
-//#include <cmath>
+#include <cmath>
 
 namespace QDP {
 
 using std::abs;
-  //using std::div;
+using std::div;
 using std::acos;
 using std::asin;
 using std::atan;

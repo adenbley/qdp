@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_traits.h,v 1.12 2009/02/11 20:50:45 bjoo Exp $
 
 /*! @file
  * @brief Traits classes
@@ -16,7 +15,7 @@ namespace QDP {
 // Traits class for returning the subset-ted class name of a outer grid class
 //-----------------------------------------------------------------------------
 
-template<class T, class S>
+template<class T>
 struct QDPSubTypeTrait {};
 
 //-----------------------------------------------------------------------------
@@ -120,9 +119,9 @@ struct NoComplex {};
 struct Zero {};
 
 //! Put zero in some unnamed space
-// namespace {
-//  Zero zero;
-// }
+namespace {
+ Zero zero;
+}
 
 } // namespace QDP
 

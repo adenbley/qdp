@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_newops.h,v 1.16 2009/10/16 10:25:00 edwards Exp $
 
 /*! @file
  * @brief Additional operations on QDPTypes
@@ -14,67 +13,67 @@ namespace QDP {
 // Operator tags that are only used for type resolution
 //-----------------------------------------------------------------------------
 
-struct FnSpinProject: public BaseOp  
+struct FnSpinProject
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinProject)
 };
 
-struct FnSpinReconstruct: public BaseOp  
+struct FnSpinReconstruct
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinReconstruct)
 };
 
-struct FnQuarkContractXX: public BaseOp  
+struct FnQuarkContractXX
 {
   PETE_EMPTY_CONSTRUCTORS(FnQuarkContractXX)
 };
 
-struct FnSum: public BaseOp  
+struct FnSum
 {
   PETE_EMPTY_CONSTRUCTORS(FnSum)
 };
 
-struct FnGlobalMax: public BaseOp  
+struct FnGlobalMax
 {
   PETE_EMPTY_CONSTRUCTORS(FnGlobalMax)
 };
 
-struct FnGlobalMin: public BaseOp  
+struct FnGlobalMin
 {
   PETE_EMPTY_CONSTRUCTORS(FnGlobalMin)
 };
 
-struct FnNorm2: public BaseOp  
+struct FnNorm2
 {
   PETE_EMPTY_CONSTRUCTORS(FnNorm2)
 };
 
-struct FnInnerProduct: public BaseOp  
+struct FnInnerProduct
 {
   PETE_EMPTY_CONSTRUCTORS(FnInnerProduct)
 };
 
-struct FnInnerProductReal: public BaseOp  
+struct FnInnerProductReal
 {
   PETE_EMPTY_CONSTRUCTORS(FnInnerProductReal)
 };
 
-struct FnSumMulti: public BaseOp  
+struct FnSumMulti
 {
   PETE_EMPTY_CONSTRUCTORS(FnSumMulti)
 };
 
-struct FnNorm2Multi: public BaseOp  
+struct FnNorm2Multi
 {
   PETE_EMPTY_CONSTRUCTORS(FnNorm2Multi)
 };
 
-struct FnInnerProductMulti: public BaseOp  
+struct FnInnerProductMulti
 {
   PETE_EMPTY_CONSTRUCTORS(FnInnerProduct)
 };
 
-struct FnInnerProductRealMulti: public BaseOp  
+struct FnInnerProductRealMulti
 {
   PETE_EMPTY_CONSTRUCTORS(FnInnerProductRealMulti)
 };
@@ -84,46 +83,34 @@ struct FnInnerProductRealMulti: public BaseOp
 // Operators and tags for accessing elements of a QDP object
 //-----------------------------------------------------------------------------
 
-struct FnGetSite: public BaseOp  
+struct FnGetSite
 {
   PETE_EMPTY_CONSTRUCTORS(FnGetSite)
 };
 
-struct FnPeekSite: public BaseOp  
+struct FnPeekSite
 {
   PETE_EMPTY_CONSTRUCTORS(FnPeekSite)
 };
 
-struct FnPokeSite: public BaseOp  
+struct FnPokeSite
 {
   PETE_EMPTY_CONSTRUCTORS(FnPokeSite)
 };
 
 
 //! Structure for extracting color matrix components
-struct FnPeekColorMatrix: public BaseOp  
+struct FnPeekColorMatrix
 {
   PETE_EMPTY_CONSTRUCTORS(FnPeekColorMatrix)
 
   FnPeekColorMatrix(int _row, int _col): row(_row), col(_col) {}
-  //FnPeekColorMatrix(): row(0), col(0) {}
   
   template<class T>
   inline typename UnaryReturn<T, FnPeekColorMatrix>::Type_t
   operator()(const T &a) const
   {
     return (peekColor(a,row,col));
-  }
-
-  bool getReadAccessMode() { return false; }
-
-  void recvInfo() 
-  {
-//     row = spu_readch( SPU_RdInMbox );
-//     col = spu_readch( SPU_RdInMbox );
-// #if defined(SPU_DEBUG)
-//     printf("FnPeekColorMatrix::recvInfo = %d %d\n",row,col);
-// #endif
   }
 
 private:
@@ -162,12 +149,11 @@ peekColor(const QDPExpr<T1,C1> & l, int row, int col)
 
 
 //! Structure for extracting color vector components
-struct FnPeekColorVector: public BaseOp  
+struct FnPeekColorVector
 {
   PETE_EMPTY_CONSTRUCTORS(FnPeekColorVector)
 
   FnPeekColorVector(int _row): row(_row) {}
-  //FnPeekColorVector(): row(0) {}
   
   template<class T>
   inline typename UnaryReturn<T, FnPeekColorVector>::Type_t
@@ -175,16 +161,6 @@ struct FnPeekColorVector: public BaseOp
   {
     return (peekColor(a,row));
   }
-
-  bool getReadAccessMode() { return false; }
-
-    void recvInfo()
-    {
-//       row = spu_readch( SPU_RdInMbox );
-// #if defined(SPU_DEBUG)
-//       printf("FnPeekColorVector::recvInfo = %d\n",row);
-// #endif
-    }
 
 private:
   int row;
@@ -222,12 +198,11 @@ peekColor(const QDPExpr<T1,C1> & l, int row)
 
 
 //! Structure for extracting spin matrix components
-struct FnPeekSpinMatrix: public BaseOp  
+struct FnPeekSpinMatrix
 {
   PETE_EMPTY_CONSTRUCTORS(FnPeekSpinMatrix)
 
   FnPeekSpinMatrix(int _row, int _col): row(_row), col(_col) {}
-  //FnPeekSpinMatrix(): row(0), col(0) {}
   
   template<class T>
   inline typename UnaryReturn<T, FnPeekSpinMatrix>::Type_t
@@ -235,17 +210,6 @@ struct FnPeekSpinMatrix: public BaseOp
   {
     return (peekSpin(a,row,col));
   }
-
-  bool getReadAccessMode() { return false; }
-
-    void recvInfo()
-    {
-//       row = spu_readch( SPU_RdInMbox );
-//       col = spu_readch( SPU_RdInMbox );
-// #if defined(SPU_DEBUG)
-//       printf("FnPeekSpinMatrix::recvInfo = %d %d\n",row,col);
-// #endif
-    }
 
 private:
   int row, col;
@@ -282,28 +246,17 @@ peekSpin(const QDPExpr<T1,C1> & l, int row, int col)
 
 
 //! Structure for extracting spin vector components
-struct FnPeekSpinVector: public BaseOp
+struct FnPeekSpinVector
 {
   PETE_EMPTY_CONSTRUCTORS(FnPeekSpinVector)
 
   FnPeekSpinVector(int _row): row(_row) {}
-  //FnPeekSpinVector(): row(0) {}
   
   template<class T>
   inline typename UnaryReturn<T, FnPeekSpinVector>::Type_t
   operator()(const T &a) const
   {
     return (peekSpin(a,row));
-  }
-
-  bool getReadAccessMode() { return false; }
-
-  void recvInfo()
-  {
-//     row = spu_readch( SPU_RdInMbox );
-// #if defined(SPU_DEBUG)
-//     printf("FnPeekSpinVector::recvInfo = %d\n",row);
-// #endif
   }
 
 private:
@@ -344,12 +297,11 @@ peekSpin(const QDPExpr<T1,C1> & l, int row)
 
 //---------------------------------------
 //! Structure for inserting color matrix components
-struct FnPokeColorMatrix: public BaseOp
+struct FnPokeColorMatrix
 {
   PETE_EMPTY_CONSTRUCTORS(FnPokeColorMatrix)
 
   FnPokeColorMatrix(int _row, int _col): row(_row), col(_col) {}
-  //FnPokeColorMatrix(): row(0), col(0) {}
   
   template<class T1, class T2>
   inline typename BinaryReturn<T1, T2, FnPokeColorMatrix>::Type_t
@@ -358,18 +310,6 @@ struct FnPokeColorMatrix: public BaseOp
     pokeColor(const_cast<T1&>(a),b,row,col);
     return const_cast<T1&>(a);
   }
-
-  bool getReadAccessMode() { return true; }
-
-    void recvInfo()
-    {
-//       row = spu_readch( SPU_RdInMbox );
-//       col = spu_readch( SPU_RdInMbox );
-// #if defined(SPU_DEBUG)
-//       printf("FnPokeColorMatrix::recvInfo = %d %d\n",row,col);
-// #endif
-    }
-
 
 private:
   int row, col;
@@ -405,24 +345,24 @@ pokeColor(QDPType<T1,C1> & l, const QDPExpr<T2,C2>& r, int row, int col)
 }
 
 
-template<class T1,class C1,class T2,class C2,class S>
+template<class T1,class C1,class T2,class C2>
 inline C1
-pokeColor(const QDPSubType<T1,C1,S>& l, const QDPType<T2,C2>& r, int row, int col)
+pokeColor(const QDPSubType<T1,C1>& l, const QDPType<T2,C2>& r, int row, int col)
 {
-  C1& ll = const_cast<QDPSubType<T1,C1,S>&>(l).field();
-  const S& s = l.subset();
+  C1& ll = const_cast<QDPSubType<T1,C1>&>(l).field();
+  const Subset& s = l.subset();
 
   evaluate(ll,FnPokeColorMatrix(row,col),PETE_identity(r),s);
   return ll;
 }
 
 
-template<class T1,class C1,class T2,class C2,class S>
+template<class T1,class C1,class T2,class C2>
 inline C1
-pokeColor(const QDPSubType<T1,C1,S>& l, const QDPExpr<T2,C2>& r, int row, int col)
+pokeColor(const QDPSubType<T1,C1>& l, const QDPExpr<T2,C2>& r, int row, int col)
 {
-  C1& ll = const_cast<QDPSubType<T1,C1,S>&>(l).field();
-  const S& s = l.subset();
+  C1& ll = const_cast<QDPSubType<T1,C1>&>(l).field();
+  const Subset& s = l.subset();
 
   evaluate(ll,FnPokeColorMatrix(row,col),r,s);
   return ll;
@@ -430,12 +370,11 @@ pokeColor(const QDPSubType<T1,C1,S>& l, const QDPExpr<T2,C2>& r, int row, int co
 
 
 //! Structure for inserting color vector components
-struct FnPokeColorVector: public BaseOp
+struct FnPokeColorVector
 {
   PETE_EMPTY_CONSTRUCTORS(FnPokeColorVector)
 
   FnPokeColorVector(int _row): row(_row) {}
-  //FnPokeColorVector(): row(0) {}
   
   template<class T1, class T2>
   inline typename BinaryReturn<T1, T2, FnPokeColorVector>::Type_t
@@ -444,16 +383,6 @@ struct FnPokeColorVector: public BaseOp
     pokeColor(const_cast<T1&>(a),b,row);
     return const_cast<T1&>(a);
   }
-
-  bool getReadAccessMode() { return true; }
-
-    void recvInfo()
-    {
-//       row = spu_readch( SPU_RdInMbox );
-// #if defined(SPU_DEBUG)
-//       printf("FnPokeColorVector::recvInfo = %d\n",row);
-// #endif
-    }
 
 private:
   int row;
@@ -488,24 +417,24 @@ pokeColor(QDPType<T1,C1>& l, const QDPExpr<T2,C2>& r, int row)
 }
 
 
-template<class T1,class C1,class T2,class C2,class S>
+template<class T1,class C1,class T2,class C2>
 inline C1
-pokeColor(const QDPSubType<T1,C1,S>& l, const QDPType<T2,C2>& r, int row)
+pokeColor(const QDPSubType<T1,C1>& l, const QDPType<T2,C2>& r, int row)
 {
-  C1& ll = const_cast<QDPSubType<T1,C1,S>&>(l).field();
-  const S& s = l.subset();
+  C1& ll = const_cast<QDPSubType<T1,C1>&>(l).field();
+  const Subset& s = l.subset();
 
   evaluate(ll,FnPokeColorVector(row),PETE_identity(r),s);
   return ll;
 }
 
 
-template<class T1,class C1,class T2,class C2,class S>
+template<class T1,class C1,class T2,class C2>
 inline C1
-pokeColor(const QDPSubType<T1,C1,S>& l, const QDPExpr<T2,C2>& r, int row)
+pokeColor(const QDPSubType<T1,C1>& l, const QDPExpr<T2,C2>& r, int row)
 {
-  C1& ll = const_cast<QDPSubType<T1,C1,S>&>(l).field();
-  const S& s = l.subset();
+  C1& ll = const_cast<QDPSubType<T1,C1>&>(l).field();
+  const Subset& s = l.subset();
 
   evaluate(ll,FnPokeColorVector(row),r,s);
   return ll;
@@ -513,12 +442,11 @@ pokeColor(const QDPSubType<T1,C1,S>& l, const QDPExpr<T2,C2>& r, int row)
 
 
 //! Structure for inserting spin matrix components
-struct FnPokeSpinMatrix: public BaseOp
+struct FnPokeSpinMatrix
 {
   PETE_EMPTY_CONSTRUCTORS(FnPokeSpinMatrix)
 
   FnPokeSpinMatrix(int _row, int _col): row(_row), col(_col) {}
-  //FnPokeSpinMatrix(): row(0), col(0) {}
   
   template<class T1, class T2>
   inline typename BinaryReturn<T1, T2, FnPokeSpinMatrix>::Type_t
@@ -527,17 +455,6 @@ struct FnPokeSpinMatrix: public BaseOp
     pokeSpin(const_cast<T1&>(a),b,row,col);
     return const_cast<T1&>(a);
   }
-
-  bool getReadAccessMode() { return true; }
-
-    void recvInfo()
-    {
-//       row = spu_readch( SPU_RdInMbox );
-//       col = spu_readch( SPU_RdInMbox );
-// #if defined(SPU_DEBUG)
-//       printf("FnPokeSpinMatrix::recvInfo = %d %d\n",row,col);
-// #endif
-    }
 
 private:
   int row, col;
@@ -571,24 +488,24 @@ pokeSpin(QDPType<T1,C1> & l, const QDPExpr<T2,C2>& r, int row, int col)
 }
 
 
-template<class T1,class C1,class T2,class C2,class S>
+template<class T1,class C1,class T2,class C2>
 inline C1
-pokeSpin(const QDPSubType<T1,C1,S>& l, const QDPType<T2,C2>& r, int row, int col)
+pokeSpin(const QDPSubType<T1,C1>& l, const QDPType<T2,C2>& r, int row, int col)
 {
-  C1& ll = const_cast<QDPSubType<T1,C1,S>&>(l).field();
-  const S& s = l.subset();
+  C1& ll = const_cast<QDPSubType<T1,C1>&>(l).field();
+  const Subset& s = l.subset();
 
   evaluate(ll,FnPokeSpinMatrix(row,col),PETE_identity(r),s);
   return ll;
 }
 
 
-template<class T1,class C1,class T2,class C2,class S>
+template<class T1,class C1,class T2,class C2>
 inline C1
-pokeSpin(const QDPSubType<T1,C1,S>& l, const QDPExpr<T2,C2>& r, int row, int col)
+pokeSpin(const QDPSubType<T1,C1>& l, const QDPExpr<T2,C2>& r, int row, int col)
 {
-  C1& ll = const_cast<QDPSubType<T1,C1,S>&>(l).field();
-  const S& s = l.subset();
+  C1& ll = const_cast<QDPSubType<T1,C1>&>(l).field();
+  const Subset& s = l.subset();
 
   evaluate(ll,FnPokeSpinMatrix(row,col),r,s);
   return ll;
@@ -596,37 +513,24 @@ pokeSpin(const QDPSubType<T1,C1,S>& l, const QDPExpr<T2,C2>& r, int row, int col
 
 
 
-
-
 //! Structure for inserting spin vector components
-  struct FnPokeSpinVector: public BaseOp
-  {
-    PETE_EMPTY_CONSTRUCTORS(FnPokeSpinVector)
+struct FnPokeSpinVector
+{
+  PETE_EMPTY_CONSTRUCTORS(FnPokeSpinVector)
 
-    //FnPokeSpinVector(): row(0) {}
-    FnPokeSpinVector(int _row): row(_row) {}
+  FnPokeSpinVector(int _row): row(_row) {}
   
-    template<class T1, class T2>
-    inline typename BinaryReturn<T1, T2, FnPokeSpinVector>::Type_t
-    operator()(const T1 &a, const T2 &b) const
-    {
-      pokeSpin(const_cast<T1&>(a),b,row);
-      return const_cast<T1&>(a);
-    }
+  template<class T1, class T2>
+  inline typename BinaryReturn<T1, T2, FnPokeSpinVector>::Type_t
+  operator()(const T1 &a, const T2 &b) const
+  {
+    pokeSpin(const_cast<T1&>(a),b,row);
+    return const_cast<T1&>(a);
+  }
 
-  bool getReadAccessMode() { return true; }
-
-    void recvInfo()
-    {
-//       row = spu_readch( SPU_RdInMbox );
-// #if defined(SPU_DEBUG)
-//       printf("FnPokeSpinVector::recvInfo = %d\n",row);
-// #endif
-    }
-
-  private:
-    int row;
-  };
+private:
+  int row;
+};
 
 
 //! Insert spin vector components
@@ -656,24 +560,24 @@ pokeSpin(QDPType<T1,C1>& l, const QDPExpr<T2,C2>& r, int row)
 }
 
 
-template<class T1,class C1,class T2,class C2,class S>
+template<class T1,class C1,class T2,class C2>
 inline C1
-pokeSpin(const QDPSubType<T1,C1,S>& l, const QDPType<T2,C2>& r, int row)
+pokeSpin(const QDPSubType<T1,C1>& l, const QDPType<T2,C2>& r, int row)
 {
-  C1& ll = const_cast<QDPSubType<T1,C1,S>&>(l).field();
-  const S& s = l.subset();
+  C1& ll = const_cast<QDPSubType<T1,C1>&>(l).field();
+  const Subset& s = l.subset();
 
   evaluate(ll,FnPokeSpinVector(row),PETE_identity(r),s);
   return ll;
 }
 
 
-template<class T1,class C1,class T2,class C2,class S>
+template<class T1,class C1,class T2,class C2>
 inline C1
-pokeSpin(const QDPSubType<T1,C1,S>& l, const QDPExpr<T2,C2>& r, int row)
+pokeSpin(const QDPSubType<T1,C1>& l, const QDPExpr<T2,C2>& r, int row)
 {
-  C1& ll = const_cast<QDPSubType<T1,C1,S>&>(l).field();
-  const S& s = l.subset();
+  C1& ll = const_cast<QDPSubType<T1,C1>&>(l).field();
+  const Subset& s = l.subset();
 
   evaluate(ll,FnPokeSpinVector(row),r,s);
   return ll;
@@ -685,7 +589,7 @@ pokeSpin(const QDPSubType<T1,C1,S>& l, const QDPExpr<T2,C2>& r, int row)
 // Additional operator tags 
 //-----------------------------------------------------------------------------
 
-struct OpGammaConstMultiply: public BaseOp
+struct OpGammaConstMultiply
 {
   PETE_EMPTY_CONSTRUCTORS(OpGammaConstMultiply)
   template<class T1, class T2>
@@ -697,7 +601,7 @@ struct OpGammaConstMultiply: public BaseOp
 };
 
 
-struct OpMultiplyGammaConst: public BaseOp
+struct OpMultiplyGammaConst
 {
   PETE_EMPTY_CONSTRUCTORS(OpMultiplyGammaConst)
   template<class T1, class T2>
@@ -710,7 +614,7 @@ struct OpMultiplyGammaConst: public BaseOp
 
 
 // Member function definition in primgamma.h
-struct OpGammaTypeMultiply: public BaseOp
+struct OpGammaTypeMultiply
 {
   PETE_EMPTY_CONSTRUCTORS(OpGammaTypeMultiply)
   template<int N, class T>
@@ -720,7 +624,7 @@ struct OpGammaTypeMultiply: public BaseOp
 
 
 // Member function definition in primgamma.h
-struct OpMultiplyGammaType: public BaseOp
+struct OpMultiplyGammaType
 {
   PETE_EMPTY_CONSTRUCTORS(OpMultiplyGammaType)
   template<class T, int N>
@@ -733,7 +637,7 @@ struct OpMultiplyGammaType: public BaseOp
 // Additional operator tags 
 //-----------------------------------------------------------------------------
 
-struct OpGammaConstDPMultiply: public BaseOp
+struct OpGammaConstDPMultiply
 {
   PETE_EMPTY_CONSTRUCTORS(OpGammaConstDPMultiply)
   template<class T1, class T2>
@@ -745,7 +649,7 @@ struct OpGammaConstDPMultiply: public BaseOp
 };
 
 
-struct OpMultiplyGammaConstDP: public BaseOp
+struct OpMultiplyGammaConstDP
 {
   PETE_EMPTY_CONSTRUCTORS(OpMultiplyGammaConstDP)
   template<class T1, class T2>
@@ -758,7 +662,7 @@ struct OpMultiplyGammaConstDP: public BaseOp
 
 
 // Member function definition in primgamma.h
-struct OpGammaTypeDPMultiply: public BaseOp
+struct OpGammaTypeDPMultiply
 {
   PETE_EMPTY_CONSTRUCTORS(OpGammaTypeDPMultiply)
   template<int N, class T>
@@ -768,7 +672,7 @@ struct OpGammaTypeDPMultiply: public BaseOp
 
 
 // Member function definition in primgamma.h
-struct OpMultiplyGammaTypeDP: public BaseOp
+struct OpMultiplyGammaTypeDP
 {
   PETE_EMPTY_CONSTRUCTORS(OpMultiplyGammaTypeDP)
   template<class T, int N>

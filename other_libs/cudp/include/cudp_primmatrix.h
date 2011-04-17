@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_primmatrix.h,v 1.33 2007/06/10 14:32:09 edwards Exp $
 
 /*! \file
  * \brief Primitive Matrix
@@ -31,9 +30,8 @@ namespace QDP {
 template <class T, int N, template<class,int> class C> class PMatrix
 {
 public:
-  __device__
   PMatrix() {}
-  //~PMatrix() {}
+  ~PMatrix() {}
 
   typedef C<T,N>  CC;
 
@@ -41,7 +39,6 @@ public:
   /*! Fill with primitive scalar */
   template<class T1>
   inline
-    __device__
   CC& assign(const PScalar<T1>& rhs)
     {
       for(int i=0; i < N; ++i)
@@ -54,12 +51,9 @@ public:
       return static_cast<CC&>(*this);
     }
 
-
-
   //! PMatrix = PMatrix
   /*! Set equal to another PMatrix */
   template<class T1>
-    __device__
   inline
   CC& assign(const C<T1,N>& rhs) 
     {
@@ -70,11 +64,9 @@ public:
       return static_cast<CC&>(*this);
     }
 
-
   //! PMatrix += PMatrix
   template<class T1>
   inline
-    __device__
   CC& operator+=(const C<T1,N>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -87,7 +79,6 @@ public:
   //! PMatrix -= PMatrix
   template<class T1>
   inline
-    __device__
   CC& operator-=(const C<T1,N>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -100,7 +91,6 @@ public:
   //! PMatrix += PScalar
   template<class T1>
   inline
-    __device__
   CC& operator+=(const PScalar<T1>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -111,7 +101,6 @@ public:
 
   //! PMatrix -= PScalar
   template<class T1>
-    __device__
   inline
   CC& operator-=(const PScalar<T1>& rhs) 
     {
@@ -124,7 +113,6 @@ public:
   //! PMatrix *= PScalar
   template<class T1>
   inline
-    __device__
   CC& operator*=(const PScalar<T1>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -137,7 +125,6 @@ public:
   //! PMatrix /= PScalar
   template<class T1>
   inline
-    __device__
   CC& operator/=(const PScalar<T1>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -146,21 +133,6 @@ public:
 
       return static_cast<CC&>(*this);
     }
-
-  // // fw
-  // inline
-  //   __device__
-  // PMatrix& operator=(const PMatrix& rhs) 
-  //   {
-  //     for(int i=0; i < N; ++i)
-  // 	for(int j=0; j < N; ++j)
-  // 	  elem(i,j) = rhs.elem(i,j);
-
-  //     return *this;
-  //   }
-
-
-
 
 #if 0
   // NOTE: intentially avoid defining a copy constructor - let the compiler
@@ -171,11 +143,9 @@ public:
   //! Deep copy here
 #if defined(QDP_USE_ARRAY_INITIALIZER)
   /*! This is an array initializer form - may not be strictly legal */
-  __device__
   PMatrix(const PMatrix& a) : F(a.F) {}
 #else
   /*! This is a copy form - legal but not necessarily efficient */
-  __device__
   PMatrix(const PMatrix& a)
     {
       for(int i=0; i < N*N; ++i)
@@ -185,9 +155,7 @@ public:
 #endif
 
 public:
-  __device__
   T& elem(int i, int j) {return F[j+N*i];}
-  __device__
   const T& elem(int i, int j) const {return F[j+N*i];}
 
 private:
@@ -376,7 +344,6 @@ struct UnaryReturn<PMatrix<T,N,C>, OpUnaryPlus> {
 };
 
 template<class T1, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, OpUnaryPlus>::Type_t
 operator+(const PMatrix<T1,N,C>& l)
 {
@@ -397,7 +364,6 @@ struct UnaryReturn<PMatrix<T,N,C>, OpUnaryMinus> {
 };
 
 template<class T1, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, OpUnaryMinus>::Type_t
 operator-(const PMatrix<T1,N,C>& l)
 {
@@ -418,7 +384,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpAdd> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpAdd>::Type_t
 operator+(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
 {
@@ -438,7 +403,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpAdd> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpAdd>::Type_t
 operator+(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -458,7 +422,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpAdd> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpAdd>::Type_t
 operator+(const PScalar<T1>& l, const PMatrix<T2,N,C>& r)
 {
@@ -479,7 +442,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpSubtract> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpSubtract>::Type_t
 operator-(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
 {
@@ -499,7 +461,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpSubtract> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpSubtract>::Type_t
 operator-(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -519,7 +480,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpSubtract> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpSubtract>::Type_t
 operator-(const PScalar<T1>& l, const PMatrix<T2,N,C>& r)
 {
@@ -540,7 +500,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpMultiply>::Type_t
 operator*(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -559,7 +518,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpAdjMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpAdjMultiply>::Type_t
 adjMultiply(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -578,7 +536,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpMultiplyAdj> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpMultiplyAdj>::Type_t
 multiplyAdj(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -597,7 +554,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpAdjMultiplyAdj> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpAdjMultiplyAdj>::Type_t
 adjMultiplyAdj(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -618,7 +574,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpMultiply>::Type_t
 operator*(const PScalar<T1>& l, const PMatrix<T2,N,C>& r)
 {
@@ -637,7 +592,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpAdjMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpAdjMultiply>::Type_t
 adjMultiply(const PScalar<T1>& l, const PMatrix<T2,N,C>& r)
 {
@@ -656,7 +610,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpMultiplyAdj> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpMultiplyAdj>::Type_t
 multiplyAdj(const PScalar<T1>& l, const PMatrix<T2,N,C>& r)
 {
@@ -675,7 +628,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpAdjMultiplyAdj> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, OpAdjMultiplyAdj>::Type_t
 adjMultiplyAdj(const PScalar<T1>& l, const PMatrix<T2,N,C>& r)
 {
@@ -695,7 +647,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpMultiply>::Type_t
 operator*(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
 {
@@ -706,7 +657,7 @@ operator*(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
     {
       d.elem(i,j) = l.elem(i,0) * r.elem(0,j);
       for(int k=1; k < N; ++k)
-  	d.elem(i,j) += l.elem(i,k) * r.elem(k,j);
+	d.elem(i,j) += l.elem(i,k) * r.elem(k,j);
     }
 
   return d;
@@ -719,7 +670,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpAdjMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpAdjMultiply>::Type_t
 adjMultiply(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
 {
@@ -743,7 +693,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpMultiplyAdj> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpMultiplyAdj>::Type_t
 multiplyAdj(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
 {
@@ -767,7 +716,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpAdjMultiplyAdj> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, OpAdjMultiplyAdj>::Type_t
 adjMultiplyAdj(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
 {
@@ -792,7 +740,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpDivide> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, OpDivide>::Type_t
 operator/(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -816,7 +763,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnAdjoint> {
 };
 
 template<class T1, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, FnAdjoint>::Type_t
 adj(const PMatrix<T1,N,C>& l)
 {
@@ -837,7 +783,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnConjugate> {
 };
 
 template<class T1, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, FnConjugate>::Type_t
 conj(const PMatrix<T1,N,C>& l)
 {
@@ -858,7 +803,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnTranspose> {
 };
 
 template<class T1, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, FnTranspose>::Type_t
 transpose(const PMatrix<T1,N,C>& l)
 {
@@ -880,7 +824,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnTrace> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnTrace>::Type_t
 trace(const PMatrix<T,N,C>& s1)
 {
@@ -901,7 +844,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnRealTrace> {
 };
 
 template<class T1, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, FnRealTrace>::Type_t
 realTrace(const PMatrix<T1,N,C>& s1)
 {
@@ -922,7 +864,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnImagTrace> {
 };
 
 template<class T1, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, FnImagTrace>::Type_t
 imagTrace(const PMatrix<T1,N,C>& s1)
 {
@@ -943,7 +884,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnTraceColor> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnTraceColor>::Type_t
 traceColor(const PMatrix<T,N,C>& s1)
 {
@@ -964,7 +904,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnTraceSpin> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnTraceSpin>::Type_t
 traceSpin(const PMatrix<T,N,C>& s1)
 {
@@ -988,7 +927,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnTransposeColor> {
 /*! define the function itself.Recurse down elements of the primmatrix
  *  and call transposeColor on each one */
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnTransposeColor>::Type_t
 transposeColor(const PMatrix<T,N,C>& s1)
 { 
@@ -1013,7 +951,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnTransposeSpin> {
 /*! define the function itself.Recurse down elements of the primmatrix
  *  and call transposeSpin on each one */
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnTransposeSpin>::Type_t
 transposeSpin(const PMatrix<T,N,C>& s1)
 { 
@@ -1035,7 +972,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnTraceMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnTraceMultiply>::Type_t
 traceMultiply(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
 {
@@ -1059,7 +995,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnTraceMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnTraceMultiply>::Type_t
 traceMultiply(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -1079,7 +1014,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnTraceMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnTraceMultiply>::Type_t
 traceMultiply(const PScalar<T1>& l, const PMatrix<T2,N,C>& r)
 {
@@ -1101,7 +1035,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnTraceColorMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnTraceColorMultiply>::Type_t
 traceColorMultiply(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
 {
@@ -1125,7 +1058,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnTraceColorMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnTraceColorMultiply>::Type_t
 traceColorMultiply(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -1145,7 +1077,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnTraceColorMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnTraceColorMultiply>::Type_t
 traceColorMultiply(const PScalar<T1>& l, const PMatrix<T2,N,C>& r)
 {
@@ -1166,7 +1097,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnTraceSpinMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnTraceSpinMultiply>::Type_t
 traceSpinMultiply(const PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r)
 {
@@ -1190,7 +1120,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnTraceSpinMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnTraceSpinMultiply>::Type_t
 traceSpinMultiply(const PMatrix<T1,N,C>& l, const PScalar<T2>& r)
 {
@@ -1210,7 +1139,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnTraceSpinMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnTraceSpinMultiply>::Type_t
 traceSpinMultiply(const PScalar<T1>& l, const PMatrix<T2,N,C>& r)
 {
@@ -1231,7 +1159,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnReal> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnReal>::Type_t
 real(const PMatrix<T,N,C>& s1)
 {
@@ -1252,7 +1179,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnImag> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnImag>::Type_t
 imag(const PMatrix<T,N,C>& s1)
 {
@@ -1268,7 +1194,6 @@ imag(const PMatrix<T,N,C>& s1)
 
 //! PMatrix<T> = (PMatrix<T> , PMatrix<T>)
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnCmplx>::Type_t
 cmplx(const PMatrix<T1,N,C>& s1, const PMatrix<T2,N,C>& s2)
 {
@@ -1292,7 +1217,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnTimesI> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnTimesI>::Type_t
 timesI(const PMatrix<T,N,C>& s1)
 {
@@ -1312,7 +1236,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnTimesMinusI> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnTimesMinusI>::Type_t
 timesMinusI(const PMatrix<T,N,C>& s1)
 {
@@ -1333,7 +1256,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnGetSite> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnGetSite>::Type_t
 getSite(const PMatrix<T,N,C>& s1, int innersite)
 { 
@@ -1354,7 +1276,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnPeekColorVector> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnPeekColorVector>::Type_t
 peekColor(const PMatrix<T,N,C>& l, int row)
 {
@@ -1374,7 +1295,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnPeekColorMatrix> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnPeekColorMatrix>::Type_t
 peekColor(const PMatrix<T,N,C>& l, int row, int col)
 {
@@ -1394,7 +1314,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnPeekSpinVector> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnPeekSpinVector>::Type_t
 peekSpin(const PMatrix<T,N,C>& l, int row)
 {
@@ -1414,7 +1333,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnPeekSpinMatrix> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnPeekSpinMatrix>::Type_t
 peekSpin(const PMatrix<T,N,C>& l, int row, int col)
 {
@@ -1434,7 +1352,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnPokeColorMatrix> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, FnPokeColorMatrix>::Type_t&
 pokeColor(PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r, int row)
 {
@@ -1449,7 +1366,6 @@ pokeColor(PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r, int row)
 //! Insert color matrix components 
 /*! Generically, this is an identity operation. Defined differently under color */
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, FnPokeColorMatrix>::Type_t&
 pokeColor(PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r, int row, int col)
 {
@@ -1469,7 +1385,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnPokeSpinMatrix> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, FnPokeSpinMatrix>::Type_t&
 pokeSpin(PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r, int row)
 {
@@ -1484,7 +1399,6 @@ pokeSpin(PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r, int row)
 //! Insert spin matrix components 
 /*! Generically, this is an identity operation. Defined differently under spin */
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T1,N,C>, FnPokeSpinMatrix>::Type_t&
 pokeSpin(PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r, int row, int col)
 {
@@ -1500,7 +1414,6 @@ pokeSpin(PMatrix<T1,N,C>& l, const PMatrix<T2,N,C>& r, int row, int col)
 
 //! dest = 0
 template<class T, int N, template<class,int> class C> 
-__device__
 inline void 
 zero_rep(PMatrix<T,N,C>& dest) 
 {
@@ -1512,7 +1425,6 @@ zero_rep(PMatrix<T,N,C>& dest)
 
 //! dest = (mask) ? s1 : dest
 template<class T, class T1, int N, template<class,int> class C> 
-__device__
 inline void 
 copymask(PMatrix<T,N,C>& d, const PScalar<T1>& mask, const PMatrix<T,N,C>& s1) 
 {
@@ -1524,7 +1436,6 @@ copymask(PMatrix<T,N,C>& d, const PScalar<T1>& mask, const PMatrix<T,N,C>& s1)
 
 //! dest [some type] = source [some type]
 template<class T, class T1, int N, template<class,int> class C>
-__device__
 inline void 
 copy_site(PMatrix<T,N,C>& d, int isite, const PMatrix<T1,N,C>& s1)
 {
@@ -1535,7 +1446,6 @@ copy_site(PMatrix<T,N,C>& d, int isite, const PMatrix<T1,N,C>& s1)
 
 //! dest [some type] = source [some type]
 template<class T, class T1, int N, template<class,int> class C>
-__device__
 inline void 
 copy_site(PMatrix<T,N,C>& d, int isite, const PScalar<T1>& s1)
 {
@@ -1547,7 +1457,6 @@ copy_site(PMatrix<T,N,C>& d, int isite, const PScalar<T1>& s1)
 
 //! gather several inner sites together
 template<class T, class T1, int N, template<class,int> class C>
-__device__
 inline void 
 gather_sites(PMatrix<T,N,C>& d, 
 	     const PMatrix<T1,N,C>& s0, int i0, 
@@ -1567,7 +1476,6 @@ gather_sites(PMatrix<T,N,C>& d,
 
 //! dest  = random  
 template<class T, int N, template<class,int> class C, class T1, class T2>
-__device__
 inline void
 fill_random(PMatrix<T,N,C>& d, T1& seed, T2& skewed_seed, const T1& seed_mult)
 {
@@ -1579,7 +1487,6 @@ fill_random(PMatrix<T,N,C>& d, T1& seed, T2& skewed_seed, const T1& seed_mult)
 
 //! dest  = gaussian
 template<class T, int N, template<class,int> class C>
-__device__
 inline void
 fill_gaussian(PMatrix<T,N,C>& d, PMatrix<T,N,C>& r1, PMatrix<T,N,C>& r2)
 {
@@ -1598,7 +1505,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnSum> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnSum>::Type_t
 sum(const PMatrix<T,N,C>& s1)
 {
@@ -1625,7 +1531,6 @@ struct UnaryReturn<PMatrix<T,N,C>, FnLocalNorm2> {
 };
 
 template<class T, int N, template<class,int> class C>
-__device__
 inline typename UnaryReturn<PMatrix<T,N,C>, FnLocalNorm2>::Type_t
 localNorm2(const PMatrix<T,N,C>& s1)
 {
@@ -1656,7 +1561,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnLocalInnerProduct> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnLocalInnerProduct>::Type_t
 localInnerProduct(const PMatrix<T1,N,C>& s1, const PMatrix<T2,N,C>& s2)
 {
@@ -1680,7 +1584,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnLocalInnerProduct> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnLocalInnerProduct>::Type_t
 localInnerProduct(const PMatrix<T1,N,C>& s1, const PScalar<T2>& s2)
 {
@@ -1700,7 +1603,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnLocalInnerProduct> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnLocalInnerProduct>::Type_t
 localInnerProduct(const PScalar<T1>& s1, const PMatrix<T2,N,C>& s2)
 {
@@ -1730,7 +1632,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnLocalInnerProductReal > 
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PMatrix<T2,N,C>, FnLocalInnerProductReal>::Type_t
 localInnerProductReal(const PMatrix<T1,N,C>& s1, const PMatrix<T2,N,C>& s2)
 {
@@ -1754,7 +1655,6 @@ struct BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnLocalInnerProductReal > {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PMatrix<T1,N,C>, PScalar<T2>, FnLocalInnerProductReal>::Type_t
 localInnerProductReal(const PMatrix<T1,N,C>& s1, const PScalar<T2>& s2)
 {
@@ -1774,7 +1674,6 @@ struct BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnLocalInnerProductReal > {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, FnLocalInnerProductReal>::Type_t
 localInnerProductReal(const PScalar<T1>& s1, const PMatrix<T2,N,C>& s2)
 {
@@ -1799,7 +1698,6 @@ struct TrinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, PMatrix<T3,N,C>, FnWhere> {
 };
 
 template<class T1, class T2, class T3, int N, template<class,int> class C>
-__device__
 inline typename TrinaryReturn<PScalar<T1>, PMatrix<T2,N,C>, PMatrix<T3,N,C>, FnWhere>::Type_t
 where(const PScalar<T1>& a, const PMatrix<T2,N,C>& b, const PMatrix<T3,N,C>& c)
 {

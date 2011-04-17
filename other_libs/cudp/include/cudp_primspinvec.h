@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_primspinvec.h,v 1.10 2009/10/16 10:25:00 edwards Exp $
 
 /*! \file
  * \brief Primitive Spin Vector
@@ -53,8 +52,6 @@ public:
     return assign(rhs);
   }
 
-
-
   //! PSpinVector += PSpinVector
   template<class T1>
   inline
@@ -101,8 +98,7 @@ public:
   T& elem(int i) {return F[i];}
   const T& elem(int i) const {return F[i];}
 private:
-  T F[N]; 
-  //  T F[N] QDP_ALIGN16; 
+  T F[N] QDP_ALIGN16; 
 };
 
 // //! Stream input
@@ -1627,7 +1623,7 @@ spinReconstructDir3Plus(const PSpinVector<T,2>& s1)
   return d;
 }
 
-
+//-----------------------------------------------
 
 // SpinVector<4> = GammaDP<4,m> * SpinVector<4>
 // There are 16 cases here for Nd=4

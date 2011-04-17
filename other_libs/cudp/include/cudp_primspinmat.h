@@ -1109,7 +1109,7 @@ inline typename BinaryReturn<GammaConstDP<4,0>, PSpinMatrix<T2,4>, OpGammaConstD
 operator*(const GammaConstDP<4,0>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,0>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
-
+  
   for(int i=0; i < 4; ++i)
   {
     d.elem(0,i) = r.elem(0,i);
@@ -1703,44 +1703,16 @@ traceSpinQuarkContract13(const PSpinMatrix<T1,4>& l, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnTraceSpinQuarkContract13>::Type_t  d;
 
-  d.elem() = 
-    quarkContractXX(l.elem(0,0), r.elem(0,0)) +
-    quarkContractXX(l.elem(1,0), r.elem(1,0)) +
-    quarkContractXX(l.elem(2,0), r.elem(2,0)) +
-    quarkContractXX(l.elem(3,0), r.elem(3,0)) +
-    quarkContractXX(l.elem(0,1), r.elem(0,1)) +
-    quarkContractXX(l.elem(1,1), r.elem(1,1)) +
-    quarkContractXX(l.elem(2,1), r.elem(2,1)) +
-    quarkContractXX(l.elem(3,1), r.elem(3,1)) +
-    quarkContractXX(l.elem(0,2), r.elem(0,2)) +
-    quarkContractXX(l.elem(1,2), r.elem(1,2)) +
-    quarkContractXX(l.elem(2,2), r.elem(2,2)) +
-    quarkContractXX(l.elem(3,2), r.elem(3,2)) +
-    quarkContractXX(l.elem(0,3), r.elem(0,3)) +
-    quarkContractXX(l.elem(1,3), r.elem(1,3)) +
-    quarkContractXX(l.elem(2,3), r.elem(2,3)) +
-    quarkContractXX(l.elem(3,3), r.elem(3,3));
+  d.elem() = quarkContractXX(l.elem(0,0), r.elem(0,0));
+  for(int k=1; k < 4; ++k)
+    d.elem() += quarkContractXX(l.elem(k,0), r.elem(k,0));
+
+  for(int j=1; j < 4; ++j)
+    for(int k=0; k < 4; ++k)
+      d.elem() += quarkContractXX(l.elem(k,j), r.elem(k,j));
 
   return d;
 }
-
-
-// template<class T1, class T2>
-// inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnTraceSpinQuarkContract13>::Type_t
-// traceSpinQuarkContract13(const PSpinMatrix<T1,4>& l, const PSpinMatrix<T2,4>& r)
-// {
-//   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnTraceSpinQuarkContract13>::Type_t  d;
-
-//   d.elem() = quarkContractXX(l.elem(0,0), r.elem(0,0));
-//   for(int k=1; k < 4; ++k)
-//     d.elem() += quarkContractXX(l.elem(k,0), r.elem(k,0));
-
-//   for(int j=1; j < 4; ++j)
-//     for(int k=0; k < 4; ++k)
-//       d.elem() += quarkContractXX(l.elem(k,j), r.elem(k,j));
-
-//   return d;
-// }
 
 
 // quark propagator contraction
@@ -1750,61 +1722,16 @@ quarkContract13(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 {
   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract13>::Type_t  d;
 
-  // for(int j=0; j < 4; ++j)
-  //   for(int i=0; i < 4; ++i)
-  //   {
-  //     d.elem(i,j) = 
-  // 	quarkContractXX(s1.elem(0,i), s2.elem(0,j)) + quarkContractXX(s1.elem(1,i), s2.elem(1,j)) + 
-  // 	quarkContractXX(s1.elem(2,i), s2.elem(2,j)) + quarkContractXX(s1.elem(3,i), s2.elem(3,j));
-  //   }
-
   for(int j=0; j < 4; ++j)
+    for(int i=0; i < 4; ++i)
     {
-      d.elem(0,j) = 
-  	quarkContractXX(s1.elem(0,0), s2.elem(0,j)) + quarkContractXX(s1.elem(1,0), s2.elem(1,j)) + 
-  	quarkContractXX(s1.elem(2,0), s2.elem(2,j)) + quarkContractXX(s1.elem(3,0), s2.elem(3,j));
-      d.elem(1,j) = 
-  	quarkContractXX(s1.elem(0,1), s2.elem(0,j)) + quarkContractXX(s1.elem(1,1), s2.elem(1,j)) + 
-  	quarkContractXX(s1.elem(2,1), s2.elem(2,j)) + quarkContractXX(s1.elem(3,1), s2.elem(3,j));
-      d.elem(2,j) = 
-  	quarkContractXX(s1.elem(0,2), s2.elem(0,j)) + quarkContractXX(s1.elem(1,2), s2.elem(1,j)) + 
-  	quarkContractXX(s1.elem(2,2), s2.elem(2,j)) + quarkContractXX(s1.elem(3,2), s2.elem(3,j));
-      d.elem(3,j) = 
-  	quarkContractXX(s1.elem(0,3), s2.elem(0,j)) + quarkContractXX(s1.elem(1,3), s2.elem(1,j)) + 
-  	quarkContractXX(s1.elem(2,3), s2.elem(2,j)) + quarkContractXX(s1.elem(3,3), s2.elem(3,j));
+      d.elem(i,j) = quarkContractXX(s1.elem(0,i), s2.elem(0,j));
+      for(int k=1; k < 4; ++k)
+	d.elem(i,j) += quarkContractXX(s1.elem(k,i), s2.elem(k,j));
     }
-
-  // for(int j=0; j < 4; ++j)
-  //   for(int i=0; i < 4; ++i)
-  //   {
-  //     d.elem(i,j) = quarkContractXX(s1.elem(0,i), s2.elem(0,j));
-  //     for(int k=1; k < 4; ++k)
-  // 	d.elem(i,j) += quarkContractXX(s1.elem(k,i), s2.elem(k,j));
-  //   }
 
   return d;
 }
-
-
-
-// // quark propagator contraction
-// template<class T1, class T2>
-// inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract13>::Type_t
-// quarkContract13(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
-// {
-//   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract13>::Type_t  d;
-
-//   for(int j=0; j < 4; ++j)
-//     for(int i=0; i < 4; ++i)
-//     {
-//       d.elem(i,j) = quarkContractXX(s1.elem(0,i), s2.elem(0,j));
-//       for(int k=1; k < 4; ++k)
-// 	d.elem(i,j) += quarkContractXX(s1.elem(k,i), s2.elem(k,j));
-//     }
-
-//   return d;
-// }
-
 
 template<class T1, class T2>
 inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract14>::Type_t

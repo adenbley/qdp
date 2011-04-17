@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_allocator.h,v 1.5 2007/06/10 14:32:08 edwards Exp $
 
 /*! \file
  * \brief Catch-alls for all memory allocators
@@ -67,9 +66,13 @@ namespace QDP
 
 } // namespace QDP
 
-
+#ifdef QDP_USE_QCDOC
+// Include the QCDOC specialisation
+#include "cudp_qcdoc_allocator.h"
+#else
+// Include the default specialisation
 #include "cudp_default_allocator.h"
-
+#endif
 
 
 #endif

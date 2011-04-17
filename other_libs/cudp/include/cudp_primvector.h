@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_primvector.h,v 1.26 2009/09/12 03:46:29 edwards Exp $
 
 /*! \file
  * \brief Primitive Vector
@@ -44,6 +43,7 @@ public:
     {
       for(int i=0; i < N; ++i)
 	elem(i) = rhs.elem(i);
+
       return static_cast<CC&>(*this);
     }
 
@@ -55,17 +55,6 @@ public:
     {
       return assign(rhs);
     }
-
-
-  // fw
-  inline
-  PVector& operator=( PVector& rhs)
-    {
-      for(int i=0; i < N; ++i)
-	elem(i) = rhs.elem(i);
-      return *this;
-    }
-
 
   //! PVector += PVector
   template<class T1>
@@ -847,7 +836,7 @@ template<class T1, class T2, int N, template<class,int> class C>
 inline PScalar<typename BinaryReturn<T1, T2, FnLocalInnerProduct>::Type_t>
 localInnerProduct(const PVector<T1,N,C>& s1, const PVector<T2,N,C>& s2)
 {
-  typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, FnLocalInnerProduct>::Type_t  d;
+  PScalar<typename BinaryReturn<T1, T2, FnLocalInnerProduct>::Type_t>  d;
 
   d.elem() = localInnerProduct(s1.elem(0), s2.elem(0));
   for(int i=1; i < N; ++i)
@@ -875,7 +864,7 @@ template<class T1, class T2, int N, template<class,int> class C>
 inline PScalar<typename BinaryReturn<T1, T2, FnLocalInnerProductReal>::Type_t>
 localInnerProductReal(const PVector<T1,N,C>& s1, const PVector<T2,N,C>& s2)
 {
-  typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, FnLocalInnerProductReal>::Type_t  d;
+  PScalar<typename BinaryReturn<T1,T2, FnLocalInnerProductReal>::Type_t>  d;
 
   d.elem() = localInnerProductReal(s1.elem(0), s2.elem(0));
   for(int i=1; i < N; ++i)

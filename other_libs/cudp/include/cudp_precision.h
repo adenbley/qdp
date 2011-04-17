@@ -9,7 +9,7 @@
 
 
 // Fix Definitions
-#include <qdp_config.h>
+#include <cudp_config.h>
 
 // Fix default precision
 #if ! defined(BASE_PRECISION)

@@ -42,20 +42,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-struct BaseOp
-{
-  __device__
-  virtual void recvInfo()                { }
-  __device__
-  virtual bool getReadAccessMode() const { return false; }
-  // __device__
-  // virtual     ~BaseOp()                  { }
-};
 
 
 
-
-struct FnArcCos: public BaseOp
+struct FnArcCos
 {
   PETE_EMPTY_CONSTRUCTORS(FnArcCos)
   template<class T>
@@ -67,7 +57,7 @@ struct FnArcCos: public BaseOp
   }
 };
 
-struct FnArcSin: public BaseOp
+struct FnArcSin
 {
   PETE_EMPTY_CONSTRUCTORS(FnArcSin)
   template<class T>
@@ -79,7 +69,7 @@ struct FnArcSin: public BaseOp
   }
 };
 
-struct FnArcTan: public BaseOp
+struct FnArcTan
 {
   PETE_EMPTY_CONSTRUCTORS(FnArcTan)
   template<class T>
@@ -91,7 +81,7 @@ struct FnArcTan: public BaseOp
   }
 };
 
-struct FnCeil: public BaseOp
+struct FnCeil
 {
   PETE_EMPTY_CONSTRUCTORS(FnCeil)
   template<class T>
@@ -103,7 +93,7 @@ struct FnCeil: public BaseOp
   }
 };
 
-struct FnCos: public BaseOp
+struct FnCos
 {
   PETE_EMPTY_CONSTRUCTORS(FnCos)
   template<class T>
@@ -115,7 +105,7 @@ struct FnCos: public BaseOp
   }
 };
 
-struct FnHypCos: public BaseOp
+struct FnHypCos
 {
   PETE_EMPTY_CONSTRUCTORS(FnHypCos)
   template<class T>
@@ -127,7 +117,7 @@ struct FnHypCos: public BaseOp
   }
 };
 
-struct FnExp: public BaseOp
+struct FnExp
 {
   PETE_EMPTY_CONSTRUCTORS(FnExp)
   template<class T>
@@ -139,7 +129,7 @@ struct FnExp: public BaseOp
   }
 };
 
-struct FnFabs: public BaseOp
+struct FnFabs
 {
   PETE_EMPTY_CONSTRUCTORS(FnFabs)
   template<class T>
@@ -151,7 +141,7 @@ struct FnFabs: public BaseOp
   }
 };
 
-struct FnFloor: public BaseOp
+struct FnFloor
 {
   PETE_EMPTY_CONSTRUCTORS(FnFloor)
   template<class T>
@@ -163,7 +153,7 @@ struct FnFloor: public BaseOp
   }
 };
 
-struct FnLog: public BaseOp
+struct FnLog
 {
   PETE_EMPTY_CONSTRUCTORS(FnLog)
   template<class T>
@@ -175,7 +165,7 @@ struct FnLog: public BaseOp
   }
 };
 
-struct FnLog10: public BaseOp
+struct FnLog10
 {
   PETE_EMPTY_CONSTRUCTORS(FnLog10)
   template<class T>
@@ -187,7 +177,7 @@ struct FnLog10: public BaseOp
   }
 };
 
-struct FnSin: public BaseOp
+struct FnSin
 {
   PETE_EMPTY_CONSTRUCTORS(FnSin)
   template<class T>
@@ -199,7 +189,7 @@ struct FnSin: public BaseOp
   }
 };
 
-struct FnHypSin: public BaseOp
+struct FnHypSin
 {
   PETE_EMPTY_CONSTRUCTORS(FnHypSin)
   template<class T>
@@ -211,7 +201,7 @@ struct FnHypSin: public BaseOp
   }
 };
 
-struct FnSqrt: public BaseOp
+struct FnSqrt
 {
   PETE_EMPTY_CONSTRUCTORS(FnSqrt)
   template<class T>
@@ -223,7 +213,7 @@ struct FnSqrt: public BaseOp
   }
 };
 
-struct FnTan: public BaseOp
+struct FnTan
 {
   PETE_EMPTY_CONSTRUCTORS(FnTan)
   template<class T>
@@ -235,7 +225,7 @@ struct FnTan: public BaseOp
   }
 };
 
-struct FnHypTan: public BaseOp
+struct FnHypTan
 {
   PETE_EMPTY_CONSTRUCTORS(FnHypTan)
   template<class T>
@@ -247,7 +237,7 @@ struct FnHypTan: public BaseOp
   }
 };
 
-struct OpUnaryMinus: public BaseOp
+struct OpUnaryMinus
 {
   PETE_EMPTY_CONSTRUCTORS(OpUnaryMinus)
   template<class T>
@@ -259,7 +249,7 @@ struct OpUnaryMinus: public BaseOp
   }
 };
 
-struct OpUnaryPlus: public BaseOp
+struct OpUnaryPlus
 {
   PETE_EMPTY_CONSTRUCTORS(OpUnaryPlus)
   template<class T>
@@ -271,7 +261,7 @@ struct OpUnaryPlus: public BaseOp
   }
 };
 
-struct OpBitwiseNot: public BaseOp
+struct OpBitwiseNot
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseNot)
   template<class T>
@@ -283,7 +273,7 @@ struct OpBitwiseNot: public BaseOp
   }
 };
 
-struct OpIdentity: public BaseOp
+struct OpIdentity
 {
   PETE_EMPTY_CONSTRUCTORS(OpIdentity)
   template<class T>
@@ -295,7 +285,7 @@ struct OpIdentity: public BaseOp
   }
 };
 
-struct OpNot: public BaseOp
+struct OpNot
 {
   PETE_EMPTY_CONSTRUCTORS(OpNot)
   template<class T>
@@ -313,7 +303,7 @@ struct UnaryReturn<T, OpNot > {
 };
 
 template <class T1>
-struct OpCast: public BaseOp
+struct OpCast
 {
   PETE_EMPTY_CONSTRUCTORS_TEMPLATE(OpCast, T1)
   template<class T2>
@@ -330,7 +320,7 @@ struct UnaryReturn<T2, OpCast<T1> > {
   typedef T1 Type_t;
 };
 
-struct OpAdd: public BaseOp
+struct OpAdd
 {
   PETE_EMPTY_CONSTRUCTORS(OpAdd)
   template<class T1, class T2>
@@ -342,7 +332,7 @@ struct OpAdd: public BaseOp
   }
 };
 
-struct OpSubtract: public BaseOp
+struct OpSubtract
 {
   PETE_EMPTY_CONSTRUCTORS(OpSubtract)
   template<class T1, class T2>
@@ -354,7 +344,7 @@ struct OpSubtract: public BaseOp
   }
 };
 
-struct OpMultiply: public BaseOp
+struct OpMultiply
 {
   PETE_EMPTY_CONSTRUCTORS(OpMultiply)
   template<class T1, class T2>
@@ -366,7 +356,7 @@ struct OpMultiply: public BaseOp
   }
 };
 
-struct OpDivide: public BaseOp
+struct OpDivide
 {
   PETE_EMPTY_CONSTRUCTORS(OpDivide)
   template<class T1, class T2>
@@ -378,7 +368,7 @@ struct OpDivide: public BaseOp
   }
 };
 
-struct OpMod: public BaseOp
+struct OpMod
 {
   PETE_EMPTY_CONSTRUCTORS(OpMod)
   template<class T1, class T2>
@@ -390,7 +380,7 @@ struct OpMod: public BaseOp
   }
 };
 
-struct OpBitwiseAnd: public BaseOp
+struct OpBitwiseAnd
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseAnd)
   template<class T1, class T2>
@@ -402,7 +392,7 @@ struct OpBitwiseAnd: public BaseOp
   }
 };
 
-struct OpBitwiseOr: public BaseOp
+struct OpBitwiseOr
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseOr)
   template<class T1, class T2>
@@ -414,7 +404,7 @@ struct OpBitwiseOr: public BaseOp
   }
 };
 
-struct OpBitwiseXor: public BaseOp
+struct OpBitwiseXor
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseXor)
   template<class T1, class T2>
@@ -426,7 +416,7 @@ struct OpBitwiseXor: public BaseOp
   }
 };
 
-struct FnLdexp: public BaseOp
+struct FnLdexp
 {
   PETE_EMPTY_CONSTRUCTORS(FnLdexp)
   template<class T1, class T2>
@@ -438,7 +428,7 @@ struct FnLdexp: public BaseOp
   }
 };
 
-struct FnPow: public BaseOp
+struct FnPow
 {
   PETE_EMPTY_CONSTRUCTORS(FnPow)
   template<class T1, class T2>
@@ -450,7 +440,7 @@ struct FnPow: public BaseOp
   }
 };
 
-struct FnFmod: public BaseOp
+struct FnFmod
 {
   PETE_EMPTY_CONSTRUCTORS(FnFmod)
   template<class T1, class T2>
@@ -462,7 +452,7 @@ struct FnFmod: public BaseOp
   }
 };
 
-struct FnArcTan2: public BaseOp
+struct FnArcTan2
 {
   PETE_EMPTY_CONSTRUCTORS(FnArcTan2)
   template<class T1, class T2>
@@ -474,7 +464,7 @@ struct FnArcTan2: public BaseOp
   }
 };
 
-struct OpLT: public BaseOp
+struct OpLT
 {
   PETE_EMPTY_CONSTRUCTORS(OpLT)
   template<class T1, class T2>
@@ -491,7 +481,7 @@ struct BinaryReturn<T1, T2, OpLT > {
   typedef bool Type_t;
 };
 
-struct OpLE: public BaseOp
+struct OpLE
 {
   PETE_EMPTY_CONSTRUCTORS(OpLE)
   template<class T1, class T2>
@@ -508,7 +498,7 @@ struct BinaryReturn<T1, T2, OpLE > {
   typedef bool Type_t;
 };
 
-struct OpGT: public BaseOp
+struct OpGT
 {
   PETE_EMPTY_CONSTRUCTORS(OpGT)
   template<class T1, class T2>
@@ -525,7 +515,7 @@ struct BinaryReturn<T1, T2, OpGT > {
   typedef bool Type_t;
 };
 
-struct OpGE: public BaseOp
+struct OpGE
 {
   PETE_EMPTY_CONSTRUCTORS(OpGE)
   template<class T1, class T2>
@@ -542,7 +532,7 @@ struct BinaryReturn<T1, T2, OpGE > {
   typedef bool Type_t;
 };
 
-struct OpEQ: public BaseOp
+struct OpEQ
 {
   PETE_EMPTY_CONSTRUCTORS(OpEQ)
   template<class T1, class T2>
@@ -559,7 +549,7 @@ struct BinaryReturn<T1, T2, OpEQ > {
   typedef bool Type_t;
 };
 
-struct OpNE: public BaseOp
+struct OpNE
 {
   PETE_EMPTY_CONSTRUCTORS(OpNE)
   template<class T1, class T2>
@@ -576,7 +566,7 @@ struct BinaryReturn<T1, T2, OpNE > {
   typedef bool Type_t;
 };
 
-struct OpAnd: public BaseOp
+struct OpAnd
 {
   PETE_EMPTY_CONSTRUCTORS(OpAnd)
   template<class T1, class T2>
@@ -593,7 +583,7 @@ struct BinaryReturn<T1, T2, OpAnd > {
   typedef bool Type_t;
 };
 
-struct OpOr: public BaseOp
+struct OpOr
 {
   PETE_EMPTY_CONSTRUCTORS(OpOr)
   template<class T1, class T2>
@@ -610,7 +600,7 @@ struct BinaryReturn<T1, T2, OpOr > {
   typedef bool Type_t;
 };
 
-struct OpLeftShift: public BaseOp
+struct OpLeftShift
 {
   PETE_EMPTY_CONSTRUCTORS(OpLeftShift)
   template<class T1, class T2>
@@ -627,7 +617,7 @@ struct BinaryReturn<T1, T2, OpLeftShift > {
   typedef T1 Type_t;
 };
 
-struct OpRightShift: public BaseOp
+struct OpRightShift
 {
   PETE_EMPTY_CONSTRUCTORS(OpRightShift)
   template<class T1, class T2>
@@ -644,7 +634,7 @@ struct BinaryReturn<T1, T2, OpRightShift > {
   typedef T1 Type_t;
 };
 
-struct OpAddAssign: public BaseOp
+struct OpAddAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpAddAssign)
   template<class T1, class T2>
@@ -662,7 +652,7 @@ struct BinaryReturn<T1, T2, OpAddAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpSubtractAssign: public BaseOp
+struct OpSubtractAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpSubtractAssign)
   template<class T1, class T2>
@@ -682,7 +672,7 @@ struct BinaryReturn<T1, T2, OpSubtractAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpMultiplyAssign: public BaseOp
+struct OpMultiplyAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpMultiplyAssign)
   template<class T1, class T2>
@@ -701,7 +691,7 @@ struct BinaryReturn<T1, T2, OpMultiplyAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpDivideAssign: public BaseOp
+struct OpDivideAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpDivideAssign)
   template<class T1, class T2>
@@ -720,7 +710,7 @@ struct BinaryReturn<T1, T2, OpDivideAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpModAssign: public BaseOp
+struct OpModAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpModAssign)
   template<class T1, class T2>
@@ -739,7 +729,7 @@ struct BinaryReturn<T1, T2, OpModAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpBitwiseOrAssign: public BaseOp
+struct OpBitwiseOrAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseOrAssign)
   template<class T1, class T2>
@@ -758,7 +748,7 @@ struct BinaryReturn<T1, T2, OpBitwiseOrAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpBitwiseAndAssign: public BaseOp
+struct OpBitwiseAndAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseAndAssign)
   template<class T1, class T2>
@@ -777,7 +767,7 @@ struct BinaryReturn<T1, T2, OpBitwiseAndAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpBitwiseXorAssign: public BaseOp
+struct OpBitwiseXorAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpBitwiseXorAssign)
   template<class T1, class T2>
@@ -795,7 +785,7 @@ struct BinaryReturn<T1, T2, OpBitwiseXorAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpLeftShiftAssign: public BaseOp
+struct OpLeftShiftAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpLeftShiftAssign)
   template<class T1, class T2>
@@ -813,7 +803,7 @@ struct BinaryReturn<T1, T2, OpLeftShiftAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpRightShiftAssign: public BaseOp
+struct OpRightShiftAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpRightShiftAssign)
   template<class T1, class T2>
@@ -831,7 +821,7 @@ struct BinaryReturn<T1, T2, OpRightShiftAssign > {
   typedef T1 &Type_t;
 };
 
-struct OpAssign: public BaseOp
+struct OpAssign
 {
   PETE_EMPTY_CONSTRUCTORS(OpAssign)
   template<class T1, class T2>
@@ -848,7 +838,7 @@ struct BinaryReturn<T1, T2, OpAssign > {
   typedef T1 &Type_t;
 };
 
-struct FnWhere: public BaseOp
+struct FnWhere
 {
   PETE_EMPTY_CONSTRUCTORS(FnWhere)
   template<class T1, class T2, class T3>

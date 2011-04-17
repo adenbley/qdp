@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_scalar_specific.h,v 1.38 2009/07/14 20:08:41 bjoo Exp $
 //
 // QDP data parallel interface
 //
@@ -317,379 +316,78 @@ void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OScalar<T1> >& 
 
 
 
-  // template <unsigned I,unsigned elements,unsigned i>
-  // struct repeat {
-  //   template <typename Op , typename OLa , typename Rhs >
-  //   repeat(const Op& op,OLa& dest,const Rhs& rhs,unsigned icalc)
-  //   {
-  //     op( dest.elem( icalc * elements + i ), forEach(rhs, EvalLeaf1(  icalc * elements + i ), OpCombine() ) );
-  //     repeat<I-1,elements,i+1>(op,dest,rhs,icalc); 
-  //   }
-  // };
-  // template <unsigned elements,unsigned i>
-  // struct repeat<0,elements,i> {
-  //   template <typename Op , typename OLa , typename Rhs >
-  //   repeat(const Op& op,OLa& dest,const Rhs& rhs,unsigned icalc) {}
-  // };
-
-
-
-
-
-
-
-// template<typename O,typename D,typename R>
-// struct foobar
-// {
-//   foobar( const O& op,D& dest , const R& rhs, const unsigned int& elements, int icalc_d, int icalc_rhs, int start):
-//     op(op),rhs(rhs),dest(dest),elements(elements),icalc_d(icalc_d),icalc_rhs(icalc_rhs),start(start){}
-//   inline void operator()(int i) {
-//     op( dest.elem( icalc_d * elements + i + start ), forEach(rhs, EvalLeaf1(  icalc_rhs * elements + i + start ), OpCombine() ) );
-//   }
-//   const O& op;
-//   const R& rhs;
-//   D& dest;
-//   int elements;
-//   int icalc_d;
-//   int icalc_rhs;
-//   int start;
-// };
-
-
-
-
-
-  template< class T, class T1, class Op, class RHS >
-  //inline
-  __device__
-  void evaluate(QDP::OLattice<T>& dest, 
-		const Op& op, 
-		const QDP::QDPExpr<RHS, QDP::OLattice<T1> >& rhs, 
-		const QDP::Subset& s )
-  {
-    //dest.elem(0).elem(0,0).elem(0,0).real() = rhs.expression().child().elem(0).elem(0,0).elem(0,0).real();
-    if (threadIdx.x==0)
-      op(dest.elem(0), forEach(rhs, EvalLeaf1(0), OpCombine()));
-    // T tmp=forEach(rhs, EvalLeaf1(0), OpCombine());
-    // if (threadIdx.x==0)
-    //   printf("%f\n", tmp.elem(0,0).elem(0,0).real() );
-    // dest.elem(0)=tmp;//forEach(rhs, EvalLeaf1(0), OpCombine());
-
-    // General form of loop structure
-    //const int *tab = s.siteTable().slice();
-    //    for(int j=0; j < s.numSiteTable(); ++j) 
-      {
-	//int i = tab[j];
-	//fprintf(stderr,"eval(olattice,olattice): site %d\n",i);
-	//op(dest.elem(j), forEach(rhs, EvalLeaf1(j), OpCombine()));
-      }
-
-  }
-
-//   int tagid=0;
-
-//   Op& varop = const_cast< Op& >(op);
-//   bool fetchDest=varop.getReadAccessMode();
-//   varop.recvInfo();
-
-// #if defined(SPU_DEBUG)
-//   printf("spu: generic evaluate entered %lu %u!\n",sizeof(T),elements);
-//   printf("spu: __PRETTY_FUNCTION__\n%s\n",__PRETTY_FUNCTION__ );
-//   printf("spu: op fetch dest %s\n",fetchDest?"true":"false");
-// #endif
-
-
-// //   const InfoOp * ptrIO = dynamic_cast<const InfoOp *>(&op);
-// //   if (ptrIO)
-// //     {
-// // #if defined(SPU_DEBUG)
-// //       printf("spu: Op is InfoOp\n");
-// // #endif
-// //       InfoOp * ptrIOvar = const_cast<InfoOp *>(ptrIO);
-// //       ptrIOvar->recvInfo();
-// //       fetchDest=ptrIOvar->getFetchDest();
-// //     } 
-// //   else 
-// //     {
-// //       const PureOp * ptrPO = dynamic_cast<const PureOp *>(&op);
-// //       if (ptrPO)
-// // 	fetchDest=ptrPO->getFetchDest();
-// //     }
-
-//   //printf("spu fetch dest %s\n",fetchDest?"true":"false");
-
-//   unsigned int destHI,destLO,destLOsave;
-//   destHI = spu_readch( SPU_RdInMbox );
-//   destLOsave = spu_readch( SPU_RdInMbox );
-// #if defined(SPU_DEBUG)
-//   printf("spu: dest: got 64bit address %u %u\n",destHI,destLOsave);
-// #endif
-
-//   unsigned int adrHI[maxleaf],adrLO[maxleaf],delta[maxleaf],custom[maxleaf],leaftype[maxleaf];
-//   unsigned int adrLOsave[maxleaf],size[maxleaf];
-//   unsigned int leafcount = spu_readch( SPU_RdInMbox );
-
-// #if defined(SPU_DEBUG)
-//   printf("spu: leafcount = %u (max=%lu)\n",leafcount,maxleaf);
-// #endif
-
-//   for ( unsigned int i = 0 ; i < leafcount ; ++i ) {
-//     adrHI[i] = spu_readch( SPU_RdInMbox );
-//     adrLOsave[i] = spu_readch( SPU_RdInMbox );
-//     size[i] = spu_readch( SPU_RdInMbox );
-//     custom[i] = spu_readch( SPU_RdInMbox );
-//     leaftype[i] = spu_readch( SPU_RdInMbox );
-//     delta[i] = size[i] * elements;
-// #if defined(SPU_DEBUG)
-//     printf("spu: leaf: got 64bit address %u %u size=%u custom=%u leaftype=%u\n",adrHI[i],adrLOsave[i],size[i],custom[i],leaftype[i]);
-// #endif
-//   }
-
-
-
-//   unsigned int hasOrder = spu_readch( SPU_RdInMbox );
-//   unsigned int start,SPUsites;
-//   unsigned int tabHI, tabLO;
-//   unsigned int benchmark_loops=0;
-//   if (hasOrder) {
-//     start    = spu_readch( SPU_RdInMbox );  
-//     SPUsites = spu_readch( SPU_RdInMbox );
-//     benchmark_loops = spu_readch( SPU_RdInMbox );
-//   } else {
-//     tabHI = spu_readch( SPU_RdInMbox );
-//     tabLO = spu_readch( SPU_RdInMbox );
-//     start    = spu_readch( SPU_RdInMbox );  
-//     SPUsites = spu_readch( SPU_RdInMbox );
-//   }
-
-//   destLOsave += sizeof(T)*start;
-//   for ( unsigned int i = 0 ; i < leafcount ; ++i )
-//     if (leaftype[i] == 0)
-//       adrLOsave[i] += size[i] * start;
-
-//   forEach(rhs, DMAGetOScalarTag( tagid , adrHI , adrLOsave , size , leafcount ), NullCombine());
-
-
-//   // unsigned int indexStart = spu_readch( SPU_RdInMbox );
-//   // unsigned int indexTotal = spu_readch( SPU_RdInMbox );
-
-//   //printf("hasOrder=%u\n",hasOrder);
-  
-//   if( hasOrder && (SPUsites % elements == 0) ) {
-//     unsigned int loopcount = SPUsites / elements;   // divide by number of sites to do in one loop (now 16, since dest<T> sizeof(T) == 1 is ok)
-// #if defined(SPU_DEBUG)
-//     printf("spu: hasOrder and indexTotal mod NUMBER ==> using aligned access.\n");
-//     printf("SPUsites = %u\n",SPUsites);
-//     printf("loopcount = %u\n",loopcount);
-//     printf("elements = %u\n",elements);
-// #endif
-
-
-
-//     //printf("spu: from %u total %u\n",indexStart,indexTotal);
-//     //printf("spu: now %u\n",indexTotal);
-
-//     // ------
-//     unsigned int DECR=0;
-//     // ------
-
-//     size_t totalbytes = sizeof( T ) * elements;
-
-//     for ( unsigned int iii = 0 ; iii < benchmark_loops ; iii++ ) {
-
-//       for ( unsigned int i = 0 ; i < leafcount ; ++i ) {
-// 	adrLO[i] = adrLOsave[i];
-//       }
-//       destLO = destLOsave;
-      
-//       if (iii==1) {
-// 	DECR = 1 << 29;
-// 	spu_writech( SPU_WrDec , DECR );
-// 	spu_writech( SPU_WrEventMask , MFC_DECREMENTER_EVENT );
-// 	DECR = spu_readch( SPU_RdDec );
-//       }
-
-//       size_t adr;
-//       unsigned int icalc_d=0;
-//       unsigned int icalc_rhs=0;
-
-//       DMAGetTag dmatag( elements , tagid , adrHI , adrLO , delta , custom , leafcount , elements );
-
-//       for (unsigned int loop = 0 ; loop < loopcount+2 ; ++loop ) {
-
-// #if defined(SPU_DEBUG)
-// 	printf("spu: loop = %u\n",loop);
-// #endif
-
-// 	unsigned int ifetch_d   = (icalc_d+1)%3; 
-// 	unsigned int istore_d   = (icalc_d-1+3)%3;
-
-
-// 	if ( loop < loopcount ) {
-// 	  dmatag.resetILeaf();
-// 	  forEach(rhs, dmatag , NullCombine());
-// 	  dmatag.switchBuffer();
-
-// 	  if (fetchDest) {
-// 	    adr = (size_t)(&dest.elem(ifetch_d*elements));
-
-// 	    //assert( adr%16==0 && destLO%16==0 && totalbytes%16==0 );
-
-// 	    // if ( totalbytes <= 16*1024 )
-// 	    //   spu_mfcdma64((void *)(adr), destHI , destLO , totalbytes, tagid , MFC_GET_CMD );
-// 	    // else
-// 	    get_large_region( (void *)(adr), destHI , destLO , totalbytes , tagid, MFC_GETL_CMD );
-// 	  }
-// 	}
-
-
-
-// 	if (loop >= 2) {
-// 	  adr = (size_t)(&dest.elem(istore_d*elements));
-
-// 	  // printf("put adr=%lu(%lu) %u(%u) %u(%u)\n",
-// 	  // 	 (size_t)(adr),(size_t)(adr)%128,
-// 	  // 	 destLO - totalbytes - totalbytes , (destLO - totalbytes - totalbytes)%128,
-// 	  // 	 totalbytes,(totalbytes)%128);
-// 	  //assert( adr%16==0 && destLO%16==0 && totalbytes%16==0 );
-
-// 	  // if ( totalbytes <= 16*1024 )
-// 	  //   spu_mfcdma64((void *)(adr), destHI , destLO - totalbytes - totalbytes , totalbytes, tagid , MFC_PUT_CMD );
-// 	  // else
-// 	  get_large_region( (void *)(adr), destHI , destLO - totalbytes - totalbytes , totalbytes , tagid, MFC_PUTL_CMD );
-// 	}
-
-
-// 	unsigned int dest_buffer = icalc_d * elements;
-// 	unsigned int rhs_buffer = icalc_rhs * elements;
-// 	if ( ( loop >= 1 ) && ( loop < loopcount + 1 ) ) {
-// 	  for ( unsigned int i = 0 ; i < elements ; i++ )
-// 	    op( dest.elem( dest_buffer + i ), forEach(rhs, EvalLeaf1(  rhs_buffer + i ), OpCombine() ) );
-// 	}
-
-// 	// const int nmax   = 2;
-// 	// typedef boost::mpl::if_< boost::mpl::less< boost::mpl::int_< elements > , boost::mpl::int_< nmax > > , boost::mpl::int_< elements > , boost::mpl::int_< nmax > > nmod;
-// 	// if ( ( loop >= 1 ) && ( loop < loopcount + 1 ) ) {
-// 	//   int edone = 0;
-// 	//   while( edone < elements ) {
-// 	//     foobar<Op,QDP::OLattice<T>,QDP::QDPExpr<RHS, QDP::OLattice<T1> > > f(op,dest,rhs,elements,icalc_d,icalc_rhs,edone);
-// 	//     boost::mpl::for_each< boost::mpl::range_c<int, 0 , nmod::type::value > >( f );
-// 	//     edone += nmod::type::value;
-// 	//   }
-// 	// }
-
-
-// 	spu_writech(MFC_WrTagMask, 1 << tagid );
-// 	(void)spu_mfcstat(MFC_TAG_UPDATE_ALL);
-	
-// 	icalc_d++;
-// 	icalc_d%=3;
-
-// 	icalc_rhs++;
-// 	icalc_rhs%=2;
-
-// 	destLO += totalbytes;
-	
-//       }
-//     }
-
-//     unsigned int aktdecr;
-//     aktdecr = spu_readch( SPU_RdDec );
-//     if (benchmark_loops==1)
-//       spu_writech( SPU_WrOutMbox , 0 );
-//     else
-//       spu_writech( SPU_WrOutMbox , (DECR-aktdecr) / (benchmark_loops-1) );
-    
-
-//     spu_writech( SPU_WrOutMbox , 123 );
-
-//   } else {
-// #if defined(SPU_DEBUG)
-//     printf("spu: SubSet not linear.\n");
-//     exit(1);
-// #endif
-//   }
-
-
-
-
-
-
-
-
-// //! OLattice Op OLattice(Expression(source)) under an Subset
-// /*! 
-//  * OLattice Op Expression, where Op is some kind of binary operation 
-//  * involving the destination 
-//  */
-// template<class T, class T1, class Op, class RHS>
-// //inline
-// void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
-// 	      const Subset& s)
-// {
-// //  //cerr << "In evaluateSubset(olattice,olattice)" << endl;
-
-// #if defined(QDP_USE_PROFILING)   
-//   #warning "LATTICE: Using PROPFILING"
-//   static QDPProfile_t prof(dest, op, rhs);
-//   prof.time -= getClockTime();
-// #endif
-
-//   int numSiteTable = s.numSiteTable();
-
-//   user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
-
-//   dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
-
-//   ////////////////////
-//   // Original code
-//   ///////////////////
-
-//   // General form of loop structure
-//   //const int *tab = s.siteTable().slice();
-//   //for(int j=0; j < s.numSiteTable(); ++j) 
-//   //{
-//   //int i = tab[j];
-// //    fprintf(stderr,"eval(olattice,olattice): site %d\n",i);
-//   //op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
-//   //}
-
-// #if defined(QDP_USE_PROFILING)   
-//   prof.time += getClockTime();
-//   prof.count++;
-//   prof.print();
-// #endif
-// }
+//! OLattice Op OLattice(Expression(source)) under an Subset
+/*! 
+ * OLattice Op Expression, where Op is some kind of binary operation 
+ * involving the destination 
+ */
+template<class T, class T1, class Op, class RHS>
+//inline
+void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
+	      const Subset& s)
+{
+//  cerr << "In evaluateSubset(olattice,olattice)" << endl;
+
+#if defined(QDP_USE_PROFILING)   
+  static QDPProfile_t prof(dest, op, rhs);
+  prof.time -= getClockTime();
+#endif
+
+  int numSiteTable = s.numSiteTable();
+
+  user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
+
+  dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
+
+  ////////////////////
+  // Original code
+  ///////////////////
+
+  // General form of loop structure
+  //const int *tab = s.siteTable().slice();
+  //for(int j=0; j < s.numSiteTable(); ++j) 
+  //{
+  //int i = tab[j];
+//    fprintf(stderr,"eval(olattice,olattice): site %d\n",i);
+  //op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
+  //}
+
+#if defined(QDP_USE_PROFILING)   
+  prof.time += getClockTime();
+  prof.count++;
+  prof.print();
+#endif
+}
 
 
 
 //-----------------------------------------------------------------------------
 //! dest = (mask) ? s1 : dest
-// template<class T1, class T2> 
-// void 
-// copymask(OSubLattice<T2,Subset> d, const OLattice<T1>& mask, const OLattice<T2>& s1) 
-// {
-//   OLattice<T2>& dest = d.field();
-//   const Subset& s = d.subset();
+template<class T1, class T2> 
+void 
+copymask(OSubLattice<T2> d, const OLattice<T1>& mask, const OLattice<T2>& s1) 
+{
+  OLattice<T2>& dest = d.field();
+  const Subset& s = d.subset();
 
-//   const int *tab = s.siteTable().slice();
-//   for(int j=0; j < s.numSiteTable(); ++j) 
-//   {
-//     int i = tab[j];
-//     copymask(dest.elem(i), mask.elem(i), s1.elem(i));
-//   }
-// }
+  const int *tab = s.siteTable().slice();
+  for(int j=0; j < s.numSiteTable(); ++j) 
+  {
+    int i = tab[j];
+    copymask(dest.elem(i), mask.elem(i), s1.elem(i));
+  }
+}
 
 
-// //! dest = (mask) ? s1 : dest
-// template<class T1, class T2> 
-// void 
-// copymask(OLattice<T2>& dest, const OLattice<T1>& mask, const OLattice<T2>& s1) 
-// {
-//   const int vvol = Layout::vol();
-//   for(int i=0; i < vvol; ++i) 
-//     copymask(dest.elem(i), mask.elem(i), s1.elem(i));
-// }
+//! dest = (mask) ? s1 : dest
+template<class T1, class T2> 
+void 
+copymask(OLattice<T2>& dest, const OLattice<T1>& mask, const OLattice<T2>& s1) 
+{
+  const int vvol = Layout::vol();
+  for(int i=0; i < vvol; ++i) 
+    copymask(dest.elem(i), mask.elem(i), s1.elem(i));
+}
 
 
 
@@ -707,7 +405,6 @@ namespace RNG
 //! dest  = random  
 /*! This implementation is correct for no inner grid */
 template<class T>
-__device__
 void 
 random(OScalar<T>& d)
 {
@@ -722,7 +419,6 @@ random(OScalar<T>& d)
 
 //! dest  = random    under a subset
 template<class T>
-__device__
 void 
 random(OLattice<T>& d, const Subset& s)
 {
@@ -745,12 +441,11 @@ random(OLattice<T>& d, const Subset& s)
 
 
 //! dest  = random   under a subset
-template<class T, class S>
-__device__
-void random(const OSubLattice<T,S>& dd)
+template<class T>
+void random(OSubLattice<T> dd)
 {
-  OLattice<T>& d = const_cast<OSubLattice<T,S>&>(dd).field();
-  const S& s = dd.subset();
+  OLattice<T>& d = dd.field();
+  const Subset& s = dd.subset();
 
   random(d,s);
 }
@@ -758,7 +453,6 @@ void random(const OSubLattice<T,S>& dd)
 
 //! dest  = random  
 template<class T>
-__device__
 void random(OLattice<T>& d)
 {
   random(d,all);
@@ -767,7 +461,6 @@ void random(OLattice<T>& d)
 
 //! dest  = gaussian   under a subset
 template<class T>
-__device__
 void gaussian(OLattice<T>& d, const Subset& s)
 {
   OLattice<T>  r1, r2;
@@ -786,12 +479,11 @@ void gaussian(OLattice<T>& d, const Subset& s)
 
 
 //! dest  = gaussian   under a subset
-template<class T, class S>
-__device__
-void gaussian(const OSubLattice<T,S>& dd)
+template<class T>
+void gaussian(OSubLattice<T> dd)
 {
-  OLattice<T>& d = const_cast<OSubLattice<T,S>&>(dd).field();
-  const S& s = dd.subset();
+  OLattice<T>& d = dd.field();
+  const Subset& s = dd.subset();
 
   gaussian(d,s);
 }
@@ -799,7 +491,6 @@ void gaussian(const OSubLattice<T,S>& dd)
 
 //! dest  = gaussian
 template<class T>
-__device__
 void gaussian(OLattice<T>& d)
 {
   gaussian(d,all);
@@ -811,7 +502,6 @@ void gaussian(OLattice<T>& d)
 // Broadcast operations
 //! dest  = 0 
 template<class T> 
-__device__
 void zero_rep(OLattice<T>& dest, const Subset& s) 
 {
   const int *tab = s.siteTable().slice();
@@ -826,11 +516,10 @@ void zero_rep(OLattice<T>& dest, const Subset& s)
 
 //! dest  = 0 
 template<class T, class S>
-__device__
-void zero_rep(OSubLattice<T,S> dd) 
+void zero_rep(OSubLattice<T> dd) 
 {
   OLattice<T>& d = dd.field();
-  const S& s = dd.subset();
+  const Subset& s = dd.subset();
   
   zero_rep(d,s);
 }
@@ -838,7 +527,6 @@ void zero_rep(OSubLattice<T,S> dd)
 
 //! dest  = 0 
 template<class T> 
-__device__
 void zero_rep(OLattice<T>& dest) 
 {
   const int vvol = Layout::vol();
@@ -856,7 +544,6 @@ void zero_rep(OLattice<T>& dest)
  * of the same primitive type. E.g., contract only over lattice indices
  */
 template<class RHS, class T>
-__device__
 typename UnaryReturn<OScalar<T>, FnSum>::Type_t
 sum(const QDPExpr<RHS,OScalar<T> >& s1, const Subset& s)
 {
@@ -885,7 +572,6 @@ sum(const QDPExpr<RHS,OScalar<T> >& s1, const Subset& s)
  * of the same primitive type. E.g., contract only over lattice indices
  */
 template<class RHS, class T>
-__device__
 typename UnaryReturn<OScalar<T>, FnSum>::Type_t
 sum(const QDPExpr<RHS,OScalar<T> >& s1)
 {
@@ -915,7 +601,6 @@ sum(const QDPExpr<RHS,OScalar<T> >& s1)
  * of the same primitive type. E.g., contract only over lattice indices
  */
 template<class RHS, class T>
-__device__
 typename UnaryReturn<OLattice<T>, FnSum>::Type_t
 sum(const QDPExpr<RHS,OLattice<T> >& s1, const Subset& s)
 {
@@ -952,7 +637,6 @@ sum(const QDPExpr<RHS,OLattice<T> >& s1, const Subset& s)
  * of the same primitive type. E.g., contract only over lattice indices
  */
 template<class RHS, class T>
-__device__
 typename UnaryReturn<OLattice<T>, FnSum>::Type_t
 sum(const QDPExpr<RHS,OLattice<T> >& s1)
 {
@@ -991,7 +675,6 @@ sum(const QDPExpr<RHS,OLattice<T> >& s1)
  * slices
  */
 template<class RHS, class T>
-__device__
 typename UnaryReturn<OScalar<T>, FnSum>::Type_t
 sumMulti(const QDPExpr<RHS,OScalar<T> >& s1, const Set& ss)
 {
@@ -1025,8 +708,87 @@ sumMulti(const QDPExpr<RHS,OScalar<T> >& s1, const Set& ss)
  * slow. Otherwise, generalized sums happen so infrequently the slow
  * version is fine.
  */
+  template<class RHS, class T>
+  struct SumMultiOLatticeThreadArgs {
+    const multi1d<int>& lat_color;
+    const QDPExpr<RHS,OLattice<T> >& s;
+    multi1d<typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t>& dest;
+    SumMultiOLatticeThreadArgs(const multi1d<int>& lat_color_,
+			       const QDPExpr<RHS,OLattice<T> >& s_,
+			       multi1d<typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t>& dest_) : lat_color(lat_color_), s(s_), dest(dest_) {}
+
+  };
+
+  template<class RHS, class T>
+  void sumMultiKernel(int lo, int hi, int my_id, SumMultiOLatticeThreadArgs<RHS,T>* a)
+  {
+    const multi1d<int>& lat_color = a->lat_color;
+    const  QDPExpr<RHS,OLattice<T> >& s=a->s;
+    multi1d<typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t>& dest=a->dest;
+    for(int i=lo; i < hi; ++i) { 
+      int j = lat_color[i];
+      (dest[my_id])[j].elem() += forEach(s, EvalLeaf1(i), OpCombine());   // SINGLE NODE VERSION FOR NOW
+    }
+  }
+
 template<class RHS, class T>
-__device__
+typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t
+sumMulti(const QDPExpr<RHS,OLattice<T> >& s1, const Set& ss)
+{
+  typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t  dest(ss.numSubsets());
+
+#if defined(QDP_USE_PROFILING)   
+  static QDPProfile_t prof(dest[0], OpAssign(), FnSum(), s1);
+  prof.time -= getClockTime();
+#endif
+
+  multi1d< typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t > pdest(qdpNumThreads());
+
+  // Initialize result with zero
+  for(int thread=0; thread < qdpNumThreads(); ++thread) {
+    pdest[thread].resize(ss.numSubsets());
+
+    for(int k=0; k < ss.numSubsets(); ++k) {
+      zero_rep(pdest[thread][k]);
+    }
+  }
+
+  // Loop over all sites and accumulate based on the coloring 
+  const multi1d<int>& lat_color =  ss.latticeColoring();
+  SumMultiOLatticeThreadArgs<RHS,T> args(lat_color,s1,pdest);
+
+  const int vvol = Layout::vol();
+  dispatch_to_threads(vvol, args, sumMultiKernel<RHS,T>);
+
+  for(int k=0; k< ss.numSubsets(); ++k) { 
+    dest[k] = pdest[0][k];
+  }
+
+  for(int thread=1; thread < qdpNumThreads(); thread++) { 
+    for(int k=0; k< ss.numSubsets(); ++k) { 
+      dest[k] += pdest[thread][k];
+    }
+  }
+  
+#if 0
+  for(int i=0; i < vvol; ++i) 
+  {
+    int j = lat_color[i];
+    dest[j].elem() += forEach(s1, EvalLeaf1(i), OpCombine());   // SINGLE NODE VERSION FOR NOW
+  }
+#endif
+
+#if defined(QDP_USE_PROFILING)   
+  prof.time += getClockTime();
+  prof.count++;
+  prof.print();
+#endif
+
+  return dest;
+}
+#if 0
+  // Original code
+template<class RHS, class T>
 typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t
 sumMulti(const QDPExpr<RHS,OLattice<T> >& s1, const Set& ss)
 {
@@ -1059,7 +821,7 @@ sumMulti(const QDPExpr<RHS,OLattice<T> >& s1, const Set& ss)
 
   return dest;
 }
-
+#endif
 
 //-----------------------------------------------------------------------------
 // Multiple global sums 
@@ -1072,7 +834,6 @@ sumMulti(const QDPExpr<RHS,OLattice<T> >& s1, const Set& ss)
  * slices
  */
 template<class T>
-__device__
 multi2d<typename UnaryReturn<OScalar<T>, FnSum>::Type_t>
 sumMulti(const multi1d< OScalar<T> >& s1, const Set& ss)
 {
@@ -1108,7 +869,6 @@ sumMulti(const multi1d< OScalar<T> >& s1, const Set& ss)
  * version is fine.
  */
 template<class T>
-__device__
 multi2d<typename UnaryReturn<OLattice<T>, FnSum>::Type_t>
 sumMulti(const multi1d< OLattice<T> >& s1, const Set& ss)
 {
@@ -1158,7 +918,6 @@ sumMulti(const multi1d< OLattice<T> >& s1, const Set& ss)
  * Allow a global sum that sums over all indices
  */
 template<class T>
-__device__
 inline typename UnaryReturn<OScalar<T>, FnNorm2>::Type_t
 norm2(const multi1d< OScalar<T> >& s1)
 {
@@ -1190,7 +949,6 @@ norm2(const multi1d< OScalar<T> >& s1)
 //! OScalar = sum(OScalar)  under an explicit subset
 /*! Discards subset */
 template<class T>
-__device__
 inline typename UnaryReturn<OScalar<T>, FnNorm2>::Type_t
 norm2(const multi1d< OScalar<T> >& s1, const Subset& s)
 {
@@ -1207,7 +965,6 @@ norm2(const multi1d< OScalar<T> >& s1, const Subset& s)
  * Allow a global sum that sums over all indices
  */
 template<class T>
-__device__
 inline typename UnaryReturn<OLattice<T>, FnNorm2>::Type_t
 norm2(const multi1d< OLattice<T> >& s1, const Subset& s)
 {
@@ -1251,7 +1008,6 @@ norm2(const multi1d< OLattice<T> >& s1, const Subset& s)
  * Allow a global sum that sums over all indices
  */
 template<class T>
-__device__
 inline typename UnaryReturn<OLattice<T>, FnNorm2>::Type_t
 norm2(const multi1d< OLattice<T> >& s1)
 {
@@ -1269,7 +1025,6 @@ norm2(const multi1d< OLattice<T> >& s1)
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProduct>::Type_t
 innerProduct(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2)
 {
@@ -1302,7 +1057,6 @@ innerProduct(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2)
 //! OScalar = sum(OScalar)  under an explicit subset
 /*! Discards subset */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProduct>::Type_t
 innerProduct(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2,
 	     const Subset& s)
@@ -1319,7 +1073,6 @@ innerProduct(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2,
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProduct>::Type_t
 innerProduct(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s2,
 	     const Subset& s)
@@ -1364,7 +1117,6 @@ innerProduct(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProduct>::Type_t
 innerProduct(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s2)
 {
@@ -1382,7 +1134,6 @@ innerProduct(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProductReal>::Type_t
 innerProductReal(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2)
 {
@@ -1415,7 +1166,6 @@ innerProductReal(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >&
 //! OScalar = sum(OScalar)  under an explicit subset
 /*! Discards subset */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProductReal>::Type_t
 innerProductReal(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2,
 		 const Subset& s)
@@ -1433,7 +1183,6 @@ innerProductReal(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >&
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProductReal>::Type_t
 innerProductReal(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s2,
 		 const Subset& s)
@@ -1478,7 +1227,6 @@ innerProductReal(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> 
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProductReal>::Type_t
 innerProductReal(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s2)
 {
@@ -1495,7 +1243,6 @@ innerProductReal(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> 
  * Find the maximum an object has across the lattice
  */
 template<class RHS, class T>
-__device__
 typename UnaryReturn<OScalar<T>, FnGlobalMax>::Type_t
 globalMax(const QDPExpr<RHS,OScalar<T> >& s1)
 {
@@ -1524,7 +1271,6 @@ globalMax(const QDPExpr<RHS,OScalar<T> >& s1)
  * Find the maximum an object has across the lattice
  */
 template<class RHS, class T>
-__device__
 typename UnaryReturn<OLattice<T>, FnGlobalMax>::Type_t
 globalMax(const QDPExpr<RHS,OLattice<T> >& s1)
 {
@@ -1563,7 +1309,6 @@ globalMax(const QDPExpr<RHS,OLattice<T> >& s1)
  * Find the minimum an object has across the lattice
  */
 template<class RHS, class T>
-__device__
 typename UnaryReturn<OScalar<T>, FnGlobalMin>::Type_t
 globalMin(const QDPExpr<RHS,OScalar<T> >& s1)
 {
@@ -1592,7 +1337,6 @@ globalMin(const QDPExpr<RHS,OScalar<T> >& s1)
  * Find the minimum of an object under a subset of the lattice
  */
 template<class RHS, class T>
-__device__
 typename UnaryReturn<OLattice<T>, FnGlobalMin>::Type_t
 globalMin(const QDPExpr<RHS,OLattice<T> >& s1)
 {
@@ -1638,7 +1382,6 @@ globalMin(const QDPExpr<RHS,OLattice<T> >& s1)
   @ingroup group1
   @relates QDPType */
 template<class T1>
-__device__
 inline OScalar<T1>
 peekSite(const OScalar<T1>& l, const multi1d<int>& coord)
 {
@@ -1653,7 +1396,6 @@ peekSite(const OScalar<T1>& l, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class RHS, class T1>
-__device__
 inline OScalar<T1>
 peekSite(const QDPExpr<RHS,OScalar<T1> > & l, const multi1d<int>& coord)
 {
@@ -1672,7 +1414,6 @@ peekSite(const QDPExpr<RHS,OScalar<T1> > & l, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class T1>
-__device__
 inline OScalar<T1>
 peekSite(const OLattice<T1>& l, const multi1d<int>& coord)
 {
@@ -1690,7 +1431,6 @@ peekSite(const OLattice<T1>& l, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class RHS, class T1>
-__device__
 inline OScalar<T1>
 peekSite(const QDPExpr<RHS,OLattice<T1> > & l, const multi1d<int>& coord)
 {
@@ -1710,7 +1450,6 @@ peekSite(const QDPExpr<RHS,OLattice<T1> > & l, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class T1>
-__device__
 inline OLattice<T1>&
 pokeSite(OLattice<T1>& l, const OScalar<T1>& r, const multi1d<int>& coord)
 {
@@ -1727,7 +1466,6 @@ pokeSite(OLattice<T1>& l, const OScalar<T1>& r, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class T>
-__device__
 inline void 
 QDP_extract(multi1d<OScalar<T> >& dest, const OLattice<T>& src, const Subset& s)
 {
@@ -1747,7 +1485,6 @@ QDP_extract(multi1d<OScalar<T> >& dest, const OLattice<T>& src, const Subset& s)
   @ingroup group1
   @relates QDPType */
 template<class T>
-__device__
 inline void 
 QDP_insert(OLattice<T>& dest, const multi1d<OScalar<T> >& src, const Subset& s)
 {
@@ -1762,50 +1499,23 @@ QDP_insert(OLattice<T>& dest, const multi1d<OScalar<T> >& src, const Subset& s)
 
 //-----------------------------------------------------------------------------
 // Forward declaration
-//struct FnMap;
-// This is the PETE version of a map, namely return an expression
-struct FnMap
-{
-  PETE_EMPTY_CONSTRUCTORS(FnMap)
-
-  const int *goff;
-__device__
-  FnMap(const int *goffsets): goff(goffsets)
-    {
-//    fprintf(stderr,"FnMap(): goff=0x%x\n",goff);
-    }
-  
-  template<class T>
-__device__
-  inline typename UnaryReturn<T, FnMap>::Type_t
-  operator()(const T &a) const
-  {
-    return (a);
-  }
-};
-
-
-
+struct FnMap;
 
 //! General permutation map class for communications
 class Map
 {
 public:
   //! Constructor - does nothing really
-__device__
   Map() {}
 
   //! Destructor
-__device__
   ~Map() {}
 
   //! Constructor from a function object
-__device__
   Map(const MapFunc& fn) {make(fn);}
 
   //! Actual constructor from a function object
   /*! The semantics are   source_site = func(dest_site) */
-__device__
   void make(const MapFunc& func);
 
   //! Function call operator for a shift
@@ -1819,20 +1529,18 @@ __device__
    * This routine is very architecture dependent.
    */
   template<class T1,class C1>
-  __device__
   inline typename MakeReturn<UnaryNode<FnMap,
-				       typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
+    typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPType<T1,C1> & l)
-  {
-    typedef UnaryNode<FnMap,
-      typename CreateLeaf<QDPType<T1,C1> >::Leaf_t> Tree_t;
-    return MakeReturn<Tree_t,C1>::make(Tree_t(FnMap(goffsets.slice()),
-					      CreateLeaf<QDPType<T1,C1> >::make(l)));
-  }
+    {
+      typedef UnaryNode<FnMap,
+	typename CreateLeaf<QDPType<T1,C1> >::Leaf_t> Tree_t;
+      return MakeReturn<Tree_t,C1>::make(Tree_t(FnMap(goffsets.slice()),
+	CreateLeaf<QDPType<T1,C1> >::make(l)));
+    }
 
 
   template<class T1,class C1>
-__device__
   inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPExpr<T1,C1> & l)
@@ -1846,16 +1554,13 @@ __device__
 
 public:
   //! Accessor to offsets
-__device__
   const multi1d<int>& Offsets() const {return goffsets;}
 
 private:
   //! Hide copy constructor
-__device__
   Map(const Map&) {}
 
   //! Hide operator=
-__device__
   void operator=(const Map&) {}
 
 private:
@@ -1865,13 +1570,30 @@ private:
 
 
 
+// This is the PETE version of a map, namely return an expression
+struct FnMap
+{
+  PETE_EMPTY_CONSTRUCTORS(FnMap)
+
+  const int *goff;
+  FnMap(const int *goffsets): goff(goffsets)
+    {
+//    fprintf(stderr,"FnMap(): goff=0x%x\n",goff);
+    }
+  
+  template<class T>
+  inline typename UnaryReturn<T, FnMap>::Type_t
+  operator()(const T &a) const
+  {
+    return (a);
+  }
+};
 
 
 #if defined(QDP_USE_PROFILING)   
 template <>
 struct TagVisitor<FnMap, PrintTag> : public ParenPrinter<FnMap>
 { 
-__device__
   static void visit(FnMap op, PrintTag t) 
     { t.os_m << "shift"; }
 };
@@ -1885,7 +1607,6 @@ struct ForEach<UnaryNode<FnMap, A>, EvalLeaf1, CTag>
   typedef typename ForEach<A, EvalLeaf1, CTag>::Type_t TypeA_t;
   typedef typename Combine1<TypeA_t, FnMap, CTag>::Type_t Type_t;
   inline static
-__device__
   Type_t apply(const UnaryNode<FnMap, A> &expr, const EvalLeaf1 &f, 
     const CTag &c) 
   {
@@ -1905,20 +1626,16 @@ class ArrayMap
 {
 public:
   //! Constructor - does nothing really
-__device__
   ArrayMap() {}
 
   //! Destructor
-__device__
   ~ArrayMap() {}
 
   //! Constructor from a function object
-__device__
   ArrayMap(const ArrayMapFunc& fn) {make(fn);}
 
   //! Actual constructor from a function object
   /*! The semantics are   source_site = func(dest_site,sign) */
-__device__
   void make(const ArrayMapFunc& func);
 
   //! Function call operator for a shift
@@ -1932,7 +1649,6 @@ __device__
    * This routine is very architecture dependent.
    */
   template<class T1,class C1>
-__device__
   inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPType<T1,C1> & l, int dir)
@@ -1945,7 +1661,6 @@ __device__
 
 
   template<class T1,class C1>
-__device__
   inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPExpr<T1,C1> & l, int dir)
@@ -1959,11 +1674,9 @@ __device__
 
 private:
   //! Hide copy constructor
-__device__
   ArrayMap(const ArrayMap&) {}
 
   //! Hide operator=
-__device__
   void operator=(const ArrayMap&) {}
 
 private:
@@ -1978,20 +1691,16 @@ class BiDirectionalMap
 {
 public:
   //! Constructor - does nothing really
-__device__
   BiDirectionalMap() {}
 
   //! Destructor
-__device__
   ~BiDirectionalMap() {}
 
   //! Constructor from a function object
-__device__
   BiDirectionalMap(const MapFunc& fn) {make(fn);}
 
   //! Actual constructor from a function object
   /*! The semantics are   source_site = func(dest_site,sign) */
-__device__
   void make(const MapFunc& func);
 
   //! Function call operator for a shift
@@ -2005,7 +1714,6 @@ __device__
    * This routine is very architecture dependent.
    */
   template<class T1,class C1>
-__device__
   inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPType<T1,C1> & l, int isign)
@@ -2018,7 +1726,6 @@ __device__
 
 
   template<class T1,class C1>
-__device__
   inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPExpr<T1,C1> & l, int isign)
@@ -2032,11 +1739,9 @@ __device__
 
 private:
   //! Hide copy constructor
-__device__
   BiDirectionalMap(const BiDirectionalMap&) {}
 
   //! Hide operator=
-__device__
   void operator=(const BiDirectionalMap&) {}
 
 private:
@@ -2051,20 +1756,16 @@ class ArrayBiDirectionalMap
 {
 public:
   //! Constructor - does nothing really
-__device__
   ArrayBiDirectionalMap() {}
 
   //! Destructor
-__device__
   ~ArrayBiDirectionalMap() {}
 
   //! Constructor from a function object
-__device__
   ArrayBiDirectionalMap(const ArrayMapFunc& fn) {make(fn);}
 
   //! Actual constructor from a function object
   /*! The semantics are   source_site = func(dest_site,sign) */
-__device__
   void make(const ArrayMapFunc& func);
 
   //! Function call operator for a shift
@@ -2077,62 +1778,35 @@ __device__
    * Notice, there may be an ILattice underneath which requires shift args.
    * This routine is very architecture dependent.
    */
-  // template<class T1,class C1>
-  // inline typename MakeReturn<UnaryNode<FnMap,
-  //   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
-  // operator()(const QDPType<T1,C1> & l, int isign, int dir)
-  //   {
-  //     typedef UnaryNode<FnMap,
-  // 	typename CreateLeaf<QDPType<T1,C1> >::Leaf_t> Tree_t;
-  //     return MakeReturn<Tree_t,C1>::make(Tree_t(FnMap(bimapsa((isign+1)>>1,dir).Offsets().slice()),
-  // 	CreateLeaf<QDPType<T1,C1> >::make(l)));
-  //   }
+  template<class T1,class C1>
+  inline typename MakeReturn<UnaryNode<FnMap,
+    typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
+  operator()(const QDPType<T1,C1> & l, int isign, int dir)
+    {
+      typedef UnaryNode<FnMap,
+	typename CreateLeaf<QDPType<T1,C1> >::Leaf_t> Tree_t;
+      return MakeReturn<Tree_t,C1>::make(Tree_t(FnMap(bimapsa((isign+1)>>1,dir).Offsets().slice()),
+	CreateLeaf<QDPType<T1,C1> >::make(l)));
+    }
 
 
-  // template<class T1,class C1>
-  // inline typename MakeReturn<UnaryNode<FnMap,
-  //   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>, C1>::Expression_t
-  // operator()(const QDPExpr<T1,C1> & l, int isign, int dir)
-  //   {
-  //     typedef UnaryNode<FnMap,
-  // 	typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t> Tree_t;
-  //     return MakeReturn<Tree_t,C1>::make(Tree_t(FnMap(bimapsa((isign+1)>>1,dir).Offsets().slice()),
-  // 	CreateLeaf<QDPExpr<T1,C1> >::make(l)));
-  //   }
-
-
-  // fw: taken from parscalar
-  template<class T1>
-__device__
-  OLattice<T1>
-  operator()(const OLattice<T1> & l, int isign, int dir)
-  {
-#if defined(SPU_DEBUG)
-    printf("parscalar version...\n");
-#endif
-    return bimapsa((isign+1)>>1,dir)(l);
-  }
-  template<class RHS, class T1>
-__device__
-  OLattice<T1>
-  operator()(const QDPExpr<RHS,OLattice<T1> > & l, int isign, int dir)
-  {
-#if defined(SPU_DEBUG)
-    printf("parscalar version...\n");
-#endif
-    return bimapsa((isign+1)>>1,dir)(l);
-  }
-
-
+  template<class T1,class C1>
+  inline typename MakeReturn<UnaryNode<FnMap,
+    typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>, C1>::Expression_t
+  operator()(const QDPExpr<T1,C1> & l, int isign, int dir)
+    {
+      typedef UnaryNode<FnMap,
+	typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t> Tree_t;
+      return MakeReturn<Tree_t,C1>::make(Tree_t(FnMap(bimapsa((isign+1)>>1,dir).Offsets().slice()),
+	CreateLeaf<QDPExpr<T1,C1> >::make(l)));
+    }
 
 
 private:
   //! Hide copy constructor
-__device__
   ArrayBiDirectionalMap(const ArrayBiDirectionalMap&) {}
 
   //! Hide operator=
-__device__
   void operator=(const ArrayBiDirectionalMap&) {}
 
 private:
@@ -2145,115 +1819,9 @@ private:
 // Input and output of various flavors that are architecture specific
 
 //! Decompose a lexicographic site into coordinates
-__device__
 multi1d<int> crtesn(int ipos, const multi1d<int>& latt_size);
 
-// //! XML output
-// template<class T>  
-// XMLWriter& operator<<(XMLWriter& xml, const OLattice<T>& d)
-// {
-//   xml.openTag("OLattice");
 
-//   XMLWriterAPI::AttributeList alist;
-
-//   const int vvol = Layout::vol();
-//   for(int site=0; site < vvol; ++site) 
-//   { 
-//     multi1d<int> coord = crtesn(site, Layout::lattSize());
-//     std::ostringstream os;
-//     os << coord[0];
-//     for(int i=1; i < coord.size(); ++i)
-//       os << " " << coord[i];
-
-//     alist.clear();
-//     alist.push_back(XMLWriterAPI::Attribute("site", site));
-//     alist.push_back(XMLWriterAPI::Attribute("coord", os.str()));
-
-//     xml.openTag("elem", alist);
-//     xml << d.elem(Layout::linearSiteIndex(site));
-//     xml.closeTag();
-//   }
-
-//   xml.closeTag(); // OLattice
-
-//   return xml;
-// }
-
-
-
-// //! Binary output
-// /*! Assumes no inner grid */
-// template<class T>
-// inline
-// void write(BinaryWriter& bin, const OScalar<T>& d)
-// {
-//   if (Layout::primaryNode()) 
-//     bin.writeArray((const char *)&(d.elem()), 
-// 		   sizeof(typename WordType<T>::Type_t), 
-// 		   sizeof(T) / sizeof(typename WordType<T>::Type_t));
-// }
-
-// //! Binary output
-// /*! Assumes no inner grid */
-// template<class T>  
-// void write(BinaryWriter& bin, const OLattice<T>& d)
-// {
-//   const int vvol = Layout::vol();
-//   for(int site=0; site < vvol; ++site) 
-//   {
-//     int i = Layout::linearSiteIndex(site);
-//     bin.writeArray((const char*)&(d.elem(i)), 
-// 		   sizeof(typename WordType<T>::Type_t), 
-// 		   sizeof(T) / sizeof(typename WordType<T>::Type_t));
-//   }
-// }
-
-// //! Write a single site of a lattice quantity at coord
-// /*! Assumes no inner grid */
-// template<class T>  
-// void write(BinaryWriter& bin, const OLattice<T>& d, const multi1d<int>& coord)
-// {
-//   int i = Layout::linearSiteIndex(coord);
-//   bin.writeArray((const char*)&(d.elem(i)), 
-// 		 sizeof(typename WordType<T>::Type_t), 
-// 		 sizeof(T) / sizeof(typename WordType<T>::Type_t));
-// }
-
-// //! Binary input
-// /*! Assumes no inner grid */
-// template<class T>
-// void read(BinaryReader& bin, OScalar<T>& d)
-// {
-//   bin.readArray((char*)&(d.elem()), 
-// 		sizeof(typename WordType<T>::Type_t), 
-// 		sizeof(T) / sizeof(typename WordType<T>::Type_t)); 
-// }
-
-// //! Binary input
-// /*! Assumes no inner grid */
-// template<class T>  
-// void read(BinaryReader& bin, OLattice<T>& d)
-// {
-//   const int vvol = Layout::vol();
-//   for(int site=0; site < vvol; ++site) 
-//   {
-//     int i = Layout::linearSiteIndex(site);
-//     bin.readArray((char*)&(d.elem(i)), 
-// 		  sizeof(typename WordType<T>::Type_t), 
-// 		  sizeof(T) / sizeof(typename WordType<T>::Type_t));
-//   }
-// }
-
-// //! Read a single site and place it at coord
-// /*! Assumes no inner grid */
-// template<class T>  
-// void read(BinaryReader& bin, OLattice<T>& d, const multi1d<int>& coord)
-// {
-//   int i = Layout::linearSiteIndex(coord);
-//   bin.readArray((char*)&(d.elem(i)), 
-// 		sizeof(typename WordType<T>::Type_t), 
-// 		sizeof(T) / sizeof(typename WordType<T>::Type_t));
-// }
 
 } // namespace QDP
 

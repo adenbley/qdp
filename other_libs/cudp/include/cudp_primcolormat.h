@@ -1,5 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_primcolormat.h,v 1.14 2007/10/06 14:59:10 edwards Exp $
 
 /*! \file
  * \brief Primitive Color Matrix
@@ -26,13 +25,10 @@ namespace QDP {
 template <class T, int N> class PColorMatrix : public PMatrix<T, N, PColorMatrix>
 {
 public:
-__device__
-  PColorMatrix() {}
   //! PColorMatrix = PScalar
   /*! Fill with primitive scalar */
   template<class T1>
   inline
-__device__
   PColorMatrix& operator=(const PScalar<T1>& rhs)
     {
       assign(rhs);
@@ -43,7 +39,6 @@ __device__
   /*! Set equal to another PMatrix */
   template<class T1>
   inline
-__device__
   PColorMatrix& operator=(const PColorMatrix<T1,N>& rhs) 
     {
       assign(rhs);
@@ -297,7 +292,6 @@ struct UnaryReturn<PColorMatrix<T,N>, FnTraceColor > {
 
 template<class T, int N>
 inline typename UnaryReturn<PColorMatrix<T,N>, FnTraceColor>::Type_t
-__device__
 traceColor(const PColorMatrix<T,N>& s1)
 {
   typename UnaryReturn<PColorMatrix<T,N>, FnTraceColor>::Type_t  d;
@@ -320,7 +314,6 @@ struct BinaryReturn<PColorMatrix<T1,N>, PColorMatrix<T2,N>, FnTraceColorMultiply
 
 template<class T1, class T2, int N>
 inline typename BinaryReturn<PColorMatrix<T1,N>, PColorMatrix<T2,N>, FnTraceColorMultiply>::Type_t
-__device__
 traceColorMultiply(const PColorMatrix<T1,N>& l, const PColorMatrix<T2,N>& r)
 {
   typename BinaryReturn<PColorMatrix<T1,N>, PColorMatrix<T2,N>, FnTraceColorMultiply>::Type_t  d;
@@ -344,7 +337,6 @@ struct BinaryReturn<PColorMatrix<T1,N>, PScalar<T2>, FnTraceColorMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-__device__
 inline typename BinaryReturn<PColorMatrix<T1,N>, PScalar<T2>, FnTraceColorMultiply>::Type_t
 traceColorMultiply(const PColorMatrix<T1,N>& l, const PScalar<T2>& r)
 {
@@ -365,7 +357,6 @@ struct BinaryReturn<PScalar<T1>, PColorMatrix<T2,N>, FnTraceColorMultiply> {
 };
 
 template<class T1, class T2, int N>
-__device__
 inline typename BinaryReturn<PScalar<T1>, PColorMatrix<T2,N>, FnTraceColorMultiply>::Type_t
 traceColorMultiply(const PScalar<T1>& l, const PColorMatrix<T2,N>& r)
 {
@@ -389,7 +380,6 @@ struct UnaryReturn<PColorMatrix<T,N>, FnTransposeColor > {
 //! PColorMatrix = transposeColor(PColorMatrix) 
 /*! t = transposeColor(source1) - ColorMatrix specialization -- where the work is actually done */
 template<class T, int N>
-__device__
 inline typename UnaryReturn<PColorMatrix<T,N>, FnTransposeColor >::Type_t
 transposeColor(const PColorMatrix<T,N>& s1)
 {
@@ -417,7 +407,6 @@ struct BinaryReturn<PColorVector<T1,N>, PColorVector<T2,N>, FnOuterProduct> {
 };
 
 template<class T1, class T2, int N>
-__device__
 inline typename BinaryReturn<PColorVector<T1,N>, PColorVector<T2,N>, FnOuterProduct>::Type_t
 outerProduct(const PColorVector<T1,N>& l, const PColorVector<T2,N>& r)
 {
@@ -441,7 +430,6 @@ struct UnaryReturn<PColorMatrix<T,N>, FnPeekColorMatrix > {
 };
 
 template<class T, int N>
-__device__
 inline typename UnaryReturn<PColorMatrix<T,N>, FnPeekColorMatrix>::Type_t
 peekColor(const PColorMatrix<T,N>& l, int row, int col)
 {
@@ -454,7 +442,6 @@ peekColor(const PColorMatrix<T,N>& l, int row, int col)
 
 //! Insert color matrix components
 template<class T1, class T2, int N>
-__device__
 inline PColorMatrix<T1,N>&
 pokeColor(PColorMatrix<T1,N>& l, const PScalar<T2>& r, int row, int col)
 {
@@ -480,7 +467,6 @@ struct TrinaryReturn<PColorMatrix<T1,N>, PColorMatrix<T2,N>, PColorMatrix<T3,N>,
  * This routine is completely unrolled for 3 colors
  */
 template<class T1, class T2, class T3>
-__device__
 inline typename TrinaryReturn<PColorMatrix<T1,3>, PColorMatrix<T2,3>, PColorMatrix<T3,3>, FnColorContract>::Type_t
 colorContract(const PColorMatrix<T1,3>& s1, const PColorMatrix<T2,3>& s2, const PColorMatrix<T3,3>& s3)
 {
@@ -544,7 +530,6 @@ colorContract(const PColorMatrix<T1,3>& s1, const PColorMatrix<T2,3>& s2, const 
  *  should be written for every number of colors.
  */
 template<class T1, class T2, class T3>
-__device__
 inline typename TrinaryReturn<PColorMatrix<T1,1>, PColorMatrix<T2,1>, PColorMatrix<T3,1>, FnColorContract>::Type_t
 colorContract(const PColorMatrix<T1,1>& s1, const PColorMatrix<T2,1>& s2, const PColorMatrix<T3,1>& s3)
 {
@@ -569,7 +554,6 @@ colorContract(const PColorMatrix<T1,1>& s1, const PColorMatrix<T2,1>& s2, const 
  *  should be written for every number of colors.
  */
 template<class T1, class T2, class T3>
-__device__
 inline typename TrinaryReturn<PColorMatrix<T1,2>, PColorMatrix<T2,2>, PColorMatrix<T3,2>, FnColorContract>::Type_t
 colorContract(const PColorMatrix<T1,2>& s1, const PColorMatrix<T2,2>& s2, const PColorMatrix<T3,2>& s3)
 {
@@ -594,7 +578,6 @@ colorContract(const PColorMatrix<T1,2>& s1, const PColorMatrix<T2,2>& s2, const 
  *  should be written for every number of colors.
  */
 template<class T1, class T2, class T3>
-__device__
 inline typename TrinaryReturn<PColorMatrix<T1,4>, PColorMatrix<T2,4>, PColorMatrix<T3,4>, FnColorContract>::Type_t
 colorContract(const PColorMatrix<T1,4>& s1, const PColorMatrix<T2,4>& s2, const PColorMatrix<T3,4>& s3)
 {
@@ -619,7 +602,6 @@ colorContract(const PColorMatrix<T1,4>& s1, const PColorMatrix<T2,4>& s2, const 
  * This routine is completely unrolled for 3 colors
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<PColorMatrix<T1,3>, PColorMatrix<T2,3>, FnQuarkContractXX>::Type_t
 quarkContractXX(const PColorMatrix<T1,3>& s1, const PColorMatrix<T2,3>& s2)
 {
@@ -716,7 +698,6 @@ quarkContractXX(const PColorMatrix<T1,3>& s1, const PColorMatrix<T2,3>& s2)
  *  should be written for every number of colors.
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<PColorMatrix<T1,1>, PColorMatrix<T2,1>, FnQuarkContractXX>::Type_t
 quarkContractXX(const PColorMatrix<T1,1>& s1, const PColorMatrix<T2,1>& s2)
 {
@@ -743,7 +724,6 @@ quarkContractXX(const PColorMatrix<T1,1>& s1, const PColorMatrix<T2,1>& s2)
  *  should be written for every number of colors.
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<PColorMatrix<T1,2>, PColorMatrix<T2,2>, FnQuarkContractXX>::Type_t
 quarkContractXX(const PColorMatrix<T1,2>& s1, const PColorMatrix<T2,2>& s2)
 {
@@ -770,7 +750,6 @@ quarkContractXX(const PColorMatrix<T1,2>& s1, const PColorMatrix<T2,2>& s2)
  *  should be written for every number of colors.
  */
 template<class T1, class T2>
-__device__
 inline typename BinaryReturn<PColorMatrix<T1,4>, PColorMatrix<T2,4>, FnQuarkContractXX>::Type_t
 quarkContractXX(const PColorMatrix<T1,4>& s1, const PColorMatrix<T2,4>& s2)
 {

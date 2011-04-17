@@ -17,7 +17,7 @@ template<int N> class GammaType
 {
 public:
   //! Main constructor 
-  GammaType() :m(0) {}
+  GammaType() {}
   //! Destructor
   ~GammaType() {}
 
@@ -26,8 +26,7 @@ public:
 
 public:
   //! The integer representation for which product of gamma matrices
-  int elem() const {return m;}
-  inline void setElem(unsigned int& i) {const_cast<int&>(m)=i;}
+  int elem() const {return m;}  
 
 private:
   //! Representation
@@ -46,7 +45,7 @@ template<int N> class GammaTypeDP
 {
 public:
   //! Main constructor 
-  GammaTypeDP() :m(0) {}
+  GammaTypeDP() {}
   //! Destructor
   ~GammaTypeDP() {}
 
@@ -105,6 +104,28 @@ struct BinaryReturn<GammaType<N>, PScalar<T2>, OpGammaTypeMultiply> {
 
 template<class T2, int N, class OpMultiplyGammaType>
 struct BinaryReturn<PScalar<T2>, GammaType<N>, OpMultiplyGammaType> {
+  typedef PScalar<typename UnaryReturn<T2, OpUnaryPlus>::Type_t>  Type_t;
+};
+
+ 
+// PScalar
+template<int N, int m, class T2, class OpGammaConstDPMultiply>
+struct BinaryReturn<GammaConstDP<N,m>, PScalar<T2>, OpGammaConstDPMultiply> {
+  typedef PScalar<typename UnaryReturn<T2, OpUnaryPlus>::Type_t>  Type_t;
+};
+
+template<class T2, int N, int m, class OpMultiplyGammaConstDP>
+struct BinaryReturn<PScalar<T2>, GammaConstDP<N,m>, OpMultiplyGammaConstDP> {
+  typedef PScalar<typename UnaryReturn<T2, OpUnaryPlus>::Type_t>  Type_t;
+};
+
+template<class T2, int N, class OpGammaTypeDPMultiply>
+struct BinaryReturn<GammaTypeDP<N>, PScalar<T2>, OpGammaTypeDPMultiply> {
+  typedef PScalar<typename UnaryReturn<T2, OpUnaryPlus>::Type_t>  Type_t;
+};
+
+template<class T2, int N, class OpMultiplyGammaTypeDP>
+struct BinaryReturn<PScalar<T2>, GammaTypeDP<N>, OpMultiplyGammaTypeDP> {
   typedef PScalar<typename UnaryReturn<T2, OpUnaryPlus>::Type_t>  Type_t;
 };
 

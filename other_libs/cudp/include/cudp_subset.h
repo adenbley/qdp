@@ -1,6 +1,4 @@
 // -*- C++ -*-
-// $Id: cudp_subset.h,v 1.13 2007/07/17 16:56:09 bjoo Exp $
-
 /*! @file
  * @brief Sets and subsets
  */
@@ -41,36 +39,29 @@ class Subset
 {
 public:
   //! There can be an empty constructor
-  __device__
   Subset() {}
 
   //! Copy constructor
-  __device__
   Subset(const Subset& s):
     ordRep(s.ordRep), startSite(s.startSite), endSite(s.endSite), 
-    sub_index(s.sub_index), sitetable(s.sitetable)
+    sub_index(s.sub_index), sitetable(s.sitetable), set(s.set)
     {}
 
   // Simple constructor
-  __device__
   void make(const Subset& s);
 
   //! Destructor for a subset
-  // __device__
-  // virtual ~Subset() {}
+  virtual ~Subset() {}
 
   //! The = operator
-  __device__
   Subset& operator=(const Subset& s);
 
   //! Access the coloring for this subset
-  __device__
   int color() const {return sub_index;}
 
 protected:
   // Simple constructor
-  __device__
-  void make(bool rep, int start, int end, multi1d<int>* ind, int cb);
+  void make(bool rep, int start, int end, multi1d<int>* ind, int cb, Set* set);
 
 private:
   bool ordRep;
@@ -81,18 +72,19 @@ private:
   //! Site lookup table
   multi1d<int>* sitetable;
 
+  //! Original set
+  Set *set;
+
 public:
-  __device__
   inline bool hasOrderedRep() const {return ordRep;}
-  __device__
   inline int start() const {return startSite;}
-  __device__
   inline int end() const {return endSite;}
 
-  __device__
   const multi1d<int>& siteTable() const {return *sitetable;}
-  __device__
   inline int numSiteTable() const {return sitetable->size();}
+
+  //! The super-set of this subset
+  const Set& getSet() const { return *set; }
 
   friend class Set;
 };
