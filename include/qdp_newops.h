@@ -7,6 +7,11 @@
 #ifndef QDP_NEWOPS_H
 #define QDP_NEWOPS_H
 
+#ifdef BUILD_CUDP
+#include "cudp_iface.h"
+#endif
+
+
 namespace QDP {
 
 //-----------------------------------------------------------------------------
@@ -202,7 +207,7 @@ struct FnPeekSpinMatrix
 {
   PETE_EMPTY_CONSTRUCTORS(FnPeekSpinMatrix)
 
-  FnPeekSpinMatrix(int _row, int _col): row(_row), col(_col) {}
+  FnPeekSpinMatrix(int _row, int _col): row(_row) , col(_col) {}
   
   template<class T>
   inline typename UnaryReturn<T, FnPeekSpinMatrix>::Type_t
@@ -211,8 +216,18 @@ struct FnPeekSpinMatrix
     return (peekSpin(a,row,col));
   }
 
+#ifdef BUILD_CUDP
+  FlattenTag::NodeData packNode() const {
+    std::stringstream packString;
+    packString << row << " " << col;
+    return packString.str();
+  }
+#endif
+
+
 private:
-  int row, col;
+  int row,col;
+
 };
 
 //! Extract spin matrix components
@@ -243,6 +258,48 @@ peekSpin(const QDPExpr<T1,C1> & l, int row, int col)
   return MakeReturn<Tree_t,Container_t>::make(Tree_t(FnPeekSpinMatrix(row,col),
     CreateLeaf<QDPExpr<T1,C1> >::make(l)));
 }
+
+
+// fw  inserted to read the data from the node
+//
+#ifdef BUILD_CUDP
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPeekSpinMatrix, A>, FlattenTag , CTag>
+{
+  typedef typename ForEach<A, FlattenTag, CTag>::Type_t TypeA_t;
+  typedef typename Combine1<TypeA_t, FnPeekSpinMatrix, CTag>::Type_t Type_t;
+  inline static
+  Type_t apply(const UnaryNode<FnPeekSpinMatrix, A> &expr, const FlattenTag &f, 
+	       const CTag &c)
+  {
+    FlattenTag::NodeData nodeData;
+
+    nodeData = expr.operation().packNode();
+    f.listNode.push_back(nodeData);
+
+    cout << f.listNode.size()-1 << " " << nodeData << endl;
+    std::istringstream iss(nodeData);
+    int num;
+    iss >> num;
+    cout << "got:" << num << endl;
+
+    //  fprintf(stderr,"ForEach<Unary<FnMap>>: site = %d, new = %d\n",f.val1(),ff.val1());
+
+    return Combine1<TypeA_t, FnPeekSpinMatrix, CTag>::
+      combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),
+	      expr.operation(), c);
+  }
+};
+#endif
+//
+// fw
+
+
+
+
+
+
+
 
 
 //! Structure for extracting spin vector components

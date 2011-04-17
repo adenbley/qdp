@@ -1700,6 +1700,15 @@ namespace QDP {
     {
       return (a);
     }
+
+#ifdef BUILD_CUDP
+  FlattenTag::NodeData packNode() const {
+    std::string packString( (const char *)goff , sizeof(int)*Layout::vol() );
+    return packString;
+  }
+#endif
+
+
   };
 
 
@@ -1731,6 +1740,42 @@ namespace QDP {
 		expr.operation(), c);
     }
   };
+
+
+  // fw  inserted to read the data from the node
+  //
+#ifdef BUILD_CUDP
+  template<class A, class CTag>
+  struct ForEach<UnaryNode<FnMap, A>, FlattenTag, CTag>
+  {
+    typedef typename ForEach<A, FlattenTag, CTag>::Type_t TypeA_t;
+    typedef typename Combine1<TypeA_t, FnMap, CTag>::Type_t Type_t;
+    inline static
+    Type_t apply(const UnaryNode<FnMap, A> &expr, const FlattenTag &f, 
+		 const CTag &c) 
+    {
+      FlattenTag::NodeData nodeData;
+
+      nodeData = expr.operation().packNode();
+      f.listNode.push_back(nodeData);
+
+      cout << f.listNode.size()-1 << " " << endl;
+      cout << "got:" << nodeData.length() << "bytes" << endl;
+
+      //  fprintf(stderr,"ForEach<Unary<FnMap>>: site = %d, new = %d\n",f.val1(),ff.val1());
+
+      return Combine1<TypeA_t, FnMap, CTag>::
+	combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),
+		expr.operation(), c);
+
+    }
+  };
+#endif
+  //
+  // fw
+
+
+
 
 
   //-----------------------------------------------------------------------------
