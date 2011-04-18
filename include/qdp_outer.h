@@ -14,7 +14,6 @@
 
 namespace QDP {
 
-  void getDeviceMem(void *mem , size_t size);
 
 /*! \defgroup fiberbundle Fiberbundle types and operations
  *
@@ -125,35 +124,35 @@ public:
   OScalar(const OScalar& a): F(a.F) {/*fprintf(stderr,"copy OScalar\n");*/}
 
 
-  void getHostMem()
+  void getHostMem() const
   {
-    QDPCUDA::getHostMem((void**)(&Fh),sizeof(T)*Layout::sitesOnNode());
+    QDPCUDA::getHostMem((void**)(&Fh),sizeof(T) );
     hostMem=true;
   }
-  void freeHostMem()
+  void freeHostMem() const
   {
     QDPCUDA::freeHostMem((void *)(Fh));
     hostMem=false;
   }
-  void getDeviceMem()
+  void getDeviceMem() const
   {
-    QDPCUDA::getDeviceMem((void**)(&Fd),sizeof(T)*Layout::sitesOnNode());
+    QDPCUDA::getDeviceMem((void**)(&Fd),sizeof(T) );
     deviceMem=true;
   }
-  void freeDeviceMem()
+  void freeDeviceMem() const
   {
     QDPCUDA::freeDeviceMem((void*)(Fd));
     deviceMem=false;
   }
-  void copyToHost()
+  void copyToHost() const
   {
-    QDPCUDA::copyToHost(Fh,Fd,sizeof(T)*Layout::sitesOnNode());
+    QDPCUDA::copyToHost(Fh,Fd,sizeof(T));
     F=*Fh;
   }
-  void copyToDevice()
+  void copyToDevice() const
   {
     *Fh=F;
-    QDPCUDA::copyToDevice(Fd,Fh,sizeof(T)*Layout::sitesOnNode());
+    QDPCUDA::copyToDevice(Fd,Fh,sizeof(T));
   }
   bool onDevice() const
   {
@@ -163,9 +162,9 @@ public:
 
 
 public:
-  bool deviceMem,hostMem;
-  T* Fd;
-  T* Fh;
+  mutable bool deviceMem,hostMem;
+  mutable T* Fd;
+  mutable T* Fh;
   inline T& elem() {return F;}
   inline const T& elem() const {return F;}
 

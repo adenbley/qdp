@@ -36,6 +36,18 @@ dnl Tell the user about Nd
 AC_MSG_NOTICE([Configuring QDP++ for Nd = ${ac_Nd}])
 
 
+dnl Specify GPU Arch
+AC_ARG_ENABLE(gpu-arch,
+ AC_HELP_STRING([--enable-gpu-arch=arch], [ Set GPU arch=sm_10, sm_12,sm_13,sm_20, sm_21 (default: sm_20)] ),
+ [ gpu_arch=${enableval} ],
+ [ gpu_arch="sm_20" ]
+)
+
+AC_DEFINE_UNQUOTED(GPU_ARCH , ${gpu_arch} , [GPU architecture])
+
+AC_MSG_NOTICE([Configuring QDP++ for GPU architecture = ${gpu_arch}])
+
+
 dnl --enable-Nc
 AC_ARG_ENABLE(Nc,
   AC_HELP_STRING([--enable-Nc=N ],
@@ -279,6 +291,30 @@ cb32|hyper|hypercube)
 	;;
 esac
 AC_MSG_NOTICE([Configuring QDP++ with ${CONFIG_LAYOUT} layout])
+
+
+
+dnl Specify CUDA Location
+AC_ARG_WITH(cuda,
+  AC_HELP_STRING([--with-cuda=CUDADIR], [ Specify CUDA installation directory (default: /usr/local/cuda)]),
+  [ cuda_home=${withval} ],
+  [ cuda_home=/usr/local/cuda ]
+)
+
+AC_DEFINE_UNQUOTED([CUDA_DIR] , ["$cuda_home"] , [CUDA install path])
+
+dnl Specify CPU Arch
+AC_ARG_ENABLE(cpu-arch,
+ AC_HELP_STRING([--enable-cpu-arch=arch],  [ Set CPU arch: x86 or x86_64 (default: x86_64)] ),
+ [ cpu_arch=${enableval} ],
+ [ cpu_arch="x86_64" ]
+)
+
+AC_DEFINE_UNQUOTED([CPU_ARCH] , ["$cpu_arch"] , [CPU architecture])
+
+
+
+
 
 dnl George T. Fleming 03/03/2003
 dnl This is a total reworking of Balint Joo's implementation

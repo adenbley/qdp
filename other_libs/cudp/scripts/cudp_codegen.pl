@@ -382,15 +382,30 @@ extern "C" void function_host(void * ptr)
     ret = cudaMalloc((void **)(&ival_dev),sizeof(IfaceCudp));
     cout << "get device memory for kernel interface    " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
 
-    ret = cudaMalloc((void **)(&ival->leafDataArray),sizeof(FlattenTag::LeafData) * ival->numberLeafs);
-    cout << "get device memory for leaf data pointers  " << sizeof(FlattenTag::LeafData) * ival->numberLeafs << " : " << string(cudaGetErrorString(ret)) << endl;
-    ret = cudaMalloc((void **)(&ival->nodeDataArray),sizeof(FlattenTag::NodeData) * ival->numberNodes);
-    cout << "get device memory for node data pointers  " << sizeof(FlattenTag::NodeData) * ival->numberNodes << " : " << string(cudaGetErrorString(ret)) << endl;
+    if (ival->numberLeafs > 0) {
+	ret = cudaMalloc((void **)(&ival->leafDataArray),sizeof(FlattenTag::LeafData) * ival->numberLeafs);
+	cout << "get device memory for leaf data pointers  " 
+	    << sizeof(FlattenTag::LeafData) * ival->numberLeafs 
+	    << " : " << string(cudaGetErrorString(ret)) << endl;
+	ret = cudaMemcpy(ival->leafDataArray,save_leafarray ,
+			 sizeof(FlattenTag::LeafData) * ival->numberLeafs,
+			 cudaMemcpyHostToDevice);
+	cout << "copy leaf pointers to device:     " 
+	    << string(cudaGetErrorString(ret)) << endl;
+    }
 
-    ret = cudaMemcpy(ival->leafDataArray,save_leafarray ,sizeof(FlattenTag::LeafData) * ival->numberLeafs,cudaMemcpyHostToDevice);
-    cout << "copy leaf pointers to device:     " << string(cudaGetErrorString(ret)) << endl;
-    ret = cudaMemcpy(ival->nodeDataArray,save_nodearray ,sizeof(FlattenTag::NodeData) * ival->numberNodes,cudaMemcpyHostToDevice);
-    cout << "copy node pointers to device:     " << string(cudaGetErrorString(ret)) << endl;
+    if (ival->numberNodes > 0) {
+	ret = cudaMalloc((void **)(&ival->nodeDataArray),sizeof(FlattenTag::NodeData) * ival->numberNodes);
+	cout << "get device memory for node data pointers  " 
+	    << sizeof(FlattenTag::NodeData) * ival->numberNodes 
+	    << " : " << string(cudaGetErrorString(ret)) << endl;
+	ret = cudaMemcpy(ival->nodeDataArray,save_nodearray ,
+			 sizeof(FlattenTag::NodeData) * ival->numberNodes,
+			 cudaMemcpyHostToDevice);
+	cout << "copy node pointers to device:     " 
+	    << string(cudaGetErrorString(ret)) << endl;
+    }
+
     ret = cudaMemcpy(ival_dev,ival,sizeof(IfaceCudp),cudaMemcpyHostToDevice);
     cout << "copy interface to device:         " << string(cudaGetErrorString(ret)) << endl;
 
@@ -403,11 +418,17 @@ extern "C" void function_host(void * ptr)
     ret = cudaFreeHost(ival);
     cout << "free memory for host interface:   " << string(cudaGetErrorString(ret)) << endl;
 
-    ret = cudaFree(ival->leafDataArray);
-    cout << "free memory for leaf pointers:    " << string(cudaGetErrorString(ret)) << endl;
+    if (ival->numberLeafs > 0) {
+	ret = cudaFree(ival->leafDataArray);
+	cout << "free memory for leaf pointers:    " 
+	    << string(cudaGetErrorString(ret)) << endl;
+    }
 
-    ret = cudaFree(ival->nodeDataArray);
-    cout << "free memory for node pointers:    " << string(cudaGetErrorString(ret)) << endl;
+    if (ival->numberNodes > 0) {
+	ret = cudaFree(ival->nodeDataArray);
+	cout << "free memory for node pointers:    " 
+	    << string(cudaGetErrorString(ret)) << endl;
+    }
 
     ret = cudaFree(ival_dev);
     cout << "free memory for device interface: " << string(cudaGetErrorString(ret)) << endl;

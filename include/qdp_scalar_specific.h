@@ -21,6 +21,12 @@ struct OnDeviceTag {
   mutable int count;
 };
 
+struct OScalarToDeviceTag {
+  OScalarToDeviceTag(bool _toDevice):count(0),toDevice(_toDevice) {}
+  mutable int count;
+  bool toDevice;
+};
+
 
 namespace QDP {
 
@@ -45,6 +51,16 @@ namespace QDP {
     }
   };
 
+  template<class T, class C>
+  struct LeafFunctor<QDPType<T,C>, OScalarToDeviceTag>
+  {
+    typedef int Type_t;
+    static Type_t apply(const QDPType<T,C> &s, const OScalarToDeviceTag &f)
+    { 
+      return LeafFunctor<C,OScalarToDeviceTag>::apply(static_cast<const C&>(s),f);
+    }
+  };
+
 
 
 
@@ -59,21 +75,44 @@ namespace QDP {
       leafData.pointer = (void *)( a.Fd ); 
       f.listLeaf.push_back(leafData);
 
-      cout << f.listLeaf.size()-1 << " " << leafData.pointer << endl;
+      cout << f.listLeaf.size()-1 << " " << leafData.pointer << " (OLattice)" << endl;
 
       return 0;
-      // if (f.iadr >= f.maxleaf) {
-      // 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
-      // 	exit(1);
-      // }
-      // f.adr[ f.iadr ] = (void *)( a.Fd ); 
-      // cout << f.iadr << "  <- " << f.adr[ f.iadr ] << endl;
-      // f.size[ f.iadr ] = sizeof( a.elem( 0 ) );
-      // f.custom[ f.iadr ] = 0;
-      // f.leaftype[ f.iadr ] = 0;
-      // f.totalsize += sizeof( a.elem( 0 ) );
-      // f.iadr++;
-      //return Type_t();
+    }
+  };
+
+
+  template<class T>
+  struct LeafFunctor<OScalar<T>, OScalarToDeviceTag>
+  {
+    //typedef Reference<T> Type_t;
+    typedef int Type_t;
+    inline static Type_t apply(const OScalar<T> &a, const OScalarToDeviceTag &f)
+    {
+      if (f.toDevice) {
+	cout << "copy OScalar to device" << endl;
+	a.getHostMem();
+	a.getDeviceMem();
+	a.copyToDevice();
+      } else {
+	cout << "free OScalar host and device memory" << endl;
+	a.freeHostMem();
+	a.freeDeviceMem();
+      }
+      f.count++;
+
+      return 0;
+    }
+  };
+
+
+  template<class T>
+  struct LeafFunctor<OLattice<T>, OScalarToDeviceTag>
+  {
+    typedef int Type_t;
+    inline static Type_t apply(const OLattice<T> &a, const OScalarToDeviceTag &f)
+    {
+      return 0;
     }
   };
 
@@ -111,21 +150,16 @@ namespace QDP {
     typedef int Type_t;
     inline static Type_t apply(const OScalar<T> &a, const FlattenTag &f)
     {
-      cout << "!!! HACK LeafFunctor<OScalar<T>, FlattenTag>" << endl;
+      FlattenTag::LeafData leafData;
+      leafData.pointer = (void *)( a.Fd ); 
+      f.listLeaf.push_back(leafData);
+
+      cout << f.listLeaf.size()-1 << " " << leafData.pointer << " (OScalar)" << endl;
+
       return 0;
-      // if (f.iadr >= f.maxleaf) {
-      // 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
-      // 	exit(1);
-      // }
-      // f.adr[ f.iadr ] = (void *)( &a.elem() );
-      // f.size[ f.iadr ] = sizeof( a.elem() );
-      // f.leaftype[ f.iadr ] = 1;
-      // f.custom[ f.iadr ] = 0;
-      // f.iadr++;
-      //cout << "ppu: im OScalar... not yet implemented" << endl;
-      //exit(0);
     }
   };
+
 
 
   // template<>
@@ -377,6 +411,10 @@ namespace QDP {
       user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
       dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
     } else {
+      OScalarToDeviceTag oscalarToDeviceTag(true);
+      forEach(rhs, oscalarToDeviceTag , NullCombine());
+      cout << "OScalars copied to device: " << oscalarToDeviceTag.count << endl;
+
       FlattenTag flattenTag;
       forEach(rhs, flattenTag , NullCombine());
 
@@ -389,7 +427,9 @@ namespace QDP {
 
       iface->numberLeafs = flattenTag.listLeaf.size();
       iface->numberNodes = flattenTag.listNode.size();
-      QDPCUDA::getHostMem(  (void**)(&iface->leafDataArray),    sizeof(FlattenTag::LeafData) * iface->numberLeafs  );
+      if (iface->numberLeafs > 0)
+	QDPCUDA::getHostMem(  (void**)(&iface->leafDataArray),    sizeof(FlattenTag::LeafData) * iface->numberLeafs  );
+      if (iface->numberNodes > 0)
       QDPCUDA::getHostMem(  (void**)(&iface->nodeDataArray),    sizeof(FlattenTag::NodeData) * iface->numberNodes  );
 
       int c=0;
@@ -417,9 +457,15 @@ namespace QDP {
 	QDPCUDA::freeDeviceMem( iface->nodeDataArray[i].pointer );
       }
 
+      cout << "free host memory for leaf pointers: ";
       QDPCUDA::freeHostMem(  (void*)(iface->leafDataArray));
+
+      cout << "free host memory for interface: ";
       QDPCUDA::freeHostMem(  (void*)(iface));
 
+      OScalarToDeviceTag oscalarToDeviceTagfree(false);
+      forEach(rhs, oscalarToDeviceTagfree , NullCombine());
+      cout << "number of OScalars which device memory were freed: " << oscalarToDeviceTagfree.count << endl;
 
       // CUDA_iface_eval * ifeval_dev;
       // QDPCUDA::getDeviceMem((void**)(&ifeval_dev),sizeof(CUDA_iface_eval));

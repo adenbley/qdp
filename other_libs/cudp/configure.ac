@@ -1,6 +1,7 @@
 AC_INIT([cudp],[0.0.0],[frank.winter@ed.ac.uk])
 
 AC_CONFIG_AUX_DIR(config)
+AC_CONFIG_HEADERS([include/cudp_config_internal.h])
 
 AC_LANG([C++])
 AC_PROG_CXX(g++ cxx CC)

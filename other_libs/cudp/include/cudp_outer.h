@@ -130,6 +130,11 @@ public:
   OScalar(const OScalar& a): F(a.F) {/*fprintf(stderr,"copy OScalar\n");*/}
 
 
+  __device__
+  inline void setF(void *mem) {
+    F = *static_cast<T*>(mem);
+  }
+
 public:
   __device__ inline T& elem() {return F;}
   __device__ inline const T& elem() const {return F;}
