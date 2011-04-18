@@ -390,20 +390,32 @@ namespace QDP {
       iface->numberLeafs = flattenTag.listLeaf.size();
       iface->numberNodes = flattenTag.listNode.size();
       QDPCUDA::getHostMem(  (void**)(&iface->leafDataArray),    sizeof(FlattenTag::LeafData) * iface->numberLeafs  );
-      //QDPCUDA::getHostMem(  (void**)(&iface->nodeDataArray),    sizeof(FlattenTag::NodeData) * iface->numberNodes  );
+      QDPCUDA::getHostMem(  (void**)(&iface->nodeDataArray),    sizeof(FlattenTag::NodeData) * iface->numberNodes  );
 
       int c=0;
       for (FlattenTag::ListLeaf::iterator i = flattenTag.listLeaf.begin() ; i != flattenTag.listLeaf.end() ; ++i ) {
 	cout << "leafData to iface " << i->pointer << endl;
 	iface->leafDataArray[c++] = *i;
       }
-      // c=0;
-      // for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
-      // 	cout << "nodeData to iface string length = " << i->size() << endl;
-      // 	iface->nodeDataArray[c++] = *i;
-      // }
+      c=0;
+      for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
+      	cout << "nodeData to iface string length = " << i->size() << endl;
+	void * tmpHost;
+	QDPCUDA::getHostMem( (void **)&tmpHost , i->size() );
+	QDPCUDA::copyHostToHost( tmpHost , i->c_str() , i->size() );
+	QDPCUDA::getDeviceMem( (void **)(&iface->nodeDataArray[c].pointer) , i->size() );
+	QDPCUDA::copyToDevice( iface->nodeDataArray[c].pointer , tmpHost , i->size() );
+	QDPCUDA::freeHostMem( tmpHost );
+	c++;
+      }
 
       theCudpJust( __PRETTY_FUNCTION__ , iface );
+
+      cout << "free device memory used for node data" << endl;
+      for (int i = 0 ; i < iface->numberNodes ; i++ ) {
+	cout << "node" << i << ": ";
+	QDPCUDA::freeDeviceMem( iface->nodeDataArray[i].pointer );
+      }
 
       QDPCUDA::freeHostMem(  (void*)(iface->leafDataArray));
       QDPCUDA::freeHostMem(  (void*)(iface));
@@ -1709,7 +1721,7 @@ namespace QDP {
     }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeData packNode() const {
+  FlattenTag::NodeDataString packNode() const {
     std::string packString( (const char *)goff , sizeof(int)*Layout::vol() );
     return packString;
   }
@@ -1761,7 +1773,7 @@ namespace QDP {
     Type_t apply(const UnaryNode<FnMap, A> &expr, const FlattenTag &f, 
 		 const CTag &c) 
     {
-      FlattenTag::NodeData nodeData;
+      FlattenTag::NodeDataString nodeData;
 
       nodeData = expr.operation().packNode();
       f.listNode.push_back(nodeData);

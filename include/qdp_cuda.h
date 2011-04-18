@@ -3,8 +3,9 @@
 
 namespace QDPCUDA {
 
-  void copyToHost(void *dest , void *src , size_t size);
-  void copyToDevice(void *dest , void *src , size_t size);
+  void copyHostToHost(void *dest , void const *src , size_t size);
+  void copyToHost(void *dest , void const *src , size_t size);
+  void copyToDevice(void *dest , void const *src , size_t size);
   void freeDeviceMem(void *mem);
   void getDeviceMem(void **mem , size_t size);
   void freeHostMem(void *mem);

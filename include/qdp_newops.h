@@ -119,7 +119,7 @@ struct FnPeekColorMatrix
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeData packNode() const {
+  FlattenTag::NodeDataString packNode() const {
     std::stringstream packString;
     packString << row << " " << col;
     return packString.str();
@@ -176,7 +176,7 @@ struct FnPeekColorVector
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeData packNode() const {
+  FlattenTag::NodeDataString packNode() const {
     std::stringstream packString;
     packString << row;
     return packString.str();
@@ -233,7 +233,7 @@ struct FnPeekSpinMatrix
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeData packNode() const {
+  FlattenTag::NodeDataString packNode() const {
     struct pack_t {
       int row;
       int col;
@@ -301,7 +301,7 @@ struct FnPeekSpinVector
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeData packNode() const {
+  FlattenTag::NodeDataString packNode() const {
     std::stringstream packString;
     packString << row;
     return packString.str();
@@ -361,7 +361,7 @@ struct FnPokeColorMatrix
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeData packNode() const {
+  FlattenTag::NodeDataString packNode() const {
     std::stringstream packString;
     packString << row << " " << col;
     return packString.str();
@@ -442,7 +442,7 @@ struct FnPokeColorVector
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeData packNode() const {
+  FlattenTag::NodeDataString packNode() const {
     std::stringstream packString;
     packString << row;
     return packString.str();
@@ -522,7 +522,7 @@ struct FnPokeSpinMatrix
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeData packNode() const {
+  FlattenTag::NodeDataString packNode() const {
     std::stringstream packString;
     packString << row << " " << col;
     return packString.str();
@@ -602,7 +602,7 @@ struct FnPokeSpinVector
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeData packNode() const {
+  FlattenTag::NodeDataString packNode() const {
     std::stringstream packString;
     packString << row;
     return packString.str();
@@ -679,7 +679,7 @@ pokeSpin(const QDPSubType<T1,C1>& l, const QDPExpr<T2,C2>& r, int row)
 //   Type_t apply(const UnaryNode<FnPeekSpinMatrix, A> &expr, const FlattenTag &f, 
 // 	       const CTag &c)
 //   {
-//     FlattenTag::NodeData nodeData;
+//     FlattenTag::NodeDataString nodeData;
 //     nodeData = expr.operation().packNode();
 //     f.listNode.push_back(nodeData);
 
@@ -703,7 +703,7 @@ struct ForEach_Base<UnaryNode<FnTag, A>, FlattenTag , CTag>
   Type_t apply(const UnaryNode<FnTag, A> &expr, const FlattenTag &f, 
 	       const CTag &c)
   {
-    FlattenTag::NodeData nodeData;
+    FlattenTag::NodeDataString nodeData;
     nodeData = expr.operation().packNode();
     f.listNode.push_back(nodeData);
 

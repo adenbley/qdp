@@ -32,17 +32,23 @@ namespace QDPCUDA {
     cout << "cudaFreeHost   : " << string(cudaGetErrorString(ret)) << endl;
   }
 
-  void copyToDevice(void *dest , void *src , size_t size)
+  void copyToDevice(void *dest , void const *src , size_t size)
   {
     cudaError_t ret;
     ret = cudaMemcpy(dest,src,size,cudaMemcpyHostToDevice);
     cout << "cudaMemcpy to device: " << string(cudaGetErrorString(ret)) << endl;
   }
-  void copyToHost(void *dest , void *src , size_t size)
+  void copyToHost(void *dest , void const *src , size_t size)
   {
     cudaError_t ret;
     ret = cudaMemcpy(dest,src,size,cudaMemcpyDeviceToHost);
     cout << "cudaMemcpy to host: " << string(cudaGetErrorString(ret)) << endl;
+  }
+  void copyHostToHost(void *dest , void const *src , size_t size)
+  {
+    cudaError_t ret;
+    ret = cudaMemcpy(dest,src,size,cudaMemcpyHostToHost);
+    cout << "cudaMemcpy host to host: " << string(cudaGetErrorString(ret)) << endl;
   }
 
 }

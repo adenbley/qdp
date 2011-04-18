@@ -16,16 +16,16 @@ struct FlattenTag {
   struct LeafData {
     void * pointer;
   };
-#ifndef __CUDA_ARCH__
-  typedef std::string NodeData;
-  typedef list<LeafData> ListLeaf;
-  typedef list<NodeData> ListNode;
-  mutable ListNode listNode;
-  mutable ListLeaf listLeaf;
-#else
   struct NodeData {
     void * pointer;
   };
+#ifndef __CUDA_ARCH__
+  typedef std::string NodeDataString;
+  typedef list<LeafData>       ListLeaf;
+  typedef list<NodeDataString> ListNode;
+  mutable ListNode listNode;
+  mutable ListLeaf listLeaf;
+#else
   __device__ FlattenTag(): count_leaf(0),count_node(0) {}
   int          numberLeafs;
   int          numberNodes;

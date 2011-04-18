@@ -312,7 +312,9 @@ sub spu
     $ret.="    dest.setF(ival->dest);\n";
     $ret.="    FlattenTag flattenTag;\n";
     $ret.="    flattenTag.numberLeafs = ival->numberLeafs;\n";
+    $ret.="    flattenTag.numberNodes = ival->numberNodes;\n";
     $ret.="    flattenTag.leafDataArray = ival->leafDataArray;\n";
+    $ret.="    flattenTag.nodeDataArray = ival->nodeDataArray;\n";
     $ret.="    forEach(rhs, flattenTag , NullCombine());\n";
     $ret.="    evaluate( dest , op , rhs , s );\n";
 
@@ -369,36 +371,46 @@ extern "C" void function_host(void * ptr)
     //IfaceCudp * ival = static_cast<IfaceCudp *>(ptr);
     cout << "dest:" << ival->dest << endl;
     for (int i=0;i<ival->numberLeafs;i++)
-	cout << i << " " << ival->leafDataArray[i].pointer << endl;
+	cout << "leaf" << i << " " << ival->leafDataArray[i].pointer << endl;
+    for (int i=0;i<ival->numberNodes;i++)
+	cout << "node" << i << " " << ival->nodeDataArray[i].pointer << endl;
 
-    FlattenTag::LeafData * save = ival->leafDataArray;
+    FlattenTag::LeafData * save_leafarray = ival->leafDataArray;
+    FlattenTag::NodeData * save_nodearray = ival->nodeDataArray;
 
     IfaceCudp * ival_dev;
     ret = cudaMalloc((void **)(&ival_dev),sizeof(IfaceCudp));
-    cout << "cudaMalloc     " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
+    cout << "get device memory for kernel interface    " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
 
     ret = cudaMalloc((void **)(&ival->leafDataArray),sizeof(FlattenTag::LeafData) * ival->numberLeafs);
-    cout << "cudaMalloc     " << sizeof(FlattenTag::LeafData) * ival->numberLeafs << " : " << string(cudaGetErrorString(ret)) << endl;
+    cout << "get device memory for leaf data pointers  " << sizeof(FlattenTag::LeafData) * ival->numberLeafs << " : " << string(cudaGetErrorString(ret)) << endl;
+    ret = cudaMalloc((void **)(&ival->nodeDataArray),sizeof(FlattenTag::NodeData) * ival->numberNodes);
+    cout << "get device memory for node data pointers  " << sizeof(FlattenTag::NodeData) * ival->numberNodes << " : " << string(cudaGetErrorString(ret)) << endl;
 
-    ret = cudaMemcpy(ival->leafDataArray,save ,sizeof(FlattenTag::LeafData) * ival->numberLeafs,cudaMemcpyHostToDevice);
-    cout << "cudaMemcpy to device: " << string(cudaGetErrorString(ret)) << endl;
+    ret = cudaMemcpy(ival->leafDataArray,save_leafarray ,sizeof(FlattenTag::LeafData) * ival->numberLeafs,cudaMemcpyHostToDevice);
+    cout << "copy leaf pointers to device:     " << string(cudaGetErrorString(ret)) << endl;
+    ret = cudaMemcpy(ival->nodeDataArray,save_nodearray ,sizeof(FlattenTag::NodeData) * ival->numberNodes,cudaMemcpyHostToDevice);
+    cout << "copy node pointers to device:     " << string(cudaGetErrorString(ret)) << endl;
     ret = cudaMemcpy(ival_dev,ival,sizeof(IfaceCudp),cudaMemcpyHostToDevice);
-    cout << "cudaMemcpy to device: " << string(cudaGetErrorString(ret)) << endl;
+    cout << "copy interface to device:         " << string(cudaGetErrorString(ret)) << endl;
 
 
     dim3  threads( 32 , 1, 1);
     kernel<<< 1 , threads >>>( ival_dev );
     cudaError_t kernel_call = cudaGetLastError();
-    cout << "kernel call: " << string(cudaGetErrorString(kernel_call)) << endl;
+    cout << "kernel call:                      " << string(cudaGetErrorString(kernel_call)) << endl;
 
     ret = cudaFreeHost(ival);
-    cout << "cudaFreeHost : " << string(cudaGetErrorString(ret)) << endl;
+    cout << "free memory for host interface:   " << string(cudaGetErrorString(ret)) << endl;
 
     ret = cudaFree(ival->leafDataArray);
-    cout << "cudaFree     : " << string(cudaGetErrorString(ret)) << endl;
+    cout << "free memory for leaf pointers:    " << string(cudaGetErrorString(ret)) << endl;
+
+    ret = cudaFree(ival->nodeDataArray);
+    cout << "free memory for node pointers:    " << string(cudaGetErrorString(ret)) << endl;
 
     ret = cudaFree(ival_dev);
-    cout << "cudaFree     : " << string(cudaGetErrorString(ret)) << endl;
+    cout << "free memory for device interface: " << string(cudaGetErrorString(ret)) << endl;
 
 }
 
