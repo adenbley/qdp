@@ -36,16 +36,45 @@ dnl Tell the user about Nd
 AC_MSG_NOTICE([Configuring QDP++ for Nd = ${ac_Nd}])
 
 
-dnl Specify GPU Arch
-AC_ARG_ENABLE(gpu-arch,
- AC_HELP_STRING([--enable-gpu-arch=arch], [ Set GPU arch=sm_10, sm_12,sm_13,sm_20, sm_21 (default: sm_20)] ),
- [ gpu_arch=${enableval} ],
- [ gpu_arch="sm_20" ]
+
+
+AC_ARG_ENABLE(gpuarch,
+  AC_HELP_STRING([--enable-gpuarch=arch ], [ Set GPU arch=sm_10, sm_12,sm_13,sm_20, sm_21 (default: sm_20)] ),
+   [ ac_gpuarch=${enableval} ],
+  [ ac_gpuarch="sm_20" ]
 )
+AC_MSG_NOTICE([Configuring QDP++ for GPU architecture = ${ac_gpuarch}])
+AC_DEFINE_UNQUOTED(QDP_GPUARCH,"${ac_gpuarch}", [GPU architecture])
 
-AC_DEFINE_UNQUOTED(GPU_ARCH , ${gpu_arch} , [GPU architecture])
+AC_ARG_ENABLE(cpuarch,
+  AC_HELP_STRING([--enable-gpuarch=arch ], [ Set CPU arch: x86 or x86_64 (default: x86_64)] ),
+   [ ac_cpuarch=${enableval} ],
+  [ ac_cpuarch="x86_64" ]
+)
+AC_MSG_NOTICE([Configuring QDP++ for CPU architecture = ${ac_gpuarch}])
+AC_DEFINE_UNQUOTED(QDP_CPUARCH,"${ac_cpuarch}", [GPU architecture])
 
-AC_MSG_NOTICE([Configuring QDP++ for GPU architecture = ${gpu_arch}])
+AC_ARG_WITH(cuda,
+  AC_HELP_STRING([--with-cuda=CUDADIR], [ Specify CUDA installation directory (default: /usr/local/cuda)]),
+  [ cuda_home="${withval}" ],
+  [ cuda_home="/usr/local/cuda" ]
+)
+AC_MSG_NOTICE([Configuring with CUDA installed in = ${cuda_home}])
+AC_DEFINE_UNQUOTED(CUDA_DIR,"${cuda_home}",[CUDA install path])
+
+
+
+
+dnl Specify CPU Arch
+dnl AC_ARG_ENABLE(cpuarch,
+dnl  AC_HELP_STRING([--enable-cpuarch=arch],  
+dnl [ cpu_arch=${enableval} ],
+dnl [ cpu_arch=x86_64 ]
+dnl)
+dnl AC_DEFINE_UNQUOTED([QDP_CPUARCH] , ${cpu_arch} , [CPU architecture])
+
+
+
 
 
 dnl --enable-Nc
@@ -294,23 +323,8 @@ AC_MSG_NOTICE([Configuring QDP++ with ${CONFIG_LAYOUT} layout])
 
 
 
-dnl Specify CUDA Location
-AC_ARG_WITH(cuda,
-  AC_HELP_STRING([--with-cuda=CUDADIR], [ Specify CUDA installation directory (default: /usr/local/cuda)]),
-  [ cuda_home=${withval} ],
-  [ cuda_home=/usr/local/cuda ]
-)
 
-AC_DEFINE_UNQUOTED([CUDA_DIR] , ["$cuda_home"] , [CUDA install path])
 
-dnl Specify CPU Arch
-AC_ARG_ENABLE(cpu-arch,
- AC_HELP_STRING([--enable-cpu-arch=arch],  [ Set CPU arch: x86 or x86_64 (default: x86_64)] ),
- [ cpu_arch=${enableval} ],
- [ cpu_arch="x86_64" ]
-)
-
-AC_DEFINE_UNQUOTED([CPU_ARCH] , ["$cpu_arch"] , [CPU architecture])
 
 
 
@@ -583,11 +597,6 @@ then
 	then
 	  AC_MSG_ERROR([Perl required])
 	fi
-dnl	AC_CHECK_TOOL(PRETTYGPU, pretty_gpu.pl, [no])
-dnl	if test "x${PRETTYGPU}x" != "xpretty_gpu.plx";
-dnl	then
-dnl	  AC_MSG_ERROR([pretty_gpu.pl required])
-dnl	fi
      AC_CONFIG_SUBDIRS(other_libs/cudp)
      AC_DEFINE([BUILD_CUDP],[],[Build cudp])
      AC_SUBST(CUDP_DIR, [cudp])
