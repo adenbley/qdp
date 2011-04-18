@@ -11,7 +11,7 @@
 namespace QDP {
 
 // (Vector) Out = (Scalar) (*ap) * (Vector)xp + (Scalar)(*bp) * (Vector)yp
-inline
+inline __device__
 void vaxpby3(REAL *Out,REAL *ap ,REAL *xp, REAL *bp,  REAL *yp ,int n_3vec)
 {
   register double a;

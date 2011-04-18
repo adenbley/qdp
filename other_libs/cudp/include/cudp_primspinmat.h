@@ -35,7 +35,7 @@ public:
   //! PSpinMatrix = PScalar
   /*! Fill with primitive scalar */
   template<class T1>
-  inline
+  __device__ inline
   PSpinMatrix& operator=(const PScalar<T1>& rhs)
     {
       assign(rhs);
@@ -45,7 +45,7 @@ public:
   //! PSpinMatrix = PSpinMatrix
   /*! Set equal to another PSpinMatrix */
   template<class T1>
-  inline
+  __device__ inline
   PSpinMatrix& operator=(const PSpinMatrix<T1,N>& rhs) 
     {
       assign(rhs);
@@ -363,7 +363,7 @@ struct UnaryReturn<PSpinMatrix<T,N>, FnTraceSpin > {
 };
 
 template<class T, int N>
-inline typename UnaryReturn<PSpinMatrix<T,N>, FnTraceSpin>::Type_t
+__device__ inline typename UnaryReturn<PSpinMatrix<T,N>, FnTraceSpin>::Type_t
 traceSpin(const PSpinMatrix<T,N>& s1)
 {
   typename UnaryReturn<PSpinMatrix<T,N>, FnTraceSpin>::Type_t  d;
@@ -384,7 +384,7 @@ struct BinaryReturn<PSpinMatrix<T1,N>, PSpinMatrix<T2,N>, FnTraceSpinMultiply> {
 };
 
 template<class T1, class T2, int N>
-inline typename BinaryReturn<PSpinMatrix<T1,N>, PSpinMatrix<T2,N>, FnTraceSpinMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T1,N>, PSpinMatrix<T2,N>, FnTraceSpinMultiply>::Type_t
 traceSpinMultiply(const PSpinMatrix<T1,N>& l, const PSpinMatrix<T2,N>& r)
 {
   typename BinaryReturn<PSpinMatrix<T1,N>, PSpinMatrix<T2,N>, FnTraceSpinMultiply>::Type_t  d;
@@ -408,7 +408,7 @@ struct BinaryReturn<PSpinMatrix<T1,N>, PScalar<T2>, FnTraceSpinMultiply> {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename BinaryReturn<PSpinMatrix<T1,N>, PScalar<T2>, FnTraceSpinMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T1,N>, PScalar<T2>, FnTraceSpinMultiply>::Type_t
 traceSpinMultiply(const PSpinMatrix<T1,N>& l, const PScalar<T2>& r)
 {
   typename BinaryReturn<PSpinMatrix<T1,N>, PScalar<T2>, FnTraceSpinMultiply>::Type_t  d;
@@ -428,7 +428,7 @@ struct BinaryReturn<PScalar<T1>, PSpinMatrix<T2,N>, FnTraceSpinMultiply> {
 };
 
 template<class T1, class T2, int N>
-inline typename BinaryReturn<PScalar<T1>, PSpinMatrix<T2,N>, FnTraceSpinMultiply>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PSpinMatrix<T2,N>, FnTraceSpinMultiply>::Type_t
 traceSpinMultiply(const PScalar<T1>& l, const PSpinMatrix<T2,N>& r)
 {
   typename BinaryReturn<PScalar<T1>, PSpinMatrix<T2,N>, FnTraceSpinMultiply>::Type_t  d;
@@ -452,7 +452,7 @@ struct UnaryReturn<PSpinMatrix<T,N>, FnTransposeSpin > {
 //! PSpinMatrix = transposeSpin(PSpinMatrix) 
 /*! t = transposeSpin(source1) - SpinMatrix specialization -- where the work is actually done */
 template<class T, int N>
-inline typename UnaryReturn<PSpinMatrix<T,N>, FnTransposeSpin >::Type_t
+__device__ inline typename UnaryReturn<PSpinMatrix<T,N>, FnTransposeSpin >::Type_t
 transposeSpin(const PSpinMatrix<T,N>& s1)
 {
   typename UnaryReturn<PSpinMatrix<T,N>, FnTransposeSpin>::Type_t d;
@@ -480,7 +480,7 @@ struct BinaryReturn<PSpinVector<T1,N>, PSpinVector<T2,N>, FnOuterProduct> {
 };
 
 template<class T1, class T2, int N>
-inline typename BinaryReturn<PSpinVector<T1,N>, PSpinVector<T2,N>, FnOuterProduct>::Type_t
+__device__ inline typename BinaryReturn<PSpinVector<T1,N>, PSpinVector<T2,N>, FnOuterProduct>::Type_t
 outerProduct(const PSpinVector<T1,N>& l, const PSpinVector<T2,N>& r)
 {
   typename BinaryReturn<PSpinVector<T1,N>, PSpinVector<T2,N>, FnOuterProduct>::Type_t  d;
@@ -503,7 +503,7 @@ struct BinaryReturn<PSpinVector<T1,N>, PSpinVector<T2,N>, FnTraceSpinOuterProduc
 };
 
 template<class T1, class T2, int N>
-inline typename BinaryReturn<PSpinVector<T1,N>, PSpinVector<T2,N>, FnTraceSpinOuterProduct>::Type_t
+__device__ inline typename BinaryReturn<PSpinVector<T1,N>, PSpinVector<T2,N>, FnTraceSpinOuterProduct>::Type_t
 traceSpinOuterProduct(const PSpinVector<T1,N>& l, const PSpinVector<T2,N>& r)
 {
   typename BinaryReturn<PSpinVector<T1,N>, PSpinVector<T2,N>, FnTraceSpinOuterProduct>::Type_t  d;
@@ -526,7 +526,7 @@ struct UnaryReturn<PSpinMatrix<T,N>, FnPeekSpinMatrix > {
 };
 
 template<class T, int N>
-inline typename UnaryReturn<PSpinMatrix<T,N>, FnPeekSpinMatrix>::Type_t
+__device__ inline typename UnaryReturn<PSpinMatrix<T,N>, FnPeekSpinMatrix>::Type_t
 peekSpin(const PSpinMatrix<T,N>& l, int row, int col)
 {
   typename UnaryReturn<PSpinMatrix<T,N>, FnPeekSpinMatrix>::Type_t  d;
@@ -538,7 +538,7 @@ peekSpin(const PSpinMatrix<T,N>& l, int row, int col)
 
 //! Insert spin matrix components
 template<class T1, class T2, int N>
-inline PSpinMatrix<T1,N>&
+__device__ inline PSpinMatrix<T1,N>&
 pokeSpin(PSpinMatrix<T1,N>& l, const PScalar<T2>& r, int row, int col)
 {
   // Note, do not need to propagate down since the function is eaten at this level
@@ -553,7 +553,7 @@ pokeSpin(PSpinMatrix<T1,N>& l, const PScalar<T2>& r, int row, int col)
 // SpinMatrix<4> = Gamma<4,m> * SpinMatrix<4>
 // There are 16 cases here for Nd=4
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,0>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,0>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,0>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,0>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -570,7 +570,7 @@ operator*(const GammaConst<4,0>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,1>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,1>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,1>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,1>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -587,7 +587,7 @@ operator*(const GammaConst<4,1>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,2>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,2>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,2>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,2>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -604,7 +604,7 @@ operator*(const GammaConst<4,2>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,3>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,3>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,3>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,3>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -621,7 +621,7 @@ operator*(const GammaConst<4,3>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,4>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,4>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,4>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,4>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -638,7 +638,7 @@ operator*(const GammaConst<4,4>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,5>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,5>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,5>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,5>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -655,7 +655,7 @@ operator*(const GammaConst<4,5>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,6>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,6>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,6>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,6>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -672,7 +672,7 @@ operator*(const GammaConst<4,6>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,7>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,7>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,7>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,7>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -689,7 +689,7 @@ operator*(const GammaConst<4,7>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,8>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,8>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,8>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,8>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -706,7 +706,7 @@ operator*(const GammaConst<4,8>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,9>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,9>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,9>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,9>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -723,7 +723,7 @@ operator*(const GammaConst<4,9>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,10>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,10>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,10>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,10>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -740,7 +740,7 @@ operator*(const GammaConst<4,10>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,11>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,11>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,11>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,11>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -757,7 +757,7 @@ operator*(const GammaConst<4,11>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,12>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,12>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,12>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,12>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -774,7 +774,7 @@ operator*(const GammaConst<4,12>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,13>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,13>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,13>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,13>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -791,7 +791,7 @@ operator*(const GammaConst<4,13>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,14>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,14>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,14>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,14>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -808,7 +808,7 @@ operator*(const GammaConst<4,14>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConst<4,15>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<4,15>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<4,15>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConst<4,15>, PSpinMatrix<T2,4>, OpGammaConstMultiply>::Type_t  d;
@@ -828,7 +828,7 @@ operator*(const GammaConst<4,15>&, const PSpinMatrix<T2,4>& r)
 // SpinMatrix<4> = SpinMatrix<4> * Gamma<4,m>
 // There are 16 cases here for Nd=4
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,0>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,0>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,0>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,0>, OpGammaConstMultiply>::Type_t  d; 
@@ -845,7 +845,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,0>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,1>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,1>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,1>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,1>, OpGammaConstMultiply>::Type_t  d;
@@ -862,7 +862,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,1>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,2>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,2>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,2>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,2>, OpGammaConstMultiply>::Type_t  d;
@@ -879,7 +879,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,2>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,3>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,3>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,3>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,3>, OpGammaConstMultiply>::Type_t  d;
@@ -896,7 +896,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,3>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,4>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,4>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,4>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,4>, OpGammaConstMultiply>::Type_t  d;
@@ -913,7 +913,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,4>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,5>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,5>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,5>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,5>, OpGammaConstMultiply>::Type_t  d;
@@ -930,7 +930,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,5>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,6>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,6>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,6>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,6>, OpGammaConstMultiply>::Type_t  d;
@@ -947,7 +947,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,6>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,7>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,7>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,7>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,7>, OpGammaConstMultiply>::Type_t  d;
@@ -964,7 +964,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,7>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,8>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,8>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,8>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,8>, OpGammaConstMultiply>::Type_t  d;
@@ -981,7 +981,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,8>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,9>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,9>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,9>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,9>, OpGammaConstMultiply>::Type_t  d;
@@ -998,7 +998,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,9>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,10>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,10>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,10>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,10>, OpGammaConstMultiply>::Type_t  d;
@@ -1015,7 +1015,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,10>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,11>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,11>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,11>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,11>, OpGammaConstMultiply>::Type_t  d;
@@ -1032,7 +1032,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,11>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,12>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,12>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,12>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,12>, OpGammaConstMultiply>::Type_t  d;
@@ -1049,7 +1049,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,12>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,13>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,13>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,13>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,13>, OpGammaConstMultiply>::Type_t  d;
@@ -1066,7 +1066,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,13>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,14>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,14>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,14>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,14>, OpGammaConstMultiply>::Type_t  d;
@@ -1083,7 +1083,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,14>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,15>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,15>, OpGammaConstMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,15>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConst<4,15>, OpGammaConstMultiply>::Type_t  d;
@@ -1105,7 +1105,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConst<4,15>&)
 // SpinMatrix<4> = GammaDP<4,m> * SpinMatrix<4>
 // There are 16 cases here for Nd=4
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,0>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,0>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,0>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,0>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1122,7 +1122,7 @@ operator*(const GammaConstDP<4,0>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,1>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,1>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,1>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,1>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1139,7 +1139,7 @@ operator*(const GammaConstDP<4,1>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,2>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,2>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,2>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,2>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1156,7 +1156,7 @@ operator*(const GammaConstDP<4,2>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,3>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,3>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,3>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,3>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1173,7 +1173,7 @@ operator*(const GammaConstDP<4,3>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,4>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,4>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,4>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,4>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1190,7 +1190,7 @@ operator*(const GammaConstDP<4,4>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,5>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,5>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,5>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,5>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1207,7 +1207,7 @@ operator*(const GammaConstDP<4,5>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,6>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,6>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,6>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,6>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1224,7 +1224,7 @@ operator*(const GammaConstDP<4,6>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,7>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,7>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,7>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,7>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1241,7 +1241,7 @@ operator*(const GammaConstDP<4,7>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,8>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,8>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,8>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,8>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1258,7 +1258,7 @@ operator*(const GammaConstDP<4,8>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,9>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,9>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,9>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,9>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1275,7 +1275,7 @@ operator*(const GammaConstDP<4,9>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,10>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,10>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,10>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,10>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1292,7 +1292,7 @@ operator*(const GammaConstDP<4,10>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,11>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,11>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,11>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,11>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1309,7 +1309,7 @@ operator*(const GammaConstDP<4,11>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,12>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,12>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,12>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,12>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1326,7 +1326,7 @@ operator*(const GammaConstDP<4,12>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,13>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,13>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,13>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,13>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1343,7 +1343,7 @@ operator*(const GammaConstDP<4,13>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,14>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,14>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,14>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,14>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1360,7 +1360,7 @@ operator*(const GammaConstDP<4,14>&, const PSpinMatrix<T2,4>& r)
 }
 
 template<class T2>
-inline typename BinaryReturn<GammaConstDP<4,15>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConstDP<4,15>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const GammaConstDP<4,15>&, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<GammaConstDP<4,15>, PSpinMatrix<T2,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1380,7 +1380,7 @@ operator*(const GammaConstDP<4,15>&, const PSpinMatrix<T2,4>& r)
 // SpinMatrix<4> = SpinMatrix<4> * GammaDP<4,m>
 // There are 16 cases here for Nd=4
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,0>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,0>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,0>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,0>, OpGammaConstDPMultiply>::Type_t  d; 
@@ -1397,7 +1397,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,0>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,1>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,1>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,1>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,1>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1414,7 +1414,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,1>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,2>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,2>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,2>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,2>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1431,7 +1431,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,2>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,3>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,3>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,3>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,3>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1448,7 +1448,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,3>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,4>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,4>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,4>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,4>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1465,7 +1465,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,4>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,5>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,5>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,5>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,5>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1482,7 +1482,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,5>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,6>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,6>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,6>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,6>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1499,7 +1499,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,6>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,7>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,7>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,7>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,7>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1516,7 +1516,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,7>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,8>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,8>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,8>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,8>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1533,7 +1533,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,8>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,9>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,9>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,9>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,9>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1550,7 +1550,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,9>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,10>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,10>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,10>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,10>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1567,7 +1567,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,10>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,11>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,11>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,11>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,11>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1584,7 +1584,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,11>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,12>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,12>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,12>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,12>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1601,7 +1601,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,12>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,13>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,13>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,13>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,13>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1618,7 +1618,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,13>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,14>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,14>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,14>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,14>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1635,7 +1635,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,14>&)
 }
 
 template<class T2>
-inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,15>, OpGammaConstDPMultiply>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,15>, OpGammaConstDPMultiply>::Type_t
 operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,15>&)
 {
   typename BinaryReturn<PSpinMatrix<T2,4>, GammaConstDP<4,15>, OpGammaConstDPMultiply>::Type_t  d;
@@ -1655,7 +1655,7 @@ operator*(const PSpinMatrix<T2,4>& l, const GammaConstDP<4,15>&)
 //-----------------------------------------------------------------------------
 //! PSpinVector<T,4> = P_+ * PSpinVector<T,4>
 template<class T>
-inline typename UnaryReturn<PSpinMatrix<T,4>, FnChiralProjectPlus>::Type_t
+__device__ inline typename UnaryReturn<PSpinMatrix<T,4>, FnChiralProjectPlus>::Type_t
 chiralProjectPlus(const PSpinMatrix<T,4>& s1)
 {
   typename UnaryReturn<PSpinMatrix<T,4>, FnChiralProjectPlus>::Type_t  d;
@@ -1673,7 +1673,7 @@ chiralProjectPlus(const PSpinMatrix<T,4>& s1)
 
 //! PSpinVector<T,4> = P_- * PSpinVector<T,4>
 template<class T>
-inline typename UnaryReturn<PSpinMatrix<T,4>, FnChiralProjectMinus>::Type_t
+__device__ inline typename UnaryReturn<PSpinMatrix<T,4>, FnChiralProjectMinus>::Type_t
 chiralProjectMinus(const PSpinMatrix<T,4>& s1)
 {
   typename UnaryReturn<PSpinMatrix<T,4>, FnChiralProjectMinus>::Type_t  d;
@@ -1698,7 +1698,7 @@ struct BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnTraceSpinQuarkContra
 
 //! PScalar = traceSpinQuarkContract13(PSpinMatrix,PSpinMatrix)
 template<class T1, class T2>
-inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnTraceSpinQuarkContract13>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnTraceSpinQuarkContract13>::Type_t
 traceSpinQuarkContract13(const PSpinMatrix<T1,4>& l, const PSpinMatrix<T2,4>& r)
 {
   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnTraceSpinQuarkContract13>::Type_t  d;
@@ -1717,7 +1717,7 @@ traceSpinQuarkContract13(const PSpinMatrix<T1,4>& l, const PSpinMatrix<T2,4>& r)
 
 // quark propagator contraction
 template<class T1, class T2>
-inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract13>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract13>::Type_t
 quarkContract13(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 {
   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract13>::Type_t  d;
@@ -1734,7 +1734,7 @@ quarkContract13(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract14>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract14>::Type_t
 quarkContract14(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 {
   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract14>::Type_t  d;
@@ -1751,7 +1751,7 @@ quarkContract14(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract23>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract23>::Type_t
 quarkContract23(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 {
   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract23>::Type_t  d;
@@ -1768,7 +1768,7 @@ quarkContract23(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract24>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract24>::Type_t
 quarkContract24(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 {
   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract24>::Type_t  d;
@@ -1785,7 +1785,7 @@ quarkContract24(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract12>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract12>::Type_t
 quarkContract12(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 {
   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract12>::Type_t  d;
@@ -1802,7 +1802,7 @@ quarkContract12(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract34>::Type_t
+__device__ inline typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract34>::Type_t
 quarkContract34(const PSpinMatrix<T1,4>& s1, const PSpinMatrix<T2,4>& s2)
 {
   typename BinaryReturn<PSpinMatrix<T1,4>, PSpinMatrix<T2,4>, FnQuarkContract34>::Type_t  d;

@@ -27,7 +27,7 @@ public:
   //! PColorVector = PColorVector
   /*! Set equal to another PColorVector */
   template<class T1>
-  inline
+  __device__ inline
   PColorVector& operator=(const PColorVector<T1,N>& rhs) 
     {
       assign(rhs);
@@ -199,7 +199,7 @@ struct UnaryReturn<PColorVector<T,N>, FnPeekColorVector > {
 };
 
 template<class T, int N>
-inline typename UnaryReturn<PColorVector<T,N>, FnPeekColorVector>::Type_t
+__device__ inline typename UnaryReturn<PColorVector<T,N>, FnPeekColorVector>::Type_t
 peekColor(const PColorVector<T,N>& l, int row)
 {
   typename UnaryReturn<PColorVector<T,N>, FnPeekColorVector>::Type_t  d;
@@ -211,7 +211,7 @@ peekColor(const PColorVector<T,N>& l, int row)
 
 //! Insert color vector components
 template<class T1, class T2, int N>
-inline PColorVector<T1,N>&
+__device__ inline PColorVector<T1,N>&
 pokeColor(PColorVector<T1,N>& l, const PScalar<T2>& r, int row)
 {
   // Note, do not need to propagate down since the function is eaten at this level
@@ -236,7 +236,7 @@ struct TrinaryReturn<PColorVector<T1,N>, PColorVector<T2,N>, PColorVector<T3,N>,
  * This routine is completely unrolled for 3 colors
  */
 template<class T1, class T2, class T3>
-inline typename TrinaryReturn<PColorVector<T1,3>, PColorVector<T2,3>, PColorVector<T3,3>, FnColorContract>::Type_t
+__device__ inline typename TrinaryReturn<PColorVector<T1,3>, PColorVector<T2,3>, PColorVector<T3,3>, FnColorContract>::Type_t
 colorContract(const PColorVector<T1,3>& s1, const PColorVector<T2,3>& s2, const PColorVector<T3,3>& s3)
 {
   typename TrinaryReturn<PColorVector<T1,3>, PColorVector<T2,3>, PColorVector<T3,3>, FnColorContract>::Type_t  d;
@@ -269,7 +269,7 @@ struct BinaryReturn<PColorVector<T1,N>, PColorVector<T2,N>, FnColorVectorContrac
  *  \f$dest = \sum_{i} V1^{i} V2^{i}\f$
  */
 template<class T1, class T2, int N>
-inline typename BinaryReturn<PColorVector<T1,N>, PColorVector<T2,N>, FnColorVectorContract>::Type_t
+__device__ inline typename BinaryReturn<PColorVector<T1,N>, PColorVector<T2,N>, FnColorVectorContract>::Type_t
 colorVectorContract(const PColorVector<T1,N>& s1, const PColorVector<T2,N>& s2)
 {
   typename BinaryReturn<PColorVector<T1,N>, PColorVector<T2,N>, FnColorVectorContract>::Type_t  d;
@@ -299,7 +299,7 @@ struct BinaryReturn<PColorVector<T1,3>, PColorVector<T2,3>, FnColorCrossProduct>
  * This routine is completely unrolled for 3 colors
  */
 template<class T1, class T2>
-inline typename BinaryReturn<PColorVector<T1,3>, PColorVector<T2,3>, FnColorCrossProduct>::Type_t
+__device__ inline typename BinaryReturn<PColorVector<T1,3>, PColorVector<T2,3>, FnColorCrossProduct>::Type_t
 colorCrossProduct(const PColorVector<T1,3>& s1, const PColorVector<T2,3>& s2)
 {
   typename BinaryReturn<PColorVector<T1,3>, PColorVector<T2,3>, FnColorCrossProduct>::Type_t  d;

@@ -274,7 +274,7 @@ private:
     }
     delete [] F;
     n1=ns1;
-    F = new(nothrow) T[n1];
+    F = new T[n1];
     if ( F == 0x0 ) { 
       QDP_error_exit("Unable to allocate memory in multi1d::resize(%d)\n",ns1);
     }
@@ -302,7 +302,7 @@ private:
      }
      delete[] F; 
      n1=ns1;      
-     F = new(nothrow) T[n1];
+     F = new T[n1];
      if ( F == 0x0 ) { 
        QDP_error_exit("Unable to allocate memory in multi1d::resize()\n");
      }
@@ -400,7 +400,6 @@ inline bool operator!=(const multi1d<T>& n1, const multi1d<T>& n2)
 template<typename T>
 inline bool operator<(const multi1d<T>& a, const multi1d<T>& b)
 {
-  bool ret = false;
   int  len = (a.size() < b.size()) ? a.size() : b.size();
 
   for(int i=0; i < len; ++i)
@@ -417,7 +416,6 @@ inline bool operator<(const multi1d<T>& a, const multi1d<T>& b)
 template<typename T>
 inline bool operator>(const multi1d<T>& a, const multi1d<T>& b)
 {
-  bool ret = false;
   int  len = (a.size() < b.size()) ? a.size() : b.size();
 
   for(int i=0; i < len; ++i)
@@ -737,7 +735,7 @@ public:
     n1=ns1; 
     n2=ns2;  
     sz=n1*n2; 
-    F = new(nothrow) T[sz];
+    F = new T[sz];
     if( F == 0x0 ) { 
       QDP_error_exit("Unable to new memory in multi2d::resize(%d,%d)\n",ns2,ns1);
     }
@@ -830,7 +828,7 @@ public:
       delete[] F; 
     }
 
-    n1=ns1; n2=ns2; n3=ns3; sz=n1*n2*n3; F = new(nothrow) T[sz];
+    n1=ns1; n2=ns2; n3=ns3; sz=n1*n2*n3; F = new T[sz];
     if( F == 0x0 ) { 
       QDP_error_exit("Unable to new memory in multi3d::resize(%d,%d,%d)\n",ns3,ns2,ns1);
     }
@@ -916,7 +914,7 @@ public:
       sz = nz[0];
       for(int i=1; i < nz.size(); ++i)
 	sz *= nz[i];
-      F = new(nothrow) T[sz];
+      F = new T[sz];
       if ( F==0x0 ) { 
 	QDP_error_exit("Unable to new memory in multiNd::resize()\n");
       }

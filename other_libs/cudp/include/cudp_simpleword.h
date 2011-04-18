@@ -7,34 +7,34 @@
 #ifndef QDP_SIMPLEWORD_H
 #define QDP_SIMPLEWORD_H
 
-#include <cmath>
+//#include <cmath>
 
 namespace QDP {
 
-using std::abs;
-using std::div;
-using std::acos;
-using std::asin;
-using std::atan;
-using std::atan2;
-using std::ceil;
-using std::cos;
-using std::cosh;
-using std::exp;
-using std::fabs;
-using std::floor;
-using std::fmod;
-using std::frexp;
-using std::ldexp;
-using std::log;
-using std::log10;
-using std::modf;
-using std::pow;
-using std::sin;
-using std::sinh;
-using std::sqrt;
-using std::tan;
-using std::tanh;
+// using std::abs;
+// using std::div;
+// using std::acos;
+// using std::asin;
+// using std::atan;
+// using std::atan2;
+// using std::ceil;
+// using std::cos;
+// using std::cosh;
+// using std::exp;
+// using std::fabs;
+// using std::floor;
+// using std::fmod;
+// using std::frexp;
+// using std::ldexp;
+// using std::log;
+// using std::log10;
+// using std::modf;
+// using std::pow;
+// using std::sin;
+// using std::sinh;
+// using std::sqrt;
+// using std::tan;
+// using std::tanh;
 
 
 /*! \addtogroup simpleword Builtin word operations
@@ -50,21 +50,21 @@ using std::tanh;
 // All these are explicit to avoid any general template clashes
 
 //! dest = 0
-inline
+__device__ inline
 void zero_rep(int& dest) 
 {
   dest = 0;
 }
 
 //! dest = 0
-inline
+__device__ inline
 void zero_rep(float& dest) 
 {
   dest = 0;
 }
 
 //! dest = 0
-inline
+__device__ inline
 void zero_rep(double& dest) 
 {
   dest = 0;
@@ -74,7 +74,7 @@ void zero_rep(double& dest)
 
 
 //! d = (mask) ? s1 : d;
-inline
+__device__ inline
 void copymask(int& d, bool mask, int s1) 
 {
   if (mask)
@@ -82,7 +82,7 @@ void copymask(int& d, bool mask, int s1)
 }
 
 //! d = (mask) ? s1 : d;
-inline
+__device__ inline
 void copymask(float& d, bool mask, float s1) 
 {
   if (mask)
@@ -90,7 +90,7 @@ void copymask(float& d, bool mask, float s1)
 }
 
 //! d = (mask) ? s1 : d;
-inline
+__device__ inline
 void copymask(double& d, bool mask, double s1) 
 {
   if (mask)
@@ -100,21 +100,21 @@ void copymask(double& d, bool mask, double s1)
 
 //---------------------------
 //! dest [float type] = source [int type]
-inline
+__device__ inline
 void cast_rep(float& d, int s1)
 {
   d = float(s1);
 }
 
 //! dest [float type] = source [float type]
-inline
+__device__ inline
 void cast_rep(float& d, float s1)
 {
   d = float(s1);
 }
 
 //! dest [float type] = source [double type]
-inline
+__device__ inline
 void cast_rep(float& d, double s1)
 {
   d = float(s1);
@@ -122,21 +122,21 @@ void cast_rep(float& d, double s1)
 
 
 //! dest [float type] = source [int type]
-inline
+__device__ inline
 void cast_rep(double& d, int s1)
 {
   d = double(s1);
 }
 
 //! dest [double type] = source [float type]
-inline
+__device__ inline
 void cast_rep(double& d, float s1)
 {
   d = double(s1);
 }
 
 //! dest [double type] = source [double type]
-inline
+__device__ inline
 void cast_rep(double& d, double s1)
 {
   d = double(s1);
@@ -145,21 +145,21 @@ void cast_rep(double& d, double s1)
 
 //---------------------------
 //! dest [float type] = source [int type]
-inline
+__device__ inline
 void recast_rep(float& d, int s1)
 {
   cast_rep(d,s1);
 }
 
 //! dest [float type] = source [float type]
-inline
+__device__ inline
 void recast_rep(float& d, float s1)
 {
   cast_rep(d,s1);
 }
 
 //! dest [float type] = source [double type]
-inline
+__device__ inline
 void recast_rep(float& d, double s1)
 {
   cast_rep(d,s1);
@@ -167,21 +167,21 @@ void recast_rep(float& d, double s1)
 
 
 //! dest [float type] = source [int type]
-inline
+__device__ inline
 void recast_rep(double& d, int s1)
 {
   cast_rep(d,s1);
 }
 
 //! dest [double type] = source [float type]
-inline
+__device__ inline
 void recast_rep(double& d, float s1)
 {
   cast_rep(d,s1);
 }
 
 //! dest [double type] = source [double type]
-inline
+__device__ inline
 void recast_rep(double& d, double s1)
 {
   cast_rep(d,s1);
@@ -195,21 +195,21 @@ void recast_rep(double& d, double s1)
 // Functions
 
 // Conjugate
-inline 
+__device__ inline 
 float conj(float l)
 {
   return l;
 }
 
 // Conjugate
-inline 
+__device__ inline 
 double conj(double l)
 {
   return l;
 }
 
 // Conjugate
-inline 
+__device__ inline 
 int conj(int l)
 {
   return l;
@@ -217,21 +217,21 @@ int conj(int l)
 
 
 // Transpose
-inline 
+__device__ inline 
 float transpose(float l)
 {
   return l;
 }
 
 // Transpose
-inline 
+__device__ inline 
 double transpose(double l)
 {
   return l;
 }
 
 // Transpose
-inline 
+__device__ inline 
 int transpose(int l)
 {
   return l;
@@ -241,7 +241,7 @@ int transpose(int l)
 
 // TRACE
 // trace = Trace(source1)
-inline 
+__device__ inline 
 float trace(float s1)
 {
   return s1;
@@ -249,7 +249,7 @@ float trace(float s1)
 
 
 // trace = Trace(source1)
-inline 
+__device__ inline 
 double trace(double s1)
 {
   return s1;
@@ -257,7 +257,7 @@ double trace(double s1)
 
 
 // trace = Trace(source1)
-inline 
+__device__ inline 
 int trace(int s1)
 {
   return s1;
@@ -265,36 +265,36 @@ int trace(int s1)
 
 
 // GetSite is only non-trivial at an inner grid sit
-inline float  getSite(float s1, int innersite) {return s1;}
-inline double getSite(double s1, int innersite) {return s1;}
-inline int    getSite(int s1, int innersite) {return s1;}
-inline bool   getSite(bool s1, int innersite) {return s1;}
+__device__ inline float  getSite(float s1, int innersite) {return s1;}
+__device__ inline double getSite(double s1, int innersite) {return s1;}
+__device__ inline int    getSite(int s1, int innersite) {return s1;}
+__device__ inline bool   getSite(bool s1, int innersite) {return s1;}
 
 
 
 // int = toInt(source1)
-inline 
+__device__ inline 
 int toInt(int s1)
 {
   return s1;
 }
 
 // float = toFloat(source1)
-inline 
+__device__ inline 
 float toFloat(float s1)
 {
   return s1;
 }
 
 // double = toDouble(source1)
-inline 
+__device__ inline 
 double toDouble(double s1)
 {
   return s1;
 }
 
 // bool = toBool(source1)
-inline 
+__device__ inline 
 bool toBool(bool s1)
 {
   return s1;
@@ -302,28 +302,28 @@ bool toBool(bool s1)
 
 
 // int = toWordType(<int>)
-inline 
+__device__ inline 
 int toWordType(int s1)
 {
   return s1;
 }
 
 // float = toWordType(<float>)
-inline 
+__device__ inline 
 float toWordType(float s1)
 {
   return s1;
 }
 
 // double = toWordType(<double>)
-inline 
+__device__ inline 
 double toWordType(double s1)
 {
   return s1;
 }
 
 // bool = toWordType(<bool>)
-inline 
+__device__ inline 
 bool toWordType(bool s1)
 {
   return s1;
@@ -332,19 +332,19 @@ bool toWordType(bool s1)
 
 
 // Where is the ? operator
-inline 
+__device__ inline 
 int where(bool a, int b, int c)
 {
   if (a) return b; else return c;
 }
 
-inline 
+__device__ inline 
 float where(bool a, float b, float c)
 {
   if (a) return b; else return c;
 }
 
-inline 
+__device__ inline 
 double where(bool a, double b, double c)
 {
   if (a) return b; else return c;
@@ -353,73 +353,73 @@ double where(bool a, double b, double c)
 
 
 // Global sum over site indices only
-inline
+__device__ inline
 int sum(int s1)
 {
   return s1;
 }
 
-inline
+__device__ inline
 int localNorm2(int s1)
 {
   return s1*s1;
 }
 
-inline
+__device__ inline
 int localInnerProduct(int s1, int s2)
 {
   return s1*s2;
 }
 
-inline
+__device__ inline
 unsigned int sum(unsigned int s1)
 {
   return s1;
 }
 
-inline
+__device__ inline
 unsigned int localNorm2(unsigned int s1)
 {
   return s1*s1;
 }
 
-inline
+__device__ inline
 unsigned int localInnerProduct(unsigned int s1, unsigned int s2)
 {
   return s1*s2;
 }
 
-inline
+__device__ inline
 double sum(float s1)
 {
   return double(s1);
 }
 
-inline
+__device__ inline
 double localNorm2(float s1)
 {
   return double(s1*s1);
 }
 
-inline
+__device__ inline
 double localInnerProduct(float s1, float s2)
 {
   return double(s1*s2);
 }
 
-inline
+__device__ inline
 double sum(double s1)
 {
   return s1;
 }
 
-inline
+__device__ inline
 double localNorm2(double s1)
 {
   return s1*s1;
 }
 
-inline
+__device__ inline
 double localInnerProduct(double s1, double s2)
 {
   return s1*s2;

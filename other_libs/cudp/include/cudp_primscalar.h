@@ -24,19 +24,24 @@ namespace QDP {
 template<class T> class PScalar
 {
 public:
+  __device__
   PScalar() {}
+  __device__
   ~PScalar() {}
 
   //---------------------------------------------------------
   //! construct dest = const
+  __device__
   PScalar(const typename WordType<T>::Type_t& rhs) : F(rhs) {}
 
   //! construct dest = rhs
   template<class T1>
+  __device__
   PScalar(const PScalar<T1>& rhs) : F(rhs.elem()) {}
 
   //! construct dest = rhs
   template<class T1>
+  __device__
   PScalar(const T1& rhs) : F(rhs) {}
 
   //---------------------------------------------------------
@@ -54,7 +59,7 @@ public:
   //! PScalar = PScalar
   /*! Set equal to another PScalar */
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator=(const PScalar<T1>& rhs) 
     {
       elem() = rhs.elem();
@@ -63,7 +68,7 @@ public:
 
   //! PScalar += PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator+=(const PScalar<T1>& rhs) 
     {
       elem() += rhs.elem();
@@ -72,7 +77,7 @@ public:
 
   //! PScalar -= PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator-=(const PScalar<T1>& rhs) 
     {
       elem() -= rhs.elem();
@@ -81,7 +86,7 @@ public:
 
   //! PScalar *= PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator*=(const PScalar<T1>& rhs) 
     {
       elem() *= rhs.elem();
@@ -90,7 +95,7 @@ public:
 
   //! PScalar /= PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator/=(const PScalar<T1>& rhs) 
     {
       elem() /= rhs.elem();
@@ -99,7 +104,7 @@ public:
 
   //! PScalar %= PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator%=(const PScalar<T1>& rhs) 
     {
       elem() %= rhs.elem();
@@ -108,7 +113,7 @@ public:
 
   //! PScalar |= PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator|=(const PScalar<T1>& rhs) 
     {
       elem() |= rhs.elem();
@@ -117,7 +122,7 @@ public:
 
   //! PScalar &= PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator&=(const PScalar<T1>& rhs) 
     {
       elem() &= rhs.elem();
@@ -126,7 +131,7 @@ public:
 
   //! PScalar ^= PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator^=(const PScalar<T1>& rhs) 
     {
       elem() ^= rhs.elem();
@@ -135,7 +140,7 @@ public:
 
   //! PScalar <<= PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator<<=(const PScalar<T1>& rhs) 
     {
       elem() <<= rhs.elem();
@@ -144,7 +149,7 @@ public:
 
   //! PScalar >>= PScalar
   template<class T1>
-  inline
+  __device__ inline
   PScalar& operator>>=(const PScalar<T1>& rhs) 
     {
       elem() >>= rhs.elem();
@@ -152,10 +157,13 @@ public:
     }
 
   //! Deep copies here
+  __device__
   PScalar(const PScalar& a): F(a.F) {/* fprintf(stderr,"copy PScalar\n"); */}
 
 public:
+  __device__
   T& elem() {return F;}
+  __device__
   const T& elem() const {return F;}
 
 private:
@@ -166,7 +174,7 @@ private:
 // Input
 //! Ascii input
 // template<class T>
-// __device__ inline
+// __device__ __device__ inline
 // StandardInputStream& operator>>(StandardInputStream& s, PScalar<T>& d)
 // {
 //   return s >> d.elem();
@@ -175,7 +183,7 @@ private:
 // // Output
 // //! Ascii output
 // template<class T>
-// __device__ inline
+// __device__ __device__ inline
 // ostream& operator<<(ostream& s, const PScalar<T>& d)
 // {
 //   return s << d.elem();
@@ -183,7 +191,7 @@ private:
 
 // //! Ascii output
 // template<class T>
-// __device__ inline
+// __device__ __device__ inline
 // StandardOutputStream& operator<<(StandardOutputStream& s, const PScalar<T>& d)
 // {
 //   return s << d.elem();
@@ -191,7 +199,7 @@ private:
 
 // //! Text input
 // template<class T>
-// __device__ inline
+// __device__ __device__ inline
 // TextReader& operator>>(TextReader& txt, PScalar<T>& d)
 // {
 //   return txt >> d.elem();
@@ -199,7 +207,7 @@ private:
 
 // //! Text output
 // template<class T>
-// __device__ inline
+// __device__ __device__ inline
 // TextWriter& operator<<(TextWriter& txt, const PScalar<T>& d)
 // {
 //   return txt << d.elem();
@@ -207,7 +215,7 @@ private:
 
 // //! XML output
 // template<class T>
-// __device__ inline
+// __device__ __device__ inline
 // XMLWriter& operator<<(XMLWriter& xml, const PScalar<T>& d)
 // {
 //   return xml << d.elem();
@@ -215,7 +223,7 @@ private:
 
 // //! XML input
 // template<class T>
-// __device__ inline
+// __device__ __device__ inline
 // void read(XMLReader& xml, const string& path, PScalar<T>& d)
 // {
 //   read(xml, path, d.elem());
@@ -374,7 +382,7 @@ struct UnaryReturn<PScalar<T>, OpNot > {
 };
 
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, OpNot>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, OpNot>::Type_t
 operator!(const PScalar<T1>& l)
 {
   return ! l.elem();
@@ -382,7 +390,7 @@ operator!(const PScalar<T1>& l)
 
 // + PScalar
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, OpUnaryPlus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, OpUnaryPlus>::Type_t
 operator+(const PScalar<T1>& l)
 {
   return +l.elem();
@@ -390,7 +398,7 @@ operator+(const PScalar<T1>& l)
 
 // - PScalar
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, OpUnaryMinus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, OpUnaryMinus>::Type_t
 operator-(const PScalar<T1>& l)
 {
   return -l.elem();
@@ -398,7 +406,7 @@ operator-(const PScalar<T1>& l)
 
 // PScalar + PScalar
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpAdd>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpAdd>::Type_t
 operator+(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() + r.elem();
@@ -406,7 +414,7 @@ operator+(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // PScalar - PScalar
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpSubtract>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpSubtract>::Type_t
 operator-(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() - r.elem();
@@ -414,7 +422,7 @@ operator-(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // PScalar * PScalar
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpMultiply>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpMultiply>::Type_t
 operator*(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() * r.elem();
@@ -422,7 +430,7 @@ operator*(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // Optimized  adj(PMatrix)*PMatrix
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpAdjMultiply>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpAdjMultiply>::Type_t
 adjMultiply(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return adjMultiply(l.elem(), r.elem());
@@ -430,7 +438,7 @@ adjMultiply(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // Optimized  PMatrix*adj(PMatrix)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpMultiplyAdj>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpMultiplyAdj>::Type_t
 multiplyAdj(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return multiplyAdj(l.elem(), r.elem());
@@ -438,7 +446,7 @@ multiplyAdj(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // Optimized  PMatrix*adj(PMatrix)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PSpinVector<T2,4>, OpMultiplyAdj>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PSpinVector<T2,4>, OpMultiplyAdj>::Type_t
 multiplyAdj(const PScalar<T1>& l, const PSpinVector<T2,4>& r)
 {
   return multiplyAdj(l.elem(), r.elem());
@@ -446,7 +454,7 @@ multiplyAdj(const PScalar<T1>& l, const PSpinVector<T2,4>& r)
 
 // Optimized  adj(PMatrix)*adj(PMatrix)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpAdjMultiplyAdj>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpAdjMultiplyAdj>::Type_t
 adjMultiplyAdj(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return adjMultiplyAdj(l.elem(), r.elem());
@@ -454,7 +462,7 @@ adjMultiplyAdj(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // PScalar / PScalar
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpDivide>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpDivide>::Type_t
 operator/(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() / r.elem();
@@ -468,7 +476,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpLeftShift > {
 };
  
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpLeftShift>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpLeftShift>::Type_t
 operator<<(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() << r.elem();
@@ -481,7 +489,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpRightShift > {
 };
  
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpRightShift>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpRightShift>::Type_t
 operator>>(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() >> r.elem();
@@ -489,7 +497,7 @@ operator>>(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // PScalar % PScalar
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpMod>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpMod>::Type_t
 operator%(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() % r.elem();
@@ -497,7 +505,7 @@ operator%(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // PScalar ^ PScalar
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpBitwiseXor>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpBitwiseXor>::Type_t
 operator^(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() ^ r.elem();
@@ -505,7 +513,7 @@ operator^(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // PScalar & PScalar
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpBitwiseAnd>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpBitwiseAnd>::Type_t
 operator&(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() & r.elem();
@@ -513,7 +521,7 @@ operator&(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // PScalar | PScalar
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpBitwiseOr>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpBitwiseOr>::Type_t
 operator|(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() | r.elem();
@@ -527,7 +535,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpLT > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpLT>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpLT>::Type_t
 operator<(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() < r.elem();
@@ -540,7 +548,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpLE > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpLE>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpLE>::Type_t
 operator<=(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() <= r.elem();
@@ -553,7 +561,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpGT > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpGT>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpGT>::Type_t
 operator>(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() > r.elem();
@@ -566,7 +574,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpGE > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpGE>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpGE>::Type_t
 operator>=(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() >= r.elem();
@@ -579,7 +587,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpEQ > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpEQ>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpEQ>::Type_t
 operator==(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() == r.elem();
@@ -592,7 +600,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpNE > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpNE>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpNE>::Type_t
 operator!=(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() != r.elem();
@@ -605,7 +613,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpAnd > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpAnd>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpAnd>::Type_t
 operator&&(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() && r.elem();
@@ -618,7 +626,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, OpOr > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpOr>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, OpOr>::Type_t
 operator||(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return l.elem() || r.elem();
@@ -630,7 +638,7 @@ operator||(const PScalar<T1>& l, const PScalar<T2>& r)
 
 // Adjoint
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnAdjoint>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnAdjoint>::Type_t
 adj(const PScalar<T1>& s1)
 {
   return adj(s1.elem());
@@ -639,7 +647,7 @@ adj(const PScalar<T1>& s1)
 
 // Conjugate
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnConjugate>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnConjugate>::Type_t
 conj(const PScalar<T1>& s1)
 {
   return conj(s1.elem());
@@ -648,7 +656,7 @@ conj(const PScalar<T1>& s1)
 
 // Transpose
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnTranspose>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnTranspose>::Type_t
 transpose(const PScalar<T1>& s1)
 {
   return transpose(s1.elem());
@@ -658,7 +666,7 @@ transpose(const PScalar<T1>& s1)
 // TRACE
 // trace = Trace(source1)
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnTrace>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnTrace>::Type_t
 trace(const PScalar<T1>& s1)
 {
   return trace(s1.elem());
@@ -667,7 +675,7 @@ trace(const PScalar<T1>& s1)
 
 // trace = Re(Trace(source1))
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnRealTrace>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnRealTrace>::Type_t
 realTrace(const PScalar<T1>& s1)
 {
   return realTrace(s1.elem());
@@ -676,7 +684,7 @@ realTrace(const PScalar<T1>& s1)
 
 // trace = Im(Trace(source1))
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnImagTrace>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnImagTrace>::Type_t
 imagTrace(const PScalar<T1>& s1)
 {
   return imagTrace(s1.elem());
@@ -685,7 +693,7 @@ imagTrace(const PScalar<T1>& s1)
 
 // trace = colorTrace(source1)
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnTraceColor>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnTraceColor>::Type_t
 traceColor(const PScalar<T1>& s1)
 {
   return traceColor(s1.elem());
@@ -694,7 +702,7 @@ traceColor(const PScalar<T1>& s1)
 
 //! PScalar = traceSpin(PScalar)
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnTraceSpin>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnTraceSpin>::Type_t
 traceSpin(const PScalar<T1>& s1)
 {
   return traceSpin(s1.elem());
@@ -702,7 +710,7 @@ traceSpin(const PScalar<T1>& s1)
 
 //! PScalar = transposeSpin(PScalar)
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnTransposeSpin>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnTransposeSpin>::Type_t
 transposeSpin(const PScalar<T1>& s1)
 {
   return transposeSpin(s1.elem());
@@ -710,7 +718,7 @@ transposeSpin(const PScalar<T1>& s1)
 
 //! PScalar = trace(PScalar * PScalar)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnTraceMultiply>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnTraceMultiply>::Type_t
 traceMultiply(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return traceMultiply(l.elem(), r.elem());
@@ -718,7 +726,7 @@ traceMultiply(const PScalar<T1>& l, const PScalar<T2>& r)
 
 //! PScalar = traceColor(PScalar * PScalar)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnTraceColorMultiply>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnTraceColorMultiply>::Type_t
 traceColorMultiply(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return traceMultiply(l.elem(), r.elem());
@@ -726,7 +734,7 @@ traceColorMultiply(const PScalar<T1>& l, const PScalar<T2>& r)
 
 //! PScalar = traceSpin(PScalar * PScalar)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnTraceSpinMultiply>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnTraceSpinMultiply>::Type_t
 traceSpinMultiply(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return traceMultiply(l.elem(), r.elem());
@@ -734,7 +742,7 @@ traceSpinMultiply(const PScalar<T1>& l, const PScalar<T2>& r)
 
 //! PScalar = traceSpin(outerProduct(PScalar, PScalar))
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnTraceSpinOuterProduct>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnTraceSpinOuterProduct>::Type_t
 traceSpinOuterProduct(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return traceSpinOuterProduct(l.elem(), r.elem());
@@ -742,7 +750,7 @@ traceSpinOuterProduct(const PScalar<T1>& l, const PScalar<T2>& r)
 
 //! PScalar = outerProduct(PScalar, PScalar)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnOuterProduct>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnOuterProduct>::Type_t
 outerProduct(const PScalar<T1>& l, const PScalar<T2>& r)
 {
   return outerProduct(l.elem(),r.elem());
@@ -751,7 +759,7 @@ outerProduct(const PScalar<T1>& l, const PScalar<T2>& r)
 
 //! PScalar = Re(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnReal>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnReal>::Type_t
 real(const PScalar<T>& s1)
 {
   return real(s1.elem());
@@ -760,7 +768,7 @@ real(const PScalar<T>& s1)
 
 // PScalar = Im(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnImag>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnImag>::Type_t
 imag(const PScalar<T>& s1)
 {
   return imag(s1.elem());
@@ -769,7 +777,7 @@ imag(const PScalar<T>& s1)
 
 // ArcCos
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnArcCos>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnArcCos>::Type_t
 acos(const PScalar<T1>& s1)
 {
   return acos(s1.elem());
@@ -777,7 +785,7 @@ acos(const PScalar<T1>& s1)
 
 // ArcSin
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnArcSin>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnArcSin>::Type_t
 asin(const PScalar<T1>& s1)
 {
   return asin(s1.elem());
@@ -785,7 +793,7 @@ asin(const PScalar<T1>& s1)
 
 // ArcTan
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnArcTan>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnArcTan>::Type_t
 atan(const PScalar<T1>& s1)
 {
   return atan(s1.elem());
@@ -793,7 +801,7 @@ atan(const PScalar<T1>& s1)
 
 // Ceil(ing)
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnCeil>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnCeil>::Type_t
 ceil(const PScalar<T1>& s1)
 {
   return ceil(s1.elem());
@@ -801,7 +809,7 @@ ceil(const PScalar<T1>& s1)
 
 // Cos
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnCos>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnCos>::Type_t
 cos(const PScalar<T1>& s1)
 {
   return cos(s1.elem());
@@ -809,7 +817,7 @@ cos(const PScalar<T1>& s1)
 
 // Cosh
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnHypCos>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnHypCos>::Type_t
 cosh(const PScalar<T1>& s1)
 {
   return cosh(s1.elem());
@@ -817,7 +825,7 @@ cosh(const PScalar<T1>& s1)
 
 // Exp
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnExp>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnExp>::Type_t
 exp(const PScalar<T1>& s1)
 {
   return exp(s1.elem());
@@ -825,7 +833,7 @@ exp(const PScalar<T1>& s1)
 
 // Fabs
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnFabs>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnFabs>::Type_t
 fabs(const PScalar<T1>& s1)
 {
   return fabs(s1.elem());
@@ -833,7 +841,7 @@ fabs(const PScalar<T1>& s1)
 
 // Floor
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnFloor>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnFloor>::Type_t
 floor(const PScalar<T1>& s1)
 {
   return floor(s1.elem());
@@ -841,7 +849,7 @@ floor(const PScalar<T1>& s1)
 
 // Log
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnLog>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnLog>::Type_t
 log(const PScalar<T1>& s1)
 {
   return log(s1.elem());
@@ -849,7 +857,7 @@ log(const PScalar<T1>& s1)
 
 // Log10
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnLog10>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnLog10>::Type_t
 log10(const PScalar<T1>& s1)
 {
   return log10(s1.elem());
@@ -857,7 +865,7 @@ log10(const PScalar<T1>& s1)
 
 // Sin
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnSin>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnSin>::Type_t
 sin(const PScalar<T1>& s1)
 {
   return sin(s1.elem());
@@ -865,7 +873,7 @@ sin(const PScalar<T1>& s1)
 
 // Sinh
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnHypSin>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnHypSin>::Type_t
 sinh(const PScalar<T1>& s1)
 {
   return sinh(s1.elem());
@@ -873,7 +881,7 @@ sinh(const PScalar<T1>& s1)
 
 // Sqrt
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnSqrt>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnSqrt>::Type_t
 sqrt(const PScalar<T1>& s1)
 {
   return sqrt(s1.elem());
@@ -881,7 +889,7 @@ sqrt(const PScalar<T1>& s1)
 
 // Tan
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnTan>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnTan>::Type_t
 tan(const PScalar<T1>& s1)
 {
   return tan(s1.elem());
@@ -889,7 +897,7 @@ tan(const PScalar<T1>& s1)
 
 // Tanh
 template<class T1>
-inline typename UnaryReturn<PScalar<T1>, FnHypTan>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T1>, FnHypTan>::Type_t
 tanh(const PScalar<T1>& s1)
 {
   return tanh(s1.elem());
@@ -899,7 +907,7 @@ tanh(const PScalar<T1>& s1)
 
 //! PScalar<T> = pow(PScalar<T> , PScalar<T>)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnPow>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnPow>::Type_t
 pow(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return pow(s1.elem(), s2.elem());
@@ -907,7 +915,7 @@ pow(const PScalar<T1>& s1, const PScalar<T2>& s2)
 
 //! PScalar<T> = atan2(PScalar<T> , PScalar<T>)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnArcTan2>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnArcTan2>::Type_t
 atan2(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return atan2(s1.elem(), s2.elem());
@@ -916,7 +924,7 @@ atan2(const PScalar<T1>& s1, const PScalar<T2>& s2)
 
 //! PScalar<T> = (PScalar<T> , PScalar<T>)
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnCmplx>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnCmplx>::Type_t
 cmplx(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return cmplx(s1.elem(), s2.elem());
@@ -927,7 +935,7 @@ cmplx(const PScalar<T1>& s1, const PScalar<T2>& s2)
 // Global Functions
 // PScalar = i * PScalar
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnTimesI>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnTimesI>::Type_t
 timesI(const PScalar<T>& s1)
 {
   return timesI(s1.elem());
@@ -935,7 +943,7 @@ timesI(const PScalar<T>& s1)
 
 // PScalar = -i * PScalar
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnTimesMinusI>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnTimesMinusI>::Type_t
 timesMinusI(const PScalar<T>& s1)
 {
   return timesMinusI(s1.elem());
@@ -944,7 +952,7 @@ timesMinusI(const PScalar<T>& s1)
 
 //! dest [float type] = source [seed type]
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSeedToFloat>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSeedToFloat>::Type_t
 seedToFloat(const PScalar<T>& s1)
 {
   return seedToFloat(s1.elem());
@@ -954,7 +962,7 @@ seedToFloat(const PScalar<T>& s1)
 //! dest [some type] = source [some type]
 /*! Portable (internal) way of returning a single site */
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnGetSite>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnGetSite>::Type_t
 getSite(const PScalar<T>& s1, int innersite)
 {
   return getSite(s1.elem(), innersite);
@@ -963,7 +971,7 @@ getSite(const PScalar<T>& s1, int innersite)
 //! Extract color vector components 
 /*! Generically, this is an identity operation. Defined differently under color */
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnPeekColorVector>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnPeekColorVector>::Type_t
 peekColor(const PScalar<T>& l, int row)
 {
   return peekColor(l.elem(),row);
@@ -972,7 +980,7 @@ peekColor(const PScalar<T>& l, int row)
 //! Extract color matrix components 
 /*! Generically, this is an identity operation. Defined differently under color */
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnPeekColorMatrix>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnPeekColorMatrix>::Type_t
 peekColor(const PScalar<T>& l, int row, int col)
 {
   return peekColor(l.elem(),row,col);
@@ -981,7 +989,7 @@ peekColor(const PScalar<T>& l, int row, int col)
 //! Extract spin vector components 
 /*! Generically, this is an identity operation. Defined differently under spin */
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnPeekSpinVector>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnPeekSpinVector>::Type_t
 peekSpin(const PScalar<T>& l, int row)
 {
   return peekSpin(l.elem(),row);
@@ -990,7 +998,7 @@ peekSpin(const PScalar<T>& l, int row)
 //! Extract spin matrix components 
 /*! Generically, this is an identity operation. Defined differently under spin */
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnPeekSpinMatrix>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnPeekSpinMatrix>::Type_t
 peekSpin(const PScalar<T>& l, int row, int col)
 {
   return peekSpin(l.elem(),row,col);
@@ -1000,7 +1008,7 @@ peekSpin(const PScalar<T>& l, int row, int col)
 //! Insert color vector components 
 /*! Generically, this is an identity operation. Defined differently under color */
 template<class T1, class T2>
-inline PScalar<T1>&
+__device__ inline PScalar<T1>&
 pokeColor(PScalar<T1>& l, const PScalar<T2>& r, int row)
 {
   pokeColor(l.elem(),r.elem(),row);
@@ -1010,7 +1018,7 @@ pokeColor(PScalar<T1>& l, const PScalar<T2>& r, int row)
 //! Insert color matrix components 
 /*! Generically, this is an identity operation. Defined differently under color */
 template<class T1, class T2>
-inline PScalar<T1>&
+__device__ inline PScalar<T1>&
 pokeColor(PScalar<T1>& l, const PScalar<T2>& r, int row, int col)
 {
   pokeColor(l.elem(),r.elem(),row,col);
@@ -1020,7 +1028,7 @@ pokeColor(PScalar<T1>& l, const PScalar<T2>& r, int row, int col)
 //! Insert spin vector components 
 /*! Generically, this is an identity operation. Defined differently under spin */
 template<class T1, class T2>
-inline PScalar<T1>&
+__device__ inline PScalar<T1>&
 pokeSpin(PScalar<T1>& l, const PScalar<T2>& r, int row)
 {
   pokeSpin(l.elem(),r.elem(),row);
@@ -1030,7 +1038,7 @@ pokeSpin(PScalar<T1>& l, const PScalar<T2>& r, int row)
 //! Insert spin matrix components 
 /*! Generically, this is an identity operation. Defined differently under spin */
 template<class T1, class T2>
-inline PScalar<T1>&
+__device__ inline PScalar<T1>&
 pokeSpin(PScalar<T1>& l, const PScalar<T2>& r, int row, int col)
 {
   pokeSpin(l.elem(),r.elem(),row,col);
@@ -1041,7 +1049,7 @@ pokeSpin(PScalar<T1>& l, const PScalar<T2>& r, int row, int col)
 //-----------------------------------------------------------------------------
 //! PScalar = Gamma<N,m> * PScalar
 template<class T2, int N, int m>
-inline typename BinaryReturn<GammaConst<N,m>, PScalar<T2>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<GammaConst<N,m>, PScalar<T2>, OpGammaConstMultiply>::Type_t
 operator*(const GammaConst<N,m>& l, const PScalar<T2>& r)
 {
   return l * r.elem();
@@ -1049,7 +1057,7 @@ operator*(const GammaConst<N,m>& l, const PScalar<T2>& r)
 
 //! PScalar = PScalar * Gamma<N,m>
 template<class T2, int N, int m>
-inline typename BinaryReturn<PScalar<T2>, GammaConst<N,m>, OpGammaConstMultiply>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T2>, GammaConst<N,m>, OpGammaConstMultiply>::Type_t
 operator*(const PScalar<T2>& l, const GammaConst<N,m>& r)
 {
   return l.elem() * r;
@@ -1058,7 +1066,7 @@ operator*(const PScalar<T2>& l, const GammaConst<N,m>& r)
 //-----------------------------------------------------------------------------
 //! PScalar = SpinProject(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir0Minus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir0Minus>::Type_t
 spinProjectDir0Minus(const PScalar<T>& s1)
 {
   return spinProjectDir0Minus(s1.elem());
@@ -1066,7 +1074,7 @@ spinProjectDir0Minus(const PScalar<T>& s1)
 
 //! PScalar = SpinReconstruct(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir0Minus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir0Minus>::Type_t
 spinReconstructDir0Minus(const PScalar<T>& s1)
 {
   return spinReconstructDir0Minus(s1.elem());
@@ -1075,7 +1083,7 @@ spinReconstructDir0Minus(const PScalar<T>& s1)
 
 //! PScalar = SpinProject(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir1Minus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir1Minus>::Type_t
 spinProjectDir1Minus(const PScalar<T>& s1)
 {
   return spinProjectDir1Minus(s1.elem());
@@ -1083,7 +1091,7 @@ spinProjectDir1Minus(const PScalar<T>& s1)
 
 //! PScalar = SpinReconstruct(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir1Minus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir1Minus>::Type_t
 spinReconstructDir1Minus(const PScalar<T>& s1)
 {
   return spinReconstructDir1Minus(s1.elem());
@@ -1092,7 +1100,7 @@ spinReconstructDir1Minus(const PScalar<T>& s1)
 
 //! PScalar = SpinProject(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir2Minus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir2Minus>::Type_t
 spinProjectDir2Minus(const PScalar<T>& s1)
 {
   return spinProjectDir2Minus(s1.elem());
@@ -1100,7 +1108,7 @@ spinProjectDir2Minus(const PScalar<T>& s1)
 
 //! PScalar = SpinReconstruct(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir2Minus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir2Minus>::Type_t
 spinReconstructDir2Minus(const PScalar<T>& s1)
 {
   return spinReconstructDir2Minus(s1.elem());
@@ -1109,7 +1117,7 @@ spinReconstructDir2Minus(const PScalar<T>& s1)
 
 //! PScalar = SpinProject(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir3Minus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir3Minus>::Type_t
 spinProjectDir3Minus(const PScalar<T>& s1)
 {
   return spinProjectDir3Minus(s1.elem());
@@ -1117,7 +1125,7 @@ spinProjectDir3Minus(const PScalar<T>& s1)
 
 //! PScalar = SpinReconstruct(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir3Minus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir3Minus>::Type_t
 spinReconstructDir3Minus(const PScalar<T>& s1)
 {
   return spinReconstructDir3Minus(s1.elem());
@@ -1126,7 +1134,7 @@ spinReconstructDir3Minus(const PScalar<T>& s1)
 
 //! PScalar = SpinProject(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir0Plus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir0Plus>::Type_t
 spinProjectDir0Plus(const PScalar<T>& s1)
 {
   return spinProjectDir0Plus(s1.elem());
@@ -1134,7 +1142,7 @@ spinProjectDir0Plus(const PScalar<T>& s1)
 
 //! PScalar = SpinReconstruct(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir0Plus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir0Plus>::Type_t
 spinReconstructDir0Plus(const PScalar<T>& s1)
 {
   return spinReconstructDir0Plus(s1.elem());
@@ -1143,7 +1151,7 @@ spinReconstructDir0Plus(const PScalar<T>& s1)
 
 //! PScalar = SpinProject(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir1Plus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir1Plus>::Type_t
 spinProjectDir1Plus(const PScalar<T>& s1)
 {
   return spinProjectDir1Plus(s1.elem());
@@ -1151,7 +1159,7 @@ spinProjectDir1Plus(const PScalar<T>& s1)
 
 //! PScalar = SpinReconstruct(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir1Plus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir1Plus>::Type_t
 spinReconstructDir1Plus(const PScalar<T>& s1)
 {
   return spinReconstructDir1Plus(s1.elem());
@@ -1160,7 +1168,7 @@ spinReconstructDir1Plus(const PScalar<T>& s1)
 
 //! PScalar = SpinProject(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir2Plus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir2Plus>::Type_t
 spinProjectDir2Plus(const PScalar<T>& s1)
 {
   return spinProjectDir2Plus(s1.elem());
@@ -1168,7 +1176,7 @@ spinProjectDir2Plus(const PScalar<T>& s1)
 
 //! PScalar = SpinReconstruct(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir2Plus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir2Plus>::Type_t
 spinReconstructDir2Plus(const PScalar<T>& s1)
 {
   return spinReconstructDir2Plus(s1.elem());
@@ -1177,7 +1185,7 @@ spinReconstructDir2Plus(const PScalar<T>& s1)
 
 //! PScalar = SpinProject(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir3Plus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinProjectDir3Plus>::Type_t
 spinProjectDir3Plus(const PScalar<T>& s1)
 {
   return spinProjectDir3Plus(s1.elem());
@@ -1185,7 +1193,7 @@ spinProjectDir3Plus(const PScalar<T>& s1)
 
 //! PScalar = SpinReconstruct(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir3Plus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSpinReconstructDir3Plus>::Type_t
 spinReconstructDir3Plus(const PScalar<T>& s1)
 {
   return spinReconstructDir3Plus(s1.elem());
@@ -1194,7 +1202,7 @@ spinReconstructDir3Plus(const PScalar<T>& s1)
 //-----------------------------------------------------------------------------
 //! PScalar = chiralProjectPlus(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnChiralProjectPlus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnChiralProjectPlus>::Type_t
 chiralProjectPlus(const PScalar<T>& s1)
 {
   return chiralProjectPlus(s1.elem());
@@ -1202,7 +1210,7 @@ chiralProjectPlus(const PScalar<T>& s1)
 
 //! PScalar = chiralProjectMinus(PScalar)
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnChiralProjectMinus>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnChiralProjectMinus>::Type_t
 chiralProjectMinus(const PScalar<T>& s1)
 {
   return chiralProjectMinus(s1.elem());
@@ -1212,42 +1220,42 @@ chiralProjectMinus(const PScalar<T>& s1)
 //-----------------------------------------------------------------------------
 // quark propagator contraction
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract13>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract13>::Type_t
 quarkContract13(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return quarkContract13(s1.elem(), s2.elem());
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract14>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract14>::Type_t
 quarkContract14(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return quarkContract14(s1.elem(), s2.elem());
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract23>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract23>::Type_t
 quarkContract23(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return quarkContract23(s1.elem(), s2.elem());
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract24>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract24>::Type_t
 quarkContract24(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return quarkContract24(s1.elem(), s2.elem());
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract12>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract12>::Type_t
 quarkContract12(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return quarkContract12(s1.elem(), s2.elem());
 }
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract34>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnQuarkContract34>::Type_t
 quarkContract34(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return quarkContract34(s1.elem(), s2.elem());
@@ -1267,7 +1275,7 @@ struct TrinaryReturn<PScalar<T1>, PScalar<T2>, PScalar<T3>, FnColorContract> {
 };
 
 template<class T1, class T2, class T3>
-inline typename TrinaryReturn<PScalar<T1>, PScalar<T2>, PScalar<T3>, FnColorContract>::Type_t
+__device__ inline typename TrinaryReturn<PScalar<T1>, PScalar<T2>, PScalar<T3>, FnColorContract>::Type_t
 colorContract(const PScalar<T1>& s1, const PScalar<T2>& s2, const PScalar<T3>& s3)
 {
   return colorContract(s1.elem(), s2.elem(), s3.elem());
@@ -1283,7 +1291,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, FnColorVectorContract> {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnColorVectorContract>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnColorVectorContract>::Type_t
 colorVectorContract(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return colorVectorContract(s1.elem(), s2.elem());
@@ -1300,7 +1308,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, FnColorCrossProduct> {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnColorCrossProduct>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnColorCrossProduct>::Type_t
 colorCrossProduct(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return colorCrossProduct(s1.elem(), s2.elem());
@@ -1311,7 +1319,7 @@ colorCrossProduct(const PScalar<T1>& s1, const PScalar<T2>& s2)
 //-----------------------------------------------------------------------------
 //! dest = (mask) ? s1 : dest
 template<class T, class T1> 
-inline void 
+__device__ inline void 
 copymask(PScalar<T>& d, const PScalar<T1>& mask, const PScalar<T>& s1) 
 {
   copymask(d.elem(),mask.elem(),s1.elem());
@@ -1319,7 +1327,7 @@ copymask(PScalar<T>& d, const PScalar<T1>& mask, const PScalar<T>& s1)
 
 //! dest  = random  
 template<class T, class T1, class T2>
-inline void
+__device__ inline void
 fill_random(PScalar<T>& d, T1& seed, T2& skewed_seed, const T1& seed_mult)
 {
   fill_random(d.elem(), seed, skewed_seed, seed_mult);
@@ -1328,7 +1336,7 @@ fill_random(PScalar<T>& d, T1& seed, T2& skewed_seed, const T1& seed_mult)
 
 //! dest  = gaussian  
 template<class T>
-inline void
+__device__ inline void
 fill_gaussian(PScalar<T>& d, PScalar<T>& r1, PScalar<T>& r2)
 {
   fill_gaussian(d.elem(), r1.elem(), r2.elem());
@@ -1343,7 +1351,7 @@ struct UnaryReturn<PScalar<T>, FnSum > {
 };
 
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnSum>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnSum>::Type_t
 sum(const PScalar<T>& s1)
 {
   return sum(s1.elem());
@@ -1363,7 +1371,7 @@ struct UnaryReturn<PScalar<T>, FnLocalNorm2 > {
 };
 
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnLocalNorm2>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnLocalNorm2>::Type_t
 localNorm2(const PScalar<T>& s1)
 {
   return localNorm2(s1.elem());
@@ -1376,7 +1384,7 @@ struct UnaryReturn<PScalar<T>, FnGlobalMax> {
 };
 
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnGlobalMax>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnGlobalMax>::Type_t
 globalMax(const PScalar<T>& s1)
 {
   return globalMax(s1.elem());
@@ -1390,7 +1398,7 @@ struct UnaryReturn<PScalar<T>, FnGlobalMin> {
 };
 
 template<class T>
-inline typename UnaryReturn<PScalar<T>, FnGlobalMin>::Type_t
+__device__ inline typename UnaryReturn<PScalar<T>, FnGlobalMin>::Type_t
 globalMin(const PScalar<T>& s1)
 {
   return globalMin(s1.elem());
@@ -1409,7 +1417,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, FnLocalInnerProduct > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnLocalInnerProduct>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnLocalInnerProduct>::Type_t
 localInnerProduct(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return localInnerProduct(s1.elem(), s2.elem());
@@ -1428,7 +1436,7 @@ struct BinaryReturn<PScalar<T1>, PScalar<T2>, FnLocalInnerProductReal > {
 };
 
 template<class T1, class T2>
-inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnLocalInnerProductReal>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PScalar<T2>, FnLocalInnerProductReal>::Type_t
 localInnerProductReal(const PScalar<T1>& s1, const PScalar<T2>& s2)
 {
   return localInnerProductReal(s1.elem(), s2.elem());
@@ -1446,7 +1454,7 @@ struct TrinaryReturn<PScalar<T1>, PScalar<T2>, PScalar<T3>, FnWhere> {
 };
 
 template<class T1, class T2, class T3>
-inline typename TrinaryReturn<PScalar<T1>, PScalar<T2>, PScalar<T3>, FnWhere>::Type_t
+__device__ inline typename TrinaryReturn<PScalar<T1>, PScalar<T2>, PScalar<T3>, FnWhere>::Type_t
 where(const PScalar<T1>& a, const PScalar<T2>& b, const PScalar<T3>& c)
 {
   return where(a.elem(), b.elem(), c.elem());
@@ -1456,7 +1464,7 @@ where(const PScalar<T1>& a, const PScalar<T2>& b, const PScalar<T3>& c)
 //-----------------------------------------------------------------------------
 //! QDP Int to int primitive in conversion routine
 template<class T> 
-inline int 
+__device__ inline int 
 toInt(const PScalar<T>& s) 
 {
   return toInt(s.elem());
@@ -1464,7 +1472,7 @@ toInt(const PScalar<T>& s)
 
 //! QDP Real to float primitive in conversion routine
 template<class T> 
-inline float
+__device__ inline float
 toFloat(const PScalar<T>& s) 
 {
   return toFloat(s.elem());
@@ -1472,7 +1480,7 @@ toFloat(const PScalar<T>& s)
 
 //! QDP Double to double primitive in conversion routine
 template<class T> 
-inline double
+__device__ inline double
 toDouble(const PScalar<T>& s) 
 {
   return toDouble(s.elem());
@@ -1480,7 +1488,7 @@ toDouble(const PScalar<T>& s)
 
 //! QDP Boolean to bool primitive in conversion routine
 template<class T> 
-inline bool
+__device__ inline bool
 toBool(const PScalar<T>& s) 
 {
   return toBool(s.elem());
@@ -1488,7 +1496,7 @@ toBool(const PScalar<T>& s)
 
 //! QDP Wordtype to primitive wordtype
 template<class T> 
-inline typename WordType< PScalar<T> >::Type_t
+__device__ inline typename WordType< PScalar<T> >::Type_t
 toWordType(const PScalar<T>& s) 
 {
   return toWordType(s.elem());
@@ -1499,7 +1507,7 @@ toWordType(const PScalar<T>& s)
 // Other operations
 //! dest = 0
 template<class T> 
-inline void 
+__device__ inline void 
 zero_rep(PScalar<T>& dest) 
 {
   zero_rep(dest.elem());
@@ -1507,7 +1515,7 @@ zero_rep(PScalar<T>& dest)
 
 //! dest [some type] = source [some type]
 template<class T, class T1>
-inline void 
+__device__ inline void 
 cast_rep(T& d, const PScalar<T1>& s1)
 {
   cast_rep(d, s1.elem());
@@ -1515,7 +1523,7 @@ cast_rep(T& d, const PScalar<T1>& s1)
 
 //! dest [some type] = source [some type]
 template<class T, class T1>
-inline void 
+__device__ inline void 
 cast_rep(PScalar<T>& d, const PScalar<T1>& s1)
 {
   cast_rep(d.elem(), s1.elem());
@@ -1523,7 +1531,7 @@ cast_rep(PScalar<T>& d, const PScalar<T1>& s1)
 
 //! dest [some type] = source [some type]
 template<class T, class T1>
-inline void 
+__device__ inline void 
 copy_site(PScalar<T>& d, int isite, const PScalar<T1>& s1)
 {
   copy_site(d.elem(), isite, s1.elem());
@@ -1531,7 +1539,7 @@ copy_site(PScalar<T>& d, int isite, const PScalar<T1>& s1)
 
 //! gather several inner sites together
 template<class T, class T1>
-inline void 
+__device__ inline void 
 gather_sites(PScalar<T>& d, 
 	     const PScalar<T1>& s0, int i0, 
 	     const PScalar<T1>& s1, int i1,

@@ -8,7 +8,7 @@
 #define QDP_SCALAR_SPECIFIC_H
 
 #include "cudp_iface.h"
-#include <iostream>
+//#include <iostream>
 
 namespace QDP {
 
@@ -31,8 +31,7 @@ namespace QDP {
   {
     //typedef Reference<T> Type_t;
     typedef int Type_t;
-    __device__
-    inline static Type_t apply(const OLattice<T> &a, const FlattenTag &f)
+    __device__ inline static Type_t apply(const OLattice<T> &a, const FlattenTag &f)
     {
 #ifdef __CUDA_ARCH__
       OLattice<T>& b = const_cast<OLattice<T>&>(a);
@@ -57,7 +56,7 @@ namespace QDP {
 //   {
 //     //typedef Reference<T> Type_t;
 //     typedef int Type_t;
-//     inline static Type_t apply(const OScalar<T> &a, const FlattenTag &f)
+//     __device__ inline static Type_t apply(const OScalar<T> &a, const FlattenTag &f)
 //     {
 //       if (f.iadr >= f.maxleaf) {
 // 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
@@ -79,7 +78,7 @@ namespace QDP {
   // {
   //   //typedef Reference<T> Type_t;
   //   typedef int Type_t;
-  //   inline static Type_t apply(const OScalar<PScalar<PScalar<RScalar<int> > > > &a, const FlattenTag &f)
+  //   __device__ inline static Type_t apply(const OScalar<PScalar<PScalar<RScalar<int> > > > &a, const FlattenTag &f)
   //     {
   //       cout << "ppu: im OScalar" << endl;
 
@@ -103,7 +102,7 @@ namespace QDP {
 //   {
 //     //typedef Reference<T> Type_t;
 //     typedef int Type_t;
-//     inline static Type_t apply(const GammaConst<N, m> &a, const FlattenTag &f)
+//     __device__ inline static Type_t apply(const GammaConst<N, m> &a, const FlattenTag &f)
 //     {
 // #if defined(SPU_DEBUG)
 //       printf("LeafFunctor<GammaConst<N, m>,FlattenTag>::apply \n");
@@ -118,7 +117,7 @@ namespace QDP {
 //   {
 //     //typedef Reference<T> Type_t;
 //     typedef int Type_t;
-//     inline static Type_t apply(const GammaType<N> &a, const FlattenTag &f)
+//     __device__ inline static Type_t apply(const GammaType<N> &a, const FlattenTag &f)
 //     {
 //       if (f.iadr >= f.maxleaf) {
 // 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
@@ -154,6 +153,7 @@ namespace QDP {
 namespace Layout
 {
   //! coord[mu]  <- mu  : fill with lattice coord in mu direction
+    __device__
   LatticeInteger latticeCoordinate(int mu);
 }
 
@@ -165,29 +165,29 @@ namespace Internal
 {
   //! Dummy array sum accross all nodes
   template<class T>
-  inline void globalSumArray(T* dest, int n) {}
+  __device__ inline void globalSumArray(T* dest, int n) {}
 
   //! Dummy global sum on a multi1d
   template<class T>
-  inline void globalSumArray(multi1d<T>& dest) {}
+  __device__ inline void globalSumArray(multi1d<T>& dest) {}
 
   //! Dummy global sum on a multi2d
   template<class T>
-  inline void globalSumArray(multi2d<T>& dest) {}
+  __device__ inline void globalSumArray(multi2d<T>& dest) {}
 
   //! Dummy sum across all nodes
   template<class T>
-  inline void globalSum(T& dest) {}
+  __device__ inline void globalSum(T& dest) {}
 
   //! Dummy broadcast from primary node to all other nodes
   template<class T>
-  inline void broadcast(T& dest) {}
+  __device__ inline void broadcast(T& dest) {}
 
   //! Dummy broadcast a string from primary node to all other nodes
-  //inline void broadcast_str(std::string& dest) {}
+  //__device__ inline void broadcast_str(std::string& dest) {}
 
   //! Dummy broadcast from primary node to all other nodes
-  inline void broadcast(void* dest, size_t nbytes) {}
+  __device__ inline void broadcast(void* dest, size_t nbytes) {}
 }
 
 /////////////////////////////////////////////////////////
@@ -205,6 +205,7 @@ struct u_arg{
         const QDPExpr<RHS,OScalar<T1> >& r;
         const Op& op;
         const int *tab;
+    __device__
   u_arg( OLattice<T>& d_,
 	 const QDPExpr<RHS, OScalar<T1> >& r_,
 	 const Op& op_,
@@ -215,6 +216,7 @@ struct u_arg{
 // "OLattice Op Scalar(Expression(source)) under an Subset"
 //
 template<class T, class T1, class Op, class RHS>
+    __device__
 void ev_userfunc(int lo, int hi, int myId, u_arg<T,T1,Op,RHS> *a)
 {
    OLattice<T>& dest = a->d;
@@ -240,6 +242,7 @@ struct user_arg{
         const QDPExpr<RHS,OLattice<T1> >& r;
         const Op& op;
         const int *tab;
+    __device__
   user_arg(OLattice<T>& d_,
 	   const QDPExpr<RHS,OLattice<T1> >& r_,
 	   const Op& op_,
@@ -251,6 +254,7 @@ struct user_arg{
 // "OLattice Op OLattice(Expression(source)) under an Subset"
 //
 template<class T, class T1, class Op, class RHS>
+    __device__
 void evaluate_userfunc(int lo, int hi, int myId, user_arg<T,T1,Op,RHS> *a)
 {
 
@@ -277,7 +281,7 @@ void evaluate_userfunc(int lo, int hi, int myId, user_arg<T,T1,Op,RHS> *a)
  * involving the destination 
  */
 template<class T, class T1, class Op, class RHS>
-//inline
+__device__ inline
 void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OScalar<T1> >& rhs,
 	      const Subset& s)
 {
@@ -322,41 +326,30 @@ void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OScalar<T1> >& 
  * involving the destination 
  */
 template<class T, class T1, class Op, class RHS>
-//inline
+__device__ inline
 void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
 	      const Subset& s)
 {
-//  cerr << "In evaluateSubset(olattice,olattice)" << endl;
 
-#if defined(QDP_USE_PROFILING)   
-  static QDPProfile_t prof(dest, op, rhs);
-  prof.time -= getClockTime();
-#endif
+//   int numSiteTable = s.numSiteTable();
 
-  int numSiteTable = s.numSiteTable();
+//   user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
 
-  user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
+//   dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
 
-  dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
+//   ////////////////////
+//   // Original code
+//   ///////////////////
 
-  ////////////////////
-  // Original code
-  ///////////////////
+//   // General form of loop structure
+//   //const int *tab = s.siteTable().slice();
+//   //for(int j=0; j < s.numSiteTable(); ++j) 
+//   //{
+//   //int i = tab[j];
+// //    fprintf(stderr,"eval(olattice,olattice): site %d\n",i);
+//   //op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
+//   //}
 
-  // General form of loop structure
-  //const int *tab = s.siteTable().slice();
-  //for(int j=0; j < s.numSiteTable(); ++j) 
-  //{
-  //int i = tab[j];
-//    fprintf(stderr,"eval(olattice,olattice): site %d\n",i);
-  //op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
-  //}
-
-#if defined(QDP_USE_PROFILING)   
-  prof.time += getClockTime();
-  prof.count++;
-  prof.print();
-#endif
 }
 
 
@@ -364,6 +357,7 @@ void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >&
 //-----------------------------------------------------------------------------
 //! dest = (mask) ? s1 : dest
 template<class T1, class T2> 
+    __device__
 void 
 copymask(OSubLattice<T2> d, const OLattice<T1>& mask, const OLattice<T2>& s1) 
 {
@@ -381,6 +375,7 @@ copymask(OSubLattice<T2> d, const OLattice<T1>& mask, const OLattice<T2>& s1)
 
 //! dest = (mask) ? s1 : dest
 template<class T1, class T2> 
+    __device__
 void 
 copymask(OLattice<T2>& dest, const OLattice<T1>& mask, const OLattice<T2>& s1) 
 {
@@ -405,6 +400,7 @@ namespace RNG
 //! dest  = random  
 /*! This implementation is correct for no inner grid */
 template<class T>
+    __device__
 void 
 random(OScalar<T>& d)
 {
@@ -419,6 +415,7 @@ random(OScalar<T>& d)
 
 //! dest  = random    under a subset
 template<class T>
+    __device__
 void 
 random(OLattice<T>& d, const Subset& s)
 {
@@ -442,6 +439,7 @@ random(OLattice<T>& d, const Subset& s)
 
 //! dest  = random   under a subset
 template<class T>
+    __device__
 void random(OSubLattice<T> dd)
 {
   OLattice<T>& d = dd.field();
@@ -453,6 +451,7 @@ void random(OSubLattice<T> dd)
 
 //! dest  = random  
 template<class T>
+    __device__
 void random(OLattice<T>& d)
 {
   random(d,all);
@@ -461,6 +460,7 @@ void random(OLattice<T>& d)
 
 //! dest  = gaussian   under a subset
 template<class T>
+    __device__
 void gaussian(OLattice<T>& d, const Subset& s)
 {
   OLattice<T>  r1, r2;
@@ -480,6 +480,7 @@ void gaussian(OLattice<T>& d, const Subset& s)
 
 //! dest  = gaussian   under a subset
 template<class T>
+    __device__
 void gaussian(OSubLattice<T> dd)
 {
   OLattice<T>& d = dd.field();
@@ -491,6 +492,7 @@ void gaussian(OSubLattice<T> dd)
 
 //! dest  = gaussian
 template<class T>
+    __device__
 void gaussian(OLattice<T>& d)
 {
   gaussian(d,all);
@@ -502,6 +504,7 @@ void gaussian(OLattice<T>& d)
 // Broadcast operations
 //! dest  = 0 
 template<class T> 
+    __device__
 void zero_rep(OLattice<T>& dest, const Subset& s) 
 {
   const int *tab = s.siteTable().slice();
@@ -516,6 +519,7 @@ void zero_rep(OLattice<T>& dest, const Subset& s)
 
 //! dest  = 0 
 template<class T, class S>
+    __device__
 void zero_rep(OSubLattice<T> dd) 
 {
   OLattice<T>& d = dd.field();
@@ -527,6 +531,7 @@ void zero_rep(OSubLattice<T> dd)
 
 //! dest  = 0 
 template<class T> 
+    __device__
 void zero_rep(OLattice<T>& dest) 
 {
   const int vvol = Layout::vol();
@@ -545,6 +550,7 @@ void zero_rep(OLattice<T>& dest)
  */
 template<class RHS, class T>
 typename UnaryReturn<OScalar<T>, FnSum>::Type_t
+    __device__
 sum(const QDPExpr<RHS,OScalar<T> >& s1, const Subset& s)
 {
   typename UnaryReturn<OScalar<T>, FnSum>::Type_t  d;
@@ -573,6 +579,7 @@ sum(const QDPExpr<RHS,OScalar<T> >& s1, const Subset& s)
  */
 template<class RHS, class T>
 typename UnaryReturn<OScalar<T>, FnSum>::Type_t
+    __device__
 sum(const QDPExpr<RHS,OScalar<T> >& s1)
 {
   typename UnaryReturn<OScalar<T>, FnSum>::Type_t  d;
@@ -602,6 +609,7 @@ sum(const QDPExpr<RHS,OScalar<T> >& s1)
  */
 template<class RHS, class T>
 typename UnaryReturn<OLattice<T>, FnSum>::Type_t
+    __device__
 sum(const QDPExpr<RHS,OLattice<T> >& s1, const Subset& s)
 {
   typename UnaryReturn<OLattice<T>, FnSum>::Type_t  d;
@@ -638,6 +646,7 @@ sum(const QDPExpr<RHS,OLattice<T> >& s1, const Subset& s)
  */
 template<class RHS, class T>
 typename UnaryReturn<OLattice<T>, FnSum>::Type_t
+    __device__
 sum(const QDPExpr<RHS,OLattice<T> >& s1)
 {
   typename UnaryReturn<OLattice<T>, FnSum>::Type_t  d;
@@ -676,6 +685,7 @@ sum(const QDPExpr<RHS,OLattice<T> >& s1)
  */
 template<class RHS, class T>
 typename UnaryReturn<OScalar<T>, FnSum>::Type_t
+    __device__
 sumMulti(const QDPExpr<RHS,OScalar<T> >& s1, const Set& ss)
 {
   typename UnaryReturn<OScalar<T>, FnSumMulti>::Type_t  dest(ss.numSubsets());
@@ -720,6 +730,7 @@ sumMulti(const QDPExpr<RHS,OScalar<T> >& s1, const Set& ss)
   };
 
   template<class RHS, class T>
+    __device__
   void sumMultiKernel(int lo, int hi, int my_id, SumMultiOLatticeThreadArgs<RHS,T>* a)
   {
     const multi1d<int>& lat_color = a->lat_color;
@@ -731,65 +742,74 @@ sumMulti(const QDPExpr<RHS,OScalar<T> >& s1, const Set& ss)
     }
   }
 
+
+
+#if 0
 template<class RHS, class T>
 typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t
+    __device__
 sumMulti(const QDPExpr<RHS,OLattice<T> >& s1, const Set& ss)
 {
+  printf("sumMulti not yet implemented\n");
   typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t  dest(ss.numSubsets());
 
-#if defined(QDP_USE_PROFILING)   
-  static QDPProfile_t prof(dest[0], OpAssign(), FnSum(), s1);
-  prof.time -= getClockTime();
-#endif
+// #if defined(QDP_USE_PROFILING)   
+//   static QDPProfile_t prof(dest[0], OpAssign(), FnSum(), s1);
+//   prof.time -= getClockTime();
+// #endif
 
-  multi1d< typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t > pdest(qdpNumThreads());
+//   multi1d< typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t > pdest(qdpNumThreads());
 
-  // Initialize result with zero
-  for(int thread=0; thread < qdpNumThreads(); ++thread) {
-    pdest[thread].resize(ss.numSubsets());
+//   // Initialize result with zero
+//   for(int thread=0; thread < qdpNumThreads(); ++thread) {
+//     pdest[thread].resize(ss.numSubsets());
 
-    for(int k=0; k < ss.numSubsets(); ++k) {
-      zero_rep(pdest[thread][k]);
-    }
-  }
+//     for(int k=0; k < ss.numSubsets(); ++k) {
+//       zero_rep(pdest[thread][k]);
+//     }
+//   }
 
-  // Loop over all sites and accumulate based on the coloring 
-  const multi1d<int>& lat_color =  ss.latticeColoring();
-  SumMultiOLatticeThreadArgs<RHS,T> args(lat_color,s1,pdest);
+//   // Loop over all sites and accumulate based on the coloring 
+//   const multi1d<int>& lat_color =  ss.latticeColoring();
+//   SumMultiOLatticeThreadArgs<RHS,T> args(lat_color,s1,pdest);
 
-  const int vvol = Layout::vol();
-  dispatch_to_threads(vvol, args, sumMultiKernel<RHS,T>);
+//   const int vvol = Layout::vol();
+//   dispatch_to_threads(vvol, args, sumMultiKernel<RHS,T>);
 
-  for(int k=0; k< ss.numSubsets(); ++k) { 
-    dest[k] = pdest[0][k];
-  }
+//   for(int k=0; k< ss.numSubsets(); ++k) { 
+//     dest[k] = pdest[0][k];
+//   }
 
-  for(int thread=1; thread < qdpNumThreads(); thread++) { 
-    for(int k=0; k< ss.numSubsets(); ++k) { 
-      dest[k] += pdest[thread][k];
-    }
-  }
+//   for(int thread=1; thread < qdpNumThreads(); thread++) { 
+//     for(int k=0; k< ss.numSubsets(); ++k) { 
+//       dest[k] += pdest[thread][k];
+//     }
+//   }
   
-#if 0
-  for(int i=0; i < vvol; ++i) 
-  {
-    int j = lat_color[i];
-    dest[j].elem() += forEach(s1, EvalLeaf1(i), OpCombine());   // SINGLE NODE VERSION FOR NOW
-  }
-#endif
+// #if 0
+//   for(int i=0; i < vvol; ++i) 
+//   {
+//     int j = lat_color[i];
+//     dest[j].elem() += forEach(s1, EvalLeaf1(i), OpCombine());   // SINGLE NODE VERSION FOR NOW
+//   }
+// #endif
 
-#if defined(QDP_USE_PROFILING)   
-  prof.time += getClockTime();
-  prof.count++;
-  prof.print();
-#endif
+// #if defined(QDP_USE_PROFILING)   
+//   prof.time += getClockTime();
+//   prof.count++;
+//   prof.print();
+// #endif
 
   return dest;
 }
-#if 0
-  // Original code
+#endif
+
+
+#if 1
+// Original code
 template<class RHS, class T>
 typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t
+__device__
 sumMulti(const QDPExpr<RHS,OLattice<T> >& s1, const Set& ss)
 {
   typename UnaryReturn<OLattice<T>, FnSumMulti>::Type_t  dest(ss.numSubsets());
@@ -835,6 +855,7 @@ sumMulti(const QDPExpr<RHS,OLattice<T> >& s1, const Set& ss)
  */
 template<class T>
 multi2d<typename UnaryReturn<OScalar<T>, FnSum>::Type_t>
+    __device__
 sumMulti(const multi1d< OScalar<T> >& s1, const Set& ss)
 {
   multi2d<typename UnaryReturn<OScalar<T>, FnSum>::Type_t>  dest(s1.size(),ss.numSubsets());
@@ -870,6 +891,7 @@ sumMulti(const multi1d< OScalar<T> >& s1, const Set& ss)
  */
 template<class T>
 multi2d<typename UnaryReturn<OLattice<T>, FnSum>::Type_t>
+    __device__
 sumMulti(const multi1d< OLattice<T> >& s1, const Set& ss)
 {
   multi2d<typename UnaryReturn<OLattice<T>, FnSum>::Type_t>  dest(s1.size(),ss.numSubsets());
@@ -918,7 +940,7 @@ sumMulti(const multi1d< OLattice<T> >& s1, const Set& ss)
  * Allow a global sum that sums over all indices
  */
 template<class T>
-inline typename UnaryReturn<OScalar<T>, FnNorm2>::Type_t
+__device__ inline typename UnaryReturn<OScalar<T>, FnNorm2>::Type_t
 norm2(const multi1d< OScalar<T> >& s1)
 {
   typename UnaryReturn<OScalar<T>, FnNorm2>::Type_t  d;
@@ -949,7 +971,7 @@ norm2(const multi1d< OScalar<T> >& s1)
 //! OScalar = sum(OScalar)  under an explicit subset
 /*! Discards subset */
 template<class T>
-inline typename UnaryReturn<OScalar<T>, FnNorm2>::Type_t
+__device__ inline typename UnaryReturn<OScalar<T>, FnNorm2>::Type_t
 norm2(const multi1d< OScalar<T> >& s1, const Subset& s)
 {
   return norm2(s1);
@@ -965,7 +987,7 @@ norm2(const multi1d< OScalar<T> >& s1, const Subset& s)
  * Allow a global sum that sums over all indices
  */
 template<class T>
-inline typename UnaryReturn<OLattice<T>, FnNorm2>::Type_t
+__device__ inline typename UnaryReturn<OLattice<T>, FnNorm2>::Type_t
 norm2(const multi1d< OLattice<T> >& s1, const Subset& s)
 {
   typename UnaryReturn<OLattice<T>, FnNorm2>::Type_t  d;
@@ -1008,7 +1030,7 @@ norm2(const multi1d< OLattice<T> >& s1, const Subset& s)
  * Allow a global sum that sums over all indices
  */
 template<class T>
-inline typename UnaryReturn<OLattice<T>, FnNorm2>::Type_t
+__device__ inline typename UnaryReturn<OLattice<T>, FnNorm2>::Type_t
 norm2(const multi1d< OLattice<T> >& s1)
 {
   return norm2(s1,all);
@@ -1025,7 +1047,7 @@ norm2(const multi1d< OLattice<T> >& s1)
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProduct>::Type_t
+__device__ inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProduct>::Type_t
 innerProduct(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2)
 {
   typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProduct>::Type_t  d;
@@ -1057,7 +1079,7 @@ innerProduct(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2)
 //! OScalar = sum(OScalar)  under an explicit subset
 /*! Discards subset */
 template<class T1, class T2>
-inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProduct>::Type_t
+__device__ inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProduct>::Type_t
 innerProduct(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2,
 	     const Subset& s)
 {
@@ -1073,7 +1095,7 @@ innerProduct(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2,
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProduct>::Type_t
+__device__ inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProduct>::Type_t
 innerProduct(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s2,
 	     const Subset& s)
 {
@@ -1117,7 +1139,7 @@ innerProduct(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProduct>::Type_t
+__device__ inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProduct>::Type_t
 innerProduct(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s2)
 {
   return innerProduct(s1,s2,all);
@@ -1134,7 +1156,7 @@ innerProduct(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProductReal>::Type_t
+__device__ inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProductReal>::Type_t
 innerProductReal(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2)
 {
   typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProductReal>::Type_t  d;
@@ -1166,7 +1188,7 @@ innerProductReal(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >&
 //! OScalar = sum(OScalar)  under an explicit subset
 /*! Discards subset */
 template<class T1, class T2>
-inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProductReal>::Type_t
+__device__ inline typename BinaryReturn<OScalar<T1>, OScalar<T2>, FnInnerProductReal>::Type_t
 innerProductReal(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >& s2,
 		 const Subset& s)
 {
@@ -1183,7 +1205,7 @@ innerProductReal(const multi1d< OScalar<T1> >& s1, const multi1d< OScalar<T2> >&
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProductReal>::Type_t
+__device__ inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProductReal>::Type_t
 innerProductReal(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s2,
 		 const Subset& s)
 {
@@ -1227,7 +1249,7 @@ innerProductReal(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> 
  * Allow a global sum that sums over all indices
  */
 template<class T1, class T2>
-inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProductReal>::Type_t
+__device__ inline typename BinaryReturn<OLattice<T1>, OLattice<T2>, FnInnerProductReal>::Type_t
 innerProductReal(const multi1d< OLattice<T1> >& s1, const multi1d< OLattice<T2> >& s2)
 {
   return innerProductReal(s1,s2,all);
@@ -1272,6 +1294,7 @@ globalMax(const QDPExpr<RHS,OScalar<T> >& s1)
  */
 template<class RHS, class T>
 typename UnaryReturn<OLattice<T>, FnGlobalMax>::Type_t
+    __device__
 globalMax(const QDPExpr<RHS,OLattice<T> >& s1)
 {
   typename UnaryReturn<OLattice<T>, FnGlobalMax>::Type_t  d;
@@ -1310,6 +1333,7 @@ globalMax(const QDPExpr<RHS,OLattice<T> >& s1)
  */
 template<class RHS, class T>
 typename UnaryReturn<OScalar<T>, FnGlobalMin>::Type_t
+    __device__
 globalMin(const QDPExpr<RHS,OScalar<T> >& s1)
 {
   typename UnaryReturn<OScalar<T>, FnGlobalMin>::Type_t  d;
@@ -1338,6 +1362,7 @@ globalMin(const QDPExpr<RHS,OScalar<T> >& s1)
  */
 template<class RHS, class T>
 typename UnaryReturn<OLattice<T>, FnGlobalMin>::Type_t
+    __device__
 globalMin(const QDPExpr<RHS,OLattice<T> >& s1)
 {
   typename UnaryReturn<OLattice<T>, FnGlobalMin>::Type_t  d;
@@ -1382,7 +1407,7 @@ globalMin(const QDPExpr<RHS,OLattice<T> >& s1)
   @ingroup group1
   @relates QDPType */
 template<class T1>
-inline OScalar<T1>
+__device__ inline OScalar<T1>
 peekSite(const OScalar<T1>& l, const multi1d<int>& coord)
 {
   return l;
@@ -1396,7 +1421,7 @@ peekSite(const OScalar<T1>& l, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class RHS, class T1>
-inline OScalar<T1>
+__device__ inline OScalar<T1>
 peekSite(const QDPExpr<RHS,OScalar<T1> > & l, const multi1d<int>& coord)
 {
   // For now, simply evaluate the expression and then call the function
@@ -1414,7 +1439,7 @@ peekSite(const QDPExpr<RHS,OScalar<T1> > & l, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class T1>
-inline OScalar<T1>
+__device__ inline OScalar<T1>
 peekSite(const OLattice<T1>& l, const multi1d<int>& coord)
 {
   OScalar<T1> dest;
@@ -1431,7 +1456,7 @@ peekSite(const OLattice<T1>& l, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class RHS, class T1>
-inline OScalar<T1>
+__device__ inline OScalar<T1>
 peekSite(const QDPExpr<RHS,OLattice<T1> > & l, const multi1d<int>& coord)
 {
   // For now, simply evaluate the expression and then call the function
@@ -1450,7 +1475,7 @@ peekSite(const QDPExpr<RHS,OLattice<T1> > & l, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class T1>
-inline OLattice<T1>&
+__device__ inline OLattice<T1>&
 pokeSite(OLattice<T1>& l, const OScalar<T1>& r, const multi1d<int>& coord)
 {
   l.elem(Layout::linearSiteIndex(coord)) = r.elem();
@@ -1466,7 +1491,7 @@ pokeSite(OLattice<T1>& l, const OScalar<T1>& r, const multi1d<int>& coord)
   @ingroup group1
   @relates QDPType */
 template<class T>
-inline void 
+__device__ inline void 
 QDP_extract(multi1d<OScalar<T> >& dest, const OLattice<T>& src, const Subset& s)
 {
   const int *tab = s.siteTable().slice();
@@ -1485,7 +1510,7 @@ QDP_extract(multi1d<OScalar<T> >& dest, const OLattice<T>& src, const Subset& s)
   @ingroup group1
   @relates QDPType */
 template<class T>
-inline void 
+__device__ inline void 
 QDP_insert(OLattice<T>& dest, const multi1d<OScalar<T> >& src, const Subset& s)
 {
   const int *tab = s.siteTable().slice();
@@ -1499,23 +1524,49 @@ QDP_insert(OLattice<T>& dest, const multi1d<OScalar<T> >& src, const Subset& s)
 
 //-----------------------------------------------------------------------------
 // Forward declaration
-struct FnMap;
+//struct FnMap;
+// This is the PETE version of a map, namely return an expression
+struct FnMap
+{
+  PETE_EMPTY_CONSTRUCTORS(FnMap)
+
+  const int *goff;
+    __device__
+  FnMap(const int *goffsets): goff(goffsets)
+    {
+//    fprintf(stderr,"FnMap(): goff=0x%x\n",goff);
+    }
+  
+  template<class T>
+  __device__ inline typename UnaryReturn<T, FnMap>::Type_t
+  operator()(const T &a) const
+  {
+    return (a);
+  }
+};
+
+
+
 
 //! General permutation map class for communications
 class Map
 {
 public:
   //! Constructor - does nothing really
+    __device__
   Map() {}
 
   //! Destructor
+    __device__
   ~Map() {}
 
   //! Constructor from a function object
+    __device__
   Map(const MapFunc& fn) {make(fn);}
 
   //! Actual constructor from a function object
   /*! The semantics are   source_site = func(dest_site) */
+    __device__
   void make(const MapFunc& func);
 
   //! Function call operator for a shift
@@ -1529,19 +1580,19 @@ public:
    * This routine is very architecture dependent.
    */
   template<class T1,class C1>
-  inline typename MakeReturn<UnaryNode<FnMap,
-    typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
+  __device__ inline typename MakeReturn<UnaryNode<FnMap,
+						  typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPType<T1,C1> & l)
-    {
-      typedef UnaryNode<FnMap,
-	typename CreateLeaf<QDPType<T1,C1> >::Leaf_t> Tree_t;
-      return MakeReturn<Tree_t,C1>::make(Tree_t(FnMap(goffsets.slice()),
-	CreateLeaf<QDPType<T1,C1> >::make(l)));
-    }
+  {
+    typedef UnaryNode<FnMap,
+      typename CreateLeaf<QDPType<T1,C1> >::Leaf_t> Tree_t;
+    return MakeReturn<Tree_t,C1>::make(Tree_t(FnMap(goffsets.slice()),
+     					      CreateLeaf<QDPType<T1,C1> >::make(l)));
+  }
 
 
   template<class T1,class C1>
-  inline typename MakeReturn<UnaryNode<FnMap,
+  __device__ inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPExpr<T1,C1> & l)
     {
@@ -1554,13 +1605,16 @@ public:
 
 public:
   //! Accessor to offsets
+    __device__
   const multi1d<int>& Offsets() const {return goffsets;}
 
 private:
   //! Hide copy constructor
+    __device__
   Map(const Map&) {}
 
   //! Hide operator=
+    __device__
   void operator=(const Map&) {}
 
 private:
@@ -1570,24 +1624,6 @@ private:
 
 
 
-// This is the PETE version of a map, namely return an expression
-struct FnMap
-{
-  PETE_EMPTY_CONSTRUCTORS(FnMap)
-
-  const int *goff;
-  FnMap(const int *goffsets): goff(goffsets)
-    {
-//    fprintf(stderr,"FnMap(): goff=0x%x\n",goff);
-    }
-  
-  template<class T>
-  inline typename UnaryReturn<T, FnMap>::Type_t
-  operator()(const T &a) const
-  {
-    return (a);
-  }
-};
 
 
 #if defined(QDP_USE_PROFILING)   
@@ -1606,7 +1642,7 @@ struct ForEach<UnaryNode<FnMap, A>, EvalLeaf1, CTag>
 {
   typedef typename ForEach<A, EvalLeaf1, CTag>::Type_t TypeA_t;
   typedef typename Combine1<TypeA_t, FnMap, CTag>::Type_t Type_t;
-  inline static
+  __device__ inline static
   Type_t apply(const UnaryNode<FnMap, A> &expr, const EvalLeaf1 &f, 
     const CTag &c) 
   {
@@ -1626,16 +1662,20 @@ class ArrayMap
 {
 public:
   //! Constructor - does nothing really
+    __device__
   ArrayMap() {}
 
   //! Destructor
+    __device__
   ~ArrayMap() {}
 
   //! Constructor from a function object
+    __device__
   ArrayMap(const ArrayMapFunc& fn) {make(fn);}
 
   //! Actual constructor from a function object
   /*! The semantics are   source_site = func(dest_site,sign) */
+    __device__
   void make(const ArrayMapFunc& func);
 
   //! Function call operator for a shift
@@ -1649,7 +1689,7 @@ public:
    * This routine is very architecture dependent.
    */
   template<class T1,class C1>
-  inline typename MakeReturn<UnaryNode<FnMap,
+  __device__ inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPType<T1,C1> & l, int dir)
     {
@@ -1661,7 +1701,7 @@ public:
 
 
   template<class T1,class C1>
-  inline typename MakeReturn<UnaryNode<FnMap,
+  __device__ inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPExpr<T1,C1> & l, int dir)
     {
@@ -1674,9 +1714,11 @@ public:
 
 private:
   //! Hide copy constructor
+    __device__
   ArrayMap(const ArrayMap&) {}
 
   //! Hide operator=
+    __device__
   void operator=(const ArrayMap&) {}
 
 private:
@@ -1691,16 +1733,20 @@ class BiDirectionalMap
 {
 public:
   //! Constructor - does nothing really
+    __device__
   BiDirectionalMap() {}
 
   //! Destructor
+    __device__
   ~BiDirectionalMap() {}
 
   //! Constructor from a function object
+    __device__
   BiDirectionalMap(const MapFunc& fn) {make(fn);}
 
   //! Actual constructor from a function object
   /*! The semantics are   source_site = func(dest_site,sign) */
+    __device__
   void make(const MapFunc& func);
 
   //! Function call operator for a shift
@@ -1714,7 +1760,7 @@ public:
    * This routine is very architecture dependent.
    */
   template<class T1,class C1>
-  inline typename MakeReturn<UnaryNode<FnMap,
+  __device__ inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPType<T1,C1> & l, int isign)
     {
@@ -1726,7 +1772,7 @@ public:
 
 
   template<class T1,class C1>
-  inline typename MakeReturn<UnaryNode<FnMap,
+  __device__ inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPExpr<T1,C1> & l, int isign)
     {
@@ -1739,9 +1785,11 @@ public:
 
 private:
   //! Hide copy constructor
+    __device__
   BiDirectionalMap(const BiDirectionalMap&) {}
 
   //! Hide operator=
+    __device__
   void operator=(const BiDirectionalMap&) {}
 
 private:
@@ -1756,16 +1804,20 @@ class ArrayBiDirectionalMap
 {
 public:
   //! Constructor - does nothing really
+    __device__
   ArrayBiDirectionalMap() {}
 
   //! Destructor
+    __device__
   ~ArrayBiDirectionalMap() {}
 
   //! Constructor from a function object
+    __device__
   ArrayBiDirectionalMap(const ArrayMapFunc& fn) {make(fn);}
 
   //! Actual constructor from a function object
   /*! The semantics are   source_site = func(dest_site,sign) */
+    __device__
   void make(const ArrayMapFunc& func);
 
   //! Function call operator for a shift
@@ -1779,7 +1831,7 @@ public:
    * This routine is very architecture dependent.
    */
   template<class T1,class C1>
-  inline typename MakeReturn<UnaryNode<FnMap,
+  __device__ inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPType<T1,C1> & l, int isign, int dir)
     {
@@ -1791,7 +1843,7 @@ public:
 
 
   template<class T1,class C1>
-  inline typename MakeReturn<UnaryNode<FnMap,
+  __device__ inline typename MakeReturn<UnaryNode<FnMap,
     typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>, C1>::Expression_t
   operator()(const QDPExpr<T1,C1> & l, int isign, int dir)
     {
@@ -1804,9 +1856,11 @@ public:
 
 private:
   //! Hide copy constructor
+    __device__
   ArrayBiDirectionalMap(const ArrayBiDirectionalMap&) {}
 
   //! Hide operator=
+    __device__
   void operator=(const ArrayBiDirectionalMap&) {}
 
 private:
@@ -1819,6 +1873,7 @@ private:
 // Input and output of various flavors that are architecture specific
 
 //! Decompose a lexicographic site into coordinates
+    __device__
 multi1d<int> crtesn(int ipos, const multi1d<int>& latt_size);
 
 

@@ -10,16 +10,16 @@
 #ifndef QDP_SCALARSITE_GENERIC_BLAS_H
 #define QDP_SCALARSITE_GENERIC_BLAS_H
 
-#include "scalarsite_generic/generic_blas_vaxpy3.h"
-#include "scalarsite_generic/generic_blas_vaxmy3.h"
-#include "scalarsite_generic/generic_blas_vaxpby3.h"
-#include "scalarsite_generic/generic_blas_vaxmby3.h"
-#include "scalarsite_generic/generic_blas_vscal.h"
-#include "scalarsite_generic/generic_blas_local_sumsq.h"
-#include "scalarsite_generic/generic_blas_vaxpy3_norm.h"
-#include "scalarsite_generic/generic_blas_vaxmby3_norm.h"
-#include "scalarsite_generic/generic_blas_local_vcdot.h"
-#include "scalarsite_generic/generic_blas_local_vcdot_real.h"
+#include "cu_scalarsite_generic/generic_blas_vaxpy3.h"
+#include "cu_scalarsite_generic/generic_blas_vaxmy3.h"
+#include "cu_scalarsite_generic/generic_blas_vaxpby3.h"
+#include "cu_scalarsite_generic/generic_blas_vaxmby3.h"
+#include "cu_scalarsite_generic/generic_blas_vcu_scal.h"
+#include "cu_scalarsite_generic/generic_blas_local_sumsq.h"
+#include "cu_scalarsite_generic/generic_blas_vaxpy3_norm.h"
+#include "cu_scalarsite_generic/generic_blas_vaxmby3_norm.h"
+#include "cu_scalarsite_generic/generic_blas_local_vcdot.h"
+#include "cu_scalarsite_generic/generic_blas_local_vcdot_real.h"
 
 namespace QDP {
 
@@ -2221,7 +2221,7 @@ void evaluate( OLattice< TVec > &d,
 
 // Global norm squared of a vector...
 template<>
-inline UnaryReturn<OLattice< TVec >, FnNorm2>::Type_t
+__device__ inline UnaryReturn<OLattice< TVec >, FnNorm2>::Type_t
 norm2(const QDPType<TVec ,OLattice< TVec > >& s1, const Subset& s)
 {
 #ifdef DEBUG_BLAS
@@ -2267,7 +2267,7 @@ norm2(const QDPType<TVec ,OLattice< TVec > >& s1, const Subset& s)
 
 
 template<>
-inline UnaryReturn<OLattice< TVec >, FnNorm2>::Type_t
+__device__ inline UnaryReturn<OLattice< TVec >, FnNorm2>::Type_t
 norm2(const QDPType<TVec ,OLattice< TVec > >& s1)
 {
 #ifdef DEBUG_BLAS
@@ -2289,7 +2289,7 @@ norm2(const QDPType<TVec ,OLattice< TVec > >& s1)
 
 
 template<>
-inline  BinaryReturn< OLattice<TVec>, OLattice<TVec>, FnInnerProduct>::Type_t
+__device__ inline  BinaryReturn< OLattice<TVec>, OLattice<TVec>, FnInnerProduct>::Type_t
 innerProduct(const QDPType< TVec, OLattice<TVec> > &v1,
 	     const QDPType< TVec, OLattice<TVec> > &v2)
 {
@@ -2327,7 +2327,7 @@ innerProduct(const QDPType< TVec, OLattice<TVec> > &v1,
 }
 
 template<>
-inline  BinaryReturn< OLattice<TVec>, OLattice<TVec>, FnInnerProduct>::Type_t
+__device__ inline  BinaryReturn< OLattice<TVec>, OLattice<TVec>, FnInnerProduct>::Type_t
 innerProduct(const QDPType< TVec, OLattice<TVec> > &v1,
 	     const QDPType< TVec, OLattice<TVec> > &v2, 
 	     const Subset& s)
@@ -2396,7 +2396,7 @@ innerProduct(const QDPType< TVec, OLattice<TVec> > &v1,
 
 // Inner Product Real
 template<>
-inline  
+__device__ inline  
 BinaryReturn< OLattice<TVec>, OLattice<TVec>, FnInnerProductReal>::Type_t
 innerProductReal(const QDPType< TVec, OLattice<TVec> > &v1,
 		 const QDPType< TVec, OLattice<TVec> > &v2)
@@ -2434,7 +2434,7 @@ innerProductReal(const QDPType< TVec, OLattice<TVec> > &v1,
 
 
 template<>
-inline  
+__device__ inline  
 BinaryReturn< OLattice<TVec>, OLattice<TVec>, FnInnerProductReal>::Type_t
 innerProductReal(const QDPType< TVec, OLattice<TVec> > &v1,
 		 const QDPType< TVec, OLattice<TVec> > &v2, 
@@ -2489,7 +2489,7 @@ innerProductReal(const QDPType< TVec, OLattice<TVec> > &v1,
 
 
 template<>
-inline UnaryReturn<OLattice< TVec >, FnNorm2>::Type_t
+__device__ inline UnaryReturn<OLattice< TVec >, FnNorm2>::Type_t
 norm2(const multi1d< OLattice< TVec > >& s1)
 {
 #ifdef DEBUG_BLAS
@@ -2516,7 +2516,7 @@ norm2(const multi1d< OLattice< TVec > >& s1)
 
 
 template<>
-inline  BinaryReturn< OLattice<TVec>, OLattice<TVec>, FnInnerProduct>::Type_t
+__device__ inline  BinaryReturn< OLattice<TVec>, OLattice<TVec>, FnInnerProduct>::Type_t
 innerProduct(const multi1d< OLattice<TVec> > &v1,
 	     const multi1d< OLattice<TVec> > &v2)
 {
@@ -2565,7 +2565,7 @@ innerProduct(const multi1d< OLattice<TVec> > &v1,
 
 // Inner Product Real
 template<>
-inline  
+__device__ inline  
 BinaryReturn< OLattice<TVec>, OLattice<TVec>, FnInnerProductReal>::Type_t
 innerProductReal(const multi1d< OLattice<TVec> > &v1,
 		 const multi1d< OLattice<TVec> > &v2)

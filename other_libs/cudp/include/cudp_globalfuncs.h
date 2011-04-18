@@ -23,7 +23,7 @@ namespace QDP
    * of the same primitive type. E.g., contract only over lattice indices
    */
   template<class T, class C>
-  inline typename UnaryReturn<C, FnSum>::Type_t
+  __device__ inline typename UnaryReturn<C, FnSum>::Type_t
   sum(const QDPType<T,C>& s1)
   {
     return sum(PETE_identity(s1));
@@ -36,7 +36,7 @@ namespace QDP
    * of the same primitive type. E.g., contract only over lattice indices
    */
   template<class T, class C>
-  inline typename UnaryReturn<C, FnSum>::Type_t
+  __device__ inline typename UnaryReturn<C, FnSum>::Type_t
   sum(const QDPType<T,C>& s1, const Subset& s)
   {
     return sum(PETE_identity(s1),s);
@@ -51,14 +51,14 @@ namespace QDP
    * Allow a global sum that sums over all indices
    */
   template<class T, class C>
-  inline typename UnaryReturn<C, FnNorm2>::Type_t
+  __device__ inline typename UnaryReturn<C, FnNorm2>::Type_t
   norm2(const QDPType<T,C>& s1)
   {
     return sum(localNorm2(s1));
   }
 
   template<class T, class C>
-  inline typename UnaryReturn<C, FnNorm2>::Type_t
+  __device__ inline typename UnaryReturn<C, FnNorm2>::Type_t
   norm2(const QDPExpr<T,C>& s1)
   {
     return sum(localNorm2(s1));
@@ -73,14 +73,14 @@ namespace QDP
    * Allow a global sum that sums over all indices
    */
   template<class T, class C>
-  inline typename UnaryReturn<C, FnNorm2>::Type_t
+  __device__ inline typename UnaryReturn<C, FnNorm2>::Type_t
   norm2(const QDPType<T,C>& s1, const Subset& s)
   {
     return sum(localNorm2(s1),s);
   }
 
   template<class T, class C>
-  inline typename UnaryReturn<C, FnNorm2>::Type_t
+  __device__ inline typename UnaryReturn<C, FnNorm2>::Type_t
   norm2(const QDPExpr<T,C>& s1, const Subset& s)
   {
     return sum(localNorm2(s1),s);
@@ -94,28 +94,28 @@ namespace QDP
    * Sum over the lattice
    */
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
   innerProduct(const QDPType<T1,C1>& s1, const QDPType<T2,C2>& s2)
   {
     return sum(localInnerProduct(s1,s2));
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
   innerProduct(const QDPType<T1,C1>& s1, const QDPExpr<T2,C2>& s2)
   {
     return sum(localInnerProduct(s1,s2));
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
   innerProduct(const QDPExpr<T1,C1>& s1, const QDPType<T2,C2>& s2)
   {
     return sum(localInnerProduct(s1,s2));
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
   innerProduct(const QDPExpr<T1,C1>& s1, const QDPExpr<T2,C2>& s2)
   {
     return sum(localInnerProduct(s1,s2));
@@ -129,7 +129,7 @@ namespace QDP
    * Sum over the lattice
    */
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
   innerProduct(const QDPType<T1,C1>& s1, const QDPType<T2,C2>& s2,
 	       const Subset& s)
   {
@@ -137,7 +137,7 @@ namespace QDP
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
   innerProduct(const QDPType<T1,C1>& s1, const QDPExpr<T2,C2>& s2,
 	       const Subset& s)
   {
@@ -145,7 +145,7 @@ namespace QDP
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
   innerProduct(const QDPExpr<T1,C1>& s1, const QDPType<T2,C2>& s2,
 	       const Subset& s)
   {
@@ -153,7 +153,7 @@ namespace QDP
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProduct>::Type_t
   innerProduct(const QDPExpr<T1,C1>& s1, const QDPExpr<T2,C2>& s2,
 	       const Subset& s)
   {
@@ -168,28 +168,28 @@ namespace QDP
    * Sum over the lattice
    */
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
   innerProductReal(const QDPType<T1,C1>& s1, const QDPType<T2,C2>& s2)
   {
     return sum(localInnerProductReal(s1,s2));
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
   innerProductReal(const QDPType<T1,C1>& s1, const QDPExpr<T2,C2>& s2)
   {
     return sum(localInnerProductReal(s1,s2));
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
   innerProductReal(const QDPExpr<T1,C1>& s1, const QDPType<T2,C2>& s2)
   {
     return sum(localInnerProductReal(s1,s2));
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
   innerProductReal(const QDPExpr<T1,C1>& s1, const QDPExpr<T2,C2>& s2)
   {
     return sum(localInnerProductReal(s1,s2));
@@ -203,7 +203,7 @@ namespace QDP
    * Sum over the lattice
    */
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
   innerProductReal(const QDPType<T1,C1>& s1, const QDPType<T2,C2>& s2,
 		   const Subset& s)
   {
@@ -211,7 +211,7 @@ namespace QDP
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
   innerProductReal(const QDPType<T1,C1>& s1, const QDPExpr<T2,C2>& s2,
 		   const Subset& s)
   {
@@ -219,7 +219,7 @@ namespace QDP
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
   innerProductReal(const QDPExpr<T1,C1>& s1, const QDPType<T2,C2>& s2,
 		   const Subset& s)
   {
@@ -227,7 +227,7 @@ namespace QDP
   }
 
   template<class T1, class C1, class T2, class C2>
-  inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
+  __device__ inline typename BinaryReturn<C1, C2, FnInnerProductReal>::Type_t
   innerProductReal(const QDPExpr<T1,C1>& s1, const QDPExpr<T2,C2>& s2,
 		   const Subset& s)
   {
@@ -247,7 +247,7 @@ namespace QDP
    * version is fine.
    */
   template<class T, class C>
-  inline typename UnaryReturn<C, FnSumMulti>::Type_t
+  __device__ inline typename UnaryReturn<C, FnSumMulti>::Type_t
   sumMulti(const QDPType<T,C>& s1, const Set& ss)
   {
     return sumMulti(PETE_identity(s1), ss);
@@ -261,7 +261,7 @@ namespace QDP
    * Find the maximum of an object across the lattice
    */
   template<class T, class C>
-  inline typename UnaryReturn<C, FnGlobalMax>::Type_t
+  __device__ inline typename UnaryReturn<C, FnGlobalMax>::Type_t
   globalMax(const QDPType<T,C>& s1)
   {
     return globalMax(PETE_identity(s1));
@@ -273,7 +273,7 @@ namespace QDP
    * Find the minimum of an object across the lattice
    */
   template<class T, class C>
-  inline typename UnaryReturn<C, FnGlobalMin>::Type_t
+  __device__ inline typename UnaryReturn<C, FnGlobalMin>::Type_t
   globalMin(const QDPType<T,C>& s1)
   {
     return globalMin(PETE_identity(s1));
@@ -294,7 +294,7 @@ namespace QDP
   //! dest  = spinProject(source1) 
   /*! Boneheaded simple implementation till I get a better one... */
   template<class T, class C>
-  inline typename UnaryReturn<C, FnSpinProject>::Type_t
+  __device__ inline typename UnaryReturn<C, FnSpinProject>::Type_t
   spinProject(const QDPType<T,C>& s1, int mu, int isign)
   {
     typedef typename UnaryReturn<C, FnSpinProject>::Type_t  Ret_t;
@@ -318,7 +318,7 @@ namespace QDP
 	d = spinProjectDir3Minus(s1);
 	break;
       default:
-	cerr << "Spin project: illegal direction\n";
+	// cerr << "Spin project: illegal direction\n";
 	exit(1);
       }
       break;
@@ -339,13 +339,13 @@ namespace QDP
 	d = spinProjectDir3Plus(s1);
 	break;
       default:
-	cerr << "Spin project: illegal direction\n";
+	// cerr << "Spin project: illegal direction\n";
 	exit(1);
       }
       break;
 
     default:
-      cerr << "Spin project: isign must be pos or neg.\n";
+      // cerr << "Spin project: isign must be pos or neg.\n";
       exit(1);
     }
 
@@ -358,7 +358,7 @@ namespace QDP
   //! dest  = spinReconstruct(source1) 
   /*! Boneheaded simple implementation till I get a better one... */
   template<class T, class C>
-  inline typename UnaryReturn<C, FnSpinReconstruct>::Type_t
+  __device__ inline typename UnaryReturn<C, FnSpinReconstruct>::Type_t
   spinReconstruct(const QDPType<T,C>& s1, int mu, int isign)
   {
     //  typedef typename UnaryReturn<C, FnSpinReconstruct>::Type_t  Ret_t;
@@ -378,7 +378,7 @@ namespace QDP
       case 3:
 	return spinReconstructDir3Minus(s1);
       default:
-	cerr << "Spin reconstruct: illegal direction\n";
+	// cerr << "Spin reconstruct: illegal direction\n";
 	exit(1);
       }
       break;
@@ -395,13 +395,13 @@ namespace QDP
       case 3:
 	return spinReconstructDir3Plus(s1);
       default:
-	cerr << "Spin reconstruct: illegal direction\n";
+	// cerr << "Spin reconstruct: illegal direction\n";
 	exit(1);
       }
       break;
 
     default:
-      cerr << "Spin reconstruct: isign must be pos or neg.\n";
+      // cerr << "Spin reconstruct: isign must be pos or neg.\n";
       exit(1);
     }
 

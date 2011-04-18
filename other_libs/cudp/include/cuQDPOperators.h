@@ -25,7 +25,7 @@ struct FnAdjoint
 {
   PETE_EMPTY_CONSTRUCTORS(FnAdjoint)
   template<class T>
-  inline typename UnaryReturn<T, FnAdjoint >::Type_t
+  __device__ inline typename UnaryReturn<T, FnAdjoint >::Type_t
   operator()(const T &a) const
   {
     return (adj(a));
@@ -36,7 +36,7 @@ struct FnConjugate
 {
   PETE_EMPTY_CONSTRUCTORS(FnConjugate)
   template<class T>
-  inline typename UnaryReturn<T, FnConjugate >::Type_t
+  __device__ inline typename UnaryReturn<T, FnConjugate >::Type_t
   operator()(const T &a) const
   {
     return (conj(a));
@@ -47,7 +47,7 @@ struct FnTranspose
 {
   PETE_EMPTY_CONSTRUCTORS(FnTranspose)
   template<class T>
-  inline typename UnaryReturn<T, FnTranspose >::Type_t
+  __device__ inline typename UnaryReturn<T, FnTranspose >::Type_t
   operator()(const T &a) const
   {
     return (transpose(a));
@@ -58,7 +58,7 @@ struct FnTransposeColor
 {
   PETE_EMPTY_CONSTRUCTORS(FnTransposeColor)
   template<class T>
-  inline typename UnaryReturn<T, FnTransposeColor >::Type_t
+  __device__ inline typename UnaryReturn<T, FnTransposeColor >::Type_t
   operator()(const T &a) const
   {
     return (transposeColor(a));
@@ -69,7 +69,7 @@ struct FnTransposeSpin
 {
   PETE_EMPTY_CONSTRUCTORS(FnTransposeSpin)
   template<class T>
-  inline typename UnaryReturn<T, FnTransposeSpin >::Type_t
+  __device__ inline typename UnaryReturn<T, FnTransposeSpin >::Type_t
   operator()(const T &a) const
   {
     return (transposeSpin(a));
@@ -80,7 +80,7 @@ struct FnTrace
 {
   PETE_EMPTY_CONSTRUCTORS(FnTrace)
   template<class T>
-  inline typename UnaryReturn<T, FnTrace >::Type_t
+  __device__ inline typename UnaryReturn<T, FnTrace >::Type_t
   operator()(const T &a) const
   {
     return (trace(a));
@@ -91,7 +91,7 @@ struct FnRealTrace
 {
   PETE_EMPTY_CONSTRUCTORS(FnRealTrace)
   template<class T>
-  inline typename UnaryReturn<T, FnRealTrace >::Type_t
+  __device__ inline typename UnaryReturn<T, FnRealTrace >::Type_t
   operator()(const T &a) const
   {
     return (realTrace(a));
@@ -102,7 +102,7 @@ struct FnImagTrace
 {
   PETE_EMPTY_CONSTRUCTORS(FnImagTrace)
   template<class T>
-  inline typename UnaryReturn<T, FnImagTrace >::Type_t
+  __device__ inline typename UnaryReturn<T, FnImagTrace >::Type_t
   operator()(const T &a) const
   {
     return (imagTrace(a));
@@ -113,7 +113,7 @@ struct FnTraceColor
 {
   PETE_EMPTY_CONSTRUCTORS(FnTraceColor)
   template<class T>
-  inline typename UnaryReturn<T, FnTraceColor >::Type_t
+  __device__ inline typename UnaryReturn<T, FnTraceColor >::Type_t
   operator()(const T &a) const
   {
     return (traceColor(a));
@@ -124,7 +124,7 @@ struct FnTraceSpin
 {
   PETE_EMPTY_CONSTRUCTORS(FnTraceSpin)
   template<class T>
-  inline typename UnaryReturn<T, FnTraceSpin >::Type_t
+  __device__ inline typename UnaryReturn<T, FnTraceSpin >::Type_t
   operator()(const T &a) const
   {
     return (traceSpin(a));
@@ -135,7 +135,7 @@ struct FnReal
 {
   PETE_EMPTY_CONSTRUCTORS(FnReal)
   template<class T>
-  inline typename UnaryReturn<T, FnReal >::Type_t
+  __device__ inline typename UnaryReturn<T, FnReal >::Type_t
   operator()(const T &a) const
   {
     return (real(a));
@@ -146,7 +146,7 @@ struct FnImag
 {
   PETE_EMPTY_CONSTRUCTORS(FnImag)
   template<class T>
-  inline typename UnaryReturn<T, FnImag >::Type_t
+  __device__ inline typename UnaryReturn<T, FnImag >::Type_t
   operator()(const T &a) const
   {
     return (imag(a));
@@ -157,7 +157,7 @@ struct FnLocalNorm2
 {
   PETE_EMPTY_CONSTRUCTORS(FnLocalNorm2)
   template<class T>
-  inline typename UnaryReturn<T, FnLocalNorm2 >::Type_t
+  __device__ inline typename UnaryReturn<T, FnLocalNorm2 >::Type_t
   operator()(const T &a) const
   {
     return (localNorm2(a));
@@ -168,7 +168,7 @@ struct FnTimesI
 {
   PETE_EMPTY_CONSTRUCTORS(FnTimesI)
   template<class T>
-  inline typename UnaryReturn<T, FnTimesI >::Type_t
+  __device__ inline typename UnaryReturn<T, FnTimesI >::Type_t
   operator()(const T &a) const
   {
     return (timesI(a));
@@ -179,7 +179,7 @@ struct FnTimesMinusI
 {
   PETE_EMPTY_CONSTRUCTORS(FnTimesMinusI)
   template<class T>
-  inline typename UnaryReturn<T, FnTimesMinusI >::Type_t
+  __device__ inline typename UnaryReturn<T, FnTimesMinusI >::Type_t
   operator()(const T &a) const
   {
     return (timesMinusI(a));
@@ -190,7 +190,7 @@ struct FnSeedToFloat
 {
   PETE_EMPTY_CONSTRUCTORS(FnSeedToFloat)
   template<class T>
-  inline typename UnaryReturn<T, FnSeedToFloat >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSeedToFloat >::Type_t
   operator()(const T &a) const
   {
     return (seedToFloat(a));
@@ -201,7 +201,7 @@ struct FnSpinProjectDir0Plus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinProjectDir0Plus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinProjectDir0Plus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinProjectDir0Plus >::Type_t
   operator()(const T &a) const
   {
     return (spinProjectDir0Plus(a));
@@ -212,7 +212,7 @@ struct FnSpinProjectDir1Plus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinProjectDir1Plus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinProjectDir1Plus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinProjectDir1Plus >::Type_t
   operator()(const T &a) const
   {
     return (spinProjectDir1Plus(a));
@@ -223,7 +223,7 @@ struct FnSpinProjectDir2Plus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinProjectDir2Plus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinProjectDir2Plus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinProjectDir2Plus >::Type_t
   operator()(const T &a) const
   {
     return (spinProjectDir2Plus(a));
@@ -234,7 +234,7 @@ struct FnSpinProjectDir3Plus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinProjectDir3Plus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinProjectDir3Plus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinProjectDir3Plus >::Type_t
   operator()(const T &a) const
   {
     return (spinProjectDir3Plus(a));
@@ -245,7 +245,7 @@ struct FnSpinProjectDir0Minus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinProjectDir0Minus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinProjectDir0Minus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinProjectDir0Minus >::Type_t
   operator()(const T &a) const
   {
     return (spinProjectDir0Minus(a));
@@ -256,7 +256,7 @@ struct FnSpinProjectDir1Minus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinProjectDir1Minus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinProjectDir1Minus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinProjectDir1Minus >::Type_t
   operator()(const T &a) const
   {
     return (spinProjectDir1Minus(a));
@@ -267,7 +267,7 @@ struct FnSpinProjectDir2Minus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinProjectDir2Minus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinProjectDir2Minus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinProjectDir2Minus >::Type_t
   operator()(const T &a) const
   {
     return (spinProjectDir2Minus(a));
@@ -278,7 +278,7 @@ struct FnSpinProjectDir3Minus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinProjectDir3Minus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinProjectDir3Minus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinProjectDir3Minus >::Type_t
   operator()(const T &a) const
   {
     return (spinProjectDir3Minus(a));
@@ -289,7 +289,7 @@ struct FnSpinReconstructDir0Plus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinReconstructDir0Plus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinReconstructDir0Plus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinReconstructDir0Plus >::Type_t
   operator()(const T &a) const
   {
     return (spinReconstructDir0Plus(a));
@@ -300,7 +300,7 @@ struct FnSpinReconstructDir1Plus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinReconstructDir1Plus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinReconstructDir1Plus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinReconstructDir1Plus >::Type_t
   operator()(const T &a) const
   {
     return (spinReconstructDir1Plus(a));
@@ -311,7 +311,7 @@ struct FnSpinReconstructDir2Plus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinReconstructDir2Plus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinReconstructDir2Plus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinReconstructDir2Plus >::Type_t
   operator()(const T &a) const
   {
     return (spinReconstructDir2Plus(a));
@@ -322,7 +322,7 @@ struct FnSpinReconstructDir3Plus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinReconstructDir3Plus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinReconstructDir3Plus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinReconstructDir3Plus >::Type_t
   operator()(const T &a) const
   {
     return (spinReconstructDir3Plus(a));
@@ -333,7 +333,7 @@ struct FnSpinReconstructDir0Minus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinReconstructDir0Minus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinReconstructDir0Minus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinReconstructDir0Minus >::Type_t
   operator()(const T &a) const
   {
     return (spinReconstructDir0Minus(a));
@@ -344,7 +344,7 @@ struct FnSpinReconstructDir1Minus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinReconstructDir1Minus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinReconstructDir1Minus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinReconstructDir1Minus >::Type_t
   operator()(const T &a) const
   {
     return (spinReconstructDir1Minus(a));
@@ -355,7 +355,7 @@ struct FnSpinReconstructDir2Minus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinReconstructDir2Minus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinReconstructDir2Minus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinReconstructDir2Minus >::Type_t
   operator()(const T &a) const
   {
     return (spinReconstructDir2Minus(a));
@@ -366,7 +366,7 @@ struct FnSpinReconstructDir3Minus
 {
   PETE_EMPTY_CONSTRUCTORS(FnSpinReconstructDir3Minus)
   template<class T>
-  inline typename UnaryReturn<T, FnSpinReconstructDir3Minus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnSpinReconstructDir3Minus >::Type_t
   operator()(const T &a) const
   {
     return (spinReconstructDir3Minus(a));
@@ -377,7 +377,7 @@ struct FnChiralProjectPlus
 {
   PETE_EMPTY_CONSTRUCTORS(FnChiralProjectPlus)
   template<class T>
-  inline typename UnaryReturn<T, FnChiralProjectPlus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnChiralProjectPlus >::Type_t
   operator()(const T &a) const
   {
     return (chiralProjectPlus(a));
@@ -388,7 +388,7 @@ struct FnChiralProjectMinus
 {
   PETE_EMPTY_CONSTRUCTORS(FnChiralProjectMinus)
   template<class T>
-  inline typename UnaryReturn<T, FnChiralProjectMinus >::Type_t
+  __device__ inline typename UnaryReturn<T, FnChiralProjectMinus >::Type_t
   operator()(const T &a) const
   {
     return (chiralProjectMinus(a));
@@ -399,7 +399,7 @@ struct FnCmplx
 {
   PETE_EMPTY_CONSTRUCTORS(FnCmplx)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnCmplx >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnCmplx >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (cmplx(a,b));
@@ -410,7 +410,7 @@ struct FnOuterProduct
 {
   PETE_EMPTY_CONSTRUCTORS(FnOuterProduct)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnOuterProduct >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnOuterProduct >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (outerProduct(a,b));
@@ -421,7 +421,7 @@ struct FnColorVectorContract
 {
   PETE_EMPTY_CONSTRUCTORS(FnColorVectorContract)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnColorVectorContract >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnColorVectorContract >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (colorVectorContract(a,b));
@@ -432,7 +432,7 @@ struct FnColorCrossProduct
 {
   PETE_EMPTY_CONSTRUCTORS(FnColorCrossProduct)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnColorCrossProduct >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnColorCrossProduct >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (colorCrossProduct(a,b));
@@ -443,7 +443,7 @@ struct FnLocalInnerProduct
 {
   PETE_EMPTY_CONSTRUCTORS(FnLocalInnerProduct)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnLocalInnerProduct >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnLocalInnerProduct >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (localInnerProduct(a,b));
@@ -454,7 +454,7 @@ struct FnLocalInnerProductReal
 {
   PETE_EMPTY_CONSTRUCTORS(FnLocalInnerProductReal)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnLocalInnerProductReal >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnLocalInnerProductReal >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (localInnerProductReal(a,b));
@@ -465,7 +465,7 @@ struct FnQuarkContract13
 {
   PETE_EMPTY_CONSTRUCTORS(FnQuarkContract13)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnQuarkContract13 >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnQuarkContract13 >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (quarkContract13(a,b));
@@ -476,7 +476,7 @@ struct FnQuarkContract14
 {
   PETE_EMPTY_CONSTRUCTORS(FnQuarkContract14)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnQuarkContract14 >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnQuarkContract14 >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (quarkContract14(a,b));
@@ -487,7 +487,7 @@ struct FnQuarkContract23
 {
   PETE_EMPTY_CONSTRUCTORS(FnQuarkContract23)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnQuarkContract23 >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnQuarkContract23 >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (quarkContract23(a,b));
@@ -498,7 +498,7 @@ struct FnQuarkContract24
 {
   PETE_EMPTY_CONSTRUCTORS(FnQuarkContract24)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnQuarkContract24 >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnQuarkContract24 >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (quarkContract24(a,b));
@@ -509,7 +509,7 @@ struct FnQuarkContract12
 {
   PETE_EMPTY_CONSTRUCTORS(FnQuarkContract12)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnQuarkContract12 >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnQuarkContract12 >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (quarkContract12(a,b));
@@ -520,7 +520,7 @@ struct FnQuarkContract34
 {
   PETE_EMPTY_CONSTRUCTORS(FnQuarkContract34)
   template<class T1, class T2>
-  inline typename BinaryReturn<T1, T2, FnQuarkContract34 >::Type_t
+  __device__ inline typename BinaryReturn<T1, T2, FnQuarkContract34 >::Type_t
   operator()(const T1 &a, const T2 &b) const
   {
     return (quarkContract34(a,b));
@@ -531,7 +531,7 @@ struct FnColorContract
 {
   PETE_EMPTY_CONSTRUCTORS(FnColorContract)
   template<class T1, class T2, class T3>
-  inline typename TrinaryReturn<T1, T2, T3, FnColorContract >
+  __device__ inline typename TrinaryReturn<T1, T2, T3, FnColorContract >
   ::Type_t
   operator()(const T1 &a, const T2 &b, const T3 &c) const
   {
@@ -543,7 +543,7 @@ struct FnColorContract
 /*! @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnAdjoint,
+__device__ inline typename MakeReturn<UnaryNode<FnAdjoint,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnAdjoint >::Type_t >::Expression_t
 adj(const QDPType<T1,C1> & l)
@@ -559,7 +559,7 @@ adj(const QDPType<T1,C1> & l)
 /*! @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnConjugate,
+__device__ inline typename MakeReturn<UnaryNode<FnConjugate,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnConjugate >::Type_t >::Expression_t
 conj(const QDPType<T1,C1> & l)
@@ -575,7 +575,7 @@ conj(const QDPType<T1,C1> & l)
 /*! @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTranspose,
+__device__ inline typename MakeReturn<UnaryNode<FnTranspose,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTranspose >::Type_t >::Expression_t
 transpose(const QDPType<T1,C1> & l)
@@ -591,7 +591,7 @@ transpose(const QDPType<T1,C1> & l)
 /*! @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTransposeColor,
+__device__ inline typename MakeReturn<UnaryNode<FnTransposeColor,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTransposeColor >::Type_t >::Expression_t
 transposeColor(const QDPType<T1,C1> & l)
@@ -607,7 +607,7 @@ transposeColor(const QDPType<T1,C1> & l)
 /*! @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTransposeSpin,
+__device__ inline typename MakeReturn<UnaryNode<FnTransposeSpin,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTransposeSpin >::Type_t >::Expression_t
 transposeSpin(const QDPType<T1,C1> & l)
@@ -623,7 +623,7 @@ transposeSpin(const QDPType<T1,C1> & l)
 /*! @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTrace,
+__device__ inline typename MakeReturn<UnaryNode<FnTrace,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTrace >::Type_t >::Expression_t
 trace(const QDPType<T1,C1> & l)
@@ -640,7 +640,7 @@ trace(const QDPType<T1,C1> & l)
   @sa real()
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnRealTrace,
+__device__ inline typename MakeReturn<UnaryNode<FnRealTrace,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnRealTrace >::Type_t >::Expression_t
 realTrace(const QDPType<T1,C1> & l)
@@ -657,7 +657,7 @@ realTrace(const QDPType<T1,C1> & l)
   @sa imag()
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnImagTrace,
+__device__ inline typename MakeReturn<UnaryNode<FnImagTrace,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnImagTrace >::Type_t >::Expression_t
 imagTrace(const QDPType<T1,C1> & l)
@@ -674,7 +674,7 @@ imagTrace(const QDPType<T1,C1> & l)
   @sa trace(), TraceColor()
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTraceColor,
+__device__ inline typename MakeReturn<UnaryNode<FnTraceColor,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTraceColor >::Type_t >::Expression_t
 traceColor(const QDPType<T1,C1> & l)
@@ -691,7 +691,7 @@ traceColor(const QDPType<T1,C1> & l)
   @sa trace()
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTraceSpin,
+__device__ inline typename MakeReturn<UnaryNode<FnTraceSpin,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTraceSpin >::Type_t >::Expression_t
 traceSpin(const QDPType<T1,C1> & l)
@@ -707,7 +707,7 @@ traceSpin(const QDPType<T1,C1> & l)
 /*! @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnReal,
+__device__ inline typename MakeReturn<UnaryNode<FnReal,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnReal >::Type_t >::Expression_t
 real(const QDPType<T1,C1> & l)
@@ -723,7 +723,7 @@ real(const QDPType<T1,C1> & l)
 /*! @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnImag,
+__device__ inline typename MakeReturn<UnaryNode<FnImag,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnImag >::Type_t >::Expression_t
 imag(const QDPType<T1,C1> & l)
@@ -742,7 +742,7 @@ imag(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnLocalNorm2,
+__device__ inline typename MakeReturn<UnaryNode<FnLocalNorm2,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnLocalNorm2 >::Type_t >::Expression_t
 localNorm2(const QDPType<T1,C1> & l)
@@ -760,7 +760,7 @@ localNorm2(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTimesI,
+__device__ inline typename MakeReturn<UnaryNode<FnTimesI,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTimesI >::Type_t >::Expression_t
 timesI(const QDPType<T1,C1> & l)
@@ -778,7 +778,7 @@ timesI(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTimesMinusI,
+__device__ inline typename MakeReturn<UnaryNode<FnTimesMinusI,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTimesMinusI >::Type_t >::Expression_t
 timesMinusI(const QDPType<T1,C1> & l)
@@ -796,7 +796,7 @@ timesMinusI(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSeedToFloat,
+__device__ inline typename MakeReturn<UnaryNode<FnSeedToFloat,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSeedToFloat >::Type_t >::Expression_t
 seedToFloat(const QDPType<T1,C1> & l)
@@ -815,7 +815,7 @@ seedToFloat(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir0Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir0Plus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir0Plus >::Type_t >::Expression_t
 spinProjectDir0Plus(const QDPType<T1,C1> & l)
@@ -834,7 +834,7 @@ spinProjectDir0Plus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir1Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir1Plus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir1Plus >::Type_t >::Expression_t
 spinProjectDir1Plus(const QDPType<T1,C1> & l)
@@ -853,7 +853,7 @@ spinProjectDir1Plus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir2Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir2Plus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir2Plus >::Type_t >::Expression_t
 spinProjectDir2Plus(const QDPType<T1,C1> & l)
@@ -872,7 +872,7 @@ spinProjectDir2Plus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir3Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir3Plus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir3Plus >::Type_t >::Expression_t
 spinProjectDir3Plus(const QDPType<T1,C1> & l)
@@ -891,7 +891,7 @@ spinProjectDir3Plus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir0Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir0Minus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir0Minus >::Type_t >::Expression_t
 spinProjectDir0Minus(const QDPType<T1,C1> & l)
@@ -910,7 +910,7 @@ spinProjectDir0Minus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir1Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir1Minus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir1Minus >::Type_t >::Expression_t
 spinProjectDir1Minus(const QDPType<T1,C1> & l)
@@ -929,7 +929,7 @@ spinProjectDir1Minus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir2Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir2Minus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir2Minus >::Type_t >::Expression_t
 spinProjectDir2Minus(const QDPType<T1,C1> & l)
@@ -948,7 +948,7 @@ spinProjectDir2Minus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir3Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir3Minus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir3Minus >::Type_t >::Expression_t
 spinProjectDir3Minus(const QDPType<T1,C1> & l)
@@ -967,7 +967,7 @@ spinProjectDir3Minus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir0Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir0Plus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir0Plus >::Type_t >::Expression_t
 spinReconstructDir0Plus(const QDPType<T1,C1> & l)
@@ -986,7 +986,7 @@ spinReconstructDir0Plus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir1Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir1Plus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir1Plus >::Type_t >::Expression_t
 spinReconstructDir1Plus(const QDPType<T1,C1> & l)
@@ -1005,7 +1005,7 @@ spinReconstructDir1Plus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir2Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir2Plus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir2Plus >::Type_t >::Expression_t
 spinReconstructDir2Plus(const QDPType<T1,C1> & l)
@@ -1024,7 +1024,7 @@ spinReconstructDir2Plus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir3Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir3Plus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir3Plus >::Type_t >::Expression_t
 spinReconstructDir3Plus(const QDPType<T1,C1> & l)
@@ -1043,7 +1043,7 @@ spinReconstructDir3Plus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir0Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir0Minus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir0Minus >::Type_t >::Expression_t
 spinReconstructDir0Minus(const QDPType<T1,C1> & l)
@@ -1062,7 +1062,7 @@ spinReconstructDir0Minus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir1Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir1Minus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir1Minus >::Type_t >::Expression_t
 spinReconstructDir1Minus(const QDPType<T1,C1> & l)
@@ -1081,7 +1081,7 @@ spinReconstructDir1Minus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir2Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir2Minus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir2Minus >::Type_t >::Expression_t
 spinReconstructDir2Minus(const QDPType<T1,C1> & l)
@@ -1100,7 +1100,7 @@ spinReconstructDir2Minus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir3Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir3Minus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir3Minus >::Type_t >::Expression_t
 spinReconstructDir3Minus(const QDPType<T1,C1> & l)
@@ -1119,7 +1119,7 @@ spinReconstructDir3Minus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnChiralProjectPlus,
+__device__ inline typename MakeReturn<UnaryNode<FnChiralProjectPlus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnChiralProjectPlus >::Type_t >::Expression_t
 chiralProjectPlus(const QDPType<T1,C1> & l)
@@ -1138,7 +1138,7 @@ chiralProjectPlus(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnChiralProjectMinus,
+__device__ inline typename MakeReturn<UnaryNode<FnChiralProjectMinus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnChiralProjectMinus >::Type_t >::Expression_t
 chiralProjectMinus(const QDPType<T1,C1> & l)
@@ -1154,7 +1154,7 @@ chiralProjectMinus(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnArcCos,
+__device__ inline typename MakeReturn<UnaryNode<FnArcCos,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnArcCos >::Type_t >::Expression_t
 acos(const QDPType<T1,C1> & l)
@@ -1170,7 +1170,7 @@ acos(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnArcSin,
+__device__ inline typename MakeReturn<UnaryNode<FnArcSin,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnArcSin >::Type_t >::Expression_t
 asin(const QDPType<T1,C1> & l)
@@ -1186,7 +1186,7 @@ asin(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnArcTan,
+__device__ inline typename MakeReturn<UnaryNode<FnArcTan,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnArcTan >::Type_t >::Expression_t
 atan(const QDPType<T1,C1> & l)
@@ -1202,7 +1202,7 @@ atan(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnCeil,
+__device__ inline typename MakeReturn<UnaryNode<FnCeil,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnCeil >::Type_t >::Expression_t
 ceil(const QDPType<T1,C1> & l)
@@ -1218,7 +1218,7 @@ ceil(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnCos,
+__device__ inline typename MakeReturn<UnaryNode<FnCos,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnCos >::Type_t >::Expression_t
 cos(const QDPType<T1,C1> & l)
@@ -1234,7 +1234,7 @@ cos(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnHypCos,
+__device__ inline typename MakeReturn<UnaryNode<FnHypCos,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnHypCos >::Type_t >::Expression_t
 cosh(const QDPType<T1,C1> & l)
@@ -1250,7 +1250,7 @@ cosh(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnExp,
+__device__ inline typename MakeReturn<UnaryNode<FnExp,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnExp >::Type_t >::Expression_t
 exp(const QDPType<T1,C1> & l)
@@ -1266,7 +1266,7 @@ exp(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnFabs,
+__device__ inline typename MakeReturn<UnaryNode<FnFabs,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnFabs >::Type_t >::Expression_t
 fabs(const QDPType<T1,C1> & l)
@@ -1282,7 +1282,7 @@ fabs(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnFloor,
+__device__ inline typename MakeReturn<UnaryNode<FnFloor,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnFloor >::Type_t >::Expression_t
 floor(const QDPType<T1,C1> & l)
@@ -1298,7 +1298,7 @@ floor(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnLog,
+__device__ inline typename MakeReturn<UnaryNode<FnLog,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnLog >::Type_t >::Expression_t
 log(const QDPType<T1,C1> & l)
@@ -1314,7 +1314,7 @@ log(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnLog10,
+__device__ inline typename MakeReturn<UnaryNode<FnLog10,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnLog10 >::Type_t >::Expression_t
 log10(const QDPType<T1,C1> & l)
@@ -1330,7 +1330,7 @@ log10(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSin,
+__device__ inline typename MakeReturn<UnaryNode<FnSin,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSin >::Type_t >::Expression_t
 sin(const QDPType<T1,C1> & l)
@@ -1346,7 +1346,7 @@ sin(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnHypSin,
+__device__ inline typename MakeReturn<UnaryNode<FnHypSin,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnHypSin >::Type_t >::Expression_t
 sinh(const QDPType<T1,C1> & l)
@@ -1362,7 +1362,7 @@ sinh(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSqrt,
+__device__ inline typename MakeReturn<UnaryNode<FnSqrt,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSqrt >::Type_t >::Expression_t
 sqrt(const QDPType<T1,C1> & l)
@@ -1378,7 +1378,7 @@ sqrt(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTan,
+__device__ inline typename MakeReturn<UnaryNode<FnTan,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTan >::Type_t >::Expression_t
 tan(const QDPType<T1,C1> & l)
@@ -1394,7 +1394,7 @@ tan(const QDPType<T1,C1> & l)
 /*! @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnHypTan,
+__device__ inline typename MakeReturn<UnaryNode<FnHypTan,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnHypTan >::Type_t >::Expression_t
 tanh(const QDPType<T1,C1> & l)
@@ -1412,7 +1412,7 @@ tanh(const QDPType<T1,C1> & l)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpUnaryMinus,
+__device__ inline typename MakeReturn<UnaryNode<OpUnaryMinus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpUnaryMinus >::Type_t >::Expression_t
 operator-(const QDPType<T1,C1> & l)
@@ -1430,7 +1430,7 @@ operator-(const QDPType<T1,C1> & l)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpUnaryPlus,
+__device__ inline typename MakeReturn<UnaryNode<OpUnaryPlus,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpUnaryPlus >::Type_t >::Expression_t
 operator+(const QDPType<T1,C1> & l)
@@ -1448,7 +1448,7 @@ operator+(const QDPType<T1,C1> & l)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpBitwiseNot,
+__device__ inline typename MakeReturn<UnaryNode<OpBitwiseNot,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpBitwiseNot >::Type_t >::Expression_t
 operator~(const QDPType<T1,C1> & l)
@@ -1466,7 +1466,7 @@ operator~(const QDPType<T1,C1> & l)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpIdentity,
+__device__ inline typename MakeReturn<UnaryNode<OpIdentity,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpIdentity >::Type_t >::Expression_t
 PETE_identity(const QDPType<T1,C1> & l)
@@ -1484,7 +1484,7 @@ PETE_identity(const QDPType<T1,C1> & l)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpNot,
+__device__ inline typename MakeReturn<UnaryNode<OpNot,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpNot >::Type_t >::Expression_t
 operator!(const QDPType<T1,C1> & l)
@@ -1504,7 +1504,7 @@ operator!(const QDPType<T1,C1> & l)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnCmplx,
+__device__ inline typename MakeReturn<BinaryNode<FnCmplx,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnCmplx>::Type_t >::Expression_t
@@ -1528,7 +1528,7 @@ cmplx(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnOuterProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnOuterProduct,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnOuterProduct>::Type_t >::Expression_t
@@ -1552,7 +1552,7 @@ outerProduct(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorVectorContract,
+__device__ inline typename MakeReturn<BinaryNode<FnColorVectorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnColorVectorContract>::Type_t >::Expression_t
@@ -1576,7 +1576,7 @@ colorVectorContract(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnColorCrossProduct>::Type_t >::Expression_t
@@ -1598,7 +1598,7 @@ colorCrossProduct(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLocalInnerProduct>::Type_t >::Expression_t
@@ -1620,7 +1620,7 @@ localInnerProduct(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLocalInnerProductReal>::Type_t >::Expression_t
@@ -1654,7 +1654,7 @@ localInnerProductReal(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract13,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract13,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract13>::Type_t >::Expression_t
@@ -1688,7 +1688,7 @@ quarkContract13(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract14,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract14,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract14>::Type_t >::Expression_t
@@ -1722,7 +1722,7 @@ quarkContract14(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract23,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract23,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract23>::Type_t >::Expression_t
@@ -1756,7 +1756,7 @@ quarkContract23(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract24,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract24,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract24>::Type_t >::Expression_t
@@ -1790,7 +1790,7 @@ quarkContract24(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract12,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract12,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract12>::Type_t >::Expression_t
@@ -1824,7 +1824,7 @@ quarkContract12(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract34,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract34,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract34>::Type_t >::Expression_t
@@ -1845,7 +1845,7 @@ quarkContract34(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAdd,
+__device__ inline typename MakeReturn<BinaryNode<OpAdd,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpAdd>::Type_t >::Expression_t
@@ -1866,7 +1866,7 @@ operator+(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpSubtract,
+__device__ inline typename MakeReturn<BinaryNode<OpSubtract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpSubtract>::Type_t >::Expression_t
@@ -1887,7 +1887,7 @@ operator-(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMultiply,
+__device__ inline typename MakeReturn<BinaryNode<OpMultiply,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpMultiply>::Type_t >::Expression_t
@@ -1908,7 +1908,7 @@ operator*(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpDivide,
+__device__ inline typename MakeReturn<BinaryNode<OpDivide,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpDivide>::Type_t >::Expression_t
@@ -1929,7 +1929,7 @@ operator/(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMod,
+__device__ inline typename MakeReturn<BinaryNode<OpMod,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpMod>::Type_t >::Expression_t
@@ -1950,7 +1950,7 @@ operator%(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseAnd>::Type_t >::Expression_t
@@ -1971,7 +1971,7 @@ operator&(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseOr,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseOr,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseOr>::Type_t >::Expression_t
@@ -1992,7 +1992,7 @@ operator|(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseXor,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseXor,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseXor>::Type_t >::Expression_t
@@ -2014,7 +2014,7 @@ Based on the C-math lib function.
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLdexp,
+__device__ inline typename MakeReturn<BinaryNode<FnLdexp,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLdexp>::Type_t >::Expression_t
@@ -2035,7 +2035,7 @@ ldexp(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnPow,
+__device__ inline typename MakeReturn<BinaryNode<FnPow,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnPow>::Type_t >::Expression_t
@@ -2057,7 +2057,7 @@ Based on the C-math lib function.
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnFmod,
+__device__ inline typename MakeReturn<BinaryNode<FnFmod,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnFmod>::Type_t >::Expression_t
@@ -2079,7 +2079,7 @@ Based on the C-math lib function.
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnArcTan2,
+__device__ inline typename MakeReturn<BinaryNode<FnArcTan2,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnArcTan2>::Type_t >::Expression_t
@@ -2100,7 +2100,7 @@ atan2(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLT,
+__device__ inline typename MakeReturn<BinaryNode<OpLT,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLT>::Type_t >::Expression_t
@@ -2121,7 +2121,7 @@ operator<(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLE,
+__device__ inline typename MakeReturn<BinaryNode<OpLE,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLE>::Type_t >::Expression_t
@@ -2142,7 +2142,7 @@ operator<=(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGT,
+__device__ inline typename MakeReturn<BinaryNode<OpGT,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpGT>::Type_t >::Expression_t
@@ -2163,7 +2163,7 @@ operator>(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGE,
+__device__ inline typename MakeReturn<BinaryNode<OpGE,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpGE>::Type_t >::Expression_t
@@ -2184,7 +2184,7 @@ operator>=(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpEQ,
+__device__ inline typename MakeReturn<BinaryNode<OpEQ,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpEQ>::Type_t >::Expression_t
@@ -2205,7 +2205,7 @@ operator==(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpNE,
+__device__ inline typename MakeReturn<BinaryNode<OpNE,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpNE>::Type_t >::Expression_t
@@ -2226,7 +2226,7 @@ operator!=(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpAnd,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpAnd>::Type_t >::Expression_t
@@ -2248,7 +2248,7 @@ operator&&(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @relates QDPType */
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpOr,
+__device__ inline typename MakeReturn<BinaryNode<OpOr,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpOr>::Type_t >::Expression_t
@@ -2269,7 +2269,7 @@ operator||(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLeftShift,
+__device__ inline typename MakeReturn<BinaryNode<OpLeftShift,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLeftShift>::Type_t >::Expression_t
@@ -2290,7 +2290,7 @@ operator<<(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpRightShift,
+__device__ inline typename MakeReturn<BinaryNode<OpRightShift,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpRightShift>::Type_t >::Expression_t
@@ -2306,7 +2306,7 @@ operator>>(const QDPType<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnCmplx,
+__device__ inline typename MakeReturn<BinaryNode<FnCmplx,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnCmplx>::Type_t >::Expression_t
@@ -2322,7 +2322,7 @@ cmplx(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnOuterProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnOuterProduct,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnOuterProduct>::Type_t >::Expression_t
@@ -2338,7 +2338,7 @@ outerProduct(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorVectorContract,
+__device__ inline typename MakeReturn<BinaryNode<FnColorVectorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnColorVectorContract>::Type_t >::Expression_t
@@ -2354,7 +2354,7 @@ colorVectorContract(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnColorCrossProduct>::Type_t >::Expression_t
@@ -2370,7 +2370,7 @@ colorCrossProduct(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLocalInnerProduct>::Type_t >::Expression_t
@@ -2386,7 +2386,7 @@ localInnerProduct(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLocalInnerProductReal>::Type_t >::Expression_t
@@ -2402,7 +2402,7 @@ localInnerProductReal(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract13,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract13,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract13>::Type_t >::Expression_t
@@ -2418,7 +2418,7 @@ quarkContract13(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract14,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract14,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract14>::Type_t >::Expression_t
@@ -2434,7 +2434,7 @@ quarkContract14(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract23,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract23,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract23>::Type_t >::Expression_t
@@ -2450,7 +2450,7 @@ quarkContract23(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract24,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract24,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract24>::Type_t >::Expression_t
@@ -2466,7 +2466,7 @@ quarkContract24(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract12,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract12,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract12>::Type_t >::Expression_t
@@ -2482,7 +2482,7 @@ quarkContract12(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract34,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract34,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract34>::Type_t >::Expression_t
@@ -2498,7 +2498,7 @@ quarkContract34(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAdd,
+__device__ inline typename MakeReturn<BinaryNode<OpAdd,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpAdd>::Type_t >::Expression_t
@@ -2514,7 +2514,7 @@ operator+(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpSubtract,
+__device__ inline typename MakeReturn<BinaryNode<OpSubtract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpSubtract>::Type_t >::Expression_t
@@ -2530,7 +2530,7 @@ operator-(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMultiply,
+__device__ inline typename MakeReturn<BinaryNode<OpMultiply,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpMultiply>::Type_t >::Expression_t
@@ -2546,7 +2546,7 @@ operator*(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpDivide,
+__device__ inline typename MakeReturn<BinaryNode<OpDivide,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpDivide>::Type_t >::Expression_t
@@ -2562,7 +2562,7 @@ operator/(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMod,
+__device__ inline typename MakeReturn<BinaryNode<OpMod,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpMod>::Type_t >::Expression_t
@@ -2578,7 +2578,7 @@ operator%(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseAnd>::Type_t >::Expression_t
@@ -2594,7 +2594,7 @@ operator&(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseOr,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseOr,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseOr>::Type_t >::Expression_t
@@ -2610,7 +2610,7 @@ operator|(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseXor,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseXor,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseXor>::Type_t >::Expression_t
@@ -2626,7 +2626,7 @@ operator^(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLdexp,
+__device__ inline typename MakeReturn<BinaryNode<FnLdexp,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLdexp>::Type_t >::Expression_t
@@ -2642,7 +2642,7 @@ ldexp(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnPow,
+__device__ inline typename MakeReturn<BinaryNode<FnPow,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnPow>::Type_t >::Expression_t
@@ -2658,7 +2658,7 @@ pow(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnFmod,
+__device__ inline typename MakeReturn<BinaryNode<FnFmod,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnFmod>::Type_t >::Expression_t
@@ -2674,7 +2674,7 @@ fmod(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnArcTan2,
+__device__ inline typename MakeReturn<BinaryNode<FnArcTan2,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnArcTan2>::Type_t >::Expression_t
@@ -2690,7 +2690,7 @@ atan2(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLT,
+__device__ inline typename MakeReturn<BinaryNode<OpLT,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLT>::Type_t >::Expression_t
@@ -2706,7 +2706,7 @@ operator<(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLE,
+__device__ inline typename MakeReturn<BinaryNode<OpLE,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLE>::Type_t >::Expression_t
@@ -2722,7 +2722,7 @@ operator<=(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGT,
+__device__ inline typename MakeReturn<BinaryNode<OpGT,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpGT>::Type_t >::Expression_t
@@ -2738,7 +2738,7 @@ operator>(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGE,
+__device__ inline typename MakeReturn<BinaryNode<OpGE,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpGE>::Type_t >::Expression_t
@@ -2754,7 +2754,7 @@ operator>=(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpEQ,
+__device__ inline typename MakeReturn<BinaryNode<OpEQ,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpEQ>::Type_t >::Expression_t
@@ -2770,7 +2770,7 @@ operator==(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpNE,
+__device__ inline typename MakeReturn<BinaryNode<OpNE,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpNE>::Type_t >::Expression_t
@@ -2786,7 +2786,7 @@ operator!=(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpAnd,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpAnd>::Type_t >::Expression_t
@@ -2802,7 +2802,7 @@ operator&&(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpOr,
+__device__ inline typename MakeReturn<BinaryNode<OpOr,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpOr>::Type_t >::Expression_t
@@ -2818,7 +2818,7 @@ operator||(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLeftShift,
+__device__ inline typename MakeReturn<BinaryNode<OpLeftShift,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLeftShift>::Type_t >::Expression_t
@@ -2834,7 +2834,7 @@ operator<<(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpRightShift,
+__device__ inline typename MakeReturn<BinaryNode<OpRightShift,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpRightShift>::Type_t >::Expression_t
@@ -2850,7 +2850,7 @@ operator>>(const QDPType<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnCmplx,
+__device__ inline typename MakeReturn<BinaryNode<FnCmplx,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnCmplx>::Type_t >::Expression_t
@@ -2866,7 +2866,7 @@ cmplx(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnOuterProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnOuterProduct,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnOuterProduct>::Type_t >::Expression_t
@@ -2882,7 +2882,7 @@ outerProduct(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorVectorContract,
+__device__ inline typename MakeReturn<BinaryNode<FnColorVectorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnColorVectorContract>::Type_t >::Expression_t
@@ -2898,7 +2898,7 @@ colorVectorContract(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnColorCrossProduct>::Type_t >::Expression_t
@@ -2914,7 +2914,7 @@ colorCrossProduct(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLocalInnerProduct>::Type_t >::Expression_t
@@ -2930,7 +2930,7 @@ localInnerProduct(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLocalInnerProductReal>::Type_t >::Expression_t
@@ -2946,7 +2946,7 @@ localInnerProductReal(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract13,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract13,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract13>::Type_t >::Expression_t
@@ -2962,7 +2962,7 @@ quarkContract13(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract14,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract14,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract14>::Type_t >::Expression_t
@@ -2978,7 +2978,7 @@ quarkContract14(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract23,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract23,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract23>::Type_t >::Expression_t
@@ -2994,7 +2994,7 @@ quarkContract23(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract24,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract24,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract24>::Type_t >::Expression_t
@@ -3010,7 +3010,7 @@ quarkContract24(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract12,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract12,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract12>::Type_t >::Expression_t
@@ -3026,7 +3026,7 @@ quarkContract12(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract34,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract34,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract34>::Type_t >::Expression_t
@@ -3042,7 +3042,7 @@ quarkContract34(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAdd,
+__device__ inline typename MakeReturn<BinaryNode<OpAdd,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpAdd>::Type_t >::Expression_t
@@ -3058,7 +3058,7 @@ operator+(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpSubtract,
+__device__ inline typename MakeReturn<BinaryNode<OpSubtract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpSubtract>::Type_t >::Expression_t
@@ -3074,7 +3074,7 @@ operator-(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMultiply,
+__device__ inline typename MakeReturn<BinaryNode<OpMultiply,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpMultiply>::Type_t >::Expression_t
@@ -3090,7 +3090,7 @@ operator*(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpDivide,
+__device__ inline typename MakeReturn<BinaryNode<OpDivide,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpDivide>::Type_t >::Expression_t
@@ -3106,7 +3106,7 @@ operator/(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMod,
+__device__ inline typename MakeReturn<BinaryNode<OpMod,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpMod>::Type_t >::Expression_t
@@ -3122,7 +3122,7 @@ operator%(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseAnd>::Type_t >::Expression_t
@@ -3138,7 +3138,7 @@ operator&(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseOr,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseOr,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseOr>::Type_t >::Expression_t
@@ -3154,7 +3154,7 @@ operator|(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseXor,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseXor,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseXor>::Type_t >::Expression_t
@@ -3170,7 +3170,7 @@ operator^(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLdexp,
+__device__ inline typename MakeReturn<BinaryNode<FnLdexp,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLdexp>::Type_t >::Expression_t
@@ -3186,7 +3186,7 @@ ldexp(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnPow,
+__device__ inline typename MakeReturn<BinaryNode<FnPow,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnPow>::Type_t >::Expression_t
@@ -3202,7 +3202,7 @@ pow(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnFmod,
+__device__ inline typename MakeReturn<BinaryNode<FnFmod,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnFmod>::Type_t >::Expression_t
@@ -3218,7 +3218,7 @@ fmod(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnArcTan2,
+__device__ inline typename MakeReturn<BinaryNode<FnArcTan2,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnArcTan2>::Type_t >::Expression_t
@@ -3234,7 +3234,7 @@ atan2(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLT,
+__device__ inline typename MakeReturn<BinaryNode<OpLT,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLT>::Type_t >::Expression_t
@@ -3250,7 +3250,7 @@ operator<(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLE,
+__device__ inline typename MakeReturn<BinaryNode<OpLE,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLE>::Type_t >::Expression_t
@@ -3266,7 +3266,7 @@ operator<=(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGT,
+__device__ inline typename MakeReturn<BinaryNode<OpGT,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpGT>::Type_t >::Expression_t
@@ -3282,7 +3282,7 @@ operator>(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGE,
+__device__ inline typename MakeReturn<BinaryNode<OpGE,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpGE>::Type_t >::Expression_t
@@ -3298,7 +3298,7 @@ operator>=(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpEQ,
+__device__ inline typename MakeReturn<BinaryNode<OpEQ,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpEQ>::Type_t >::Expression_t
@@ -3314,7 +3314,7 @@ operator==(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpNE,
+__device__ inline typename MakeReturn<BinaryNode<OpNE,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpNE>::Type_t >::Expression_t
@@ -3330,7 +3330,7 @@ operator!=(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpAnd,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpAnd>::Type_t >::Expression_t
@@ -3346,7 +3346,7 @@ operator&&(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpOr,
+__device__ inline typename MakeReturn<BinaryNode<OpOr,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpOr>::Type_t >::Expression_t
@@ -3362,7 +3362,7 @@ operator||(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLeftShift,
+__device__ inline typename MakeReturn<BinaryNode<OpLeftShift,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLeftShift>::Type_t >::Expression_t
@@ -3378,7 +3378,7 @@ operator<<(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpRightShift,
+__device__ inline typename MakeReturn<BinaryNode<OpRightShift,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpRightShift>::Type_t >::Expression_t
@@ -3394,7 +3394,7 @@ operator>>(const QDPExpr<T1,C1> & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnCmplx,
+__device__ inline typename MakeReturn<BinaryNode<FnCmplx,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnCmplx>::Type_t >::Expression_t
@@ -3410,7 +3410,7 @@ cmplx(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnOuterProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnOuterProduct,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnOuterProduct>::Type_t >::Expression_t
@@ -3426,7 +3426,7 @@ outerProduct(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnColorVectorContract,
+__device__ inline typename MakeReturn<BinaryNode<FnColorVectorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnColorVectorContract>::Type_t >::Expression_t
@@ -3442,7 +3442,7 @@ colorVectorContract(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnColorCrossProduct>::Type_t >::Expression_t
@@ -3458,7 +3458,7 @@ colorCrossProduct(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t &
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnLocalInnerProduct>::Type_t >::Expression_t
@@ -3474,7 +3474,7 @@ localInnerProduct(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t &
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnLocalInnerProductReal>::Type_t >::Expression_t
@@ -3490,7 +3490,7 @@ localInnerProductReal(const QDPType<T1,C1> & l,const typename WordType<C1>::Type
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract13,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract13,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract13>::Type_t >::Expression_t
@@ -3506,7 +3506,7 @@ quarkContract13(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract14,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract14,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract14>::Type_t >::Expression_t
@@ -3522,7 +3522,7 @@ quarkContract14(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract23,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract23,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract23>::Type_t >::Expression_t
@@ -3538,7 +3538,7 @@ quarkContract23(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract24,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract24,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract24>::Type_t >::Expression_t
@@ -3554,7 +3554,7 @@ quarkContract24(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract12,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract12,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract12>::Type_t >::Expression_t
@@ -3570,7 +3570,7 @@ quarkContract12(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract34,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract34,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract34>::Type_t >::Expression_t
@@ -3586,7 +3586,7 @@ quarkContract34(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpAdd,
+__device__ inline typename MakeReturn<BinaryNode<OpAdd,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpAdd>::Type_t >::Expression_t
@@ -3602,7 +3602,7 @@ operator+(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpSubtract,
+__device__ inline typename MakeReturn<BinaryNode<OpSubtract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpSubtract>::Type_t >::Expression_t
@@ -3618,7 +3618,7 @@ operator-(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpMultiply,
+__device__ inline typename MakeReturn<BinaryNode<OpMultiply,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpMultiply>::Type_t >::Expression_t
@@ -3634,7 +3634,7 @@ operator*(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpDivide,
+__device__ inline typename MakeReturn<BinaryNode<OpDivide,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpDivide>::Type_t >::Expression_t
@@ -3650,7 +3650,7 @@ operator/(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpMod,
+__device__ inline typename MakeReturn<BinaryNode<OpMod,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpMod>::Type_t >::Expression_t
@@ -3666,7 +3666,7 @@ operator%(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpBitwiseAnd>::Type_t >::Expression_t
@@ -3682,7 +3682,7 @@ operator&(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpBitwiseOr,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseOr,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpBitwiseOr>::Type_t >::Expression_t
@@ -3698,7 +3698,7 @@ operator|(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpBitwiseXor,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseXor,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpBitwiseXor>::Type_t >::Expression_t
@@ -3714,7 +3714,7 @@ operator^(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnLdexp,
+__device__ inline typename MakeReturn<BinaryNode<FnLdexp,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnLdexp>::Type_t >::Expression_t
@@ -3730,7 +3730,7 @@ ldexp(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnPow,
+__device__ inline typename MakeReturn<BinaryNode<FnPow,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnPow>::Type_t >::Expression_t
@@ -3746,7 +3746,7 @@ pow(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnFmod,
+__device__ inline typename MakeReturn<BinaryNode<FnFmod,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnFmod>::Type_t >::Expression_t
@@ -3762,7 +3762,7 @@ fmod(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnArcTan2,
+__device__ inline typename MakeReturn<BinaryNode<FnArcTan2,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnArcTan2>::Type_t >::Expression_t
@@ -3778,7 +3778,7 @@ atan2(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpLT,
+__device__ inline typename MakeReturn<BinaryNode<OpLT,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpLT>::Type_t >::Expression_t
@@ -3794,7 +3794,7 @@ operator<(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpLE,
+__device__ inline typename MakeReturn<BinaryNode<OpLE,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpLE>::Type_t >::Expression_t
@@ -3810,7 +3810,7 @@ operator<=(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpGT,
+__device__ inline typename MakeReturn<BinaryNode<OpGT,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpGT>::Type_t >::Expression_t
@@ -3826,7 +3826,7 @@ operator>(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpGE,
+__device__ inline typename MakeReturn<BinaryNode<OpGE,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpGE>::Type_t >::Expression_t
@@ -3842,7 +3842,7 @@ operator>=(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpEQ,
+__device__ inline typename MakeReturn<BinaryNode<OpEQ,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpEQ>::Type_t >::Expression_t
@@ -3858,7 +3858,7 @@ operator==(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpNE,
+__device__ inline typename MakeReturn<BinaryNode<OpNE,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpNE>::Type_t >::Expression_t
@@ -3874,7 +3874,7 @@ operator!=(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpAnd,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpAnd>::Type_t >::Expression_t
@@ -3890,7 +3890,7 @@ operator&&(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpOr,
+__device__ inline typename MakeReturn<BinaryNode<OpOr,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpOr>::Type_t >::Expression_t
@@ -3906,7 +3906,7 @@ operator||(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpLeftShift,
+__device__ inline typename MakeReturn<BinaryNode<OpLeftShift,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpLeftShift>::Type_t >::Expression_t
@@ -3922,7 +3922,7 @@ operator<<(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpRightShift,
+__device__ inline typename MakeReturn<BinaryNode<OpRightShift,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpRightShift>::Type_t >::Expression_t
@@ -3938,7 +3938,7 @@ operator>>(const QDPType<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnCmplx,
+__device__ inline typename MakeReturn<BinaryNode<FnCmplx,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnCmplx>::Type_t >::Expression_t
@@ -3954,7 +3954,7 @@ cmplx(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnOuterProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnOuterProduct,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnOuterProduct>::Type_t >::Expression_t
@@ -3970,7 +3970,7 @@ outerProduct(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorVectorContract,
+__device__ inline typename MakeReturn<BinaryNode<FnColorVectorContract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnColorVectorContract>::Type_t >::Expression_t
@@ -3986,7 +3986,7 @@ colorVectorContract(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2>
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnColorCrossProduct>::Type_t >::Expression_t
@@ -4002,7 +4002,7 @@ colorCrossProduct(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> &
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnLocalInnerProduct>::Type_t >::Expression_t
@@ -4018,7 +4018,7 @@ localInnerProduct(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> &
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnLocalInnerProductReal>::Type_t >::Expression_t
@@ -4034,7 +4034,7 @@ localInnerProductReal(const typename WordType<C2>::Type_t & l,const QDPType<T2,C
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract13,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract13,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract13>::Type_t >::Expression_t
@@ -4050,7 +4050,7 @@ quarkContract13(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract14,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract14,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract14>::Type_t >::Expression_t
@@ -4066,7 +4066,7 @@ quarkContract14(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract23,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract23,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract23>::Type_t >::Expression_t
@@ -4082,7 +4082,7 @@ quarkContract23(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract24,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract24,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract24>::Type_t >::Expression_t
@@ -4098,7 +4098,7 @@ quarkContract24(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract12,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract12,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract12>::Type_t >::Expression_t
@@ -4114,7 +4114,7 @@ quarkContract12(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract34,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract34,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract34>::Type_t >::Expression_t
@@ -4130,7 +4130,7 @@ quarkContract34(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAdd,
+__device__ inline typename MakeReturn<BinaryNode<OpAdd,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpAdd>::Type_t >::Expression_t
@@ -4146,7 +4146,7 @@ operator+(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpSubtract,
+__device__ inline typename MakeReturn<BinaryNode<OpSubtract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpSubtract>::Type_t >::Expression_t
@@ -4162,7 +4162,7 @@ operator-(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMultiply,
+__device__ inline typename MakeReturn<BinaryNode<OpMultiply,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpMultiply>::Type_t >::Expression_t
@@ -4178,7 +4178,7 @@ operator*(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpDivide,
+__device__ inline typename MakeReturn<BinaryNode<OpDivide,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpDivide>::Type_t >::Expression_t
@@ -4194,7 +4194,7 @@ operator/(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMod,
+__device__ inline typename MakeReturn<BinaryNode<OpMod,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpMod>::Type_t >::Expression_t
@@ -4210,7 +4210,7 @@ operator%(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpBitwiseAnd>::Type_t >::Expression_t
@@ -4226,7 +4226,7 @@ operator&(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseOr,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseOr,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpBitwiseOr>::Type_t >::Expression_t
@@ -4242,7 +4242,7 @@ operator|(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseXor,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseXor,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpBitwiseXor>::Type_t >::Expression_t
@@ -4258,7 +4258,7 @@ operator^(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLdexp,
+__device__ inline typename MakeReturn<BinaryNode<FnLdexp,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnLdexp>::Type_t >::Expression_t
@@ -4274,7 +4274,7 @@ ldexp(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnPow,
+__device__ inline typename MakeReturn<BinaryNode<FnPow,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnPow>::Type_t >::Expression_t
@@ -4290,7 +4290,7 @@ pow(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnFmod,
+__device__ inline typename MakeReturn<BinaryNode<FnFmod,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnFmod>::Type_t >::Expression_t
@@ -4306,7 +4306,7 @@ fmod(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnArcTan2,
+__device__ inline typename MakeReturn<BinaryNode<FnArcTan2,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnArcTan2>::Type_t >::Expression_t
@@ -4322,7 +4322,7 @@ atan2(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLT,
+__device__ inline typename MakeReturn<BinaryNode<OpLT,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpLT>::Type_t >::Expression_t
@@ -4338,7 +4338,7 @@ operator<(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLE,
+__device__ inline typename MakeReturn<BinaryNode<OpLE,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpLE>::Type_t >::Expression_t
@@ -4354,7 +4354,7 @@ operator<=(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGT,
+__device__ inline typename MakeReturn<BinaryNode<OpGT,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpGT>::Type_t >::Expression_t
@@ -4370,7 +4370,7 @@ operator>(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGE,
+__device__ inline typename MakeReturn<BinaryNode<OpGE,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpGE>::Type_t >::Expression_t
@@ -4386,7 +4386,7 @@ operator>=(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpEQ,
+__device__ inline typename MakeReturn<BinaryNode<OpEQ,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpEQ>::Type_t >::Expression_t
@@ -4402,7 +4402,7 @@ operator==(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpNE,
+__device__ inline typename MakeReturn<BinaryNode<OpNE,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpNE>::Type_t >::Expression_t
@@ -4418,7 +4418,7 @@ operator!=(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpAnd,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpAnd>::Type_t >::Expression_t
@@ -4434,7 +4434,7 @@ operator&&(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpOr,
+__device__ inline typename MakeReturn<BinaryNode<OpOr,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpOr>::Type_t >::Expression_t
@@ -4450,7 +4450,7 @@ operator||(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -4469,7 +4469,7 @@ colorContract(const QDPType<T1,C1> & a,const QDPType<T2,C2> & b,const typename W
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -4488,7 +4488,7 @@ where(const QDPType<T1,C1> & a,const QDPType<T2,C2> & b,const typename WordType<
 }
 
 template<class T1,class C1,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -4507,7 +4507,7 @@ colorContract(const QDPType<T1,C1> & a,const typename WordType<C1>::Type_t & b,c
 }
 
 template<class T1,class C1,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -4526,7 +4526,7 @@ where(const QDPType<T1,C1> & a,const typename WordType<C1>::Type_t & b,const QDP
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -4545,7 +4545,7 @@ colorContract(const QDPType<T1,C1> & a,const typename WordType<C1>::Type_t & b,c
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -4564,7 +4564,7 @@ where(const QDPType<T1,C1> & a,const typename WordType<C1>::Type_t & b,const typ
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t>,
@@ -4583,7 +4583,7 @@ colorContract(const typename WordType<C2>::Type_t & a,const QDPType<T2,C2> & b,c
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t>,
@@ -4602,7 +4602,7 @@ where(const typename WordType<C2>::Type_t & a,const QDPType<T2,C2> & b,const typ
 }
 
 template<class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C3>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C3>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -4621,7 +4621,7 @@ colorContract(const typename WordType<C3>::Type_t & a,const typename WordType<C3
 }
 
 template<class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C3>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C3>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -4641,7 +4641,7 @@ where(const typename WordType<C3>::Type_t & a,const typename WordType<C3>::Type_
 #ifdef PETE_ALLOW_SCALAR_SHIFT
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLeftShift,
+__device__ inline typename MakeReturn<BinaryNode<OpLeftShift,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpLeftShift>::Type_t >::Expression_t
@@ -4657,7 +4657,7 @@ operator<<(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpRightShift,
+__device__ inline typename MakeReturn<BinaryNode<OpRightShift,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpRightShift>::Type_t >::Expression_t
@@ -4692,7 +4692,7 @@ operator>>(const typename WordType<C2>::Type_t & l,const QDPType<T2,C2> & r)
   @ingroup group1
   @relates QDPType */
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -4716,7 +4716,7 @@ colorContract(const QDPType<T1,C1> & a,const QDPType<T2,C2> & b,const QDPType<T3
 @ingroup group1
 @relates QDPType */
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -4737,7 +4737,7 @@ where(const QDPType<T1,C1> & a,const QDPType<T2,C2> & b,const QDPType<T3,C3> & c
 #define PETE_EXPRESSION_OPERATORS
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnAdjoint,
+__device__ inline typename MakeReturn<UnaryNode<FnAdjoint,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnAdjoint >::Type_t >::Expression_t
 adj(const QDPExpr<T1,C1> & l)
@@ -4750,7 +4750,7 @@ adj(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnConjugate,
+__device__ inline typename MakeReturn<UnaryNode<FnConjugate,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnConjugate >::Type_t >::Expression_t
 conj(const QDPExpr<T1,C1> & l)
@@ -4763,7 +4763,7 @@ conj(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTranspose,
+__device__ inline typename MakeReturn<UnaryNode<FnTranspose,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTranspose >::Type_t >::Expression_t
 transpose(const QDPExpr<T1,C1> & l)
@@ -4776,7 +4776,7 @@ transpose(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTransposeColor,
+__device__ inline typename MakeReturn<UnaryNode<FnTransposeColor,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTransposeColor >::Type_t >::Expression_t
 transposeColor(const QDPExpr<T1,C1> & l)
@@ -4789,7 +4789,7 @@ transposeColor(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTransposeSpin,
+__device__ inline typename MakeReturn<UnaryNode<FnTransposeSpin,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTransposeSpin >::Type_t >::Expression_t
 transposeSpin(const QDPExpr<T1,C1> & l)
@@ -4802,7 +4802,7 @@ transposeSpin(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTrace,
+__device__ inline typename MakeReturn<UnaryNode<FnTrace,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTrace >::Type_t >::Expression_t
 trace(const QDPExpr<T1,C1> & l)
@@ -4815,7 +4815,7 @@ trace(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnRealTrace,
+__device__ inline typename MakeReturn<UnaryNode<FnRealTrace,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnRealTrace >::Type_t >::Expression_t
 realTrace(const QDPExpr<T1,C1> & l)
@@ -4828,7 +4828,7 @@ realTrace(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnImagTrace,
+__device__ inline typename MakeReturn<UnaryNode<FnImagTrace,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnImagTrace >::Type_t >::Expression_t
 imagTrace(const QDPExpr<T1,C1> & l)
@@ -4841,7 +4841,7 @@ imagTrace(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTraceColor,
+__device__ inline typename MakeReturn<UnaryNode<FnTraceColor,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTraceColor >::Type_t >::Expression_t
 traceColor(const QDPExpr<T1,C1> & l)
@@ -4854,7 +4854,7 @@ traceColor(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTraceSpin,
+__device__ inline typename MakeReturn<UnaryNode<FnTraceSpin,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTraceSpin >::Type_t >::Expression_t
 traceSpin(const QDPExpr<T1,C1> & l)
@@ -4867,7 +4867,7 @@ traceSpin(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnReal,
+__device__ inline typename MakeReturn<UnaryNode<FnReal,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnReal >::Type_t >::Expression_t
 real(const QDPExpr<T1,C1> & l)
@@ -4880,7 +4880,7 @@ real(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnImag,
+__device__ inline typename MakeReturn<UnaryNode<FnImag,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnImag >::Type_t >::Expression_t
 imag(const QDPExpr<T1,C1> & l)
@@ -4893,7 +4893,7 @@ imag(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnLocalNorm2,
+__device__ inline typename MakeReturn<UnaryNode<FnLocalNorm2,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnLocalNorm2 >::Type_t >::Expression_t
 localNorm2(const QDPExpr<T1,C1> & l)
@@ -4906,7 +4906,7 @@ localNorm2(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTimesI,
+__device__ inline typename MakeReturn<UnaryNode<FnTimesI,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTimesI >::Type_t >::Expression_t
 timesI(const QDPExpr<T1,C1> & l)
@@ -4919,7 +4919,7 @@ timesI(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTimesMinusI,
+__device__ inline typename MakeReturn<UnaryNode<FnTimesMinusI,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTimesMinusI >::Type_t >::Expression_t
 timesMinusI(const QDPExpr<T1,C1> & l)
@@ -4932,7 +4932,7 @@ timesMinusI(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSeedToFloat,
+__device__ inline typename MakeReturn<UnaryNode<FnSeedToFloat,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSeedToFloat >::Type_t >::Expression_t
 seedToFloat(const QDPExpr<T1,C1> & l)
@@ -4945,7 +4945,7 @@ seedToFloat(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir0Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir0Plus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir0Plus >::Type_t >::Expression_t
 spinProjectDir0Plus(const QDPExpr<T1,C1> & l)
@@ -4958,7 +4958,7 @@ spinProjectDir0Plus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir1Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir1Plus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir1Plus >::Type_t >::Expression_t
 spinProjectDir1Plus(const QDPExpr<T1,C1> & l)
@@ -4971,7 +4971,7 @@ spinProjectDir1Plus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir2Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir2Plus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir2Plus >::Type_t >::Expression_t
 spinProjectDir2Plus(const QDPExpr<T1,C1> & l)
@@ -4984,7 +4984,7 @@ spinProjectDir2Plus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir3Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir3Plus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir3Plus >::Type_t >::Expression_t
 spinProjectDir3Plus(const QDPExpr<T1,C1> & l)
@@ -4997,7 +4997,7 @@ spinProjectDir3Plus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir0Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir0Minus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir0Minus >::Type_t >::Expression_t
 spinProjectDir0Minus(const QDPExpr<T1,C1> & l)
@@ -5010,7 +5010,7 @@ spinProjectDir0Minus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir1Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir1Minus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir1Minus >::Type_t >::Expression_t
 spinProjectDir1Minus(const QDPExpr<T1,C1> & l)
@@ -5023,7 +5023,7 @@ spinProjectDir1Minus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir2Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir2Minus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir2Minus >::Type_t >::Expression_t
 spinProjectDir2Minus(const QDPExpr<T1,C1> & l)
@@ -5036,7 +5036,7 @@ spinProjectDir2Minus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinProjectDir3Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinProjectDir3Minus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinProjectDir3Minus >::Type_t >::Expression_t
 spinProjectDir3Minus(const QDPExpr<T1,C1> & l)
@@ -5049,7 +5049,7 @@ spinProjectDir3Minus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir0Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir0Plus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir0Plus >::Type_t >::Expression_t
 spinReconstructDir0Plus(const QDPExpr<T1,C1> & l)
@@ -5062,7 +5062,7 @@ spinReconstructDir0Plus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir1Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir1Plus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir1Plus >::Type_t >::Expression_t
 spinReconstructDir1Plus(const QDPExpr<T1,C1> & l)
@@ -5075,7 +5075,7 @@ spinReconstructDir1Plus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir2Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir2Plus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir2Plus >::Type_t >::Expression_t
 spinReconstructDir2Plus(const QDPExpr<T1,C1> & l)
@@ -5088,7 +5088,7 @@ spinReconstructDir2Plus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir3Plus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir3Plus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir3Plus >::Type_t >::Expression_t
 spinReconstructDir3Plus(const QDPExpr<T1,C1> & l)
@@ -5101,7 +5101,7 @@ spinReconstructDir3Plus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir0Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir0Minus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir0Minus >::Type_t >::Expression_t
 spinReconstructDir0Minus(const QDPExpr<T1,C1> & l)
@@ -5114,7 +5114,7 @@ spinReconstructDir0Minus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir1Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir1Minus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir1Minus >::Type_t >::Expression_t
 spinReconstructDir1Minus(const QDPExpr<T1,C1> & l)
@@ -5127,7 +5127,7 @@ spinReconstructDir1Minus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir2Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir2Minus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir2Minus >::Type_t >::Expression_t
 spinReconstructDir2Minus(const QDPExpr<T1,C1> & l)
@@ -5140,7 +5140,7 @@ spinReconstructDir2Minus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSpinReconstructDir3Minus,
+__device__ inline typename MakeReturn<UnaryNode<FnSpinReconstructDir3Minus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSpinReconstructDir3Minus >::Type_t >::Expression_t
 spinReconstructDir3Minus(const QDPExpr<T1,C1> & l)
@@ -5153,7 +5153,7 @@ spinReconstructDir3Minus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnChiralProjectPlus,
+__device__ inline typename MakeReturn<UnaryNode<FnChiralProjectPlus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnChiralProjectPlus >::Type_t >::Expression_t
 chiralProjectPlus(const QDPExpr<T1,C1> & l)
@@ -5166,7 +5166,7 @@ chiralProjectPlus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnChiralProjectMinus,
+__device__ inline typename MakeReturn<UnaryNode<FnChiralProjectMinus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnChiralProjectMinus >::Type_t >::Expression_t
 chiralProjectMinus(const QDPExpr<T1,C1> & l)
@@ -5179,7 +5179,7 @@ chiralProjectMinus(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnArcCos,
+__device__ inline typename MakeReturn<UnaryNode<FnArcCos,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnArcCos >::Type_t >::Expression_t
 acos(const QDPExpr<T1,C1> & l)
@@ -5192,7 +5192,7 @@ acos(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnArcSin,
+__device__ inline typename MakeReturn<UnaryNode<FnArcSin,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnArcSin >::Type_t >::Expression_t
 asin(const QDPExpr<T1,C1> & l)
@@ -5205,7 +5205,7 @@ asin(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnArcTan,
+__device__ inline typename MakeReturn<UnaryNode<FnArcTan,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnArcTan >::Type_t >::Expression_t
 atan(const QDPExpr<T1,C1> & l)
@@ -5218,7 +5218,7 @@ atan(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnCeil,
+__device__ inline typename MakeReturn<UnaryNode<FnCeil,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnCeil >::Type_t >::Expression_t
 ceil(const QDPExpr<T1,C1> & l)
@@ -5231,7 +5231,7 @@ ceil(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnCos,
+__device__ inline typename MakeReturn<UnaryNode<FnCos,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnCos >::Type_t >::Expression_t
 cos(const QDPExpr<T1,C1> & l)
@@ -5244,7 +5244,7 @@ cos(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnHypCos,
+__device__ inline typename MakeReturn<UnaryNode<FnHypCos,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnHypCos >::Type_t >::Expression_t
 cosh(const QDPExpr<T1,C1> & l)
@@ -5257,7 +5257,7 @@ cosh(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnExp,
+__device__ inline typename MakeReturn<UnaryNode<FnExp,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnExp >::Type_t >::Expression_t
 exp(const QDPExpr<T1,C1> & l)
@@ -5270,7 +5270,7 @@ exp(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnFabs,
+__device__ inline typename MakeReturn<UnaryNode<FnFabs,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnFabs >::Type_t >::Expression_t
 fabs(const QDPExpr<T1,C1> & l)
@@ -5283,7 +5283,7 @@ fabs(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnFloor,
+__device__ inline typename MakeReturn<UnaryNode<FnFloor,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnFloor >::Type_t >::Expression_t
 floor(const QDPExpr<T1,C1> & l)
@@ -5296,7 +5296,7 @@ floor(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnLog,
+__device__ inline typename MakeReturn<UnaryNode<FnLog,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnLog >::Type_t >::Expression_t
 log(const QDPExpr<T1,C1> & l)
@@ -5309,7 +5309,7 @@ log(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnLog10,
+__device__ inline typename MakeReturn<UnaryNode<FnLog10,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnLog10 >::Type_t >::Expression_t
 log10(const QDPExpr<T1,C1> & l)
@@ -5322,7 +5322,7 @@ log10(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSin,
+__device__ inline typename MakeReturn<UnaryNode<FnSin,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSin >::Type_t >::Expression_t
 sin(const QDPExpr<T1,C1> & l)
@@ -5335,7 +5335,7 @@ sin(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnHypSin,
+__device__ inline typename MakeReturn<UnaryNode<FnHypSin,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnHypSin >::Type_t >::Expression_t
 sinh(const QDPExpr<T1,C1> & l)
@@ -5348,7 +5348,7 @@ sinh(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnSqrt,
+__device__ inline typename MakeReturn<UnaryNode<FnSqrt,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnSqrt >::Type_t >::Expression_t
 sqrt(const QDPExpr<T1,C1> & l)
@@ -5361,7 +5361,7 @@ sqrt(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnTan,
+__device__ inline typename MakeReturn<UnaryNode<FnTan,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnTan >::Type_t >::Expression_t
 tan(const QDPExpr<T1,C1> & l)
@@ -5374,7 +5374,7 @@ tan(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<FnHypTan,
+__device__ inline typename MakeReturn<UnaryNode<FnHypTan,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,FnHypTan >::Type_t >::Expression_t
 tanh(const QDPExpr<T1,C1> & l)
@@ -5387,7 +5387,7 @@ tanh(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpUnaryMinus,
+__device__ inline typename MakeReturn<UnaryNode<OpUnaryMinus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpUnaryMinus >::Type_t >::Expression_t
 operator-(const QDPExpr<T1,C1> & l)
@@ -5400,7 +5400,7 @@ operator-(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpUnaryPlus,
+__device__ inline typename MakeReturn<UnaryNode<OpUnaryPlus,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpUnaryPlus >::Type_t >::Expression_t
 operator+(const QDPExpr<T1,C1> & l)
@@ -5413,7 +5413,7 @@ operator+(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpBitwiseNot,
+__device__ inline typename MakeReturn<UnaryNode<OpBitwiseNot,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpBitwiseNot >::Type_t >::Expression_t
 operator~(const QDPExpr<T1,C1> & l)
@@ -5426,7 +5426,7 @@ operator~(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpIdentity,
+__device__ inline typename MakeReturn<UnaryNode<OpIdentity,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpIdentity >::Type_t >::Expression_t
 PETE_identity(const QDPExpr<T1,C1> & l)
@@ -5439,7 +5439,7 @@ PETE_identity(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<UnaryNode<OpNot,
+__device__ inline typename MakeReturn<UnaryNode<OpNot,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t>,
   typename UnaryReturn<C1,OpNot >::Type_t >::Expression_t
 operator!(const QDPExpr<T1,C1> & l)
@@ -5452,7 +5452,7 @@ operator!(const QDPExpr<T1,C1> & l)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnCmplx,
+__device__ inline typename MakeReturn<BinaryNode<FnCmplx,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnCmplx>::Type_t >::Expression_t
@@ -5468,7 +5468,7 @@ cmplx(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnOuterProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnOuterProduct,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnOuterProduct>::Type_t >::Expression_t
@@ -5484,7 +5484,7 @@ outerProduct(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorVectorContract,
+__device__ inline typename MakeReturn<BinaryNode<FnColorVectorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnColorVectorContract>::Type_t >::Expression_t
@@ -5500,7 +5500,7 @@ colorVectorContract(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnColorCrossProduct>::Type_t >::Expression_t
@@ -5516,7 +5516,7 @@ colorCrossProduct(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLocalInnerProduct>::Type_t >::Expression_t
@@ -5532,7 +5532,7 @@ localInnerProduct(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLocalInnerProductReal>::Type_t >::Expression_t
@@ -5548,7 +5548,7 @@ localInnerProductReal(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract13,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract13,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract13>::Type_t >::Expression_t
@@ -5564,7 +5564,7 @@ quarkContract13(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract14,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract14,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract14>::Type_t >::Expression_t
@@ -5580,7 +5580,7 @@ quarkContract14(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract23,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract23,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract23>::Type_t >::Expression_t
@@ -5596,7 +5596,7 @@ quarkContract23(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract24,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract24,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract24>::Type_t >::Expression_t
@@ -5612,7 +5612,7 @@ quarkContract24(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract12,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract12,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract12>::Type_t >::Expression_t
@@ -5628,7 +5628,7 @@ quarkContract12(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract34,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract34,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnQuarkContract34>::Type_t >::Expression_t
@@ -5644,7 +5644,7 @@ quarkContract34(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAdd,
+__device__ inline typename MakeReturn<BinaryNode<OpAdd,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpAdd>::Type_t >::Expression_t
@@ -5660,7 +5660,7 @@ operator+(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpSubtract,
+__device__ inline typename MakeReturn<BinaryNode<OpSubtract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpSubtract>::Type_t >::Expression_t
@@ -5676,7 +5676,7 @@ operator-(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMultiply,
+__device__ inline typename MakeReturn<BinaryNode<OpMultiply,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpMultiply>::Type_t >::Expression_t
@@ -5692,7 +5692,7 @@ operator*(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpDivide,
+__device__ inline typename MakeReturn<BinaryNode<OpDivide,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpDivide>::Type_t >::Expression_t
@@ -5708,7 +5708,7 @@ operator/(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMod,
+__device__ inline typename MakeReturn<BinaryNode<OpMod,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpMod>::Type_t >::Expression_t
@@ -5724,7 +5724,7 @@ operator%(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseAnd>::Type_t >::Expression_t
@@ -5740,7 +5740,7 @@ operator&(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseOr,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseOr,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseOr>::Type_t >::Expression_t
@@ -5756,7 +5756,7 @@ operator|(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseXor,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseXor,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpBitwiseXor>::Type_t >::Expression_t
@@ -5772,7 +5772,7 @@ operator^(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLdexp,
+__device__ inline typename MakeReturn<BinaryNode<FnLdexp,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnLdexp>::Type_t >::Expression_t
@@ -5788,7 +5788,7 @@ ldexp(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnPow,
+__device__ inline typename MakeReturn<BinaryNode<FnPow,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnPow>::Type_t >::Expression_t
@@ -5804,7 +5804,7 @@ pow(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnFmod,
+__device__ inline typename MakeReturn<BinaryNode<FnFmod,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnFmod>::Type_t >::Expression_t
@@ -5820,7 +5820,7 @@ fmod(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnArcTan2,
+__device__ inline typename MakeReturn<BinaryNode<FnArcTan2,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,FnArcTan2>::Type_t >::Expression_t
@@ -5836,7 +5836,7 @@ atan2(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLT,
+__device__ inline typename MakeReturn<BinaryNode<OpLT,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLT>::Type_t >::Expression_t
@@ -5852,7 +5852,7 @@ operator<(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLE,
+__device__ inline typename MakeReturn<BinaryNode<OpLE,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLE>::Type_t >::Expression_t
@@ -5868,7 +5868,7 @@ operator<=(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGT,
+__device__ inline typename MakeReturn<BinaryNode<OpGT,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpGT>::Type_t >::Expression_t
@@ -5884,7 +5884,7 @@ operator>(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGE,
+__device__ inline typename MakeReturn<BinaryNode<OpGE,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpGE>::Type_t >::Expression_t
@@ -5900,7 +5900,7 @@ operator>=(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpEQ,
+__device__ inline typename MakeReturn<BinaryNode<OpEQ,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpEQ>::Type_t >::Expression_t
@@ -5916,7 +5916,7 @@ operator==(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpNE,
+__device__ inline typename MakeReturn<BinaryNode<OpNE,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpNE>::Type_t >::Expression_t
@@ -5932,7 +5932,7 @@ operator!=(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpAnd,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpAnd>::Type_t >::Expression_t
@@ -5948,7 +5948,7 @@ operator&&(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpOr,
+__device__ inline typename MakeReturn<BinaryNode<OpOr,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpOr>::Type_t >::Expression_t
@@ -5964,7 +5964,7 @@ operator||(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLeftShift,
+__device__ inline typename MakeReturn<BinaryNode<OpLeftShift,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpLeftShift>::Type_t >::Expression_t
@@ -5980,7 +5980,7 @@ operator<<(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpRightShift,
+__device__ inline typename MakeReturn<BinaryNode<OpRightShift,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<C1,C2,OpRightShift>::Type_t >::Expression_t
@@ -5996,7 +5996,7 @@ operator>>(const QDPExpr<T1,C1> & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -6015,7 +6015,7 @@ colorContract(const QDPExpr<T1,C1> & a,const QDPExpr<T2,C2> & b,const QDPExpr<T3
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -6034,7 +6034,7 @@ where(const QDPExpr<T1,C1> & a,const QDPExpr<T2,C2> & b,const QDPExpr<T3,C3> & c
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnCmplx,
+__device__ inline typename MakeReturn<BinaryNode<FnCmplx,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnCmplx>::Type_t >::Expression_t
@@ -6050,7 +6050,7 @@ cmplx(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnOuterProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnOuterProduct,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnOuterProduct>::Type_t >::Expression_t
@@ -6066,7 +6066,7 @@ outerProduct(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnColorVectorContract,
+__device__ inline typename MakeReturn<BinaryNode<FnColorVectorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnColorVectorContract>::Type_t >::Expression_t
@@ -6082,7 +6082,7 @@ colorVectorContract(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnColorCrossProduct>::Type_t >::Expression_t
@@ -6098,7 +6098,7 @@ colorCrossProduct(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t &
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnLocalInnerProduct>::Type_t >::Expression_t
@@ -6114,7 +6114,7 @@ localInnerProduct(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t &
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnLocalInnerProductReal>::Type_t >::Expression_t
@@ -6130,7 +6130,7 @@ localInnerProductReal(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract13,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract13,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract13>::Type_t >::Expression_t
@@ -6146,7 +6146,7 @@ quarkContract13(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract14,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract14,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract14>::Type_t >::Expression_t
@@ -6162,7 +6162,7 @@ quarkContract14(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract23,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract23,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract23>::Type_t >::Expression_t
@@ -6178,7 +6178,7 @@ quarkContract23(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract24,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract24,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract24>::Type_t >::Expression_t
@@ -6194,7 +6194,7 @@ quarkContract24(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract12,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract12,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract12>::Type_t >::Expression_t
@@ -6210,7 +6210,7 @@ quarkContract12(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnQuarkContract34,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract34,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnQuarkContract34>::Type_t >::Expression_t
@@ -6226,7 +6226,7 @@ quarkContract34(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpAdd,
+__device__ inline typename MakeReturn<BinaryNode<OpAdd,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpAdd>::Type_t >::Expression_t
@@ -6242,7 +6242,7 @@ operator+(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpSubtract,
+__device__ inline typename MakeReturn<BinaryNode<OpSubtract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpSubtract>::Type_t >::Expression_t
@@ -6258,7 +6258,7 @@ operator-(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpMultiply,
+__device__ inline typename MakeReturn<BinaryNode<OpMultiply,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpMultiply>::Type_t >::Expression_t
@@ -6274,7 +6274,7 @@ operator*(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpDivide,
+__device__ inline typename MakeReturn<BinaryNode<OpDivide,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpDivide>::Type_t >::Expression_t
@@ -6290,7 +6290,7 @@ operator/(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpMod,
+__device__ inline typename MakeReturn<BinaryNode<OpMod,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpMod>::Type_t >::Expression_t
@@ -6306,7 +6306,7 @@ operator%(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpBitwiseAnd>::Type_t >::Expression_t
@@ -6322,7 +6322,7 @@ operator&(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpBitwiseOr,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseOr,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpBitwiseOr>::Type_t >::Expression_t
@@ -6338,7 +6338,7 @@ operator|(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpBitwiseXor,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseXor,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpBitwiseXor>::Type_t >::Expression_t
@@ -6354,7 +6354,7 @@ operator^(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnLdexp,
+__device__ inline typename MakeReturn<BinaryNode<FnLdexp,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnLdexp>::Type_t >::Expression_t
@@ -6370,7 +6370,7 @@ ldexp(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnPow,
+__device__ inline typename MakeReturn<BinaryNode<FnPow,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnPow>::Type_t >::Expression_t
@@ -6386,7 +6386,7 @@ pow(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnFmod,
+__device__ inline typename MakeReturn<BinaryNode<FnFmod,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnFmod>::Type_t >::Expression_t
@@ -6402,7 +6402,7 @@ fmod(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<FnArcTan2,
+__device__ inline typename MakeReturn<BinaryNode<FnArcTan2,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,FnArcTan2>::Type_t >::Expression_t
@@ -6418,7 +6418,7 @@ atan2(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpLT,
+__device__ inline typename MakeReturn<BinaryNode<OpLT,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpLT>::Type_t >::Expression_t
@@ -6434,7 +6434,7 @@ operator<(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpLE,
+__device__ inline typename MakeReturn<BinaryNode<OpLE,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpLE>::Type_t >::Expression_t
@@ -6450,7 +6450,7 @@ operator<=(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpGT,
+__device__ inline typename MakeReturn<BinaryNode<OpGT,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpGT>::Type_t >::Expression_t
@@ -6466,7 +6466,7 @@ operator>(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpGE,
+__device__ inline typename MakeReturn<BinaryNode<OpGE,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpGE>::Type_t >::Expression_t
@@ -6482,7 +6482,7 @@ operator>=(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpEQ,
+__device__ inline typename MakeReturn<BinaryNode<OpEQ,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpEQ>::Type_t >::Expression_t
@@ -6498,7 +6498,7 @@ operator==(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpNE,
+__device__ inline typename MakeReturn<BinaryNode<OpNE,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpNE>::Type_t >::Expression_t
@@ -6514,7 +6514,7 @@ operator!=(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpAnd,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpAnd>::Type_t >::Expression_t
@@ -6530,7 +6530,7 @@ operator&&(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpOr,
+__device__ inline typename MakeReturn<BinaryNode<OpOr,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpOr>::Type_t >::Expression_t
@@ -6546,7 +6546,7 @@ operator||(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpLeftShift,
+__device__ inline typename MakeReturn<BinaryNode<OpLeftShift,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpLeftShift>::Type_t >::Expression_t
@@ -6562,7 +6562,7 @@ operator<<(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<BinaryNode<OpRightShift,
+__device__ inline typename MakeReturn<BinaryNode<OpRightShift,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
   typename BinaryReturn<C1,typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t,OpRightShift>::Type_t >::Expression_t
@@ -6578,7 +6578,7 @@ operator>>(const QDPExpr<T1,C1> & l,const typename WordType<C1>::Type_t & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnCmplx,
+__device__ inline typename MakeReturn<BinaryNode<FnCmplx,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnCmplx>::Type_t >::Expression_t
@@ -6594,7 +6594,7 @@ cmplx(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnOuterProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnOuterProduct,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnOuterProduct>::Type_t >::Expression_t
@@ -6610,7 +6610,7 @@ outerProduct(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorVectorContract,
+__device__ inline typename MakeReturn<BinaryNode<FnColorVectorContract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnColorVectorContract>::Type_t >::Expression_t
@@ -6626,7 +6626,7 @@ colorVectorContract(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2>
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnColorCrossProduct,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnColorCrossProduct>::Type_t >::Expression_t
@@ -6642,7 +6642,7 @@ colorCrossProduct(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> &
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProduct,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnLocalInnerProduct>::Type_t >::Expression_t
@@ -6658,7 +6658,7 @@ localInnerProduct(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> &
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
+__device__ inline typename MakeReturn<BinaryNode<FnLocalInnerProductReal,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnLocalInnerProductReal>::Type_t >::Expression_t
@@ -6674,7 +6674,7 @@ localInnerProductReal(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract13,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract13,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract13>::Type_t >::Expression_t
@@ -6690,7 +6690,7 @@ quarkContract13(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract14,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract14,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract14>::Type_t >::Expression_t
@@ -6706,7 +6706,7 @@ quarkContract14(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract23,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract23,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract23>::Type_t >::Expression_t
@@ -6722,7 +6722,7 @@ quarkContract23(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract24,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract24,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract24>::Type_t >::Expression_t
@@ -6738,7 +6738,7 @@ quarkContract24(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract12,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract12,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract12>::Type_t >::Expression_t
@@ -6754,7 +6754,7 @@ quarkContract12(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnQuarkContract34,
+__device__ inline typename MakeReturn<BinaryNode<FnQuarkContract34,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnQuarkContract34>::Type_t >::Expression_t
@@ -6770,7 +6770,7 @@ quarkContract34(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAdd,
+__device__ inline typename MakeReturn<BinaryNode<OpAdd,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpAdd>::Type_t >::Expression_t
@@ -6786,7 +6786,7 @@ operator+(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpSubtract,
+__device__ inline typename MakeReturn<BinaryNode<OpSubtract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpSubtract>::Type_t >::Expression_t
@@ -6802,7 +6802,7 @@ operator-(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMultiply,
+__device__ inline typename MakeReturn<BinaryNode<OpMultiply,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpMultiply>::Type_t >::Expression_t
@@ -6818,7 +6818,7 @@ operator*(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpDivide,
+__device__ inline typename MakeReturn<BinaryNode<OpDivide,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpDivide>::Type_t >::Expression_t
@@ -6834,7 +6834,7 @@ operator/(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpMod,
+__device__ inline typename MakeReturn<BinaryNode<OpMod,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpMod>::Type_t >::Expression_t
@@ -6850,7 +6850,7 @@ operator%(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseAnd,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpBitwiseAnd>::Type_t >::Expression_t
@@ -6866,7 +6866,7 @@ operator&(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseOr,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseOr,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpBitwiseOr>::Type_t >::Expression_t
@@ -6882,7 +6882,7 @@ operator|(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpBitwiseXor,
+__device__ inline typename MakeReturn<BinaryNode<OpBitwiseXor,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpBitwiseXor>::Type_t >::Expression_t
@@ -6898,7 +6898,7 @@ operator^(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnLdexp,
+__device__ inline typename MakeReturn<BinaryNode<FnLdexp,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnLdexp>::Type_t >::Expression_t
@@ -6914,7 +6914,7 @@ ldexp(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnPow,
+__device__ inline typename MakeReturn<BinaryNode<FnPow,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnPow>::Type_t >::Expression_t
@@ -6930,7 +6930,7 @@ pow(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnFmod,
+__device__ inline typename MakeReturn<BinaryNode<FnFmod,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnFmod>::Type_t >::Expression_t
@@ -6946,7 +6946,7 @@ fmod(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<FnArcTan2,
+__device__ inline typename MakeReturn<BinaryNode<FnArcTan2,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,FnArcTan2>::Type_t >::Expression_t
@@ -6962,7 +6962,7 @@ atan2(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLT,
+__device__ inline typename MakeReturn<BinaryNode<OpLT,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpLT>::Type_t >::Expression_t
@@ -6978,7 +6978,7 @@ operator<(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLE,
+__device__ inline typename MakeReturn<BinaryNode<OpLE,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpLE>::Type_t >::Expression_t
@@ -6994,7 +6994,7 @@ operator<=(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGT,
+__device__ inline typename MakeReturn<BinaryNode<OpGT,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpGT>::Type_t >::Expression_t
@@ -7010,7 +7010,7 @@ operator>(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpGE,
+__device__ inline typename MakeReturn<BinaryNode<OpGE,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpGE>::Type_t >::Expression_t
@@ -7026,7 +7026,7 @@ operator>=(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpEQ,
+__device__ inline typename MakeReturn<BinaryNode<OpEQ,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpEQ>::Type_t >::Expression_t
@@ -7042,7 +7042,7 @@ operator==(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpNE,
+__device__ inline typename MakeReturn<BinaryNode<OpNE,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpNE>::Type_t >::Expression_t
@@ -7058,7 +7058,7 @@ operator!=(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpAnd,
+__device__ inline typename MakeReturn<BinaryNode<OpAnd,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpAnd>::Type_t >::Expression_t
@@ -7074,7 +7074,7 @@ operator&&(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpOr,
+__device__ inline typename MakeReturn<BinaryNode<OpOr,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpOr>::Type_t >::Expression_t
@@ -7090,7 +7090,7 @@ operator||(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -7109,7 +7109,7 @@ colorContract(const QDPExpr<T1,C1> & a,const QDPType<T2,C2> & b,const typename W
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -7128,7 +7128,7 @@ where(const QDPExpr<T1,C1> & a,const QDPType<T2,C2> & b,const typename WordType<
 }
 
 template<class T1,class C1,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7147,7 +7147,7 @@ colorContract(const QDPExpr<T1,C1> & a,const typename WordType<C1>::Type_t & b,c
 }
 
 template<class T1,class C1,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7166,7 +7166,7 @@ where(const QDPExpr<T1,C1> & a,const typename WordType<C1>::Type_t & b,const QDP
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -7185,7 +7185,7 @@ colorContract(const QDPExpr<T1,C1> & a,const typename WordType<C1>::Type_t & b,c
 }
 
 template<class T1,class C1>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -7204,7 +7204,7 @@ where(const QDPExpr<T1,C1> & a,const typename WordType<C1>::Type_t & b,const typ
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -7223,7 +7223,7 @@ colorContract(const QDPType<T1,C1> & a,const QDPExpr<T2,C2> & b,const typename W
 }
 
 template<class T1,class C1,class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t>,
@@ -7242,7 +7242,7 @@ where(const QDPType<T1,C1> & a,const QDPExpr<T2,C2> & b,const typename WordType<
 }
 
 template<class T1,class C1,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7261,7 +7261,7 @@ colorContract(const QDPType<T1,C1> & a,const typename WordType<C1>::Type_t & b,c
 }
 
 template<class T1,class C1,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C1>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7280,7 +7280,7 @@ where(const QDPType<T1,C1> & a,const typename WordType<C1>::Type_t & b,const QDP
 }
 
 template<class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7299,7 +7299,7 @@ colorContract(const typename WordType<C2>::Type_t & a,const QDPExpr<T2,C2> & b,c
 }
 
 template<class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7318,7 +7318,7 @@ where(const typename WordType<C2>::Type_t & a,const QDPExpr<T2,C2> & b,const QDP
 }
 
 template<class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7337,7 +7337,7 @@ colorContract(const typename WordType<C2>::Type_t & a,const QDPType<T2,C2> & b,c
 }
 
 template<class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7356,7 +7356,7 @@ where(const typename WordType<C2>::Type_t & a,const QDPType<T2,C2> & b,const QDP
 }
 
 template<class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7375,7 +7375,7 @@ colorContract(const typename WordType<C2>::Type_t & a,const QDPExpr<T2,C2> & b,c
 }
 
 template<class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7394,7 +7394,7 @@ where(const typename WordType<C2>::Type_t & a,const QDPExpr<T2,C2> & b,const QDP
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t>,
@@ -7413,7 +7413,7 @@ colorContract(const typename WordType<C2>::Type_t & a,const QDPExpr<T2,C2> & b,c
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t>,
@@ -7432,7 +7432,7 @@ where(const typename WordType<C2>::Type_t & a,const QDPExpr<T2,C2> & b,const typ
 }
 
 template<class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C3>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C3>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7451,7 +7451,7 @@ colorContract(const typename WordType<C3>::Type_t & a,const typename WordType<C3
 }
 
 template<class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C3>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C3>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7471,7 +7471,7 @@ where(const typename WordType<C3>::Type_t & a,const typename WordType<C3>::Type_
 #ifdef PETE_ALLOW_SCALAR_SHIFT
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpLeftShift,
+__device__ inline typename MakeReturn<BinaryNode<OpLeftShift,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpLeftShift>::Type_t >::Expression_t
@@ -7487,7 +7487,7 @@ operator<<(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 }
 
 template<class T2,class C2>
-inline typename MakeReturn<BinaryNode<OpRightShift,
+__device__ inline typename MakeReturn<BinaryNode<OpRightShift,
   typename CreateLeaf<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t>,
   typename BinaryReturn<typename SimpleScalar<typename WordType<C2>::Type_t>::Type_t,C2,OpRightShift>::Type_t >::Expression_t
@@ -7504,7 +7504,7 @@ operator>>(const typename WordType<C2>::Type_t & l,const QDPExpr<T2,C2> & r)
 #endif // PETE_ALLOW_SCALAR_SHIFT
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7523,7 +7523,7 @@ colorContract(const QDPExpr<T1,C1> & a,const QDPType<T2,C2> & b,const QDPType<T3
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7542,7 +7542,7 @@ where(const QDPExpr<T1,C1> & a,const QDPType<T2,C2> & b,const QDPType<T3,C3> & c
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7561,7 +7561,7 @@ colorContract(const QDPType<T1,C1> & a,const QDPExpr<T2,C2> & b,const QDPType<T3
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7580,7 +7580,7 @@ where(const QDPType<T1,C1> & a,const QDPExpr<T2,C2> & b,const QDPType<T3,C3> & c
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7599,7 +7599,7 @@ colorContract(const QDPType<T1,C1> & a,const QDPType<T2,C2> & b,const QDPExpr<T3
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7618,7 +7618,7 @@ where(const QDPType<T1,C1> & a,const QDPType<T2,C2> & b,const QDPExpr<T3,C3> & c
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7637,7 +7637,7 @@ colorContract(const QDPExpr<T1,C1> & a,const QDPExpr<T2,C2> & b,const QDPType<T3
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPType<T3,C3> >::Leaf_t>,
@@ -7656,7 +7656,7 @@ where(const QDPExpr<T1,C1> & a,const QDPExpr<T2,C2> & b,const QDPType<T3,C3> & c
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7675,7 +7675,7 @@ colorContract(const QDPType<T1,C1> & a,const QDPExpr<T2,C2> & b,const QDPExpr<T3
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPType<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7694,7 +7694,7 @@ where(const QDPType<T1,C1> & a,const QDPExpr<T2,C2> & b,const QDPExpr<T3,C3> & c
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnColorContract,
+__device__ inline typename MakeReturn<TrinaryNode<FnColorContract,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,
@@ -7713,7 +7713,7 @@ colorContract(const QDPExpr<T1,C1> & a,const QDPType<T2,C2> & b,const QDPExpr<T3
 }
 
 template<class T1,class C1,class T2,class C2,class T3,class C3>
-inline typename MakeReturn<TrinaryNode<FnWhere,
+__device__ inline typename MakeReturn<TrinaryNode<FnWhere,
   typename CreateLeaf<QDPExpr<T1,C1> >::Leaf_t,
   typename CreateLeaf<QDPType<T2,C2> >::Leaf_t,
   typename CreateLeaf<QDPExpr<T3,C3> >::Leaf_t>,

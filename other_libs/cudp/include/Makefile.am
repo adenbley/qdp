@@ -149,7 +149,7 @@ nobase_include_HEADERS = \
 		cudp_map_obj_memory.h \
 		cudp_map_obj_disk.h \
 		cudp_disk_map_slice.h \
-        $(PETE_HDRS) \
+        $(cuPETE_HDRS) \
         $(GENERIC_HDRS) \
 		$(MEMORY_HDRS) \
 		$(BAGEL_HDRS)

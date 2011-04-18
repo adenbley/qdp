@@ -30,7 +30,9 @@ namespace QDP {
 template <class T, int N, template<class,int> class C> class PVector
 {
 public:
+  __device__
   PVector() { }
+  __device__
   ~PVector() { }
 
   typedef C<T,N>  CC;
@@ -38,7 +40,7 @@ public:
   //! PVector = PVector
   /*! Set equal to another PVector */
   template<class T1>
-  inline
+  __device__ inline
   CC& assign(const C<T1,N>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -50,7 +52,7 @@ public:
   //! PVector = PVector
   /*! Set equal to another PVector */
   template<class T1>
-  inline
+  __device__ inline
   CC& operator=(const C<T1,N>& rhs) 
     {
       return assign(rhs);
@@ -58,7 +60,7 @@ public:
 
   //! PVector += PVector
   template<class T1>
-  inline
+  __device__ inline
   CC& operator+=(const C<T1,N>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -69,7 +71,7 @@ public:
 
   //! PVector -= PVector
   template<class T1>
-  inline
+  __device__ inline
   CC& operator-=(const C<T1,N>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -80,7 +82,7 @@ public:
 
   //! PVector *= PScalar
   template<class T1>
-  inline
+  __device__ inline
   CC& operator*=(const PScalar<T1>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -91,7 +93,7 @@ public:
 
   //! PVector /= PScalar
   template<class T1>
-  inline
+  __device__ inline
   CC& operator/=(const PScalar<T1>& rhs) 
     {
       for(int i=0; i < N; ++i)
@@ -109,9 +111,11 @@ public:
 
   //! Deep copy constructor
 #if defined(QDP_USE_ARRAY_INITIALIZER)
+  __device__
   PVector(const PVector& a) : F(a.F) {}
 #else
   /*! This is a copy form - legal but not necessarily efficient */
+  __device__
   PVector(const PVector& a)
     {
      
@@ -123,7 +127,9 @@ public:
 
 
 public:
+  __device__
   T& elem(int i) {return F[i];}
+  __device__
   const T& elem(int i) const {return F[i];}
 
 private:
@@ -134,7 +140,7 @@ private:
 
 // //! Stream input
 // template<class T, int N, template<class,int> class C>  
-// inline
+// __device__ inline
 // istream& operator>>(istream& s, PVector<T,N,C>& d)
 // {
 //   for(int i=0; i < N; ++i)
@@ -144,7 +150,7 @@ private:
 // }
 
 // template<class T, int N, template<class,int> class C>  
-// inline
+// __device__ inline
 // StandardInputStream& operator>>(StandardInputStream& s, PVector<T,N,C>& d)
 // {
 //   for(int i=0; i < N; ++i)
@@ -155,7 +161,7 @@ private:
 
 // //! Stream output
 // template<class T, int N, template<class,int> class C>  
-// inline
+// __device__ inline
 // ostream& operator<<(ostream& s, const PVector<T,N,C>& d)
 // {
 //   for(int i=0; i < N; ++i)
@@ -166,7 +172,7 @@ private:
 
 // //! Stream output
 // template<class T, int N, template<class,int> class C>  
-// inline
+// __device__ inline
 // StandardOutputStream& operator<<(StandardOutputStream& s, const PVector<T,N,C>& d)
 // {
 //   for(int i=0; i < N; ++i)
@@ -178,7 +184,7 @@ private:
 
 // //! Text input
 // template<class T, int N, template<class,int> class C>  
-// inline
+// __device__ inline
 // TextReader& operator>>(TextReader& txt, PVector<T,N,C>& d)
 // {
 //   for(int i=0; i < N; ++i)
@@ -189,7 +195,7 @@ private:
 
 // //! Text output
 // template<class T, int N, template<class,int> class C>  
-// inline
+// __device__ inline
 // TextWriter& operator<<(TextWriter& txt, const PVector<T,N,C>& d)
 // {
 //   for(int i=0; i < N; ++i)
@@ -201,7 +207,7 @@ private:
 
 // //! XML output
 // template<class T, int N, template<class,int> class C> 
-// inline
+// __device__ inline
 // XMLWriter& operator<<(XMLWriter& xml, const PVector<T,N,C>& d)
 // {
 //   xml.openTag("Vector");
@@ -350,7 +356,7 @@ struct BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpDivideAssign > {
 // Primitive Vectors
 
 template<class T1, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T1,N,C>, OpUnaryPlus>::Type_t
+__device__ inline typename UnaryReturn<PVector<T1,N,C>, OpUnaryPlus>::Type_t
 operator+(const PVector<T1,N,C>& l)
 {
   typename UnaryReturn<PVector<T1,N,C>, OpUnaryPlus>::Type_t  d;
@@ -362,7 +368,7 @@ operator+(const PVector<T1,N,C>& l)
 
 
 template<class T1, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T1,N,C>, OpUnaryMinus>::Type_t
+__device__ inline typename UnaryReturn<PVector<T1,N,C>, OpUnaryMinus>::Type_t
 operator-(const PVector<T1,N,C>& l)
 {
   typename UnaryReturn<PVector<T1,N,C>, OpUnaryMinus>::Type_t  d;
@@ -374,7 +380,7 @@ operator-(const PVector<T1,N,C>& l)
 
 
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, OpAdd>::Type_t
+__device__ inline typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, OpAdd>::Type_t
 operator+(const PVector<T1,N,C>& l, const PVector<T2,N,C>& r)
 {
   typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, OpAdd>::Type_t  d;
@@ -386,7 +392,7 @@ operator+(const PVector<T1,N,C>& l, const PVector<T2,N,C>& r)
 
 
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, OpSubtract>::Type_t
+__device__ inline typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, OpSubtract>::Type_t
 operator-(const PVector<T1,N,C>& l, const PVector<T2,N,C>& r)
 {
   typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, OpSubtract>::Type_t  d;
@@ -399,7 +405,7 @@ operator-(const PVector<T1,N,C>& l, const PVector<T2,N,C>& r)
 
 // PVector * PScalar
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpMultiply>::Type_t
+__device__ inline typename BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpMultiply>::Type_t
 operator*(const PVector<T1,N,C>& l, const PScalar<T2>& r)
 {
   typename BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpMultiply>::Type_t  d;
@@ -411,7 +417,7 @@ operator*(const PVector<T1,N,C>& l, const PScalar<T2>& r)
 
 // Optimized  PVector * adj(PScalar)
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpMultiplyAdj>::Type_t
+__device__ inline typename BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpMultiplyAdj>::Type_t
 multiplyAdj(const PVector<T1,N,C>& l, const PScalar<T2>& r)
 {
   typename BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpMultiplyAdj>::Type_t  d;
@@ -424,7 +430,7 @@ multiplyAdj(const PVector<T1,N,C>& l, const PScalar<T2>& r)
 
 // PScalar * PVector
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename BinaryReturn<PScalar<T1>, PVector<T2,N,C>, OpMultiply>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PVector<T2,N,C>, OpMultiply>::Type_t
 operator*(const PScalar<T1>& l, const PVector<T2,N,C>& r)
 {
   typename BinaryReturn<PScalar<T1>, PVector<T2,N,C>, OpMultiply>::Type_t  d;
@@ -436,7 +442,7 @@ operator*(const PScalar<T1>& l, const PVector<T2,N,C>& r)
 
 // Optimized  adj(PScalar) * PVector
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename BinaryReturn<PScalar<T1>, PVector<T2,N,C>, OpAdjMultiply>::Type_t
+__device__ inline typename BinaryReturn<PScalar<T1>, PVector<T2,N,C>, OpAdjMultiply>::Type_t
 adjMultiply(const PScalar<T1>& l, const PVector<T2,N,C>& r)
 {
   typename BinaryReturn<PScalar<T1>, PVector<T2,N,C>, OpAdjMultiply>::Type_t  d;
@@ -449,7 +455,7 @@ adjMultiply(const PScalar<T1>& l, const PVector<T2,N,C>& r)
 
 // PMatrix * PVector
 template<class T1, class T2, int N, template<class,int> class C1, template<class,int> class C2>
-inline typename BinaryReturn<PMatrix<T1,N,C1>, PVector<T2,N,C2>, OpMultiply>::Type_t
+__device__ inline typename BinaryReturn<PMatrix<T1,N,C1>, PVector<T2,N,C2>, OpMultiply>::Type_t
 operator*(const PMatrix<T1,N,C1>& l, const PVector<T2,N,C2>& r)
 {
   typename BinaryReturn<PMatrix<T1,N,C1>, PVector<T2,N,C2>, OpMultiply>::Type_t  d;
@@ -466,7 +472,7 @@ operator*(const PMatrix<T1,N,C1>& l, const PVector<T2,N,C2>& r)
 
 // Optimized  adj(PMatrix)*PVector
 template<class T1, class T2, int N, template<class,int> class C1, template<class,int> class C2>
-inline typename BinaryReturn<PMatrix<T1,N,C1>, PVector<T2,N,C2>, OpAdjMultiply>::Type_t
+__device__ inline typename BinaryReturn<PMatrix<T1,N,C1>, PVector<T2,N,C2>, OpAdjMultiply>::Type_t
 adjMultiply(const PMatrix<T1,N,C1>& l, const PVector<T2,N,C2>& r)
 {
   typename BinaryReturn<PMatrix<T1,N,C1>, PVector<T2,N,C2>, OpAdjMultiply>::Type_t  d;
@@ -483,7 +489,7 @@ adjMultiply(const PMatrix<T1,N,C1>& l, const PVector<T2,N,C2>& r)
 
 
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpDivide>::Type_t
+__device__ inline typename BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpDivide>::Type_t
 operator/(const PVector<T1,N,C>& l, const PScalar<T2>& r)
 {
   typename BinaryReturn<PVector<T1,N,C>, PScalar<T2>, OpDivide>::Type_t  d;
@@ -497,7 +503,7 @@ operator/(const PVector<T1,N,C>& l, const PScalar<T2>& r)
 
 //! PVector = Re(PVector)
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnReal>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnReal>::Type_t
 real(const PVector<T,N,C>& s1)
 {
   typename UnaryReturn<PVector<T,N,C>, FnReal>::Type_t  d;
@@ -511,7 +517,7 @@ real(const PVector<T,N,C>& s1)
 
 //! PVector = Im(PVector)
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnImag>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnImag>::Type_t
 imag(const PVector<T,N,C>& s1)
 {
   typename UnaryReturn<PVector<T,N,C>, FnImag>::Type_t  d;
@@ -525,7 +531,7 @@ imag(const PVector<T,N,C>& s1)
 
 //! PVector<T> = (PVector<T> , PVector<T>)
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, FnCmplx>::Type_t
+__device__ inline typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, FnCmplx>::Type_t
 cmplx(const PVector<T1,N,C>& s1, const PVector<T2,N,C>& s2)
 {
   typename BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, FnCmplx>::Type_t  d;
@@ -541,7 +547,7 @@ cmplx(const PVector<T1,N,C>& s1, const PVector<T2,N,C>& s2)
 // Functions
 // Conjugate
 template<class T1, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T1,N,C>, FnConjugate>::Type_t
+__device__ inline typename UnaryReturn<PVector<T1,N,C>, FnConjugate>::Type_t
 conj(const PVector<T1,N,C>& l)
 {
   typename UnaryReturn<PVector<T1,N,C>, FnConjugate>::Type_t  d;
@@ -554,7 +560,7 @@ conj(const PVector<T1,N,C>& l)
 
 //! PVector = i * PVector
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnTimesI>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnTimesI>::Type_t
 timesI(const PVector<T,N,C>& s1)
 {
   typename UnaryReturn<PVector<T,N,C>, FnTimesI>::Type_t  d;
@@ -567,7 +573,7 @@ timesI(const PVector<T,N,C>& s1)
 
 //! PVector = -i * PVector
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnTimesMinusI>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnTimesMinusI>::Type_t
 timesMinusI(const PVector<T,N,C>& s1)
 {
   typename UnaryReturn<PVector<T,N,C>, FnTimesMinusI>::Type_t  d;
@@ -582,7 +588,7 @@ timesMinusI(const PVector<T,N,C>& s1)
 //! dest [some type] = source [some type]
 /*! Portable (internal) way of returning a single site */
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnGetSite>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnGetSite>::Type_t
 getSite(const PVector<T,N,C>& s1, int innersite)
 { 
   typename UnaryReturn<PVector<T,N,C>, FnGetSite>::Type_t  d;
@@ -596,7 +602,7 @@ getSite(const PVector<T,N,C>& s1, int innersite)
 //! Extract color vector components 
 /*! Generically, this is an identity operation. Defined differently under color */
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnPeekColorVector>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnPeekColorVector>::Type_t
 peekColor(const PVector<T,N,C>& l, int row)
 {
   typename UnaryReturn<PVector<T,N,C>, FnPeekColorVector>::Type_t  d;
@@ -609,7 +615,7 @@ peekColor(const PVector<T,N,C>& l, int row)
 //! Extract color matrix components 
 /*! Generically, this is an identity operation. Defined differently under color */
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnPeekColorMatrix>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnPeekColorMatrix>::Type_t
 peekColor(const PVector<T,N,C>& l, int row, int col)
 {
   typename UnaryReturn<PVector<T,N,C>, FnPeekColorMatrix>::Type_t  d;
@@ -622,7 +628,7 @@ peekColor(const PVector<T,N,C>& l, int row, int col)
 //! Extract spin vector components 
 /*! Generically, this is an identity operation. Defined differently under spin */
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnPeekSpinVector>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnPeekSpinVector>::Type_t
 peekSpin(const PVector<T,N,C>& l, int row)
 {
   typename UnaryReturn<PVector<T,N,C>, FnPeekSpinVector>::Type_t  d;
@@ -635,7 +641,7 @@ peekSpin(const PVector<T,N,C>& l, int row)
 //! Extract spin matrix components 
 /*! Generically, this is an identity operation. Defined differently under spin */
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnPeekSpinMatrix>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnPeekSpinMatrix>::Type_t
 peekSpin(const PVector<T,N,C>& l, int row, int col)
 {
   typename UnaryReturn<PVector<T,N,C>, FnPeekSpinMatrix>::Type_t  d;
@@ -648,7 +654,7 @@ peekSpin(const PVector<T,N,C>& l, int row, int col)
 //! Insert color vector components 
 /*! Generically, this is an identity operation. Defined differently under color */
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T1,N,C>, FnPokeColorVector>::Type_t&
+__device__ inline typename UnaryReturn<PVector<T1,N,C>, FnPokeColorVector>::Type_t&
 pokeColor(PVector<T1,N,C>& l, const PVector<T2,N,C>& r, int row)
 {
   typedef typename UnaryReturn<PVector<T1,N,C>, FnPokeColorVector>::Type_t  Return_t;
@@ -661,7 +667,7 @@ pokeColor(PVector<T1,N,C>& l, const PVector<T2,N,C>& r, int row)
 //! Insert color matrix components 
 /*! Generically, this is an identity operation. Defined differently under color */
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T1,N,C>, FnPokeColorVector>::Type_t&
+__device__ inline typename UnaryReturn<PVector<T1,N,C>, FnPokeColorVector>::Type_t&
 pokeColor(PVector<T1,N,C>& l, const PVector<T2,N,C>& r, int row, int col)
 {
   typedef typename UnaryReturn<PVector<T1,N,C>, FnPokeColorVector>::Type_t  Return_t;
@@ -674,7 +680,7 @@ pokeColor(PVector<T1,N,C>& l, const PVector<T2,N,C>& r, int row, int col)
 //! Insert spin vector components 
 /*! Generically, this is an identity operation. Defined differently under spin */
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T1,N,C>, FnPokeSpinVector>::Type_t&
+__device__ inline typename UnaryReturn<PVector<T1,N,C>, FnPokeSpinVector>::Type_t&
 pokeSpin(PVector<T1,N,C>& l, const PVector<T2,N,C>& r, int row)
 {
   typedef typename UnaryReturn<PVector<T1,N,C>, FnPokeSpinVector>::Type_t  Return_t;
@@ -687,7 +693,7 @@ pokeSpin(PVector<T1,N,C>& l, const PVector<T2,N,C>& r, int row)
 //! Insert spin matrix components 
 /*! Generically, this is an identity operation. Defined differently under spin */
 template<class T1, class T2, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T1,N,C>, FnPokeSpinVector>::Type_t&
+__device__ inline typename UnaryReturn<PVector<T1,N,C>, FnPokeSpinVector>::Type_t&
 pokeSpin(PVector<T1,N,C>& l, const PVector<T2,N,C>& r, int row, int col)
 {
   typedef typename UnaryReturn<PVector<T1,N,C>, FnPokeSpinVector>::Type_t  Return_t;
@@ -700,7 +706,7 @@ pokeSpin(PVector<T1,N,C>& l, const PVector<T2,N,C>& r, int row, int col)
 
 //! dest = 0
 template<class T, int N, template<class,int> class C> 
-inline void 
+__device__ inline void 
 zero_rep(PVector<T,N,C>& dest) 
 {
   for(int i=0; i < N; ++i)
@@ -709,7 +715,7 @@ zero_rep(PVector<T,N,C>& dest)
 
 //! dest = (mask) ? s1 : dest
 template<class T, class T1, int N, template<class,int> class C> 
-inline void 
+__device__ inline void 
 copymask(PVector<T,N,C>& d, const PScalar<T1>& mask, const PVector<T,N,C>& s1) 
 {
   for(int i=0; i < N; ++i)
@@ -719,7 +725,7 @@ copymask(PVector<T,N,C>& d, const PScalar<T1>& mask, const PVector<T,N,C>& s1)
 
 //! dest [some type] = source [some type]
 template<class T, class T1, int N, template<class,int> class C>
-inline void 
+__device__ inline void 
 copy_site(PVector<T,N,C>& d, int isite, const PVector<T1,N,C>& s1)
 {
   for(int i=0; i < N; ++i)
@@ -728,7 +734,7 @@ copy_site(PVector<T,N,C>& d, int isite, const PVector<T1,N,C>& s1)
 
 //! dest [some type] = source [some type]
 template<class T, class T1, int N, template<class,int> class C>
-inline void 
+__device__ inline void 
 copy_site(PVector<T,N,C>& d, int isite, const PScalar<T1>& s1)
 {
   for(int i=0; i < N; ++i)
@@ -738,7 +744,7 @@ copy_site(PVector<T,N,C>& d, int isite, const PScalar<T1>& s1)
 
 //! gather several inner sites together
 template<class T, class T1, int N, template<class,int> class C>
-inline void 
+__device__ inline void 
 gather_sites(PVector<T,N,C>& d, 
 	     const PVector<T1,N,C>& s0, int i0, 
 	     const PVector<T1,N,C>& s1, int i1,
@@ -756,7 +762,7 @@ gather_sites(PVector<T,N,C>& d,
 
 //! dest  = random  
 template<class T, int N, template<class,int> class C, class T1, class T2>
-inline void
+__device__ inline void
 fill_random(PVector<T,N,C>& d, T1& seed, T2& skewed_seed, const T1& seed_mult)
 {
   // Loop over rows the slowest
@@ -767,7 +773,7 @@ fill_random(PVector<T,N,C>& d, T1& seed, T2& skewed_seed, const T1& seed_mult)
 
 //! dest  = gaussian
 template<class T, int N, template<class,int> class C>
-inline void
+__device__ inline void
 fill_gaussian(PVector<T,N,C>& d, PVector<T,N,C>& r1, PVector<T,N,C>& r2)
 {
   for(int i=0; i < N; ++i)
@@ -783,7 +789,7 @@ struct UnaryReturn<PVector<T,N,C>, FnSum > {
 };
 
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnSum>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnSum>::Type_t
 sum(const PVector<T,N,C>& s1)
 {
   typename UnaryReturn<PVector<T,N,C>, FnSum>::Type_t  d;
@@ -808,7 +814,7 @@ struct UnaryReturn<PVector<T,N,C>, FnLocalNorm2 > {
 };
 
 template<class T, int N, template<class,int> class C>
-inline typename UnaryReturn<PVector<T,N,C>, FnLocalNorm2>::Type_t
+__device__ inline typename UnaryReturn<PVector<T,N,C>, FnLocalNorm2>::Type_t
 localNorm2(const PVector<T,N,C>& s1)
 {
   typename UnaryReturn<PVector<T,N,C>, FnLocalNorm2>::Type_t  d;
@@ -833,7 +839,7 @@ struct BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, FnLocalInnerProduct > {
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-inline PScalar<typename BinaryReturn<T1, T2, FnLocalInnerProduct>::Type_t>
+__device__ inline PScalar<typename BinaryReturn<T1, T2, FnLocalInnerProduct>::Type_t>
 localInnerProduct(const PVector<T1,N,C>& s1, const PVector<T2,N,C>& s2)
 {
   PScalar<typename BinaryReturn<T1, T2, FnLocalInnerProduct>::Type_t>  d;
@@ -861,7 +867,7 @@ struct BinaryReturn<PVector<T1,N,C>, PVector<T2,N,C>, FnLocalInnerProductReal > 
 };
 
 template<class T1, class T2, int N, template<class,int> class C>
-inline PScalar<typename BinaryReturn<T1, T2, FnLocalInnerProductReal>::Type_t>
+__device__ inline PScalar<typename BinaryReturn<T1, T2, FnLocalInnerProductReal>::Type_t>
 localInnerProductReal(const PVector<T1,N,C>& s1, const PVector<T2,N,C>& s2)
 {
   PScalar<typename BinaryReturn<T1,T2, FnLocalInnerProductReal>::Type_t>  d;
@@ -888,7 +894,7 @@ localInnerProductReal(const PVector<T1,N,C>& s1, const PVector<T2,N,C>& s2)
 //};
 //
 //template<class T1, class T2, int N, template<class,int> class C>
-//inline PVector<typename BinaryReturn<T1, T2, FnLocalInnerProduct>::Type_t,N,C>
+//__device__ inline PVector<typename BinaryReturn<T1, T2, FnLocalInnerProduct>::Type_t,N,C>
 //localInnerProduct(const PScalar<T1>& s1, const PVector<T2,N,C>& s2)
 //{
 //  typename BinaryReturn<PScalar<T1>, PVector<T2,N,C>, FnLocalInnerProduct>::Type_t  d;
@@ -910,7 +916,7 @@ localInnerProductReal(const PVector<T1,N,C>& s1, const PVector<T2,N,C>& s2)
 //};
 //
 //template<class T1, class T2, int N, template<class,int> class C>
-//inline PVector<typename BinaryReturn<T1, T2, FnLocalInnerProductReal>::Type_t,N,C>
+//__device__ inline PVector<typename BinaryReturn<T1, T2, FnLocalInnerProductReal>::Type_t,N,C>
 //localInnerProductReal(const PScalar<T1>& s1, const PVector<T2,N,C>& s2)
 //{
 //  typename BinaryReturn<PScalar<T1>, PVector<T2,N,C>, FnLocalInnerProductReal>::Type_t  d;
@@ -933,7 +939,7 @@ struct TrinaryReturn<PScalar<T1>, PVector<T2,N,C>, PVector<T3,N,C>, FnWhere> {
 };
 
 template<class T1, class T2, class T3, int N, template<class,int> class C>
-inline typename TrinaryReturn<PScalar<T1>, PVector<T2,N,C>, PVector<T3,N,C>, FnWhere>::Type_t
+__device__ inline typename TrinaryReturn<PScalar<T1>, PVector<T2,N,C>, PVector<T3,N,C>, FnWhere>::Type_t
 where(const PScalar<T1>& a, const PVector<T2,N,C>& b, const PVector<T3,N,C>& c)
 {
   typename TrinaryReturn<PScalar<T1>, PVector<T2,N,C>, PVector<T3,N,C>, FnWhere>::Type_t  d;

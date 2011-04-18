@@ -26,19 +26,24 @@ namespace QDP {
 template<class T> class RScalar
 {
 public:
+  __device__
   RScalar() {}
+  __device__
   ~RScalar() {}
 
   //---------------------------------------------------------
   //! construct dest = const
+  __device__
   RScalar(const typename WordType<T>::Type_t& rhs) : F(rhs) {}
 
   //! construct dest = rhs
   template<class T1>
+  __device__
   RScalar(const RScalar<T1>& rhs) : F(rhs.elem()) {}
 
   //! construct dest = rhs
   template<class T1>
+  __device__
   RScalar(const T1& rhs) : F(rhs) {}
 
   //---------------------------------------------------------
@@ -155,10 +160,13 @@ public:
 
 
   //! Do deep copies here
+  __device__
   RScalar(const RScalar& a): F(a.F) {}
 
 public:
+  __device__
   T& elem() {return F;}
+  __device__
   const T& elem() const {return F;}
 
 private:
@@ -181,15 +189,19 @@ private:
 template<class T> class RComplex
 {
 public:
+  __device__
   RComplex() {}
+  __device__
   ~RComplex() {}
 
   //! Construct from two reality scalars
   template<class T1, class T2>
+  __device__
   RComplex(const RScalar<T1>& _re, const RScalar<T2>& _im): re(_re.elem()), im(_im.elem()) {}
 
   //! Construct from two scalars
   template<class T1, class T2>
+  __device__
   RComplex(const T1& _re, const T2& _im): re(_re), im(_im) {}
 
   //---------------------------------------------------------
@@ -303,13 +315,18 @@ public:
 
 
   //! Deep copy constructor
+  __device__
   RComplex(const RComplex& a): re(a.re), im(a.im) {}
 
 public:
+  __device__
   T& real() {return re;}
+  __device__
   const T& real() const {return re;}
 
+  __device__
   T& imag() {return im;}
+  __device__
   const T& imag() const {return im;}
 
 private:

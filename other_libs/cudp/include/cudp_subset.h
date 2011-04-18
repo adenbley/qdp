@@ -24,8 +24,11 @@ class SetFunc
 {
 public:
   // Virtual destructor to stop compiler warnings - no cleanup needed
+  __device__
   virtual ~SetFunc() {}
+  __device__
   virtual int operator() (const multi1d<int>& coordinate) const = 0;
+  __device__
   virtual int numSubsets() const = 0;
 };
 
@@ -39,28 +42,35 @@ class Subset
 {
 public:
   //! There can be an empty constructor
+  __device__
   Subset() {}
 
   //! Copy constructor
+  __device__
   Subset(const Subset& s):
     ordRep(s.ordRep), startSite(s.startSite), endSite(s.endSite), 
     sub_index(s.sub_index), sitetable(s.sitetable), set(s.set)
     {}
 
   // Simple constructor
+  __device__
   void make(const Subset& s);
 
   //! Destructor for a subset
+  __device__
   virtual ~Subset() {}
 
   //! The = operator
+  __device__
   Subset& operator=(const Subset& s);
 
   //! Access the coloring for this subset
+  __device__
   int color() const {return sub_index;}
 
 protected:
   // Simple constructor
+  __device__
   void make(bool rep, int start, int end, multi1d<int>* ind, int cb, Set* set);
 
 private:
@@ -76,14 +86,20 @@ private:
   Set *set;
 
 public:
+  __device__
   inline bool hasOrderedRep() const {return ordRep;}
+  __device__
   inline int start() const {return startSite;}
+  __device__
   inline int end() const {return endSite;}
 
+  __device__
   const multi1d<int>& siteTable() const {return *sitetable;}
+  __device__
   inline int numSiteTable() const {return sitetable->size();}
 
   //! The super-set of this subset
+  __device__
   const Set& getSet() const { return *set; }
 
   friend class Set;
@@ -96,24 +112,31 @@ class Set
 {
 public:
   //! There can be an empty constructor
+  __device__
   Set() {}
 
   //! Constructor from a function object
+  __device__
   Set(const SetFunc& fn) {make(fn);}
 
   //! Constructor from a function object
+  __device__
   void make(const SetFunc& fn);
 
   //! Index operator selects a subset from a set
+  __device__
   const Subset& operator[](int subset_index) const {return sub[subset_index];}
 
   //! Return number of subsets
+  __device__
   int numSubsets() const {return sub.size();}
 
   //! Destructor for a set
+  __device__
   virtual ~Set() {}
 
   //! The = operator
+  __device__
   Set& operator=(const Set& s);
 
 protected:

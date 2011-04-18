@@ -34,13 +34,6 @@
 #include <cudp_config.h>
 #include "cudp_precision.h"
 
-// GNU specific stuff
-#if defined(__GNUC__)
-// Under g++, enforce using V3 or greater
-#if __GNUC__ < 3
-#error "QDP++ requires g++ 3.0 or higher. This version of the g++ compiler is not supported"
-#endif
-#endif
 
 // Under gcc, set some attributes
 #if defined(__GNUC__)
@@ -61,44 +54,26 @@
 #define QDP_CINLINE
 #endif
 
-#if (QDP_USE_SSE == 1 || QDP_USE_SSE2 == 1) && ! defined(__GNUC__)
-// SSE requires GNUC
-#undef QDP_USE_SSE
-#undef QDP_USE_SSE2
-
 #define QDP_USE_SSE   0
 #define QDP_USE_SSE2  0
-#endif
 
-// Commented this out and set QDP_ALIGNMENT_SIZE to be 16 all the time
-// This is a minimal waste of space and should allow an SSE dslash
-// to be used even if the QDP itself is not compiled with SSE.
-#if 0
-// Alignment size: SSE requires a larger alignment
-// This should probably move under more compiler specific info
-#if QDP_USE_SSE == 1
-#define QDP_ALIGNMENT_SIZE  16
-#else
-#define QDP_ALIGNMENT_SIZE  8
-#endif
 
-#else
 #define QDP_ALIGNMENT_SIZE 16
-#endif
-// YUKKY - Eventually get rid of these includes
+
 #include <cstdio>
 #include <cstdlib>
-#include <ostream>
-#include <iostream>
+//#include <ostream>
+//#include <iostream>
 
 using namespace std;   // I do not like this - fix later
 
-using std::iostream;
-using std::ostream;
+// using std::iostream;
+// using std::ostream;
 // END OF YUKKINESS
 
 
 // Basic includes
+#define PETE_MAKE_EMPTY_CONSTRUCTORS
 #define PETE_USER_DEFINED_EXPRESSION
 namespace QDP {
 #include <cuPETE/cuPETE.h>
@@ -126,7 +101,7 @@ namespace QDP {
 #include "cudp_qdpsubtype.h"
 
 namespace QDP {
-#include "QDPOperators.h"
+#include "cuQDPOperators.h"
 }
 
 // Include the allocator stuff here, before QDP_outer
@@ -137,7 +112,7 @@ namespace QDP {
 // #include "cudp_profile.h"
 #include "cudp_simpleword.h"
 #include "cudp_reality.h"
-#include "cudp_inner.h"
+//#include "cudp_inner.h"
 #include "cudp_primitive.h"
 #include "cudp_outer.h"
 // #include "cudp_outersubtype.h"
@@ -149,7 +124,7 @@ namespace QDP {
 #include "cudp_random.h"
 
 // Include threading code here if applicable
-#include "cudp_dispatch.h"
+//#include "cudp_dispatch.h"
 
 namespace ThreadReductions { 
  
@@ -168,7 +143,7 @@ namespace ThreadReductions {
 #include "cudp_scalarsite_bagel_qdp.h"
 #else
 // Use Generics only
-#include "cudp_scalarsite_generic.h"
+//#include "cudp_scalarsite_generic.h"
 #endif
 
 #elif defined(ARCH_PARSCALAR)
@@ -213,6 +188,6 @@ namespace ThreadReductions {
 #error "Unknown architecture ARCH"
 #endif
 
-#include "cudp_flopcount.h"
+//#include "cudp_flopcount.h"
 
 #endif  // QDP_INCLUDE

@@ -7,11 +7,11 @@
 namespace QDP
 {
 
-  // IO
-  class TextReader;
-  class TextWriter;
-  class BinaryReader;
-  class BinaryWriter;
+  // // IO
+  // class TextReader;
+  // class TextWriter;
+  // class BinaryReader;
+  // class BinaryWriter;
 
 
   // Forward declarations
