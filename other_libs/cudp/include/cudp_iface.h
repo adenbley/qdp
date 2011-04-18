@@ -16,17 +16,23 @@ struct FlattenTag {
   struct LeafData {
     void * pointer;
   };
-  typedef std::string NodeData;
 #ifndef __CUDA_ARCH__
+  typedef std::string NodeData;
   typedef list<LeafData> ListLeaf;
   typedef list<NodeData> ListNode;
   mutable ListNode listNode;
   mutable ListLeaf listLeaf;
 #else
-  __device__ FlattenTag(): count(0) {}
+  struct NodeData {
+    void * pointer;
+  };
+  __device__ FlattenTag(): count_leaf(0),count_node(0) {}
   int          numberLeafs;
+  int          numberNodes;
   LeafData    *leafDataArray;
-  mutable int  count;
+  NodeData    *nodeDataArray;
+  mutable int  count_leaf;
+  mutable int  count_node;
 #endif
 };
 
@@ -37,7 +43,9 @@ struct IfaceCudp {
   void       *opMeta;
   size_t      opMetaSize;
   int         numberLeafs;
+  int         numberNodes;
   FlattenTag::LeafData *leafDataArray;
+  FlattenTag::NodeData *nodeDataArray;
 };
 
 

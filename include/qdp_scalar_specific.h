@@ -388,13 +388,20 @@ namespace QDP {
       iface->opMetaSize = 123;
 
       iface->numberLeafs = flattenTag.listLeaf.size();
+      iface->numberNodes = flattenTag.listNode.size();
       QDPCUDA::getHostMem(  (void**)(&iface->leafDataArray),    sizeof(FlattenTag::LeafData) * iface->numberLeafs  );
+      //QDPCUDA::getHostMem(  (void**)(&iface->nodeDataArray),    sizeof(FlattenTag::NodeData) * iface->numberNodes  );
 
       int c=0;
       for (FlattenTag::ListLeaf::iterator i = flattenTag.listLeaf.begin() ; i != flattenTag.listLeaf.end() ; ++i ) {
-	cout << "to iface " << i->pointer << endl;
+	cout << "leafData to iface " << i->pointer << endl;
 	iface->leafDataArray[c++] = *i;
       }
+      // c=0;
+      // for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
+      // 	cout << "nodeData to iface string length = " << i->size() << endl;
+      // 	iface->nodeDataArray[c++] = *i;
+      // }
 
       theCudpJust( __PRETTY_FUNCTION__ , iface );
 

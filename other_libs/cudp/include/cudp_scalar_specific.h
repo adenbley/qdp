@@ -36,14 +36,14 @@ namespace QDP {
 #ifdef __CUDA_ARCH__
       OLattice<T>& b = const_cast<OLattice<T>&>(a);
 
-      if (f.count >= f.numberLeafs) {
+      if (f.count_leaf >= f.numberLeafs) {
 	printf("Oops: f.count >= f.numberLeafs!\n");
       }
 
-      b.setF( f.leafDataArray[ f.count ].pointer );
+      b.setF( f.leafDataArray[ f.count_leaf ].pointer );
       if (threadIdx.x==0)
-        printf("device: %d %llx\n",f.count,f.leafDataArray[ f.count ].pointer );
-      f.count++;
+        printf("device: %d %llx\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer );
+      f.count_leaf++;
 
       return 0;
 #endif

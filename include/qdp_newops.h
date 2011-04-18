@@ -234,9 +234,17 @@ struct FnPeekSpinMatrix
 
 #ifdef BUILD_CUDP
   FlattenTag::NodeData packNode() const {
-    std::stringstream packString;
-    packString << row << " " << col;
-    return packString.str();
+    struct pack_t {
+      int row;
+      int col;
+    } pack;
+    pack.row=row;
+    pack.col=col;
+    std::string strpack((const char *)(&pack),sizeof(pack_t));
+    return strpack;
+    // std::stringstream packString;
+    // packString << row << " " << col;
+    // return packString.str();
   }
 #endif
 
@@ -699,7 +707,7 @@ struct ForEach_Base<UnaryNode<FnTag, A>, FlattenTag , CTag>
     nodeData = expr.operation().packNode();
     f.listNode.push_back(nodeData);
 
-    cout << nodeData << endl;
+    cout << "grab nodeData size = " << nodeData.size() << endl;
 
     return Combine1<TypeA_t, FnTag, CTag>::
       combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),
