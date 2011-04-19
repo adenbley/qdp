@@ -22,8 +22,9 @@ namespace QDP {
       {
 	FlattenTag::LeafData leafData;
 	leafData.pointer = (void *)( a.Fd ); 
-	f.listLeaf.push_back(leafData);
-	cout << f.listLeaf.size()-1 << " " << leafData.pointer << " (OLattice)" << endl;
+	leafData.misc = 0;
+	f.listLeaf.push_front(leafData);
+	cout << "Flatten: OLattice:" << f.listLeaf.size()-1 << " " << leafData.pointer << " " << leafData.misc << endl;
 	return 0;
       }
     };
@@ -37,8 +38,9 @@ namespace QDP {
       {
 	FlattenTag::LeafData leafData;
 	leafData.pointer = (void *)( a.Fd ); 
-	f.listLeaf.push_back(leafData);
-	cout << f.listLeaf.size()-1 << " " << leafData.pointer << " (OScalar)" << endl;
+	leafData.misc = 0;
+	f.listLeaf.push_front(leafData);
+	cout << "Flatten: OScalar:" << f.listLeaf.size()-1 << " " << leafData.pointer << " " << leafData.misc << endl;
 	return 0;
       }
     };
@@ -50,6 +52,11 @@ namespace QDP {
       typedef int Type_t;
       inline static Type_t apply(const GammaConst<N, m> &a, const FlattenTag &f)
       {
+	FlattenTag::LeafData leafData;
+	leafData.pointer = NULL;
+	leafData.misc = 0;
+	f.listLeaf.push_front(leafData);
+	cout << "Flatten: GammaConst:" << f.listLeaf.size()-1 << " " << leafData.pointer << " " << leafData.misc << endl;
 	return 0;
       }
     };
@@ -62,10 +69,11 @@ namespace QDP {
       inline static Type_t apply(const GammaType<N> &a, const FlattenTag &f)
       {
 	FlattenTag::LeafData leafData;
+	leafData.pointer = NULL;
 	leafData.misc = a.elem();
-	f.listLeaf.push_back(leafData);
+	f.listLeaf.push_front(leafData);
 
-	cout << f.listLeaf.size()-1 << " " << leafData.misc << " (GammaType)" << endl;
+	cout << "Flatten: GammaType:" << f.listLeaf.size()-1 << " " << leafData.pointer << " " << leafData.misc << endl;
 
 	return 0;
       }

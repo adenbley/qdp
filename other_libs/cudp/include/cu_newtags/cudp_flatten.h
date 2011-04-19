@@ -4,65 +4,65 @@
 namespace QDP {
 
   template<class T, class C>
-  struct LeafFunctor<QDPType<T,C>, FlattenTag>
-  {
-    typedef int Type_t;
-    __device__
-    static Type_t apply(const QDPType<T,C> &s, const FlattenTag &f)
-    { 
+    struct LeafFunctor<QDPType<T,C>, FlattenTag>
+    {
+      typedef int Type_t;
+      __device__
+	static Type_t apply(const QDPType<T,C> &s, const FlattenTag &f)
+      { 
 #ifdef __CUDA_ARCH__
-      return LeafFunctor<C,FlattenTag>::apply(static_cast<const C&>(s),f);
+	return LeafFunctor<C,FlattenTag>::apply(static_cast<const C&>(s),f);
 #endif
-    }
-  };
+      }
+    };
 
   template<class T>
-  struct LeafFunctor<OLattice<T>, FlattenTag>
-  {
-    typedef int Type_t;
-    __device__ inline static Type_t apply(const OLattice<T> &a, const FlattenTag &f)
+    struct LeafFunctor<OLattice<T>, FlattenTag>
     {
+      typedef int Type_t;
+      __device__ inline static Type_t apply(const OLattice<T> &a, const FlattenTag &f)
+      {
 #ifdef __CUDA_ARCH__
-      OLattice<T>& b = const_cast<OLattice<T>&>(a);
+	OLattice<T>& b = const_cast<OLattice<T>&>(a);
 
-      if (f.count_leaf >= f.numberLeafs) {
-	printf("Oops: f.count >= f.numberLeafs!\n");
-      }
+	if (f.count_leaf >= f.numberLeafs) {
+	  printf("Oops: f.count >= f.numberLeafs!\n");
+	}
 
-      b.setF( f.leafDataArray[ f.count_leaf ].pointer );
-      if (threadIdx.x==0)
-        printf("device: %d %llx\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer );
-      f.count_leaf++;
+	b.setF( f.leafDataArray[ f.count_leaf ].pointer );
+	if (threadIdx.x==0)
+	  printf("Flatten: OLattice     : %d %llx %d\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer,f.leafDataArray[ f.count_leaf ].misc );
+	f.count_leaf++;
 
-      return 0;
+	return 0;
 #endif
-    }
-  };
+      }
+    };
 
 
 
   template<class T>
-  struct LeafFunctor<OScalar<T>, FlattenTag>
-  {
-    typedef int Type_t;
-    __device__ inline static Type_t apply(const OScalar<T> &a, const FlattenTag &f)
+    struct LeafFunctor<OScalar<T>, FlattenTag>
     {
+      typedef int Type_t;
+      __device__ inline static Type_t apply(const OScalar<T> &a, const FlattenTag &f)
+      {
 #ifdef __CUDA_ARCH__
-      OScalar<T>& b = const_cast<OScalar<T>&>(a);
+	OScalar<T>& b = const_cast<OScalar<T>&>(a);
 
-      if (f.count_leaf >= f.numberLeafs) {
-	printf("Oops: f.count >= f.numberLeafs (OScalar)!\n");
-      }
+	if (f.count_leaf >= f.numberLeafs) {
+	  printf("Oops: f.count >= f.numberLeafs (OScalar)!\n");
+	}
 
-      b.setF( f.leafDataArray[ f.count_leaf ].pointer );
-      if (threadIdx.x == 0)
-        printf("OScalar device: %d %llx\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer );
-      f.count_leaf++;
+	b.setF( f.leafDataArray[ f.count_leaf ].pointer );
+	if (threadIdx.x == 0)
+	  printf("Flatten: OScalar      : %d %llx %d\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer,f.leafDataArray[ f.count_leaf ].misc );
+	f.count_leaf++;
 
-      return 0;
+	return 0;
 #endif
-    }
-  };
+      }
+    };
 
 
 
@@ -73,7 +73,12 @@ namespace QDP {
       __device__ 
 	inline static Type_t apply(const GammaConst<N, m> &a, const FlattenTag &f)
       {
-      return 0;
+#ifdef __CUDA_ARCH__
+	if (threadIdx.x == 0)
+	  printf("Flatten: GammaConst   : %d %llx %d\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer,f.leafDataArray[ f.count_leaf ].misc );
+	f.count_leaf++;
+#endif
+	return 0;
       }
     };
 
@@ -84,14 +89,13 @@ namespace QDP {
     {
       typedef int Type_t;
       __device__ 
-      inline static Type_t apply(const GammaType<N> &a, const FlattenTag &f)
+	inline static Type_t apply(const GammaType<N> &a, const FlattenTag &f)
       {
 #ifdef __CUDA_ARCH__
 	a.setElem( f.leafDataArray[ f.count_leaf ].misc );
 	if (threadIdx.x == 0)
-	  printf("GammaType<N> device: %d %llx\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].misc );
+	  printf("Flatten: GammaType<N> : %d %llx %d\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer,f.leafDataArray[ f.count_leaf ].misc );
 	f.count_leaf++;
-
 #endif
 	return 0;
       }

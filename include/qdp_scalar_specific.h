@@ -246,19 +246,23 @@ namespace QDP {
 
       iface->numberLeafs = flattenTag.listLeaf.size();
       iface->numberNodes = flattenTag.listNode.size();
-      if (iface->numberLeafs > 0)
+      if (iface->numberLeafs > 0) {
+	cout << "get host memory for leaf data: ";
 	QDPCUDA::getHostMem(  (void**)(&iface->leafDataArray),    sizeof(FlattenTag::LeafData) * iface->numberLeafs  );
-      if (iface->numberNodes > 0)
-      QDPCUDA::getHostMem(  (void**)(&iface->nodeDataArray),    sizeof(FlattenTag::NodeData) * iface->numberNodes  );
+      }
+      if (iface->numberNodes > 0) {
+	cout << "get host memory for node data: ";
+	QDPCUDA::getHostMem(  (void**)(&iface->nodeDataArray),    sizeof(FlattenTag::NodeData) * iface->numberNodes  );
+      }
 
       int c=0;
       for (FlattenTag::ListLeaf::iterator i = flattenTag.listLeaf.begin() ; i != flattenTag.listLeaf.end() ; ++i ) {
-	cout << "leafData to iface " << i->pointer << endl;
+	cout << "leaf data to iface " << i->pointer << " " << i->misc << endl;
 	iface->leafDataArray[c++] = *i;
       }
       c=0;
       for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
-      	cout << "nodeData to iface string length = " << i->size() << endl;
+      	cout << "node data to iface string length = " << i->size() << endl;
 	void * tmpHost;
 	QDPCUDA::getHostMem( (void **)&tmpHost , i->size() );
 	QDPCUDA::copyHostToHost( tmpHost , i->c_str() , i->size() );

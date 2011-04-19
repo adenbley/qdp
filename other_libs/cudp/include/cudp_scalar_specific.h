@@ -15,104 +15,6 @@
 
 namespace QDP {
 
-
-
-
-//   template<class T>
-//   struct LeafFunctor<OScalar<T>, FlattenTag>
-//   {
-//     //typedef Reference<T> Type_t;
-//     typedef int Type_t;
-//     __device__ inline static Type_t apply(const OScalar<T> &a, const FlattenTag &f)
-//     {
-//       if (f.iadr >= f.maxleaf) {
-// 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
-// 	exit(1);
-//       }
-//       f.adr[ f.iadr ] = (size_t)( &a.elem() );
-//       f.size[ f.iadr ] = sizeof( a.elem() );
-//       f.leaftype[ f.iadr ] = 1;
-//       f.custom[ f.iadr ] = 0;
-//       f.iadr++;
-//       //cout << "ppu: im OScalar... not yet implemented" << endl;
-//       //exit(0);
-//     }
-//   };
-
-
-  // template<>
-  // struct LeafFunctor<OScalar<PScalar<PScalar<RScalar<int> > > >, FlattenTag>
-  // {
-  //   //typedef Reference<T> Type_t;
-  //   typedef int Type_t;
-  //   __device__ inline static Type_t apply(const OScalar<PScalar<PScalar<RScalar<int> > > > &a, const FlattenTag &f)
-  //     {
-  //       cout << "ppu: im OScalar" << endl;
-
-  //       union {
-  // 	unsigned int ui;
-  // 	int si;
-  //       } tmp;
-
-  //       tmp.si = a.elem().elem().elem().elem();
-
-  //       f.size[ f.iadr ] = tmp.ui;
-  //       f.iadr++;
-  //       printf("LeafFunctor<OScalar<PScalar<PScalar<RScalar<int> > > >, FlattenTag>::apply\n");
-  //     }
-  // };
-
-
-
-//   template<int N, int m>
-//   struct LeafFunctor<GammaConst<N, m>, FlattenTag>
-//   {
-//     //typedef Reference<T> Type_t;
-//     typedef int Type_t;
-//     __device__ inline static Type_t apply(const GammaConst<N, m> &a, const FlattenTag &f)
-//     {
-// #if defined(SPU_DEBUG)
-//       printf("LeafFunctor<GammaConst<N, m>,FlattenTag>::apply \n");
-// #endif
-//       //return Type_t();
-//     }
-//   };
-
-
-//   template<int N>
-//   struct LeafFunctor<GammaType<N>, FlattenTag>
-//   {
-//     //typedef Reference<T> Type_t;
-//     typedef int Type_t;
-//     __device__ inline static Type_t apply(const GammaType<N> &a, const FlattenTag &f)
-//     {
-//       if (f.iadr >= f.maxleaf) {
-// 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
-// 	exit(1);
-//       }
-//       f.adr[f.iadr]=0;
-//       f.size[f.iadr]=0;
-//       f.leaftype[ f.iadr ] = 2;
-//       f.custom[ f.iadr ] = a.elem();
-//       f.iadr++;
-// #if defined(SPU_DEBUG)
-//       printf("LeafFunctor<GammaType<N>,FlattenTag>::apply size = %d %d\n",sizeof(GammaType<N>),sizeof(a) );
-// #endif
-//       //return Type_t();
-//     }
-//   };
-
-
-
-
-
-
-
-
-
-
-
-
 // Use separate defs here. This will cause subroutine calls under g++
 
 //-----------------------------------------------------------------------------
@@ -297,25 +199,27 @@ __device__ inline
 void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
 	      const Subset& s)
 {
+  int i = threadIdx.x;
 
-//   int numSiteTable = s.numSiteTable();
+  op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
 
-//   user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
+  //   int numSiteTable = s.numSiteTable();
+  //   user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
+  //   dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
 
-//   dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
 
-//   ////////////////////
-//   // Original code
-//   ///////////////////
+  //   ////////////////////
+  //   // Original code
+  //   ///////////////////
 
-//   // General form of loop structure
-//   //const int *tab = s.siteTable().slice();
-//   //for(int j=0; j < s.numSiteTable(); ++j) 
-//   //{
-//   //int i = tab[j];
-// //    fprintf(stderr,"eval(olattice,olattice): site %d\n",i);
-//   //op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
-//   //}
+  // const int *tab = s.siteTable().slice();
+  // for(int j=0; j < s.numSiteTable(); ++j)
+  //   {
+  //     int i = tab[j];
+  //     //fprintf(stderr,"eval(olattice,olattice): site %d\n",i);
+  //     op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
+  //   }
+
 
 }
 

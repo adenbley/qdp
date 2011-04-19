@@ -371,7 +371,7 @@ extern "C" void function_host(void * ptr)
     //IfaceCudp * ival = static_cast<IfaceCudp *>(ptr);
     cout << "dest:" << ival->dest << endl;
     for (int i=0;i<ival->numberLeafs;i++)
-	cout << "leaf" << i << " " << ival->leafDataArray[i].pointer << endl;
+	cout << "leaf" << i << " " << ival->leafDataArray[i].pointer << " " << ival->leafDataArray[i].misc << endl;
     for (int i=0;i<ival->numberNodes;i++)
 	cout << "node" << i << " " << ival->nodeDataArray[i].pointer << endl;
 

@@ -47,12 +47,12 @@ AC_MSG_NOTICE([Configuring QDP++ for GPU architecture = ${ac_gpuarch}])
 AC_DEFINE_UNQUOTED(QDP_GPUARCH,"${ac_gpuarch}", [GPU architecture])
 
 AC_ARG_ENABLE(cpuarch,
-  AC_HELP_STRING([--enable-gpuarch=arch ], [ Set CPU arch: x86 or x86_64 (default: x86_64)] ),
+  AC_HELP_STRING([--enable-cpuarch=arch ], [ Set CPU arch: x86 or x86_64 (default: x86_64)] ),
    [ ac_cpuarch=${enableval} ],
   [ ac_cpuarch="x86_64" ]
 )
-AC_MSG_NOTICE([Configuring QDP++ for CPU architecture = ${ac_gpuarch}])
-AC_DEFINE_UNQUOTED(QDP_CPUARCH,"${ac_cpuarch}", [GPU architecture])
+AC_MSG_NOTICE([Configuring QDP++ for CPU architecture = ${ac_cpuarch}])
+AC_DEFINE_UNQUOTED(QDP_CPUARCH,"${ac_cpuarch}", [CPU architecture])
 
 AC_ARG_WITH(cuda,
   AC_HELP_STRING([--with-cuda=CUDADIR], [ Specify CUDA installation directory (default: /usr/local/cuda)]),
