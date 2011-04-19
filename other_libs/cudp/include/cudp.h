@@ -73,7 +73,7 @@ using namespace std;   // I do not like this - fix later
 
 
 // Basic includes
-#define PETE_MAKE_EMPTY_CONSTRUCTORS
+//#define PETE_MAKE_EMPTY_CONSTRUCTORS
 #define PETE_USER_DEFINED_EXPRESSION
 namespace QDP {
 #include <cuPETE/cuPETE.h>

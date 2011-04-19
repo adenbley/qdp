@@ -410,10 +410,32 @@ extern "C" void function_host(void * ptr)
     cout << "copy interface to device:         " << string(cudaGetErrorString(ret)) << endl;
 
 
-    dim3  threads( 32 , 1, 1);
-    kernel<<< 1 , threads >>>( ival_dev );
-    cudaError_t kernel_call = cudaGetLastError();
-    cout << "kernel call:                      " << string(cudaGetErrorString(kernel_call)) << endl;
+    int thr=1024;
+    cout << "trying " << thr << " threads/block on " << ival->numSiteTable << " sites" << endl;
+    while ( (ival->numSiteTable % thr) && (thr > 32)  ) {
+	thr = thr >> 1;
+	cout << "trying " << thr << " threads/block on " << ival->numSiteTable << " sites" << endl;
+    }
+    if (thr >= 32)
+	cout << "using " << thr << " threads/block on " << ival->numSiteTable << " sites" << endl;
+    else
+	cout << "ERROR!" << endl;
+
+    
+    bool run_ok=false;
+    while (!run_ok) {
+	int num_blocks=ival->numSiteTable/thr;
+	cout << "launching " << num_blocks << " blocks with " << thr << " threads each..." << endl;
+	dim3  blocksPerGrid( num_blocks , 1, 1);
+	dim3  threadsPerBlock( thr , 1, 1);
+
+	kernel<<< blocksPerGrid , threadsPerBlock >>>( ival_dev );
+	cudaError_t kernel_call = cudaGetLastError();
+	cout << "kernel call:                      " << string(cudaGetErrorString(kernel_call)) << endl;
+
+	run_ok = kernel_call == cudaSuccess;
+	thr = thr >> 1;
+    }
 
     ret = cudaFreeHost(ival);
     cout << "free memory for host interface:   " << string(cudaGetErrorString(ret)) << endl;

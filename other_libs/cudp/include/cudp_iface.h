@@ -40,6 +40,8 @@ struct IfaceCudp {
   size_t      opMetaSize;
   int         numberLeafs;
   int         numberNodes;
+  int         numSiteTable;
+  void       *siteTable;
   FlattenTag::LeafData *leafDataArray;
   FlattenTag::NodeData *nodeDataArray;
 };

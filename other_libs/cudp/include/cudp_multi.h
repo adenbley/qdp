@@ -26,14 +26,18 @@ template<class T> class multi1d
 {
 public:
   // Basic cosntructor. Null (0x0) array_pointer, no copymem, no fast memory
+  __device__
   multi1d() {F=0;n1=0;copymem=false;fast_mem_hint=false;}
 
   // Placement constructor. Copy pointer, copymem=true, fast_mem_hint is false
+  __device__
   multi1d(T *f, int ns1) {F=f; n1=ns1;copymem=true; fast_mem_hint=false;}
 
   // Explicit constructor, copymem is false, fast_mem is false, call resize
+  __device__
   explicit multi1d(int ns1) {copymem=false;F=0;fast_mem_hint=false;resize(ns1);}
   // Destructor
+  __device__
   ~multi1d() {
     // If not created with placement, delete array
     if (! copymem) {
@@ -44,6 +48,7 @@ public:
 
   //! Copy constructor
   // Copy from s, into slow memory
+  __device__
   multi1d(const multi1d& s): copymem(false), fast_mem_hint(false), n1(s.n1), F(0)
     {
       resize(n1);
@@ -54,15 +59,19 @@ public:
 
   //! Resize routine, call a templated resize, using *this to disambiguate
   // template type
+  __device__
   void resize(int ns1) { resize(*this, ns1); }
 
 
   //! Size of array
+  __device__
   int size() const {return n1;}
+  __device__
   int size1() const {return n1;}
 
   //! Equal operator uses underlying = of T
   /*! Default = */
+  __device__
   multi1d& operator=(const multi1d& s1)
     {
       if (size() != s1.size())   // a simple check avoids resizing always
@@ -75,6 +84,7 @@ public:
 
   // fw
   template< typename T2>
+  __device__
   multi1d& operator=(const multi1d<T2>& s1)
     {
       if (size() != s1.size())   
@@ -87,6 +97,7 @@ public:
 
   //! Equal operator uses underlying = of T
   template<class T1>
+  __device__
   multi1d<T>& operator=(const T1& s1)
     {
       if (F == 0)
@@ -101,6 +112,7 @@ public:
     }
 
   //! Set equal to a old-style C 1-D array
+  __device__
   multi1d<T>& operator=(const T* s1)
     {
       if (F == 0)
@@ -116,6 +128,7 @@ public:
 
   //! Add-replace on each element
   /*! Uses underlying += */
+  __device__
   multi1d<T>& operator+=(const multi1d<T>& s1)
     {
       if (size() != s1.size())
@@ -131,6 +144,7 @@ public:
 
   //! Add-replace on each element
   /*! Uses underlying += */
+  __device__
   multi1d<T>& operator+=(const T& s1)
     {
       if (F == 0)
@@ -146,6 +160,7 @@ public:
 
   //! Subtract-replace on each element
   /*! Uses underlying -= */
+  __device__
   multi1d<T>& operator-=(const multi1d<T>& s1)
     {
       if (size() != s1.size())
@@ -161,6 +176,7 @@ public:
 
   //! Subtract-replace on each element
   /*! Uses underlying -= */
+  __device__
   multi1d<T>& operator-=(const T& s1)
     {
       if (F == 0)
@@ -176,6 +192,7 @@ public:
 
   //! Mult-replace on each element
   /*! Uses underlying *= */
+  __device__
   multi1d<T>& operator*=(const multi1d<T>& s1)
     {
       if (size() != s1.size())
@@ -191,6 +208,7 @@ public:
 
   //! Mult-replace on each element
   /*! Uses underlying *= */
+  __device__
   multi1d<T>& operator*=(const T& s1)
     {
       if (F == 0)
@@ -206,6 +224,7 @@ public:
 
   //! Divide-replace on each element
   /*! Uses underlying /= */
+  __device__
   multi1d<T>& operator/=(const multi1d<T>& s1)
     {
       if (size() != s1.size())
@@ -221,6 +240,7 @@ public:
 
   //! Divide-replace on each element
   /*! Uses underlying /= */
+  __device__
   multi1d<T>& operator/=(const T& s1)
     {
       if (F == 0)
@@ -235,37 +255,43 @@ public:
     }
 
   //! Return ref to a column slice
-  const T* slice() const {return F;}
+  __device__
+  T* slice() const {return F;}
 
   //! Return ref to an element
+  __device__
   T& operator()(int i) {return F[i];}
 
   //! Return const ref to an element
+  __device__
   const T& operator()(int i) const {return F[i];}
 
   //! Return ref to an element
+  __device__
   T& operator[](int i) {return F[i];}
 
   //! Return const ref to an element
+  __device__
   const T& operator[](int i) const {return F[i];}
 
   //! moveToFastMemoryHint for the whole multi1d if the 
   //! internal type T supports it. Calls templated
   //! moveToFastMemoryHint, using *this to disambiguate type
-  inline void moveToFastMemoryHint(bool copy=false) {
+  __device__ inline void moveToFastMemoryHint(bool copy=false) {
     moveToFastMemoryHint(*this, copy);
   }
 
   //! revertFromFastMemoryHint for the whole multi1d if the 
   //! internal type T supports it. Calls templated revertFrom
   //! fast memory hint, using *this to disambiguate template type.
-  inline void revertFromFastMemoryHint(bool copy=false) { 
+  __device__ inline void revertFromFastMemoryHint(bool copy=false) { 
     revertFromFastMemoryHint(*this, copy);
   }
 
 private:
   //! Resize for most types
   template<typename I>
+  __device__
   void resize(multi1d<I>& disambiguator, int ns1)
   {
     if(copymem) {
@@ -281,19 +307,20 @@ private:
   }
 
   //! Catchall case for things that dont support Fast Memory Hints
-  //! does nothing and should be inlined away.
+  //! does nothing and should be __device__ inlined away.
   template<typename I>
-  inline void moveToFastMemoryHint(multi1d<I>& disambiguator, bool copy=false) {}
+  __device__ inline void moveToFastMemoryHint(multi1d<I>& disambiguator, bool copy=false) {}
 
   //! Catchall case for things that dont support Fast Memory Hints
-  //! does nothing and should be inlined away
+  //! does nothing and should be __device__ inlined away
   template<typename I>
-  inline void revertFromFastMemoryHint(multi1d<I>& disambiguator, bool copy=false) {}
+  __device__ inline void revertFromFastMemoryHint(multi1d<I>& disambiguator, bool copy=false) {}
 
 #ifdef QDP_USE_QCDOC
   //! Special resize for multi1d<OLattice> which may have a resize hint
   //! in effect
   template<typename I>
+  __device__
   void resize(multi1d<OLattice<I> >& disambiguator, int ns1)
   {
      if(copymem) {
@@ -320,7 +347,7 @@ private:
   //! Specialised case for multi1d<OLattice> Objects, convenience function to 
   //! revert from fastMemory for the whole array.
   template<typename I>
-  inline void revertFromFastMemoryHint(multi1d<OLattice<I> >& disambiguator, bool copy=false ) { 
+  __device__ inline void revertFromFastMemoryHint(multi1d<OLattice<I> >& disambiguator, bool copy=false ) { 
     if( fast_mem_hint ) { 
       for(int i=0; i < n1; i++) { 
 	F[i].revertFromFastMemoryHint(copy);
@@ -337,7 +364,7 @@ private:
   //! so that subsequent resizes will repeat the hint (useful in some 
   //! places where there is an indiscriminate resize on the object.
   template<typename I>
-  inline void moveToFastMemoryHint(multi1d< OLattice<I> >& disambiguator, bool copy=false) {
+  __device__ inline void moveToFastMemoryHint(multi1d< OLattice<I> >& disambiguator, bool copy=false) {
     if( ! fast_mem_hint ) { 
       for(int i=0; i < n1; i++) { 
 	F[i].moveToFastMemoryHint(copy);
@@ -352,6 +379,12 @@ private:
   bool fast_mem_hint;
   int n1;
   T *F;
+
+public:
+  void setF(void *ptr) {
+    F = (T*)(ptr);
+  }
+
 };
 
 
@@ -361,7 +394,7 @@ private:
 
 //! Concatenate two Array's
 template<typename T>
-inline multi1d<T> concat(const multi1d<T>& l, const multi1d<T>& r)
+__device__ inline multi1d<T> concat(const multi1d<T>& l, const multi1d<T>& r)
 {
   multi1d<int> nz(l.size() + r.size());
   int j = 0;
@@ -376,7 +409,7 @@ inline multi1d<T> concat(const multi1d<T>& l, const multi1d<T>& r)
 
 //! Check if two Array's are the same
 template<typename T>
-inline bool operator==(const multi1d<T>& n1, const multi1d<T>& n2)
+__device__ inline bool operator==(const multi1d<T>& n1, const multi1d<T>& n2)
 {
   if (n1.size() == 0 || n1.size() != n2.size())
     return false;
@@ -390,7 +423,7 @@ inline bool operator==(const multi1d<T>& n1, const multi1d<T>& n2)
   
 //! Check if two Array's are no the same
 template<typename T>
-inline bool operator!=(const multi1d<T>& n1, const multi1d<T>& n2)
+__device__ inline bool operator!=(const multi1d<T>& n1, const multi1d<T>& n2)
 {
   return ! (n1 == n2);
 }
@@ -398,7 +431,7 @@ inline bool operator!=(const multi1d<T>& n1, const multi1d<T>& n2)
 //! a < b
 /*! This definition follows that of string comparison */
 template<typename T>
-inline bool operator<(const multi1d<T>& a, const multi1d<T>& b)
+__device__ inline bool operator<(const multi1d<T>& a, const multi1d<T>& b)
 {
   int  len = (a.size() < b.size()) ? a.size() : b.size();
 
@@ -414,7 +447,7 @@ inline bool operator<(const multi1d<T>& a, const multi1d<T>& b)
 //! a > b
 /*! This definition follows that of string comparison */
 template<typename T>
-inline bool operator>(const multi1d<T>& a, const multi1d<T>& b)
+__device__ inline bool operator>(const multi1d<T>& a, const multi1d<T>& b)
 {
   int  len = (a.size() < b.size()) ? a.size() : b.size();
 
@@ -430,7 +463,7 @@ inline bool operator>(const multi1d<T>& a, const multi1d<T>& b)
 //! a <= b
 /*! This definition follows that of string comparison */
 template<typename T>
-inline bool operator<=(const multi1d<T>& a, const multi1d<T>& b)
+__device__ inline bool operator<=(const multi1d<T>& a, const multi1d<T>& b)
 {
   return (a < b) || (a == b);
 }
@@ -438,7 +471,7 @@ inline bool operator<=(const multi1d<T>& a, const multi1d<T>& b)
 //! a >= b
 /*! This definition follows that of string comparison */
 template<typename T>
-inline bool operator>=(const multi1d<T>& a, const multi1d<T>& b)
+__device__ inline bool operator>=(const multi1d<T>& a, const multi1d<T>& b)
 {
   return (a > b) || (a == b);
 }
@@ -449,7 +482,7 @@ inline bool operator>=(const multi1d<T>& a, const multi1d<T>& b)
 //
 //! add Arrays
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator+(const multi1d<T>& a, const multi1d<T>& b)
 {
   multi1d<T> c(a); 
@@ -459,7 +492,7 @@ multi1d<T> operator+(const multi1d<T>& a, const multi1d<T>& b)
   
 //! subtract Arrays
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator-(const multi1d<T>& a, const multi1d<T>& b)
 {
   multi1d<T> c(a); 
@@ -469,7 +502,7 @@ multi1d<T> operator-(const multi1d<T>& a, const multi1d<T>& b)
   
 //! multiply Arrays
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator*(const multi1d<T>& a, const multi1d<T>& b)
 {
   multi1d<T> c(a); 
@@ -479,7 +512,7 @@ multi1d<T> operator*(const multi1d<T>& a, const multi1d<T>& b)
   
 //!divide Arrays
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator/(const multi1d<T>& a, const multi1d<T>& b)
 {
   multi1d<T> c(a); 
@@ -489,7 +522,7 @@ multi1d<T> operator/(const multi1d<T>& a, const multi1d<T>& b)
 
 //! scalar + Array
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator+(const T& s, const multi1d<T>& a)
 {
   multi1d<T> c(a); 
@@ -499,7 +532,7 @@ multi1d<T> operator+(const T& s, const multi1d<T>& a)
 
 //! Array + scalar
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator+(const multi1d<T>& a, const T& s)
 {
   multi1d<T> c(a); 
@@ -509,7 +542,7 @@ multi1d<T> operator+(const multi1d<T>& a, const T& s)
   
 //! scalar - Array
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator-(const T& s, const multi1d<T>& a)
 {
   multi1d<T> c(-a); 
@@ -518,7 +551,7 @@ multi1d<T> operator-(const T& s, const multi1d<T>& a)
 }
 //! Array - scalar
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator-(const multi1d<T>& a, const T& s)
 {
   multi1d<T> c(a); 
@@ -528,7 +561,7 @@ multi1d<T> operator-(const multi1d<T>& a, const T& s)
 
 //! scalar * Array
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator*(const T& s, const multi1d<T>& a)
 {
   multi1d<T> c(a); 
@@ -538,7 +571,7 @@ multi1d<T> operator*(const T& s, const multi1d<T>& a)
 
 //! Array * scalar
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator*(const multi1d<T>& a, const T& s)
 {
   multi1d<T> c(a); 
@@ -548,7 +581,7 @@ multi1d<T> operator*(const multi1d<T>& a, const T& s)
 
 //! scalar / Array
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator/(const T& s, const multi1d<T>& a)
 {
   multi1d<T> c(a.size());
@@ -559,7 +592,7 @@ multi1d<T> operator/(const T& s, const multi1d<T>& a)
 
 //! Array / scalar
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> operator/(const multi1d<T>& a, const T& s)
 {
   multi1d<T> c(a); 
@@ -569,7 +602,7 @@ multi1d<T> operator/(const multi1d<T>& a, const T& s)
 
 //! sqrt
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> sqrt(const multi1d<T>& a)
 {
   multi1d<T> c(a.size()); 
@@ -584,7 +617,7 @@ multi1d<T> sqrt(const multi1d<T>& a)
 
 //! log
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> log(const multi1d<T>& a)
 {
   multi1d<T> c(a.size()); 
@@ -599,7 +632,7 @@ multi1d<T> log(const multi1d<T>& a)
 
 //! sin
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> sin(const multi1d<T>& a)
 {
   multi1d<T> c(a.size()); 
@@ -615,7 +648,7 @@ multi1d<T> sin(const multi1d<T>& a)
 
 //! cos
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> cos(const multi1d<T>& a)
 {
   multi1d<T> c(a.size()); 
@@ -630,7 +663,7 @@ multi1d<T> cos(const multi1d<T>& a)
 
 //! tan
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> tan(const multi1d<T>& a)
 {
   multi1d<T> c(a.size()); 
@@ -645,7 +678,7 @@ multi1d<T> tan(const multi1d<T>& a)
 
 //! asin
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> asin(const multi1d<T>& a)
 {
   multi1d<T> c(a.size()); 
@@ -661,7 +694,7 @@ multi1d<T> asin(const multi1d<T>& a)
 
 //! acos
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> acos(const multi1d<T>& a)
 {
   multi1d<T> c(a.size()); 
@@ -676,7 +709,7 @@ multi1d<T> acos(const multi1d<T>& a)
 
 //! atan
 template< typename T> 
-inline
+__device__ inline
 multi1d<T> atan(const multi1d<T>& a)
 {
   multi1d<T> c(a.size()); 
@@ -693,7 +726,7 @@ multi1d<T> atan(const multi1d<T>& a)
 
 //! norm2 of an array
 template< typename T> 
-inline
+__device__ inline
 T norm2(const multi1d<T>& a)
 {
   T nn = a[0]*a[0];  // assumes at least 1 element

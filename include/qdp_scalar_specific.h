@@ -243,6 +243,8 @@ namespace QDP {
       iface->dest = dest.Fd;     // !!!! HACK check for SubSet start
       iface->opMeta = NULL;
       iface->opMetaSize = 123;
+      iface->numSiteTable = s.numSiteTable();
+      iface->siteTable = NULL;
 
       iface->numberLeafs = flattenTag.listLeaf.size();
       iface->numberNodes = flattenTag.listNode.size();

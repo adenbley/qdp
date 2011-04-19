@@ -7,6 +7,8 @@
 #ifndef QDP_NEWOPS_H
 #define QDP_NEWOPS_H
 
+#include "cudp_iface.h"
+
 namespace QDP {
 
 //-----------------------------------------------------------------------------
@@ -205,17 +207,42 @@ struct FnPeekSpinMatrix
   PETE_EMPTY_CONSTRUCTORS(FnPeekSpinMatrix)
 
   __device__
-  FnPeekSpinMatrix(int _row, int _col): row(_row), col(_col) {}
+  FnPeekSpinMatrix(int _row, int _col): row(_row), col(_col) {
+#ifdef __CUDA_ARCH__
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::FnPeekSpinMatrix %d %d \n",row,col);
+#endif
+}
   
   template<class T>
   __device__ inline typename UnaryReturn<T, FnPeekSpinMatrix>::Type_t
   operator()(const T &a) const
   {
+#ifdef __CUDA_ARCH__
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::operator() %d %d \n",row,col);
+#endif
     return (peekSpin(a,row,col));
   }
 
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    struct pack_t {
+      int row;
+      int col;
+    };
+    pack_t *p=(pack_t*)(ptr);
+    row = p->row;
+    col = p->col;
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::unpackNode %d %d \n",row,col);
+#endif
+  }
+
 private:
-  int row, col;
+  mutable int row;
+  mutable int col;
 };
 
 //! Extract spin matrix components
@@ -687,6 +714,59 @@ struct OpMultiplyGammaTypeDP
   __device__ inline T
   operator()(const T &a, const GammaTypeDP<N>& b) const;
 };
+
+
+
+
+
+template<class A, class CTag, class FnTag>
+struct ForEach_Base;
+
+
+template<class A, class CTag, class FnTag>
+struct ForEach_Base<UnaryNode<FnTag, A>, FlattenTag , CTag>
+{
+  typedef typename ForEach<A, FlattenTag, CTag>::Type_t TypeA_t;
+  typedef typename Combine1<TypeA_t, FnTag, CTag>::Type_t Type_t;
+  __device__
+  inline static
+  Type_t apply(const UnaryNode<FnTag, A> &expr, const FlattenTag &f, 
+	       const CTag &c)
+  {
+#ifdef __CUDA_ARCH__
+
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("ForEach_Base: node %d\n" , f.count_node );
+
+    if (f.count_node >= f.numberNodes) {
+      if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+	printf("Oops: f.count >= f.numberLeafs!\n");
+    }
+
+    expr.operation().unpackNode( f.nodeDataArray[ f.count_node ].pointer );
+
+    f.count_node++;
+
+    return Combine1<TypeA_t, FnTag, CTag>::
+      combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),
+	      expr.operation(), c);
+#endif
+  }
+};
+
+
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPeekSpinMatrix,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPeekSpinMatrix,A>,FlattenTag,CTag>{};
+
+
+
+
+
+
+
+
+
+
 
 
 //-----------------------------------------------------------------------------

@@ -199,7 +199,7 @@ __device__ inline
 void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
 	      const Subset& s)
 {
-  int i = threadIdx.x;
+  int i = blockIdx.x * blockDim.x + threadIdx.x;
 
   op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
 
@@ -1474,6 +1474,17 @@ public:
     }
 
 
+
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    goffsets.setF(ptr);
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnMap::unpackNode %llx \n",ptr);
+#endif
+  }
+
+
 public:
   //! Accessor to offsets
     __device__
@@ -1490,7 +1501,7 @@ private:
 
 private:
   //! Offset table used for communications. 
-  multi1d<int> goffsets;
+  mutable multi1d<int> goffsets;
 };
 
 
@@ -1525,6 +1536,38 @@ struct ForEach<UnaryNode<FnMap, A>, EvalLeaf1, CTag>
               expr.operation(), c);
   }
 };
+
+
+
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnMap, A>, FlattenTag, CTag>
+{
+  typedef typename ForEach<A, FlattenTag, CTag>::Type_t TypeA_t;
+  typedef typename Combine1<TypeA_t, FnMap, CTag>::Type_t Type_t;
+  __device__
+  inline static
+  Type_t apply(const UnaryNode<FnMap, A> &expr, const FlattenTag &f, 
+	       const CTag &c) 
+  {
+#ifdef __CUDA_ARCH__
+    if (f.count_node >= f.numberNodes) {
+      printf("Oops: f.count >= f.numberNodes!\n");
+    }
+
+    expr.operation().unpackNode( f.nodeDataArray[ f.count_node ].pointer );
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("Flatten: FnMap     : %d %llx %d\n",f.count_node,f.nodeDataArray[ f.count_node ].pointer);
+    f.count_node++;
+
+    return Combine1<TypeA_t, FnMap, CTag>::
+      combine(ForEach<A, EvalLeaf1, CTag>::apply(expr.child(), f, c),
+	      expr.operation(), c);
+#endif
+  }
+};
+
+
+
 
 
 //-----------------------------------------------------------------------------
