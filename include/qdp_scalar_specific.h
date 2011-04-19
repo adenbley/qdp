@@ -12,154 +12,15 @@
 
 #ifdef BUILD_CUDP
 #include "cudp_iface.h"
+#include "qdp_newtags.h"
 #endif
 
 
 
-struct OnDeviceTag {
-  OnDeviceTag(): count(0) {}
-  mutable int count;
-};
 
-struct OScalarToDeviceTag {
-  OScalarToDeviceTag(bool _toDevice):count(0),toDevice(_toDevice) {}
-  mutable int count;
-  bool toDevice;
-};
 
 
 namespace QDP {
-
-#ifdef BUILD_CUDP
-  template<class T, class C>
-  struct LeafFunctor<QDPType<T,C>, FlattenTag>
-  {
-    typedef int Type_t;
-    static Type_t apply(const QDPType<T,C> &s, const FlattenTag &f)
-    { 
-      return LeafFunctor<C,FlattenTag>::apply(static_cast<const C&>(s),f);
-    }
-  };
-
-  template<class T, class C>
-  struct LeafFunctor<QDPType<T,C>, OnDeviceTag>
-  {
-    typedef bool Type_t;
-    static Type_t apply(const QDPType<T,C> &s, const OnDeviceTag &f)
-    { 
-      return LeafFunctor<C,OnDeviceTag>::apply(static_cast<const C&>(s),f);
-    }
-  };
-
-  template<class T, class C>
-  struct LeafFunctor<QDPType<T,C>, OScalarToDeviceTag>
-  {
-    typedef int Type_t;
-    static Type_t apply(const QDPType<T,C> &s, const OScalarToDeviceTag &f)
-    { 
-      return LeafFunctor<C,OScalarToDeviceTag>::apply(static_cast<const C&>(s),f);
-    }
-  };
-
-
-
-
-  template<class T>
-  struct LeafFunctor<OLattice<T>, FlattenTag>
-  {
-    //typedef Reference<T> Type_t;
-    typedef int Type_t;
-    inline static Type_t apply(const OLattice<T> &a, const FlattenTag &f)
-    {
-      FlattenTag::LeafData leafData;
-      leafData.pointer = (void *)( a.Fd ); 
-      f.listLeaf.push_back(leafData);
-
-      cout << f.listLeaf.size()-1 << " " << leafData.pointer << " (OLattice)" << endl;
-
-      return 0;
-    }
-  };
-
-
-  template<class T>
-  struct LeafFunctor<OScalar<T>, OScalarToDeviceTag>
-  {
-    //typedef Reference<T> Type_t;
-    typedef int Type_t;
-    inline static Type_t apply(const OScalar<T> &a, const OScalarToDeviceTag &f)
-    {
-      if (f.toDevice) {
-	cout << "copy OScalar to device" << endl;
-	a.getHostMem();
-	a.getDeviceMem();
-	a.copyToDevice();
-      } else {
-	cout << "free OScalar host and device memory" << endl;
-	a.freeHostMem();
-	a.freeDeviceMem();
-      }
-      f.count++;
-
-      return 0;
-    }
-  };
-
-
-  template<class T>
-  struct LeafFunctor<OLattice<T>, OScalarToDeviceTag>
-  {
-    typedef int Type_t;
-    inline static Type_t apply(const OLattice<T> &a, const OScalarToDeviceTag &f)
-    {
-      return 0;
-    }
-  };
-
-
-  template<class T>
-  struct LeafFunctor<OLattice<T>, OnDeviceTag>
-  {
-    typedef bool Type_t;
-    inline static Type_t apply(const OLattice<T> &a, const OnDeviceTag &f)
-    {
-      if (a.onDevice())
-	f.count++;
-      return a.onDevice();
-    }
-  };
-
-  template<class T>
-  struct LeafFunctor<OScalar<T>, OnDeviceTag>
-  {
-    typedef bool Type_t;
-    inline static Type_t apply(const OScalar<T> &a, const OnDeviceTag &f)
-    {
-      if (a.onDevice())
-	f.count++;
-      return a.onDevice();
-    }
-  };
-
-
-
-  template<class T>
-  struct LeafFunctor<OScalar<T>, FlattenTag>
-  {
-    //typedef Reference<T> Type_t;
-    typedef int Type_t;
-    inline static Type_t apply(const OScalar<T> &a, const FlattenTag &f)
-    {
-      FlattenTag::LeafData leafData;
-      leafData.pointer = (void *)( a.Fd ); 
-      f.listLeaf.push_back(leafData);
-
-      cout << f.listLeaf.size()-1 << " " << leafData.pointer << " (OScalar)" << endl;
-
-      return 0;
-    }
-  };
-
 
 
   // template<>
@@ -183,48 +44,6 @@ namespace QDP {
   //       printf("LeafFunctor<OScalar<PScalar<PScalar<RScalar<int> > > >, FlattenTag>::apply\n");
   //     }
   // };
-
-
-
-  template<int N, int m>
-  struct LeafFunctor<GammaConst<N, m>, FlattenTag>
-  {
-    //typedef Reference<T> Type_t;
-    typedef int Type_t;
-    inline static Type_t apply(const GammaConst<N, m> &a, const FlattenTag &f)
-    {
-      cout << "!!! HACK LeafFunctor<GammaConst<N>, FlattenTag>" << endl;
-      return 0;
-    }
-  };
-
-
-  template<int N>
-  struct LeafFunctor<GammaType<N>, FlattenTag>
-  {
-    //typedef Reference<T> Type_t;
-    typedef int Type_t;
-    inline static Type_t apply(const GammaType<N> &a, const FlattenTag &f)
-    {
-      cout << "!!! HACK LeafFunctor<GammaType<N>, FlattenTag>" << endl;
-      return 0;
-//       if (f.iadr >= f.maxleaf) {
-// 	printf("LeafFunctor<OLattice<T>, FlattenTag>::apply too many leafs\n");
-// 	exit(1);
-//       }
-//       f.adr[f.iadr]=0;
-//       f.size[f.iadr]=0;
-//       f.leaftype[ f.iadr ] = 2;
-//       f.custom[ f.iadr ] = a.elem();
-//       f.iadr++;
-// #if defined(SPU_DEBUG)
-//       printf("LeafFunctor<GammaType<N>,FlattenTag>::apply size = %d %d\n",sizeof(GammaType<N>),sizeof(a) );
-// #endif
-      //return Type_t();
-    }
-  };
-#endif
-
 
 
 
@@ -404,7 +223,7 @@ namespace QDP {
     OnDeviceTag onDevTag;
     bool onDev = forEach(rhs, onDevTag , AndCombine());
     onDev = onDev && dest.onDevice();
-    cout << "onDev = " << onDev << "   " << dest.onDevice() << " " << onDevTag.count << endl;
+    cout << "onDev = " << onDev << "   " << dest.onDevice() << " " << onDevTag.count << " OLattice " << onDevTag.count_lattice << endl;
 
     if (!onDev) {
       int numSiteTable = s.numSiteTable();

@@ -39,7 +39,7 @@ AC_MSG_NOTICE([Configuring QDP++ for Nd = ${ac_Nd}])
 
 
 AC_ARG_ENABLE(gpuarch,
-  AC_HELP_STRING([--enable-gpuarch=arch ], [ Set GPU arch=sm_10, sm_12,sm_13,sm_20, sm_21 (default: sm_20)] ),
+  AC_HELP_STRING([--enable-gpuarch=arch ], [ Set GPU arch=sm_20, sm_21 (minimum: sm_20, default: sm_20)] ),
    [ ac_gpuarch=${enableval} ],
   [ ac_gpuarch="sm_20" ]
 )
@@ -140,12 +140,12 @@ AC_ARG_ENABLE(filedb,
   [filedb_enabled="yes"]
 )
 
-dnl cudp
-AC_ARG_ENABLE(cudp,
-  AC_HELP_STRING([--enable-cudp],
+dnl gpu
+AC_ARG_ENABLE(gpu,
+  AC_HELP_STRING([--enable-gpu],
     [Build GPU enabled evaluate function]),
-  [cudp_enabled="${enableval}"],
-  [cudp_enabled="no"]
+  [gpu_enabled="${enableval}"],
+  [gpu_enabled="no"]
 )
 
 dnl --enable-sse
@@ -589,7 +589,7 @@ fi
 
 
 dnl cudp
-if test "X${cudp_enabled}X" == "XyesX"; 
+if test "X${gpu_enabled}X" == "XyesX"; 
 then
      AC_MSG_NOTICE([Configuring to use cudp, checking for perl...])
 	AC_CHECK_TOOL(PERL, perl, [no])
@@ -609,7 +609,7 @@ AM_CONDITIONAL(BUILD_FILEDB,
   [test "x${filedb_enabled}x" = "xyesx" ])
 
 AM_CONDITIONAL(BUILD_CUDP,
-  [test "x${cudp_enabled}x" = "xyesx" ])
+  [test "x${gpu_enabled}x" = "xyesx" ])
 
 dnl Use Jie Chens threads library
 AC_ARG_WITH(qmt,

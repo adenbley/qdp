@@ -31,6 +31,8 @@ public:
   //! The integer representation for which product of gamma matrices
   __device__
   int elem() const {return m;}  
+  __device__
+  void setElem(int _m) const {m=_m;}  
 
 private:
   //! Representation
@@ -38,7 +40,7 @@ private:
    * The integer in the range 0 to Ns*Ns-1 that represents which product
    * gamma matrices
    */
-  const int m;
+  mutable int m;
 };
 
 
@@ -63,6 +65,8 @@ public:
   //! The integer representation for which product of gamma matrices
   __device__
   int elem() const {return m;}  
+  __device__
+  void setElem(int _m) const {m=_m;}  
 
 private:
   //! Representation
@@ -70,7 +74,7 @@ private:
    * The integer in the range 0 to Ns*Ns-1 that represents which product
    * gamma matrices
    */
-  const int m;
+  mutable int m;
 };
 
 

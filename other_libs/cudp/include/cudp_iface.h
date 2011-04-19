@@ -2,11 +2,6 @@
 #define __CUQDP_IFACE
 
 
-#ifndef __CUDA_ARCH__
-#warning cuda arch not defined 
-#else
-#warning cuda arch defined 
-#endif
 
 #ifndef __CUDA_ARCH__
 #include<list>
@@ -15,6 +10,7 @@
 struct FlattenTag {
   struct LeafData {
     void * pointer;
+    int  misc;
   };
   struct NodeData {
     void * pointer;

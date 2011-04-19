@@ -211,6 +211,10 @@ nobase_include_HEADERS = \
 		qdp_disk_map_slice.h \
 		qdp_cuda.h \
 		qdp_pretty.h \
+		qdp_newtags.h \
+		newtags/qdp_flatten.h \
+		newtags/qdp_on_device.h \
+		newtags/qdp_scalar_to_device.h \
                 $(PETE_HDRS) \
                 $(GENERIC_HDRS) \
 		$(MEMORY_HDRS) \

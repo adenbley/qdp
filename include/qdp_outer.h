@@ -154,10 +154,6 @@ public:
     *Fh=F;
     QDPCUDA::copyToDevice(Fd,Fh,sizeof(T));
   }
-  bool onDevice() const
-  {
-    return deviceMem;
-  }
 
 
 
@@ -287,15 +283,22 @@ void evaluate(OScalar<T>& dest, const Op& op, const QDPExpr<RHS,OScalar<T1> >& r
  * @{
  */
 
+class OLattice_Base
+{
+protected:
+  OLattice_Base() : deviceMem(false),hostMem(false) {}
+  bool deviceMem,hostMem;
+};
+
+
 //! Outer grid Lattice type
 /*! All outer lattices are of OScalar or OLattice type */
 template<class T> 
-class OLattice: public QDPType<T, OLattice<T> >
+class OLattice: public QDPType<T, OLattice<T> >, public OLattice_Base
 {
 public:
-  OLattice() : deviceMem(false),hostMem(false)
+  OLattice()
     {
-      
       alloc_mem("create");
     }
   ~OLattice()
@@ -312,7 +315,7 @@ public:
   //---------------------------------------------------------
   //! conversion by constructor  OLattice<T> = OScalar<T1>
   template<class T1>
-  OLattice(const OScalar<T1>& rhs) : deviceMem(false),hostMem(false)
+  OLattice(const OScalar<T1>& rhs)
     {
       alloc_mem("construct from OScalar");
       this->assign(rhs);
@@ -321,7 +324,7 @@ public:
 
   //! conversion by constructor  OLattice<T> = OLattice<T1>
   template<class T1>
-  OLattice(const OLattice<T1>& rhs) : deviceMem(false),hostMem(false)
+  OLattice(const OLattice<T1>& rhs)
     {
       alloc_mem("construct from OLattice");
       this->assign(rhs);
@@ -330,7 +333,7 @@ public:
 
   //! conversion by constructor  OLattice = Expr
   template<class RHS, class T1>
-  OLattice(const QDPExpr<RHS, OLattice<T1> >& rhs ): deviceMem(false),hostMem(false)
+  OLattice(const QDPExpr<RHS, OLattice<T1> >& rhs )
     {
       alloc_mem("construct from expr");
       this->assign(rhs);
@@ -338,7 +341,7 @@ public:
 
 
   //! construct OLattice = const
-  OLattice(const typename WordType<T>::Type_t& rhs) : deviceMem(false),hostMem(false)
+  OLattice(const typename WordType<T>::Type_t& rhs)
     {
       alloc_mem("construct from const");
 
@@ -348,7 +351,7 @@ public:
 
 
   //! construct OLattice = 0
-  OLattice(const Zero& rhs) : deviceMem(false),hostMem(false)
+  OLattice(const Zero& rhs)
     {
       alloc_mem("construct from zero");
       this->assign(rhs);
@@ -512,7 +515,6 @@ public:
   
   
 public:
-  bool deviceMem,hostMem;
   T* Fd;
   inline T& elem(int i) {return F[i];}
   inline const T& elem(int i) const {return F[i];}
