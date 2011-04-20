@@ -42,6 +42,9 @@ struct IfaceCudp {
   int         numberNodes;
   int         numSiteTable;
   void       *siteTable;
+  bool        hasOrderedRep;
+  int         start;
+  int         end;
   FlattenTag::LeafData *leafDataArray;
   FlattenTag::NodeData *nodeDataArray;
 };

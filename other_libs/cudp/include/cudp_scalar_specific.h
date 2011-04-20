@@ -199,7 +199,15 @@ __device__ inline
 void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
 	      const Subset& s)
 {
-  int i = blockIdx.x * blockDim.x + threadIdx.x;
+  int i;
+  int linearIndex = blockIdx.x * blockDim.x + threadIdx.x;
+  if (s.hasOrderedRep())
+    i = linearIndex + s.start();
+  else {
+    const int *tab = s.siteTable().slice();
+    i = tab[ linearIndex ];
+  }
+  //int i = blockIdx.x * blockDim.x + threadIdx.x;
 
   op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
 
@@ -1401,9 +1409,12 @@ struct FnMap
 {
   PETE_EMPTY_CONSTRUCTORS(FnMap)
 
-  const int *goff;
-    __device__
-  FnMap(const int *goffsets): goff(goffsets)
+  __device__
+  FnMap(){}
+
+  mutable int *goff;
+  __device__
+  FnMap(int *goffsets): goff(goffsets)
     {
 //    fprintf(stderr,"FnMap(): goff=0x%x\n",goff);
     }
@@ -1414,6 +1425,20 @@ struct FnMap
   {
     return (a);
   }
+
+
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    goff = (int*)(ptr);
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnMap::unpackNode %llx \n",ptr);
+#endif
+  }
+
+
+
+
 };
 
 
@@ -1475,16 +1500,6 @@ public:
 
 
 
-  __device__
-  void unpackNode(void * ptr) const {
-#ifdef __CUDA_ARCH__
-    goffsets.setF(ptr);
-    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
-      printf("FnMap::unpackNode %llx \n",ptr);
-#endif
-  }
-
-
 public:
   //! Accessor to offsets
     __device__
@@ -1501,7 +1516,7 @@ private:
 
 private:
   //! Offset table used for communications. 
-  mutable multi1d<int> goffsets;
+  const multi1d<int> goffsets;
 };
 
 
@@ -1560,7 +1575,7 @@ struct ForEach<UnaryNode<FnMap, A>, FlattenTag, CTag>
     f.count_node++;
 
     return Combine1<TypeA_t, FnMap, CTag>::
-      combine(ForEach<A, EvalLeaf1, CTag>::apply(expr.child(), f, c),
+      combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),
 	      expr.operation(), c);
 #endif
   }

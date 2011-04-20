@@ -309,6 +309,7 @@ sub spu
     $ret.="    OLattice<T> dest;\n";
     $ret.="    ".$pretty{"partOp"}." op".argsempty($pretty{"partOp"}).";\n";
     $ret.="    Subset s;\n";
+    $ret.="    s.make( ival->hasOrderedRep , ival->start , ival->end , ival->siteTable );\n";
     $ret.="    dest.setF(ival->dest);\n";
     $ret.="    FlattenTag flattenTag;\n";
     $ret.="    flattenTag.numberLeafs = ival->numberLeafs;\n";

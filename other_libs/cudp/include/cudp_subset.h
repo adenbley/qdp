@@ -86,6 +86,15 @@ private:
   Set *set;
 
 public:
+
+  __device__
+  void inline make(bool rep, int start, int end ,void * ptr) {
+    ordRep = rep;
+    startSite=start;
+    endSite=end;
+    //sitetable->setSlice(ptr);
+  }
+
   __device__
   inline bool hasOrderedRep() const {return ordRep;}
   __device__

@@ -116,8 +116,23 @@ struct FnPeekColorMatrix
     return (peekColor(a,row,col));
   }
 
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    struct pack_t {
+      int row;
+      int col;
+    };
+    pack_t *p=(pack_t*)(ptr);
+    row = p->row;
+    col = p->col;
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::unpackNode %d %d \n",row,col);
+#endif
+  }
+
 private:
-  int row, col;
+  mutable int row, col;
 };
 
 
@@ -166,8 +181,21 @@ struct FnPeekColorVector
     return (peekColor(a,row));
   }
 
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    struct pack_t {
+      int row;
+    };
+    pack_t *p=(pack_t*)(ptr);
+    row = p->row;
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::unpackNode %d \n",row);
+#endif
+  }
+
 private:
-  int row;
+  mutable int row;
 };
 
 
@@ -212,7 +240,7 @@ struct FnPeekSpinMatrix
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
       printf("FnPeekSpinMatrix::FnPeekSpinMatrix %d %d \n",row,col);
 #endif
-}
+  }
   
   template<class T>
   __device__ inline typename UnaryReturn<T, FnPeekSpinMatrix>::Type_t
@@ -290,8 +318,22 @@ struct FnPeekSpinVector
     return (peekSpin(a,row));
   }
 
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    struct pack_t {
+      int row;
+    };
+    pack_t *p=(pack_t*)(ptr);
+    row = p->row;
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::unpackNode %d \n",row);
+#endif
+  }
+
+
 private:
-  int row;
+  mutable int row;
 };
 
 
@@ -343,8 +385,23 @@ struct FnPokeColorMatrix
     return const_cast<T1&>(a);
   }
 
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    struct pack_t {
+      int row;
+      int col;
+    };
+    pack_t *p=(pack_t*)(ptr);
+    row = p->row;
+    col = p->col;
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::unpackNode %d %d \n",row,col);
+#endif
+  }
+
 private:
-  int row, col;
+  mutable int row, col;
 };
 
 
@@ -417,8 +474,21 @@ struct FnPokeColorVector
     return const_cast<T1&>(a);
   }
 
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    struct pack_t {
+      int row;
+    };
+    pack_t *p=(pack_t*)(ptr);
+    row = p->row;
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::unpackNode %d \n",row);
+#endif
+  }
+
 private:
-  int row;
+  mutable int row;
 };
 
 
@@ -490,8 +560,23 @@ struct FnPokeSpinMatrix
     return const_cast<T1&>(a);
   }
 
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    struct pack_t {
+      int row;
+      int col;
+    };
+    pack_t *p=(pack_t*)(ptr);
+    row = p->row;
+    col = p->col;
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::unpackNode %d %d \n",row,col);
+#endif
+  }
+
 private:
-  int row, col;
+  mutable int row, col;
 };
 
 //! Insert spin matrix components
@@ -563,8 +648,21 @@ struct FnPokeSpinVector
     return const_cast<T1&>(a);
   }
 
+  __device__
+  void unpackNode(void * ptr) const {
+#ifdef __CUDA_ARCH__
+    struct pack_t {
+      int row;
+    };
+    pack_t *p=(pack_t*)(ptr);
+    row = p->row;
+    if (blockIdx.x * blockDim.x + threadIdx.x == 0)
+      printf("FnPeekSpinMatrix::unpackNode %d %d \n",row);
+#endif
+  }
+
 private:
-  int row;
+  mutable int row;
 };
 
 
@@ -757,6 +855,20 @@ struct ForEach_Base<UnaryNode<FnTag, A>, FlattenTag , CTag>
 
 template<class A, class CTag>
 struct ForEach<UnaryNode<FnPeekSpinMatrix,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPeekSpinMatrix,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPeekSpinVector,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPeekSpinVector,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPeekColorMatrix,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPeekColorMatrix,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPeekColorVector,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPeekColorVector,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPokeSpinMatrix,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPokeSpinMatrix,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPokeSpinVector,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPokeSpinVector,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPokeColorMatrix,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPokeColorMatrix,A>,FlattenTag,CTag>{};
+template<class A, class CTag>
+struct ForEach<UnaryNode<FnPokeColorVector,A>,FlattenTag,CTag>:ForEach_Base<UnaryNode<FnPokeColorVector,A>,FlattenTag,CTag>{};
 
 
 

@@ -378,11 +378,13 @@ private:
   bool copymem;
   bool fast_mem_hint;
   int n1;
-  T *F;
+  mutable T *F;
 
 public:
-  void setF(void *ptr) {
-    F = (T*)(ptr);
+  __device__
+  void setSlice(void *ptr) const {
+    if (ptr)
+      F = (T*)(ptr);
   }
 
 };
@@ -744,12 +746,17 @@ T norm2(const multi1d<T>& a)
 template<class T> class multi2d
 {
 public:
+  __device__
   multi2d() {F=0;n1=n2=sz=0;copymem=false;}
+  __device__
   multi2d(T *f, int ns2, int ns1) {F=f; n1=ns1; n2=ns2; sz=n1*n2; copymem=true;}
+  __device__
   explicit multi2d(int ns2, int ns1) {copymem=false;F=0;resize(ns2,ns1);}
+  __device__
   ~multi2d() {if (! copymem) {delete[] F;}}
 
   //! Copy constructor
+  __device__
   multi2d(const multi2d& s): copymem(false), n1(s.n1), n2(s.n2), sz(s.sz), F(0)
     {
       resize(n2,n1);
@@ -759,6 +766,7 @@ public:
     }
 
   //! Allocate mem for the array
+  __device__
   void resize(int ns2, int ns1) {
     if(copymem) {
       //cerr <<"multi2d: invalid resize of a copy of memory" << endl;
@@ -775,10 +783,13 @@ public:
   }
 
   //! Size of array
+  __device__
   int size1() const {return n1;}
+  __device__
   int size2() const {return n2;}
 
   //! Equal operator uses underlying = of T
+  __device__
   multi2d<T>& operator=(const multi2d<T>& s1)
     {
       resize(s1.size2(), s1.size1());   // always resize
@@ -790,6 +801,7 @@ public:
 
   //! Equal operator uses underlying = of T
   template<class T1>
+  __device__
   multi2d<T>& operator=(const T1& s1)
     {
       if (F == 0)
@@ -804,18 +816,23 @@ public:
     }
 
   //! Return ref to a row slice
+  __device__
   const T* slice(int j) const {return F+n1*j;}
 
   //! Return ref to an element
+  __device__
   T& operator()(int j, int i) {return F[i+n1*j];}
 
   //! Return const ref to an element
+  __device__
   const T& operator()(int j, int i) const {return F[i+n1*j];}
 
   //! Return ref to an element
+  __device__
   multi1d<T> operator[](int j) {return multi1d<T>(F+j*n1,n1);}
 
   //! Return const ref to an element
+  __device__
   const multi1d<T> operator[](int j) const {return multi1d<T>(F+j*n1,n1);}
 
 private:
@@ -833,12 +850,17 @@ private:
 template<class T> class multi3d
 {
 public:
+  __device__
   multi3d() {F=0;n1=n2=n3=sz=0;copymem=false;}
+  __device__
   multi3d(T *f, int ns3, int ns2, int ns1) {F=f; n1=ns1; n2=ns2; n3=ns3; sz=n1*n2*n3; copymem=true;}
+  __device__
   explicit multi3d(int ns3, int ns2, int ns1) {copymem=false;F=0;resize(ns3,ns2,ns1);}
+  __device__
   ~multi3d() {if (! copymem) {delete[] F;}}
 
   //! Copy constructor
+  __device__
   multi3d(const multi3d& s): copymem(false), n1(s.n1), n2(s.n2), n3(s.n3), sz(s.sz), F(0)
     {
       resize(n3,n2,n1);
@@ -848,6 +870,7 @@ public:
     }
 
   //! Allocate mem for the array 
+  __device__
   void resize(int ns3, int ns2, int ns1) 
   {
     if(copymem) {
@@ -868,11 +891,15 @@ public:
   }
 
   //! Size of array
+  __device__
   int size1() const {return n1;}
+  __device__
   int size2() const {return n2;}
+  __device__
   int size3() const {return n3;}
 
   //! Equal operator uses underlying = of T
+  __device__
   multi3d<T>& operator=(const multi3d<T>& s1)
     {
       resize(s1.size3(), s1.size2(), s1.size1());
@@ -884,6 +911,7 @@ public:
 
   //! Equal operator uses underlying = of T
   template<class T1>
+  __device__
   multi3d<T>& operator=(const T1& s1)
     {
       if (F == 0)
@@ -898,18 +926,23 @@ public:
     }
 
   //! Return ref to a column slice
+  __device__
   const T* slice(int k, int j) const {return F+n1*(j+n2*(k));}
 
   //! Return ref to an element
+  __device__
   T& operator()(int k, int j, int i) {return F[i+n1*(j+n2*(k))];}
 
   //! Return const ref to an element
+  __device__
   const T& operator()(int k, int j, int i) const {return F[i+n1*(j+n2*(k))];}
 
   //! Return ref to an element
+  __device__
   multi2d<T> operator[](int k) {return multi2d<T>(F+n1*n2*k,n2,n1);}
 
   //! Return const ref to an element
+  __device__
   const multi2d<T> operator[](int k) const {return multi2d<T>(F+n1*n2*k,n2,n1);}
 
 private:
@@ -926,11 +959,15 @@ private:
 template<class T> class multiNd
 {
 public:
+  __device__
   multiNd() {F=0;}
+  __device__
   explicit multiNd(const multi1d<int>& _nz) {F=0;resize(_nz);}
+  __device__
   ~multiNd() {delete[] F;}
 
   //! Copy constructor
+  __device__
   multiNd(const multiNd& s): nz(s.nz), sz(s.sz), F(0)
     {
       resize(nz);
@@ -940,6 +977,7 @@ public:
     }
 
   //! Allocate mem for the array
+  __device__
   void resize(const multi1d<int>& _nz) 
     {
       delete[] F; 
@@ -955,17 +993,21 @@ public:
 
   //! Size of i-th array index. Indices run from left to right in operator() 
   /*! Note, the last/right index is the fastest varying index */
+  __device__
   int size(int i) const {return nz[i];}
 
   //! Size of an array containing sizes of each index.
   /*! Note, the last/right index is the fastest varying index */
+  __device__
   const multi1d<int>& size() const {return nz;}
 
   //! Number of elements in the array
   /*! The number of elements is the product of the sizes */
+  __device__
   int numElem() const {return sz;}
 
   //! Equal operator uses underlying = of T
+  __device__
   multiNd<T>& operator=(const multiNd<T>& s1)
     {
       resize(s1.size());
@@ -977,6 +1019,7 @@ public:
 
   //! Equal operator uses underlying = of T
   template<class T1>
+  __device__
   multiNd<T>& operator=(const T1& s1)
     {
       if (F == 0)
@@ -991,6 +1034,7 @@ public:
     }
 
   //! Return ref to an element
+  __device__
   T& operator()(int i)
     {
       if (nz.size() != 1)
@@ -1003,6 +1047,7 @@ public:
     }
 
   //! Return const ref to an element
+  __device__
   const T& operator()(int i) const
     {
       if (nz.size() != 1)
@@ -1015,6 +1060,7 @@ public:
     }
 
   //! Return ref to an element
+  __device__
   T& operator()(int j, int i)
     {
       if (nz.size() != 2)
@@ -1027,6 +1073,7 @@ public:
     }
 
   //! Return const ref to an element
+  __device__
   const T& operator()(int j, int i) const
     {
       if (nz.size() != 2)
@@ -1039,6 +1086,7 @@ public:
     }
 
   //! Return ref to an element
+  __device__
   T& operator()(int k, int j, int i) 
     {
       if (nz.size() != 3)
@@ -1051,6 +1099,7 @@ public:
     }
 
   //! Return const ref to an element
+  __device__
   const T& operator()(int k, int j, int i) const
     {
       if (nz.size() != 3)
@@ -1063,6 +1112,7 @@ public:
     }
 
   //! Return ref to an element
+  __device__
   T& operator()(int l, int k, int j, int i) 
     {
       if (nz.size() != 4)
@@ -1075,6 +1125,7 @@ public:
     }
 
   //! Return const ref to an element
+  __device__
   const T& operator()(int l, int k, int j, int i) const
     {
       if (nz.size() != 4)
@@ -1087,6 +1138,7 @@ public:
     }
 
   //! Return ref to an element via indices packed in a multi1d array
+  __device__
   T& operator[](const multi1d<int>& ind)
     {
       if (ind.size() != nz.size())
@@ -1103,6 +1155,7 @@ public:
     }
 
   //! Return ref to an element via indices packed in a multi1d array
+  __device__
   const T& operator[](const multi1d<int>& ind) const
     {
       if (ind.size() != nz.size())
@@ -1120,6 +1173,7 @@ public:
 
   //! Return ref to an element with index flattened over indices
   /*! Right index is fastest varying */
+  __device__
   T& getElem(int off)
     {
       if (off < 0 || off >= sz)
@@ -1133,6 +1187,7 @@ public:
 
   //! Return const-ref to an element with index flattened over indices
   /*! Right index is fastest varying */
+  __device__
   const T& getElem(int off) const
     {
       if (off < 0 || off >= sz)

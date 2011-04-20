@@ -230,6 +230,12 @@ namespace QDP {
       user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
       dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
     } else {
+      cout << "Subset::hasOrderedRep = " << s.hasOrderedRep() << endl;
+      if (s.hasOrderedRep()) {
+	cout << "Subset::start = " << s.start() << endl;
+	cout << "Subset::end   = " << s.end() << endl;
+      }
+
       OScalarToDeviceTag oscalarToDeviceTag(true);
       forEach(rhs, oscalarToDeviceTag , NullCombine());
       cout << "OScalars copied to device: " << oscalarToDeviceTag.count << endl;
@@ -240,11 +246,33 @@ namespace QDP {
       IfaceCudp * iface;
       QDPCUDA::getHostMem(  (void**)(&iface),    sizeof(IfaceCudp));
 
-      iface->dest = dest.Fd;     // !!!! HACK check for SubSet start
+      iface->dest = dest.Fd;
       iface->opMeta = NULL;
       iface->opMetaSize = 123;
       iface->numSiteTable = s.numSiteTable();
-      iface->siteTable = NULL;
+      iface->hasOrderedRep = s.hasOrderedRep();
+      iface->start = s.start();
+      iface->end = s.end();
+
+      size_t table_data_size = s.siteTable().size() * sizeof(int);
+      cout << "get device memory for site table: ";
+      QDPCUDA::getDeviceMem( (void**)(&iface->siteTable) , table_data_size  );
+
+      //
+      // only copy site table when we have an unordered Subset !
+      //
+      if (!s.hasOrderedRep()) {
+	void * host;
+	cout << "get host memory for site table: ";
+	QDPCUDA::getHostMem(  (void**)(&host), table_data_size  );
+	cout << "copy site table to transfer area: ";
+	QDPCUDA::copyHostToHost( host , (void*)s.siteTable().slice() , table_data_size );
+	cout << "copy site table to device: ";
+	QDPCUDA::copyToDevice( iface->siteTable , host , table_data_size );
+	cout << "free host memory for site table: ";
+	QDPCUDA::freeHostMem( host );
+      }
+
 
       iface->numberLeafs = flattenTag.listLeaf.size();
       iface->numberNodes = flattenTag.listNode.size();
@@ -275,6 +303,11 @@ namespace QDP {
       }
 
       theCudpJust( __PRETTY_FUNCTION__ , iface );
+
+      
+      cout << "free device memory for site table: ";
+      QDPCUDA::freeDeviceMem( iface->siteTable );
+
 
       cout << "free device memory used for node data" << endl;
       for (int i = 0 ; i < iface->numberNodes ; i++ ) {

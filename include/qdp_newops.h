@@ -120,9 +120,14 @@ struct FnPeekColorMatrix
 
 #ifdef BUILD_CUDP
   FlattenTag::NodeDataString packNode() const {
-    std::stringstream packString;
-    packString << row << " " << col;
-    return packString.str();
+    struct pack_t {
+      int row;
+      int col;
+    } pack;
+    pack.row=row;
+    pack.col=col;
+    std::string strpack((const char *)(&pack),sizeof(pack_t));
+    return strpack;
   }
 #endif
 
@@ -177,9 +182,12 @@ struct FnPeekColorVector
 
 #ifdef BUILD_CUDP
   FlattenTag::NodeDataString packNode() const {
-    std::stringstream packString;
-    packString << row;
-    return packString.str();
+    struct pack_t {
+      int row;
+    } pack;
+    pack.row=row;
+    std::string strpack((const char *)(&pack),sizeof(pack_t));
+    return strpack;
   }
 #endif
 
@@ -242,9 +250,6 @@ struct FnPeekSpinMatrix
     pack.col=col;
     std::string strpack((const char *)(&pack),sizeof(pack_t));
     return strpack;
-    // std::stringstream packString;
-    // packString << row << " " << col;
-    // return packString.str();
   }
 #endif
 
@@ -302,9 +307,12 @@ struct FnPeekSpinVector
 
 #ifdef BUILD_CUDP
   FlattenTag::NodeDataString packNode() const {
-    std::stringstream packString;
-    packString << row;
-    return packString.str();
+    struct pack_t {
+      int row;
+    } pack;
+    pack.row=row;
+    std::string strpack((const char *)(&pack),sizeof(pack_t));
+    return strpack;
   }
 #endif
 
@@ -362,9 +370,14 @@ struct FnPokeColorMatrix
 
 #ifdef BUILD_CUDP
   FlattenTag::NodeDataString packNode() const {
-    std::stringstream packString;
-    packString << row << " " << col;
-    return packString.str();
+    struct pack_t {
+      int row;
+      int col;
+    } pack;
+    pack.row=row;
+    pack.col=col;
+    std::string strpack((const char *)(&pack),sizeof(pack_t));
+    return strpack;
   }
 #endif
 
@@ -443,9 +456,12 @@ struct FnPokeColorVector
 
 #ifdef BUILD_CUDP
   FlattenTag::NodeDataString packNode() const {
-    std::stringstream packString;
-    packString << row;
-    return packString.str();
+    struct pack_t {
+      int row;
+    } pack;
+    pack.row=row;
+    std::string strpack((const char *)(&pack),sizeof(pack_t));
+    return strpack;
   }
 #endif
 
@@ -523,9 +539,14 @@ struct FnPokeSpinMatrix
 
 #ifdef BUILD_CUDP
   FlattenTag::NodeDataString packNode() const {
-    std::stringstream packString;
-    packString << row << " " << col;
-    return packString.str();
+    struct pack_t {
+      int row;
+      int col;
+    } pack;
+    pack.row=row;
+    pack.col=col;
+    std::string strpack((const char *)(&pack),sizeof(pack_t));
+    return strpack;
   }
 #endif
 
@@ -603,9 +624,12 @@ struct FnPokeSpinVector
 
 #ifdef BUILD_CUDP
   FlattenTag::NodeDataString packNode() const {
-    std::stringstream packString;
-    packString << row;
-    return packString.str();
+    struct pack_t {
+      int row;
+    } pack;
+    pack.row=row;
+    std::string strpack((const char *)(&pack),sizeof(pack_t));
+    return strpack;
   }
 #endif
 
