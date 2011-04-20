@@ -6,12 +6,15 @@ using namespace std;
 
 namespace QDPCUDA {
 
+  size_t total_device_memory = 0;
   
   void getDeviceMem(void **mem , size_t size)
   {
     cudaError_t ret;
     ret = cudaMalloc(mem,size);
     cout << "cudaMalloc     " << size << " : " << *mem << " " << string(cudaGetErrorString(ret)) << endl;
+    if (ret == cudaSuccess)
+      total_device_memory += size;
   }
   void freeDeviceMem(void *mem)
   {

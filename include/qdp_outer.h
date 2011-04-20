@@ -287,7 +287,7 @@ class OLattice_Base
 {
 protected:
   OLattice_Base() : deviceMem(false),hostMem(false) {}
-  bool deviceMem,hostMem;
+  mutable bool deviceMem,hostMem;
 };
 
 
@@ -478,33 +478,33 @@ public:
 
 
 
-  void getHostMem()
+  void getHostMem() const
   {
     free_mem();
     QDPCUDA::getHostMem((void**)(&F),sizeof(T)*Layout::sitesOnNode());
     hostMem=true;
   }
-  void freeHostMem()
+  void freeHostMem() const
   {
     QDPCUDA::freeHostMem((void *)(F));
     alloc_mem("freeHostMem");    
     hostMem=false;
   }
-  void getDeviceMem()
+  void getDeviceMem() const
   {
     QDPCUDA::getDeviceMem((void**)(&Fd),sizeof(T)*Layout::sitesOnNode());
     deviceMem=true;
   }
-  void freeDeviceMem()
+  void freeDeviceMem() const
   {
     QDPCUDA::freeDeviceMem((void*)(Fd));
     deviceMem=false;
   }
-  void copyToHost()
+  void copyToHost() const
   {
     QDPCUDA::copyToHost(F,Fd,sizeof(T)*Layout::sitesOnNode());
   }
-  void copyToDevice()
+  void copyToDevice() const
   {
     QDPCUDA::copyToDevice(Fd,F,sizeof(T)*Layout::sitesOnNode());
   }
@@ -528,7 +528,7 @@ private:
    * However, GNU will align when vars are allocated on the stack (automatic vars).
    * So, force alignment in general by allocating slop space.
    */
-  inline void alloc_mem(const char* const p)
+  inline void alloc_mem(const char* const p) const
   {
     // Barfs if allocator fails
     try 
@@ -551,7 +551,7 @@ private:
   }
 
   //! Internal memory free
-  inline void free_mem() 
+  inline void free_mem() const
   {
     if( slow != 0x0 ) 
     { 
@@ -576,12 +576,14 @@ public:
 	       name,Layout::sitesOnNode(),(void *)F,this);
     }
 
+  size_t datasize() const { return sizeof(T)*Layout::sitesOnNode(); }
+
 
 private:
-  T *F; // Alias to current memory space
-  T *slow; // Pointer to default slow memory space
+  mutable T *F; // Alias to current memory space
+  mutable T *slow; // Pointer to default slow memory space
 #ifdef QDP_USE_QCDOC
-  T *fast; // Pointer to fast memory space
+  mutable T *fast; // Pointer to fast memory space
 #endif
 
 };

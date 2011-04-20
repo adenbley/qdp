@@ -3,6 +3,8 @@
 
 namespace QDPCUDA {
 
+  extern size_t total_device_memory;
+
   void copyHostToHost(void *dest , void const *src , size_t size);
   void copyToHost(void *dest , void const *src , size_t size);
   void copyToDevice(void *dest , void const *src , size_t size);
