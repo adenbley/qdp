@@ -133,15 +133,15 @@ sub recu2
     my ($expr) = @_;
     local(@parts,$ret);
 
-    print "\nrecu2 entered with $expr\n";
+#    print "\nrecu2 entered with $expr\n";
 
     @parts = parse_template($expr);
     $"="\n";
-    print "parts found:\n";
-    print "@parts\n";
+#    print "parts found:\n";
+#    print "@parts\n";
 
     if ($parts[0] =~ /QDP::BinaryNode/) { 
-	print "BINARY found:\n";
+#	print "BINARY found:\n";
 	$ret=$expr."(";
 	$ret.=$parts[1].args($parts[1]);
 	if ($#parts > 1) {
@@ -155,7 +155,7 @@ sub recu2
 	$ret.=")";
     } 
     elsif ($parts[0] =~ /QDP::TrinaryNode/) { 
-	print "TRINARY found:\n";
+#	print "TRINARY found:\n";
 	$ret=$expr."(";
 	#$ret.=$parts[1]."()";
 	$ret.=$parts[1].args($parts[1]);
@@ -174,7 +174,7 @@ sub recu2
 	$ret.=")";
     }
     elsif ($parts[0] =~ /QDP::UnaryNode/) { 
-	print "UNARY found:\n";
+#	print "UNARY found:\n";
 	$ret=$expr."(";
 	#$ret.=$parts[1]."()";
 	$ret.=$parts[1].args($parts[1]);
@@ -185,21 +185,21 @@ sub recu2
 	$ret.=")";
     }
     elsif ($parts[0] =~ /QDP::GammaConst/) { 
-	print "GammaConst found!\n";
+#	print "GammaConst found!\n";
 	$ret.="QDP::GammaConst<".$parts[1].", ".$parts[2].">()";
     }
     elsif ($parts[0] =~ /QDP::GammaType/) { 
-	print "GammaType found!\n";
+#	print "GammaType found!\n";
 	$ret.="QDP::GammaType<".$parts[1].">(0)";
     }
     elsif ($parts[0] =~ /QDP::OScalar/) { 
 	if ($parts[1] =~ /QDP::PScalar<QDP::PScalar<QDP::RScalar/) { 
-	    print "QDP::OScalar<QDP::PScalar<QDP::PScalar<QDP::RScalar... found!\n";
+#	    print "QDP::OScalar<QDP::PScalar<QDP::PScalar<QDP::RScalar... found!\n";
 	    $ret.="0";
 	}
     }
     elsif ($parts[0] =~ /QDP::Reference/) {
-	print "REFERENCE found:\n";
+#	print "REFERENCE found:\n";
 	local(@partsrec);
 	@partsrec = parse_template($parts[1]);
 	if ( $partsrec[0]=~/QDP\:\:QDPType/ ) {
@@ -249,7 +249,7 @@ sub parse_pretty
       \]$
     /x)
     {
-	print "pretty matched\n";
+#	print "pretty matched\n";
 
 	if (defined $+{partT}) {
 	    $ret{"partT"}=$+{partT};
@@ -267,7 +267,7 @@ sub parse_pretty
     } else {
 	print "pretty does not match\n";
     }
-    print %ret;
+#    print %ret;
     return %ret;
 }
 
@@ -338,7 +338,7 @@ if ($#prettys) {
 foreach $pretty (@prettys)
 {
     $pretty=~s/\n//g;
-    print ">>>>>>> processing ".$pretty."\n";
+#    print ">>>>>>> processing ".$pretty."\n";
 
     $spucode=spu($pretty);
 
@@ -358,103 +358,146 @@ $spucode;
 
 extern "C" void function_host(void * ptr)
 {
+#ifdef GPU_DEBUG
     cout << "function_host()" << endl;
+#endif
 
     // make a copy of the incoming struct
     IfaceCudp * ival;
     cudaError_t ret;
     ret = cudaMallocHost((void **)(&ival),sizeof(IfaceCudp));
+#ifdef GPU_DEBUG
     cout << "cudaMallocHost     " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
+#endif
 
     ret = cudaMemcpy(ival,ptr,sizeof(IfaceCudp),cudaMemcpyHostToHost);
+#ifdef GPU_DEBUG
     cout << "cudaMemcpy to host to host: " << string(cudaGetErrorString(ret)) << endl;
+#endif
 
     //IfaceCudp * ival = static_cast<IfaceCudp *>(ptr);
+#ifdef GPU_DEBUG
     cout << "dest:" << ival->dest << endl;
-    for (int i=0;i<ival->numberLeafs;i++)
+    for (int i=0;i<ival->numberLeafs;i++) {
 	cout << "leaf" << i << " " << ival->leafDataArray[i].pointer << " " << ival->leafDataArray[i].misc << endl;
-    for (int i=0;i<ival->numberNodes;i++)
+    }
+    for (int i=0;i<ival->numberNodes;i++) {
 	cout << "node" << i << " " << ival->nodeDataArray[i].pointer << endl;
+    }
+#endif
 
     FlattenTag::LeafData * save_leafarray = ival->leafDataArray;
     FlattenTag::NodeData * save_nodearray = ival->nodeDataArray;
 
     IfaceCudp * ival_dev;
     ret = cudaMalloc((void **)(&ival_dev),sizeof(IfaceCudp));
+#ifdef GPU_DEBUG
     cout << "get device memory for kernel interface    " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
+#endif
 
     if (ival->numberLeafs > 0) {
 	ret = cudaMalloc((void **)(&ival->leafDataArray),sizeof(FlattenTag::LeafData) * ival->numberLeafs);
+#ifdef GPU_DEBUG
 	cout << "get device memory for leaf data pointers  " 
 	    << sizeof(FlattenTag::LeafData) * ival->numberLeafs 
 	    << " : " << string(cudaGetErrorString(ret)) << endl;
+#endif
 	ret = cudaMemcpy(ival->leafDataArray,save_leafarray ,
 			 sizeof(FlattenTag::LeafData) * ival->numberLeafs,
 			 cudaMemcpyHostToDevice);
+#ifdef GPU_DEBUG
 	cout << "copy leaf pointers to device:     " 
 	    << string(cudaGetErrorString(ret)) << endl;
+#endif
     }
 
     if (ival->numberNodes > 0) {
 	ret = cudaMalloc((void **)(&ival->nodeDataArray),sizeof(FlattenTag::NodeData) * ival->numberNodes);
+#ifdef GPU_DEBUG
 	cout << "get device memory for node data pointers  " 
 	    << sizeof(FlattenTag::NodeData) * ival->numberNodes 
 	    << " : " << string(cudaGetErrorString(ret)) << endl;
+#endif
 	ret = cudaMemcpy(ival->nodeDataArray,save_nodearray ,
 			 sizeof(FlattenTag::NodeData) * ival->numberNodes,
 			 cudaMemcpyHostToDevice);
+#ifdef GPU_DEBUG
 	cout << "copy node pointers to device:     " 
 	    << string(cudaGetErrorString(ret)) << endl;
+#endif
     }
 
     ret = cudaMemcpy(ival_dev,ival,sizeof(IfaceCudp),cudaMemcpyHostToDevice);
+#ifdef GPU_DEBUG
     cout << "copy interface to device:         " << string(cudaGetErrorString(ret)) << endl;
+#endif
 
 
     int thr=1024;
+#ifdef GPU_DEBUG
     cout << "trying " << thr << " threads/block on " << ival->numSiteTable << " sites" << endl;
+#endif
     while ( (ival->numSiteTable % thr) && (thr > 32)  ) {
 	thr = thr >> 1;
+#ifdef GPU_DEBUG
 	cout << "trying " << thr << " threads/block on " << ival->numSiteTable << " sites" << endl;
+#endif
     }
+#ifdef GPU_DEBUG
     if (thr >= 32)
 	cout << "using " << thr << " threads/block on " << ival->numSiteTable << " sites" << endl;
     else
 	cout << "ERROR!" << endl;
+#endif
 
     
     bool run_ok=false;
     while (!run_ok) {
 	int num_blocks=ival->numSiteTable/thr;
-	cout << "launching " << num_blocks << " blocks with " << thr << " threads each..." << endl;
+#ifdef GPU_DEBUG
+	cout << "trying to launch " << num_blocks << " blocks with " << thr << " threads each..." << endl;
+#endif
 	dim3  blocksPerGrid( num_blocks , 1, 1);
 	dim3  threadsPerBlock( thr , 1, 1);
 
 	kernel<<< blocksPerGrid , threadsPerBlock >>>( ival_dev );
 	cudaError_t kernel_call = cudaGetLastError();
-	cout << "kernel call:                      " << string(cudaGetErrorString(kernel_call)) << endl;
+#ifdef GPU_DEBUG
+	if (kernel_call != cudaSuccess)
+	    cout << "kernel call:                      " << string(cudaGetErrorString(kernel_call)) << endl;
+#endif
+	if (kernel_call == cudaSuccess)
+	    cout << "kernel launched with " << num_blocks << " blocks and " << thr << " threads each..." << endl;
 
 	run_ok = kernel_call == cudaSuccess;
 	thr = thr >> 1;
     }
 
     ret = cudaFreeHost(ival);
+#ifdef GPU_DEBUG
     cout << "free memory for host interface:   " << string(cudaGetErrorString(ret)) << endl;
+#endif
 
     if (ival->numberLeafs > 0) {
 	ret = cudaFree(ival->leafDataArray);
+#ifdef GPU_DEBUG
 	cout << "free memory for leaf pointers:    " 
 	    << string(cudaGetErrorString(ret)) << endl;
+#endif
     }
 
     if (ival->numberNodes > 0) {
 	ret = cudaFree(ival->nodeDataArray);
+#ifdef GPU_DEBUG
 	cout << "free memory for node pointers:    " 
 	    << string(cudaGetErrorString(ret)) << endl;
+#endif
     }
 
     ret = cudaFree(ival_dev);
+#ifdef GPU_DEBUG
     cout << "free memory for device interface: " << string(cudaGetErrorString(ret)) << endl;
+#endif
 
 }
 

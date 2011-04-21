@@ -18,10 +18,14 @@ namespace QDP
     MapFunction::const_iterator call;
     call = mapFunction.find(pretty);
     if (call != mapFunction.end()) {
+#ifdef GPU_DEBUG
       cout << "cudp function already compiled" << endl;
+#endif
       (*call).second(data);
     } else {
+#ifdef GPU_DEBUG
       cout << "building cudp function..." << endl;
+#endif
       Filename filename = buildFunction(pretty);
       CudpFunction cudpFunction = loadShared(filename);
 
@@ -96,7 +100,9 @@ namespace QDP
       QDP_error_exit("dlsym error\n");
     } 
 
+#ifdef GPU_DEBUG
     cout << "symbol found" << endl;
+#endif
     return fptr;
   }
 

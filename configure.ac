@@ -21,6 +21,10 @@ dnl
 dnl --with-xxxx and --enable-xxxx switches 
 dnl
 
+
+
+
+
 dnl --enable-Nd
 AC_ARG_ENABLE(Nd,
   AC_HELP_STRING([--enable-Nd=N ],
@@ -146,6 +150,14 @@ AC_ARG_ENABLE(gpu,
     [Build GPU enabled evaluate function]),
   [gpu_enabled="${enableval}"],
   [gpu_enabled="no"]
+)
+
+dnl gpu
+AC_ARG_ENABLE(gpudebug,
+  AC_HELP_STRING([--enable-gpudebug],
+    [Produce GPU debug output]),
+  [gpudebug_enabled="${enableval}"],
+  [gpudebug_enabled="no"]
 )
 
 dnl --enable-sse
@@ -604,6 +616,15 @@ else
      AC_MSG_NOTICE([Not using cudp ])
      AC_SUBST(CUDP_DIR,"")
 fi
+
+
+if test "X${gpudebug_enabled}X" == "XyesX"; 
+then
+     AC_MSG_NOTICE([Configuring to produce GPU debug output])
+     AC_DEFINE([GPU_DEBUG],[1],[GPU debugging output])
+fi
+
+
 
 AM_CONDITIONAL(BUILD_FILEDB,
   [test "x${filedb_enabled}x" = "xyesx" ])

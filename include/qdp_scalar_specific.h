@@ -223,22 +223,31 @@ namespace QDP {
     OnDeviceTag onDevTag;
     bool onDev = forEach(rhs, onDevTag , AndCombine());
     onDev = onDev && dest.onDevice();
+
+#ifdef GPU_DEBUG
     cout << "onDev = " << onDev << "   " << dest.onDevice() << " " << onDevTag.count << " OLattice " << onDevTag.count_lattice << endl;
+#endif
 
     if (!onDev) {
       int numSiteTable = s.numSiteTable();
       user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());
       dispatch_to_threads<user_arg<T,T1,Op,RHS> >(numSiteTable, a, evaluate_userfunc);
     } else {
+#ifdef GPU_DEBUG
       cout << "Subset::hasOrderedRep = " << s.hasOrderedRep() << endl;
+#endif
       if (s.hasOrderedRep()) {
+#ifdef GPU_DEBUG
 	cout << "Subset::start = " << s.start() << endl;
 	cout << "Subset::end   = " << s.end() << endl;
+#endif
       }
 
       OScalarToDeviceTag oscalarToDeviceTag(true);
       forEach(rhs, oscalarToDeviceTag , NullCombine());
+#ifdef GPU_DEBUG
       cout << "OScalars copied to device: " << oscalarToDeviceTag.count << endl;
+#endif
 
       FlattenTag flattenTag;
       forEach(rhs, flattenTag , NullCombine());
@@ -255,7 +264,9 @@ namespace QDP {
       iface->end = s.end();
 
       size_t table_data_size = s.siteTable().size() * sizeof(int);
+#ifdef GPU_DEBUG
       cout << "get device memory for site table: ";
+#endif
       QDPCUDA::getDeviceMem( (void**)(&iface->siteTable) , table_data_size  );
 
       //
@@ -263,13 +274,21 @@ namespace QDP {
       //
       if (!s.hasOrderedRep()) {
 	void * host;
+#ifdef GPU_DEBUG
 	cout << "get host memory for site table: ";
+#endif
 	QDPCUDA::getHostMem(  (void**)(&host), table_data_size  );
+#ifdef GPU_DEBUG
 	cout << "copy site table to transfer area: ";
+#endif
 	QDPCUDA::copyHostToHost( host , (void*)s.siteTable().slice() , table_data_size );
+#ifdef GPU_DEBUG
 	cout << "copy site table to device: ";
+#endif
 	QDPCUDA::copyToDevice( iface->siteTable , host , table_data_size );
+#ifdef GPU_DEBUG
 	cout << "free host memory for site table: ";
+#endif
 	QDPCUDA::freeHostMem( host );
       }
 
@@ -277,22 +296,30 @@ namespace QDP {
       iface->numberLeafs = flattenTag.listLeaf.size();
       iface->numberNodes = flattenTag.listNode.size();
       if (iface->numberLeafs > 0) {
+#ifdef GPU_DEBUG
 	cout << "get host memory for leaf data: ";
+#endif
 	QDPCUDA::getHostMem(  (void**)(&iface->leafDataArray),    sizeof(FlattenTag::LeafData) * iface->numberLeafs  );
       }
       if (iface->numberNodes > 0) {
+#ifdef GPU_DEBUG
 	cout << "get host memory for node data: ";
+#endif
 	QDPCUDA::getHostMem(  (void**)(&iface->nodeDataArray),    sizeof(FlattenTag::NodeData) * iface->numberNodes  );
       }
 
       int c=0;
       for (FlattenTag::ListLeaf::iterator i = flattenTag.listLeaf.begin() ; i != flattenTag.listLeaf.end() ; ++i ) {
+#ifdef GPU_DEBUG
 	cout << "leaf data to iface " << i->pointer << " " << i->misc << endl;
+#endif
 	iface->leafDataArray[c++] = *i;
       }
       c=0;
       for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
+#ifdef GPU_DEBUG
       	cout << "node data to iface string length = " << i->size() << endl;
+#endif
 	void * tmpHost;
 	QDPCUDA::getHostMem( (void **)&tmpHost , i->size() );
 	QDPCUDA::copyHostToHost( tmpHost , i->c_str() , i->size() );
@@ -305,25 +332,35 @@ namespace QDP {
       theCudpJust( __PRETTY_FUNCTION__ , iface );
 
       
+#ifdef GPU_DEBUG
       cout << "free device memory for site table: ";
+#endif
       QDPCUDA::freeDeviceMem( iface->siteTable );
 
 
+#ifdef GPU_DEBUG
       cout << "free device memory used for node data" << endl;
+#endif
       for (int i = 0 ; i < iface->numberNodes ; i++ ) {
 	cout << "node" << i << ": ";
 	QDPCUDA::freeDeviceMem( iface->nodeDataArray[i].pointer );
       }
 
+#ifdef GPU_DEBUG
       cout << "free host memory for leaf pointers: ";
+#endif
       QDPCUDA::freeHostMem(  (void*)(iface->leafDataArray));
 
+#ifdef GPU_DEBUG
       cout << "free host memory for interface: ";
+#endif
       QDPCUDA::freeHostMem(  (void*)(iface));
 
       OScalarToDeviceTag oscalarToDeviceTagfree(false);
       forEach(rhs, oscalarToDeviceTagfree , NullCombine());
+#ifdef GPU_DEBUG
       cout << "number of OScalars which device memory were freed: " << oscalarToDeviceTagfree.count << endl;
+#endif
 
       // CUDA_iface_eval * ifeval_dev;
       // QDPCUDA::getDeviceMem((void**)(&ifeval_dev),sizeof(CUDA_iface_eval));
@@ -1682,8 +1719,9 @@ namespace QDP {
       nodeData = expr.operation().packNode();
       f.listNode.push_back(nodeData);
 
-      cout << f.listNode.size()-1 << " " << endl;
-      cout << "got:" << nodeData.length() << "bytes" << endl;
+#ifdef GPU_DEBUG
+      cout << "FlattenTag: ForEach: received " << nodeData.length() << " bytes." << endl;
+#endif
 
       //  fprintf(stderr,"ForEach<Unary<FnMap>>: site = %d, new = %d\n",f.val1(),ff.val1());
 

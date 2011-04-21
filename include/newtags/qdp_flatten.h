@@ -24,7 +24,9 @@ namespace QDP {
 	leafData.pointer = (void *)( a.Fd ); 
 	leafData.misc = 0;
 	f.listLeaf.push_front(leafData);
+#ifdef GPU_DEBUG
 	cout << "Flatten: OLattice:" << f.listLeaf.size()-1 << " " << leafData.pointer << " " << leafData.misc << endl;
+#endif
 	return 0;
       }
     };
@@ -40,7 +42,9 @@ namespace QDP {
 	leafData.pointer = (void *)( a.Fd ); 
 	leafData.misc = 0;
 	f.listLeaf.push_front(leafData);
+#ifdef GPU_DEBUG
 	cout << "Flatten: OScalar:" << f.listLeaf.size()-1 << " " << leafData.pointer << " " << leafData.misc << endl;
+#endif
 	return 0;
       }
     };
@@ -56,7 +60,9 @@ namespace QDP {
 	leafData.pointer = NULL;
 	leafData.misc = 0;
 	f.listLeaf.push_front(leafData);
+#ifdef GPU_DEBUG
 	cout << "Flatten: GammaConst:" << f.listLeaf.size()-1 << " " << leafData.pointer << " " << leafData.misc << endl;
+#endif
 	return 0;
       }
     };
@@ -73,7 +79,9 @@ namespace QDP {
 	leafData.misc = a.elem();
 	f.listLeaf.push_front(leafData);
 
+#ifdef GPU_DEBUG
 	cout << "Flatten: GammaType:" << f.listLeaf.size()-1 << " " << leafData.pointer << " " << leafData.misc << endl;
+#endif
 
 	return 0;
       }

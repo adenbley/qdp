@@ -29,12 +29,16 @@ namespace QDP {
       inline static Type_t apply(const OScalar<T> &a, const OScalarToDeviceTag &f)
       {
 	if (f.toDevice) {
+#ifdef GPU_DEBUG
 	  cout << "copy OScalar to device" << endl;
+#endif
 	  a.getHostMem();
 	  a.getDeviceMem();
 	  a.copyToDevice();
 	} else {
+#ifdef GPU_DEBUG
 	  cout << "free OScalar host and device memory" << endl;
+#endif
 	  a.freeHostMem();
 	  a.freeDeviceMem();
 	}

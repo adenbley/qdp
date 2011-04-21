@@ -30,8 +30,10 @@ namespace QDP {
 	}
 
 	b.setF( f.leafDataArray[ f.count_leaf ].pointer );
+#ifdef GPU_DEBUG
 	if (blockIdx.x * blockDim.x + threadIdx.x == 0)
 	  printf("Flatten: OLattice     : %d %llx %d\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer,f.leafDataArray[ f.count_leaf ].misc );
+#endif
 	f.count_leaf++;
 
 	return 0;
@@ -55,8 +57,10 @@ namespace QDP {
 	}
 
 	b.setF( f.leafDataArray[ f.count_leaf ].pointer );
+#ifdef GPU_DEBUG
 	if (blockIdx.x * blockDim.x + threadIdx.x == 0)
 	  printf("Flatten: OScalar      : %d %llx %d\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer,f.leafDataArray[ f.count_leaf ].misc );
+#endif
 	f.count_leaf++;
 
 	return 0;
@@ -74,8 +78,10 @@ namespace QDP {
 	inline static Type_t apply(const GammaConst<N, m> &a, const FlattenTag &f)
       {
 #ifdef __CUDA_ARCH__
+#ifdef GPU_DEBUG
 	if (blockIdx.x * blockDim.x + threadIdx.x == 0)
 	  printf("Flatten: GammaConst   : %d %llx %d\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer,f.leafDataArray[ f.count_leaf ].misc );
+#endif
 	f.count_leaf++;
 #endif
 	return 0;
@@ -93,8 +99,10 @@ namespace QDP {
       {
 #ifdef __CUDA_ARCH__
 	a.setElem( f.leafDataArray[ f.count_leaf ].misc );
+#ifdef GPU_DEBUG
 	if (blockIdx.x * blockDim.x + threadIdx.x == 0)
 	  printf("Flatten: GammaType<N> : %d %llx %d\n",f.count_leaf,f.leafDataArray[ f.count_leaf ].pointer,f.leafDataArray[ f.count_leaf ].misc );
+#endif
 	f.count_leaf++;
 #endif
 	return 0;

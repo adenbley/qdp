@@ -1431,8 +1431,10 @@ struct FnMap
   void unpackNode(void * ptr) const {
 #ifdef __CUDA_ARCH__
     goff = (int*)(ptr);
+#ifdef GPU_DEBUG
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
       printf("FnMap::unpackNode %llx \n",ptr);
+#endif
 #endif
   }
 
@@ -1570,8 +1572,10 @@ struct ForEach<UnaryNode<FnMap, A>, FlattenTag, CTag>
     }
 
     expr.operation().unpackNode( f.nodeDataArray[ f.count_node ].pointer );
+#ifdef GPU_DEBUG
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
       printf("Flatten: FnMap     : %d %llx %d\n",f.count_node,f.nodeDataArray[ f.count_node ].pointer);
+#endif
     f.count_node++;
 
     return Combine1<TypeA_t, FnMap, CTag>::
