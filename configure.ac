@@ -49,6 +49,7 @@ AC_ARG_ENABLE(gpuarch,
 )
 AC_MSG_NOTICE([Configuring QDP++ for GPU architecture = ${ac_gpuarch}])
 AC_DEFINE_UNQUOTED(QDP_GPUARCH,"${ac_gpuarch}", [GPU architecture])
+AC_SUBST(GPUARCH,"${ac_gpuarch}")
 
 AC_ARG_ENABLE(cpuarch,
   AC_HELP_STRING([--enable-cpuarch=arch ], [ Set CPU arch: x86 or x86_64 (default: x86_64)] ),
@@ -279,6 +280,8 @@ if test ${ac_memdebug_enabled} -eq 1; then
    AC_DEFINE_UNQUOTED(QDP_DEBUG_MEMORY, ${ac_memdebug_1}, [Enable memory debugging])
    AC_MSG_NOTICE([Enable memory debugging])
 fi
+
+
 
 dnl Precision munging
 AC_ARG_ENABLE(precision,
@@ -622,6 +625,7 @@ if test "X${gpudebug_enabled}X" == "XyesX";
 then
      AC_MSG_NOTICE([Configuring to produce GPU debug output])
      AC_DEFINE([GPU_DEBUG],[1],[GPU debugging output])
+     AC_SUBST(GPU_DEBUG_CXX,"-DGPU_DEBUG")
 fi
 
 

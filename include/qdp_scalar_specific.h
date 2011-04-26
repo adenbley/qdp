@@ -1663,7 +1663,7 @@ namespace QDP {
 
 #ifdef BUILD_CUDP
   FlattenTag::NodeDataString packNode() const {
-    std::string packString( (const char *)goff , sizeof(int)*Layout::vol() );
+    std::string packString( (const char *)goff , sizeof(int)*Layout::sitesOnNode() );
     return packString;
   }
 #endif
@@ -1717,7 +1717,7 @@ namespace QDP {
       FlattenTag::NodeDataString nodeData;
 
       nodeData = expr.operation().packNode();
-      f.listNode.push_back(nodeData);
+      f.listNode.push_front(nodeData);
 
 #ifdef GPU_DEBUG
       cout << "FlattenTag: ForEach: received " << nodeData.length() << " bytes." << endl;

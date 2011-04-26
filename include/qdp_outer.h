@@ -477,6 +477,34 @@ public:
 #endif 
 
 
+  void pushToDevice() const
+  {
+    if (!hostMem) {
+      QDPCUDA::getHostMem((void**)(&Fh),sizeof(T)*Layout::sitesOnNode());
+      hostMem=true;
+    }
+    QDPCUDA::copyHostToHost(Fh,F,sizeof(T)*Layout::sitesOnNode());
+    if (!deviceMem) {
+      QDPCUDA::getDeviceMem((void**)(&Fd),sizeof(T)*Layout::sitesOnNode());
+      deviceMem=true;
+    }
+    QDPCUDA::copyToDevice(Fd,Fh,sizeof(T)*Layout::sitesOnNode());
+  }
+
+  void popFromDevice() const
+  {
+    QDPCUDA::copyToHost(Fh,Fd,sizeof(T)*Layout::sitesOnNode());
+    QDPCUDA::copyHostToHost(F,Fh,sizeof(T)*Layout::sitesOnNode());
+    if (hostMem) {
+      QDPCUDA::freeHostMem((void *)(Fh));
+      hostMem=false;
+    }
+    if (deviceMem) {
+      QDPCUDA::freeDeviceMem((void*)(Fd));
+      deviceMem=false;
+    }
+  }
+
 
   void getHostMem() const
   {
@@ -516,6 +544,7 @@ public:
   
 public:
   T* Fd;
+  T* Fh;
   inline T& elem(int i) {return F[i];}
   inline const T& elem(int i) const {return F[i];}
 

@@ -154,6 +154,7 @@ namespace QDP {
 
 #ifdef BUILD_CUDP
 #include "qdp_cudp_just.h"
+#include "cudp_iface.h"
 #endif
 
 // Include threading code here if applicable

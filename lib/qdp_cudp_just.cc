@@ -64,7 +64,7 @@ namespace QDP
     int ret;
     gen = string(CUDA_DIR) + "/bin/nvcc -v ";
     gen = gen + "-arch=" + string(QDP_GPUARCH);
-    gen = gen + " --compiler-options -fPIC,-shared -link ";
+    gen = gen + " -m64 --compiler-options -fPIC,-shared -link ";
     gen = gen + file_cu + " -I$QDP_INSTALL/include -o " + file_o;
     cout << gen << endl;
     ret=system(gen.c_str());

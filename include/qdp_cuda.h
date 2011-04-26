@@ -1,6 +1,7 @@
 #ifndef QDP_CUDA_H
 #define QDP_CUDA_H
 
+
 namespace QDPCUDA {
 
   extern size_t total_device_memory;
