@@ -509,12 +509,12 @@ public:
   void getHostMem() const
   {
     free_mem();
-    QDPCUDA::getHostMem((void**)(&F),sizeof(T)*Layout::sitesOnNode());
+    QDPCUDA::getHostMem((void**)(&Fh),sizeof(T)*Layout::sitesOnNode());
     hostMem=true;
   }
   void freeHostMem() const
   {
-    QDPCUDA::freeHostMem((void *)(F));
+    QDPCUDA::freeHostMem((void *)(Fh));
     alloc_mem("freeHostMem");    
     hostMem=false;
   }
@@ -530,11 +530,11 @@ public:
   }
   void copyToHost() const
   {
-    QDPCUDA::copyToHost(F,Fd,sizeof(T)*Layout::sitesOnNode());
+    //QDPCUDA::copyToHost(F,Fd,sizeof(T)*Layout::sitesOnNode());
   }
   void copyToDevice() const
   {
-    QDPCUDA::copyToDevice(Fd,F,sizeof(T)*Layout::sitesOnNode());
+    //QDPCUDA::copyToDevice(Fd,F,sizeof(T)*Layout::sitesOnNode());
   }
   bool onDevice() const
   {
