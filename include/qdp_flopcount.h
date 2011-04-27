@@ -74,6 +74,19 @@ namespace QDP
       QDPIO::cout << "QDP:FlopCount:"  << name <<" Total performance:  " << mflops_overall << " Mflops = " << gflops_overall << " Gflops = " << tflops_overall << " Tflops" << endl;
     }
 
+
+
+    inline double gflops_overall(const double& time_in_seconds) {
+      double mflops_per_cpu = (double)count/((double)(1000*1000)*time_in_seconds);
+      double mflops_overall = mflops_per_cpu;
+      Internal::globalSum(mflops_overall);
+      double gflops_overall = mflops_overall/(double)(1000);
+      double tflops_overall = gflops_overall/(double)(1000);
+      return gflops_overall;
+    }
+
+
+
   private:
     unsigned long long count;
     const  unsigned long long sitesOnNode;

@@ -471,7 +471,7 @@ public:
   }
 #endif 
 
-  size_t inline getDataSize4k()
+  size_t inline getDataSize4k() const
   {
     size_t datasize   = sizeof(T)*Layout::sitesOnNode();
     size_t datasize4k = (datasize + (QDP_ALIGNMENT_SIZE-1) ) & ~(QDP_ALIGNMENT_SIZE - 1);
@@ -490,16 +490,16 @@ public:
   void pushToDevice() const
   {
     getDeviceMem();
-    cudaHostRegister( F , getDataSize4k() , 0 );
+    QDPCUDA::hostRegister( F , getDataSize4k() , 0 );
     QDPCUDA::copyToDevice(Fd,F,sizeof(T)*Layout::sitesOnNode());
-    cudaHostUnregister( F );
+    QDPCUDA::hostUnregister( F );
   }
 
   void popFromDevice() const
   {
-    cudaHostRegister( F , getDataSize4k() , 0 );
+    QDPCUDA::hostRegister( F , getDataSize4k() , 0 );
     QDPCUDA::copyToHost(F,Fd,sizeof(T)*Layout::sitesOnNode());
-    cudaHostUnregister( F );
+    QDPCUDA::hostUnregister( F );
     freeDeviceMem();
   }
 
@@ -560,7 +560,9 @@ private:
    */
   inline void alloc_mem(const char* const p) const
   {
+#ifdef GPU_DEBUG
     cout << "OLattice::alloc_mem " << sizeof(T)*Layout::sitesOnNode() << endl;
+#endif
     // Barfs if allocator fails
     try 
       {
