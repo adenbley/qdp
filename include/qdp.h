@@ -83,8 +83,16 @@
 #endif
 
 #else
+
+#ifdef BUILD_CUDP
+#define QDP_ALIGNMENT_SIZE 4096
+#else
 #define QDP_ALIGNMENT_SIZE 16
 #endif
+
+#endif
+
+
 // YUKKY - Eventually get rid of these includes
 #include <cstdio>
 #include <cstdlib>

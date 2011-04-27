@@ -351,41 +351,46 @@ foreach $pretty (@prettys)
 using namespace QDP;
 using namespace std;
 
+
 __global__ void kernel(IfaceCudp * ival)
 {
 $spucode;
 }
 
+
+void inline cudp_check_error(std::string msg,cudaError_t& ret)
+{
+#ifdef GPU_DEBUG
+    cout << msg << endl;
+    if (ret != cudaSuccess) {
+	cout << string(cudaGetErrorString(ret)) << endl;
+	exit(1);
+    }
+#else
+    if (ret != cudaSuccess) {
+	cout << msg << endl;
+	cout << string(cudaGetErrorString(ret)) << endl;
+	exit(1);
+    }
+#endif
+}
+
+
 extern "C" void function_host(void * ptr)
 {
+    cudaError_t ret;
 #ifdef GPU_DEBUG
     cout << "function_host()" << endl;
 #endif
 
-    // make a copy of the incoming struct
-	IfaceCudp * ival;
-    cudaError_t ret;
+    IfaceCudp * ival;
+
     ret = cudaMallocHost((void **)(&ival),sizeof(IfaceCudp));
-#ifdef GPU_DEBUG
-    cout << "cudaMallocHost     " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
-#endif
-    if (ret != cudaSuccess) {
-	cout << "cudaMallocHost     " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
-	exit(1);
-    }
-
-
+    cudp_check_error("cudaMallocHost for iterface copy",ret);
 
     ret = cudaMemcpy(ival,ptr,sizeof(IfaceCudp),cudaMemcpyHostToHost);
-#ifdef GPU_DEBUG
-    cout << "cudaMemcpy to host to host: " << string(cudaGetErrorString(ret)) << endl;
-#endif
-    if (ret != cudaSuccess) {
-	cout << "cudaMemcpy to host to host: " << string(cudaGetErrorString(ret)) << endl;
-	exit(1);
-    }
+    cudp_check_error("cudaMemcpy to host to host for iterface copy",ret);
 
-    //IfaceCudp * ival = static_cast<IfaceCudp *>(ptr);
 #ifdef GPU_DEBUG
     cout << "dest:" << ival->dest << endl;
     for (int i=0;i<ival->numberLeafs;i++) {
@@ -401,76 +406,30 @@ extern "C" void function_host(void * ptr)
 
     IfaceCudp * ival_dev;
     ret = cudaMalloc((void **)(&ival_dev),sizeof(IfaceCudp));
-#ifdef GPU_DEBUG
-    cout << "get device memory for kernel interface    " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
-#endif
-    if (ret != cudaSuccess) {
-	cout << "get device memory for kernel interface    " << sizeof(IfaceCudp) << " : " << string(cudaGetErrorString(ret)) << endl;
-	exit(1);
-    }
+    cudp_check_error("get device memory for kernel interface",ret);
 
     if (ival->numberLeafs > 0) {
 	ret = cudaMalloc((void **)(&ival->leafDataArray),sizeof(FlattenTag::LeafData) * ival->numberLeafs);
-#ifdef GPU_DEBUG
-	cout << "get device memory for leaf data pointers  " 
-	    << sizeof(FlattenTag::LeafData) * ival->numberLeafs 
-	    << " : " << string(cudaGetErrorString(ret)) << endl;
-#endif
-	if (ret != cudaSuccess) {
-	    cout << "get device memory for leaf data pointers  " 
-		<< sizeof(FlattenTag::LeafData) * ival->numberLeafs 
-		<< " : " << string(cudaGetErrorString(ret)) << endl;
-	    exit(1);
-	}
+	cudp_check_error("get device memory for leaf data pointers ",ret);
+
 	ret = cudaMemcpy(ival->leafDataArray,save_leafarray ,
 			 sizeof(FlattenTag::LeafData) * ival->numberLeafs,
 			 cudaMemcpyHostToDevice);
-#ifdef GPU_DEBUG
-	cout << "copy leaf pointers to device:     " 
-	    << string(cudaGetErrorString(ret)) << endl;
-#endif
-	if (ret != cudaSuccess) {
-	    cout << "copy leaf pointers to device:     " 
-		<< string(cudaGetErrorString(ret)) << endl;
-	    exit(1);
-	}
+	cudp_check_error("copy leaf pointers to device",ret);
     }
 
     if (ival->numberNodes > 0) {
 	ret = cudaMalloc((void **)(&ival->nodeDataArray),sizeof(FlattenTag::NodeData) * ival->numberNodes);
-#ifdef GPU_DEBUG
-	cout << "get device memory for node data pointers  " 
-	    << sizeof(FlattenTag::NodeData) * ival->numberNodes 
-	    << " : " << string(cudaGetErrorString(ret)) << endl;
-#endif
-	if (ret != cudaSuccess) {
-	    cout << "get device memory for node data pointers  " 
-		<< sizeof(FlattenTag::NodeData) * ival->numberNodes 
-		<< " : " << string(cudaGetErrorString(ret)) << endl;
-	    exit(1);
-	}
+	cudp_check_error("get device memory for node data pointers",ret);
+
 	ret = cudaMemcpy(ival->nodeDataArray,save_nodearray ,
 			 sizeof(FlattenTag::NodeData) * ival->numberNodes,
 			 cudaMemcpyHostToDevice);
-#ifdef GPU_DEBUG
-	cout << "copy node pointers to device:     " 
-	    << string(cudaGetErrorString(ret)) << endl;
-#endif
-	if (ret != cudaSuccess) {
-	    cout << "copy node pointers to device:     " 
-		<< string(cudaGetErrorString(ret)) << endl;
-	    exit(1);
-	}
+	cudp_check_error("copy node pointers to device",ret);
     }
 
     ret = cudaMemcpy(ival_dev,ival,sizeof(IfaceCudp),cudaMemcpyHostToDevice);
-#ifdef GPU_DEBUG
-    cout << "copy interface to device:         " << string(cudaGetErrorString(ret)) << endl;
-#endif
-    if (ret != cudaSuccess) {
-	cout << "copy interface to device:         " << string(cudaGetErrorString(ret)) << endl;
-	exit(1);
-    }
+    cudp_check_error("copy interface to device",ret);
 
 
     int thr=1024;
@@ -514,48 +473,20 @@ extern "C" void function_host(void * ptr)
     }
 
     ret = cudaFreeHost(ival);
-#ifdef GPU_DEBUG
-    cout << "free memory for host interface:   " << string(cudaGetErrorString(ret)) << endl;
-#endif
-    if (ret != cudaSuccess) {
-	cout << "free memory for host interface:   " << string(cudaGetErrorString(ret)) << endl;
-	exit(1);
-    }
+    cudp_check_error("free memory for host interface",ret);
 
     if (ival->numberLeafs > 0) {
 	ret = cudaFree(ival->leafDataArray);
-#ifdef GPU_DEBUG
-	cout << "free memory for leaf pointers:    " 
-	    << string(cudaGetErrorString(ret)) << endl;
-#endif
-	if (ret != cudaSuccess) {
-	    cout << "free memory for leaf pointers:    " 
-		<< string(cudaGetErrorString(ret)) << endl;
-	    exit(1);
-	}
+	cudp_check_error("free memory for leaf pointers",ret);
     }
 
     if (ival->numberNodes > 0) {
 	ret = cudaFree(ival->nodeDataArray);
-#ifdef GPU_DEBUG
-	cout << "free memory for node pointers:    " 
-	    << string(cudaGetErrorString(ret)) << endl;
-#endif
-	if (ret != cudaSuccess) {
-	    cout << "free memory for node pointers:    " 
-		<< string(cudaGetErrorString(ret)) << endl;
-	    exit(1);
-	}
+	cudp_check_error("free memory for node pointers",ret);
     }
 
     ret = cudaFree(ival_dev);
-#ifdef GPU_DEBUG
-    cout << "free memory for device interface: " << string(cudaGetErrorString(ret)) << endl;
-#endif
-    if (ret != cudaSuccess) {
-	cout << "free memory for device interface: " << string(cudaGetErrorString(ret)) << endl;
-	exit(1);
-    }
+    cudp_check_error("free memory for device interface",ret);
 
 }
 

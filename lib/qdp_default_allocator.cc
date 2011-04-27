@@ -59,7 +59,7 @@ namespace Allocator {
   //! So we simply ignore the memory pool hint.
   void*
   QDPDefaultAllocator::allocate(size_t n_bytes,const MemoryPoolHint& mem_pool_hint) {
-    
+
     //! The raw unaligned pointer returned by the allocator
     unsigned char *unaligned;
 
@@ -71,7 +71,11 @@ namespace Allocator {
     if ( n_bytes % (32*1024) == 0 ) { 
       bytes_to_alloc += 0; // 2 lines bytes to kill cache aliasing
     }
+#ifdef BUILD_CUDP
+    bytes_to_alloc += 2 * QDP_ALIGNMENT_SIZE;
+#else
     bytes_to_alloc += QDP_ALIGNMENT_SIZE;
+#endif
 
     // Try and allocate the memory
     try { 
@@ -85,6 +89,7 @@ namespace Allocator {
 
     // Work out the aligned pointer
     aligned = (unsigned char *)( ( (unsigned long)unaligned + (QDP_ALIGNMENT_SIZE-1) ) & ~(QDP_ALIGNMENT_SIZE - 1));
+
 
 #if defined(QDP_DEBUG_MEMORY)
     // Current location

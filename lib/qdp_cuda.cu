@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "malloc.h"
 #include "qdp_cuda.h"
 
 using namespace std;

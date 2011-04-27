@@ -347,6 +347,11 @@ namespace QDP {
       }
 
 #ifdef GPU_DEBUG
+      cout << "free host memory for node pointers: ";
+#endif
+      QDPCUDA::freeHostMem(  (void*)(iface->nodeDataArray));
+
+#ifdef GPU_DEBUG
       cout << "free host memory for leaf pointers: ";
 #endif
       QDPCUDA::freeHostMem(  (void*)(iface->leafDataArray));

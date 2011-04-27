@@ -286,8 +286,8 @@ void evaluate(OScalar<T>& dest, const Op& op, const QDPExpr<RHS,OScalar<T1> >& r
 class OLattice_Base
 {
 protected:
-  OLattice_Base() : deviceMem(false),hostMem(false) {}
-  mutable bool deviceMem,hostMem;
+  OLattice_Base() : deviceMem(false) {}
+  mutable bool deviceMem;
 };
 
 
@@ -303,12 +303,7 @@ public:
     }
   ~OLattice()
     {
-      if (deviceMem)
-	freeDeviceMem();
-      if (hostMem)
-	freeHostMem();
-      else
-	free_mem();
+      free_mem();
     }
 
 
@@ -476,66 +471,73 @@ public:
   }
 #endif 
 
+  size_t inline getDataSize4k()
+  {
+    size_t datasize   = sizeof(T)*Layout::sitesOnNode();
+    size_t datasize4k = (datasize + (QDP_ALIGNMENT_SIZE-1) ) & ~(QDP_ALIGNMENT_SIZE - 1);
+    if (datasize % QDP_ALIGNMENT_SIZE) {
+      QDPIO::cerr << "OLattice::pushToDevice internal error 0" << endl;
+      QDP_abort(1);
+    }
+    if ((datasize4k - datasize) >= QDP_ALIGNMENT_SIZE) {
+      QDPIO::cerr << "OLattice::pushToDevice internal error 1" << endl;
+      QDP_abort(1);
+    }
+    return datasize4k;
+  }
+
 
   void pushToDevice() const
   {
-    if (!hostMem) {
-      QDPCUDA::getHostMem((void**)(&Fh),sizeof(T)*Layout::sitesOnNode());
-      hostMem=true;
-    }
-    QDPCUDA::copyHostToHost(Fh,F,sizeof(T)*Layout::sitesOnNode());
-    if (!deviceMem) {
-      QDPCUDA::getDeviceMem((void**)(&Fd),sizeof(T)*Layout::sitesOnNode());
-      deviceMem=true;
-    }
-    QDPCUDA::copyToDevice(Fd,Fh,sizeof(T)*Layout::sitesOnNode());
+    getDeviceMem();
+    cudaHostRegister( F , getDataSize4k() , 0 );
+    QDPCUDA::copyToDevice(Fd,F,sizeof(T)*Layout::sitesOnNode());
+    cudaHostUnregister( F );
   }
 
   void popFromDevice() const
   {
-    QDPCUDA::copyToHost(Fh,Fd,sizeof(T)*Layout::sitesOnNode());
-    QDPCUDA::copyHostToHost(F,Fh,sizeof(T)*Layout::sitesOnNode());
-    if (hostMem) {
-      QDPCUDA::freeHostMem((void *)(Fh));
-      hostMem=false;
+    cudaHostRegister( F , getDataSize4k() , 0 );
+    QDPCUDA::copyToHost(F,Fd,sizeof(T)*Layout::sitesOnNode());
+    cudaHostUnregister( F );
+    freeDeviceMem();
+  }
+
+
+  // void getHostMem() const
+  // {
+  //   free_mem();
+  //   QDPCUDA::getHostMem((void**)(&Fh),sizeof(T)*Layout::sitesOnNode());
+  //   hostMem=true;
+  // }
+  // void freeHostMem() const
+  // {
+  //   QDPCUDA::freeHostMem((void *)(Fh));
+  //   //alloc_mem("freeHostMem");    
+  //   hostMem=false;
+  // }
+  void getDeviceMem() const
+  {
+    if (!deviceMem) {
+      QDPCUDA::getDeviceMem((void**)(&Fd),sizeof(T)*Layout::sitesOnNode());
+      deviceMem=true;
     }
+  }
+  void freeDeviceMem() const
+  {
     if (deviceMem) {
       QDPCUDA::freeDeviceMem((void*)(Fd));
       deviceMem=false;
     }
   }
-
-
-  void getHostMem() const
-  {
-    free_mem();
-    QDPCUDA::getHostMem((void**)(&Fh),sizeof(T)*Layout::sitesOnNode());
-    hostMem=true;
-  }
-  void freeHostMem() const
-  {
-    QDPCUDA::freeHostMem((void *)(Fh));
-    alloc_mem("freeHostMem");    
-    hostMem=false;
-  }
-  void getDeviceMem() const
-  {
-    QDPCUDA::getDeviceMem((void**)(&Fd),sizeof(T)*Layout::sitesOnNode());
-    deviceMem=true;
-  }
-  void freeDeviceMem() const
-  {
-    QDPCUDA::freeDeviceMem((void*)(Fd));
-    deviceMem=false;
-  }
-  void copyToHost() const
-  {
-    //QDPCUDA::copyToHost(F,Fd,sizeof(T)*Layout::sitesOnNode());
-  }
-  void copyToDevice() const
-  {
-    //QDPCUDA::copyToDevice(Fd,F,sizeof(T)*Layout::sitesOnNode());
-  }
+  // void copyToHost() const
+  // {
+  //   //QDPCUDA::copyToHost(F,Fd,sizeof(T)*Layout::sitesOnNode());
+  // }
+  // void copyToDevice() const
+  // {
+  //   //QDPCUDA::copyToDevice(Fd,F,sizeof(T)*Layout::sitesOnNode());
+  // }
   bool onDevice() const
   {
     return deviceMem;
@@ -544,7 +546,6 @@ public:
   
 public:
   T* Fd;
-  T* Fh;
   inline T& elem(int i) {return F[i];}
   inline const T& elem(int i) const {return F[i];}
 
@@ -559,6 +560,7 @@ private:
    */
   inline void alloc_mem(const char* const p) const
   {
+    cout << "OLattice::alloc_mem " << sizeof(T)*Layout::sitesOnNode() << endl;
     // Barfs if allocator fails
     try 
       {
