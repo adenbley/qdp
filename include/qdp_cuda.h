@@ -16,6 +16,8 @@ namespace QDPCUDA {
   void freeHostMem(void *mem);
   void getHostMem(void **mem , size_t size);
 
+  
+
 }
 
 #endif

@@ -17,34 +17,7 @@
 
 
 
-
-
-
 namespace QDP {
-
-
-  // template<>
-  // struct LeafFunctor<OScalar<PScalar<PScalar<RScalar<int> > > >, FlattenTag>
-  // {
-  //   //typedef Reference<T> Type_t;
-  //   typedef int Type_t;
-  //   inline static Type_t apply(const OScalar<PScalar<PScalar<RScalar<int> > > > &a, const FlattenTag &f)
-  //     {
-  //       cout << "ppu: im OScalar" << endl;
-
-  //       union {
-  // 	unsigned int ui;
-  // 	int si;
-  //       } tmp;
-
-  //       tmp.si = a.elem().elem().elem().elem();
-
-  //       f.size[ f.iadr ] = tmp.ui;
-  //       f.iadr++;
-  //       printf("LeafFunctor<OScalar<PScalar<PScalar<RScalar<int> > > >, FlattenTag>::apply\n");
-  //     }
-  // };
-
 
 
   // Use separate defs here. This will cause subroutine calls under g++

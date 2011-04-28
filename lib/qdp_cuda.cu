@@ -89,5 +89,7 @@ void inline cudp_check_error(std::string msg,cudaError_t& ret)
     cudp_check_error("cudaMemcpy host to host",ret);
   }
 
+
+
 }
 
