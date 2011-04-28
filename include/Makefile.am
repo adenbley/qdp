@@ -173,6 +173,7 @@ nobase_include_HEADERS = \
 		qdp_profile.h \
                 qdp_stopwatch.h \
 		qdp_flopcount.h \
+		qdp_bytecount.h \
 		qdp_iogauge.h \
 		qdp_crc32.h \
 		qdp_byteorder.h \

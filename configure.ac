@@ -69,7 +69,6 @@ AC_DEFINE_UNQUOTED(CUDA_DIR,"${cuda_home}",[CUDA install path])
 
 
 
-
 dnl Specify CPU Arch
 dnl AC_ARG_ENABLE(cpuarch,
 dnl  AC_HELP_STRING([--enable-cpuarch=arch],  
@@ -615,6 +614,13 @@ then
      AC_CONFIG_SUBDIRS(other_libs/cudp)
      AC_DEFINE([BUILD_CUDP],[],[Build cudp])
      AC_SUBST(CUDP_DIR, [cudp])
+     AC_SUBST(CUDA_LIBS, [-lcudart])
+     if test "X${ac_cpuarch}X" == "Xx86_64X"; 
+     then
+	AC_SUBST(CUDA_LDFLAGS, [-L${cuda_home}/lib64])
+     else
+	AC_SUBST(CUDA_LDFLAGS, [-L${cuda_home}/lib])
+     fi
 else 
      AC_MSG_NOTICE([Not using cudp ])
      AC_SUBST(CUDP_DIR,"")

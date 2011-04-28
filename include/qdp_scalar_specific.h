@@ -326,6 +326,13 @@ namespace QDP {
 	QDPCUDA::getDeviceMem( (void **)(&iface->nodeDataArray[c].pointer) , i->size() );
 	QDPCUDA::copyToDevice( iface->nodeDataArray[c].pointer , tmpHost , i->size() );
 	QDPCUDA::freeHostMem( tmpHost );
+
+	// HACK fw
+	// QDPCUDA::hostRegister( const_cast<char *>(i->c_str()) , i->size() , 0 );
+	// QDPCUDA::getDeviceMem( (void **)(&iface->nodeDataArray[c].pointer) , i->size() );
+	// QDPCUDA::copyToDevice( iface->nodeDataArray[c].pointer , i->c_str() , i->size() );
+	// QDPCUDA::hostUnregister( const_cast<char *>(i->c_str()) );
+
 	c++;
       }
 

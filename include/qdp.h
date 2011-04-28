@@ -231,5 +231,6 @@ namespace ThreadReductions {
 #endif
 
 #include "qdp_flopcount.h"
+#include "qdp_bytecount.h"
 
 #endif  // QDP_INCLUDE
