@@ -35,18 +35,15 @@ struct FlattenTag {
 };
 
 
-
 struct IfaceCudp {
-  void       *dest;
-  void       *opMeta;
-  size_t      opMetaSize;
-  int         numberLeafs;
-  int         numberNodes;
   int         numSiteTable;
-  void       *siteTable;
   bool        hasOrderedRep;
   int         start;
   int         end;
+  void       *siteTable;
+  void       *dest;
+  int         numberLeafs;
+  int         numberNodes;
   FlattenTag::LeafData *leafDataArray;
   FlattenTag::NodeData *nodeDataArray;
 };

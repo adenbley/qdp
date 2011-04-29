@@ -459,7 +459,7 @@ extern "C" void function_host(void * ptr)
 	dim3  blocksPerGrid( num_blocks , 1, 1);
 	dim3  threadsPerBlock( thr , 1, 1);
 
-	//kernel<<< blocksPerGrid , threadsPerBlock >>>( ival_dev );
+	kernel<<< blocksPerGrid , threadsPerBlock >>>( ival_dev );
 	cudaError_t kernel_call = cudaGetLastError();
 #ifdef GPU_DEBUG
 	if (kernel_call != cudaSuccess)

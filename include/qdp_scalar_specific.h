@@ -232,8 +232,6 @@ namespace QDP {
       QDPCUDA::getHostMem(  (void**)(&iface),    sizeof(IfaceCudp));
 
       iface->dest = dest.Fd;
-      iface->opMeta = NULL;
-      iface->opMetaSize = 123;
       iface->numSiteTable = s.numSiteTable();
       iface->hasOrderedRep = s.hasOrderedRep();
       iface->start = s.start();
@@ -324,7 +322,7 @@ namespace QDP {
       //
       // for now 
       //
-      // theCudpJust( __PRETTY_FUNCTION__ , iface );
+      theCudpJust( __PRETTY_FUNCTION__ , iface );
 
       
 #ifdef GPU_DEBUG
