@@ -14,11 +14,13 @@ struct FlattenTag {
   };
   struct NodeData {
     void * pointer;
+    int row,col;
   };
 #ifndef __CUDA_ARCH__
-  typedef std::string NodeDataString;
-  typedef list<LeafData>       ListLeaf;
-  typedef list<NodeDataString> ListNode;
+  //typedef std::string NodeDataString;
+  //typedef list<NodeDataString> ListNode;
+  typedef list<LeafData> ListLeaf;
+  typedef list<NodeData> ListNode;
   mutable ListNode listNode;
   mutable ListLeaf listLeaf;
 #else

@@ -135,6 +135,11 @@ namespace QDP
 
       // Set default profile level
       setProfileLevel(getProgramProfileLevel());
+
+#ifdef BUILD_CUDP
+      theDeviceStorage.freeAll();
+#endif
+
     }
 
     //! Initializer for layout

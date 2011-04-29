@@ -10,7 +10,10 @@
 #include "stdlib.h"
 #include <dlfcn.h>
 
+
+
 #ifdef BUILD_CUDP
+#include "qdp_device_storage.h"
 #include "cudp_iface.h"
 #include "qdp_newtags.h"
 #endif
@@ -284,32 +287,44 @@ namespace QDP {
       int c=0;
       for (FlattenTag::ListLeaf::iterator i = flattenTag.listLeaf.begin() ; i != flattenTag.listLeaf.end() ; ++i ) {
 #ifdef GPU_DEBUG
-	cout << "leaf data to iface " << i->pointer << " " << i->misc << endl;
+	cout << "leaf data to iface: " << i->pointer << " " << i->misc << endl;
 #endif
-	iface->leafDataArray[c++] = *i;
+	iface->leafDataArray[c] = *i;
+	c++;
       }
       c=0;
       for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
 #ifdef GPU_DEBUG
-      	cout << "node data to iface string length = " << i->size() << endl;
+      	cout << "node data to iface: " << i->pointer << endl;
 #endif
-	void * tmpHost;
-	QDPCUDA::getHostMem( (void **)&tmpHost , i->size() );
-	QDPCUDA::copyHostToHost( tmpHost , i->c_str() , i->size() );
-	QDPCUDA::getDeviceMem( (void **)(&iface->nodeDataArray[c].pointer) , i->size() );
-	QDPCUDA::copyToDevice( iface->nodeDataArray[c].pointer , tmpHost , i->size() );
-	QDPCUDA::freeHostMem( tmpHost );
-
-	// HACK fw
-	// QDPCUDA::hostRegister( const_cast<char *>(i->c_str()) , i->size() , 0 );
-	// QDPCUDA::getDeviceMem( (void **)(&iface->nodeDataArray[c].pointer) , i->size() );
-	// QDPCUDA::copyToDevice( iface->nodeDataArray[c].pointer , i->c_str() , i->size() );
-	// QDPCUDA::hostUnregister( const_cast<char *>(i->c_str()) );
-
+	iface->nodeDataArray[c] = *i;
 	c++;
       }
+//       for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
+// #ifdef GPU_DEBUG
+//       	cout << "node data to iface string length = " << i->size() << endl;
+// #endif
+// 	void * tmpHost;
+// 	QDPCUDA::getHostMem( (void **)&tmpHost , i->size() );
+// 	QDPCUDA::copyHostToHost( tmpHost , i->c_str() , i->size() );
+// 	QDPCUDA::getDeviceMem( (void **)(&iface->nodeDataArray[c].pointer) , i->size() );
+// 	QDPCUDA::copyToDevice( iface->nodeDataArray[c].pointer , tmpHost , i->size() );
+// 	QDPCUDA::freeHostMem( tmpHost );
 
-      theCudpJust( __PRETTY_FUNCTION__ , iface );
+// 	// HACK fw
+// 	// QDPCUDA::hostRegister( const_cast<char *>(i->c_str()) , i->size() , 0 );
+// 	// QDPCUDA::getDeviceMem( (void **)(&iface->nodeDataArray[c].pointer) , i->size() );
+// 	// QDPCUDA::copyToDevice( iface->nodeDataArray[c].pointer , i->c_str() , i->size() );
+// 	// QDPCUDA::hostUnregister( const_cast<char *>(i->c_str()) );
+
+// 	c++;
+//       }
+
+
+      //
+      // for now 
+      //
+      // theCudpJust( __PRETTY_FUNCTION__ , iface );
 
       
 #ifdef GPU_DEBUG
@@ -321,10 +336,10 @@ namespace QDP {
 #ifdef GPU_DEBUG
       cout << "free device memory used for node data" << endl;
 #endif
-      for (int i = 0 ; i < iface->numberNodes ; i++ ) {
-	cout << "node" << i << ": ";
-	QDPCUDA::freeDeviceMem( iface->nodeDataArray[i].pointer );
-      }
+      // for (int i = 0 ; i < iface->numberNodes ; i++ ) {
+      // 	cout << "node" << i << ": ";
+      // 	QDPCUDA::freeDeviceMem( iface->nodeDataArray[i].pointer );
+      // }
 
 #ifdef GPU_DEBUG
       cout << "free host memory for node pointers: ";
@@ -1647,9 +1662,12 @@ namespace QDP {
     }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeDataString packNode() const {
-    std::string packString( (const char *)goff , sizeof(int)*Layout::sitesOnNode() );
-    return packString;
+  // FlattenTag::NodeDataString packNode() const {
+  //   std::string packString( (const char *)goff , sizeof(int)*Layout::sitesOnNode() );
+  //   return packString;
+  // }
+  void packNode(FlattenTag::NodeData & nodeData) const {
+    nodeData.pointer = theDeviceStorage.getDevicePointer( (void *)goff , sizeof(int)*Layout::sitesOnNode() );
   }
 #endif
 
@@ -1690,6 +1708,32 @@ namespace QDP {
   // fw  inserted to read the data from the node
   //
 #ifdef BUILD_CUDP
+//   template<class A, class CTag>
+//   struct ForEach<UnaryNode<FnMap, A>, FlattenTag, CTag>
+//   {
+//     typedef typename ForEach<A, FlattenTag, CTag>::Type_t TypeA_t;
+//     typedef typename Combine1<TypeA_t, FnMap, CTag>::Type_t Type_t;
+//     inline static
+//     Type_t apply(const UnaryNode<FnMap, A> &expr, const FlattenTag &f, 
+// 		 const CTag &c) 
+//     {
+//       FlattenTag::NodeDataString nodeData;
+
+//       nodeData = expr.operation().packNode();
+//       f.listNode.push_front(nodeData);
+
+// #ifdef GPU_DEBUG
+//       cout << "FlattenTag: ForEach: received " << nodeData.length() << " bytes." << endl;
+// #endif
+
+//       //  fprintf(stderr,"ForEach<Unary<FnMap>>: site = %d, new = %d\n",f.val1(),ff.val1());
+
+//       return Combine1<TypeA_t, FnMap, CTag>::
+// 	combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),
+// 		expr.operation(), c);
+
+//     }
+//   };
   template<class A, class CTag>
   struct ForEach<UnaryNode<FnMap, A>, FlattenTag, CTag>
   {
@@ -1699,13 +1743,13 @@ namespace QDP {
     Type_t apply(const UnaryNode<FnMap, A> &expr, const FlattenTag &f, 
 		 const CTag &c) 
     {
-      FlattenTag::NodeDataString nodeData;
+      FlattenTag::NodeData nodeData;
 
-      nodeData = expr.operation().packNode();
+      expr.operation().packNode(nodeData);
       f.listNode.push_front(nodeData);
 
 #ifdef GPU_DEBUG
-      cout << "FlattenTag: ForEach: received " << nodeData.length() << " bytes." << endl;
+      //cout << "FlattenTag: ForEach: received " << nodeData.length() << " bytes." << endl;
 #endif
 
       //  fprintf(stderr,"ForEach<Unary<FnMap>>: site = %d, new = %d\n",f.val1(),ff.val1());

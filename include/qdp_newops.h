@@ -119,15 +119,19 @@ struct FnPeekColorMatrix
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeDataString packNode() const {
-    struct pack_t {
-      int row;
-      int col;
-    } pack;
-    pack.row=row;
-    pack.col=col;
-    std::string strpack((const char *)(&pack),sizeof(pack_t));
-    return strpack;
+  // FlattenTag::NodeDataString packNode() const {
+  //   struct pack_t {
+  //     int row;
+  //     int col;
+  //   } pack;
+  //   pack.row=row;
+  //   pack.col=col;
+  //   std::string strpack((const char *)(&pack),sizeof(pack_t));
+  //   return strpack;
+  // }
+  void packNode(FlattenTag::NodeData & nodeData) const {
+    nodeData.row = row;
+    nodeData.col = col;
   }
 #endif
 
@@ -181,13 +185,16 @@ struct FnPeekColorVector
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeDataString packNode() const {
-    struct pack_t {
-      int row;
-    } pack;
-    pack.row=row;
-    std::string strpack((const char *)(&pack),sizeof(pack_t));
-    return strpack;
+  // FlattenTag::NodeDataString packNode() const {
+  //   struct pack_t {
+  //     int row;
+  //   } pack;
+  //   pack.row=row;
+  //   std::string strpack((const char *)(&pack),sizeof(pack_t));
+  //   return strpack;
+  // }
+  void packNode(FlattenTag::NodeData & nodeData) const {
+    nodeData.row = row;
   }
 #endif
 
@@ -241,15 +248,19 @@ struct FnPeekSpinMatrix
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeDataString packNode() const {
-    struct pack_t {
-      int row;
-      int col;
-    } pack;
-    pack.row=row;
-    pack.col=col;
-    std::string strpack((const char *)(&pack),sizeof(pack_t));
-    return strpack;
+  // FlattenTag::NodeDataString packNode() const {
+  //   struct pack_t {
+  //     int row;
+  //     int col;
+  //   } pack;
+  //   pack.row=row;
+  //   pack.col=col;
+  //   std::string strpack((const char *)(&pack),sizeof(pack_t));
+  //   return strpack;
+  // }
+  void packNode(FlattenTag::NodeData & nodeData) const {
+    nodeData.row = row;
+    nodeData.col = col;
   }
 #endif
 
@@ -306,13 +317,16 @@ struct FnPeekSpinVector
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeDataString packNode() const {
-    struct pack_t {
-      int row;
-    } pack;
-    pack.row=row;
-    std::string strpack((const char *)(&pack),sizeof(pack_t));
-    return strpack;
+  // FlattenTag::NodeDataString packNode() const {
+  //   struct pack_t {
+  //     int row;
+  //   } pack;
+  //   pack.row=row;
+  //   std::string strpack((const char *)(&pack),sizeof(pack_t));
+  //   return strpack;
+  // }
+  void packNode(FlattenTag::NodeData & nodeData) const {
+    nodeData.row = row;
   }
 #endif
 
@@ -369,15 +383,19 @@ struct FnPokeColorMatrix
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeDataString packNode() const {
-    struct pack_t {
-      int row;
-      int col;
-    } pack;
-    pack.row=row;
-    pack.col=col;
-    std::string strpack((const char *)(&pack),sizeof(pack_t));
-    return strpack;
+  // FlattenTag::NodeDataString packNode() const {
+  //   struct pack_t {
+  //     int row;
+  //     int col;
+  //   } pack;
+  //   pack.row=row;
+  //   pack.col=col;
+  //   std::string strpack((const char *)(&pack),sizeof(pack_t));
+  //   return strpack;
+  // }
+  void packNode(FlattenTag::NodeData & nodeData) const {
+    nodeData.row = row;
+    nodeData.col = col;
   }
 #endif
 
@@ -455,13 +473,16 @@ struct FnPokeColorVector
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeDataString packNode() const {
-    struct pack_t {
-      int row;
-    } pack;
-    pack.row=row;
-    std::string strpack((const char *)(&pack),sizeof(pack_t));
-    return strpack;
+  // FlattenTag::NodeDataString packNode() const {
+  //   struct pack_t {
+  //     int row;
+  //   } pack;
+  //   pack.row=row;
+  //   std::string strpack((const char *)(&pack),sizeof(pack_t));
+  //   return strpack;
+  // }
+  void packNode(FlattenTag::NodeData & nodeData) const {
+    nodeData.row = row;
   }
 #endif
 
@@ -538,15 +559,19 @@ struct FnPokeSpinMatrix
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeDataString packNode() const {
-    struct pack_t {
-      int row;
-      int col;
-    } pack;
-    pack.row=row;
-    pack.col=col;
-    std::string strpack((const char *)(&pack),sizeof(pack_t));
-    return strpack;
+  // FlattenTag::NodeDataString packNode() const {
+  //   struct pack_t {
+  //     int row;
+  //     int col;
+  //   } pack;
+  //   pack.row=row;
+  //   pack.col=col;
+  //   std::string strpack((const char *)(&pack),sizeof(pack_t));
+  //   return strpack;
+  // }
+  void packNode(FlattenTag::NodeData & nodeData) const {
+    nodeData.row = row;
+    nodeData.col = col;
   }
 #endif
 
@@ -623,13 +648,16 @@ struct FnPokeSpinVector
   }
 
 #ifdef BUILD_CUDP
-  FlattenTag::NodeDataString packNode() const {
-    struct pack_t {
-      int row;
-    } pack;
-    pack.row=row;
-    std::string strpack((const char *)(&pack),sizeof(pack_t));
-    return strpack;
+  // FlattenTag::NodeDataString packNode() const {
+  //   struct pack_t {
+  //     int row;
+  //   } pack;
+  //   pack.row=row;
+  //   std::string strpack((const char *)(&pack),sizeof(pack_t));
+  //   return strpack;
+  // }
+  void packNode(FlattenTag::NodeData & nodeData) const {
+    nodeData.row = row;
   }
 #endif
 
@@ -727,11 +755,12 @@ struct ForEach_Base<UnaryNode<FnTag, A>, FlattenTag , CTag>
   Type_t apply(const UnaryNode<FnTag, A> &expr, const FlattenTag &f, 
 	       const CTag &c)
   {
-    FlattenTag::NodeDataString nodeData;
-    nodeData = expr.operation().packNode();
+    //FlattenTag::NodeDataString nodeData;
+    FlattenTag::NodeData nodeData;
+    expr.operation().packNode(nodeData);
     f.listNode.push_back(nodeData);
 
-    cout << "grab nodeData size = " << nodeData.size() << endl;
+    cout << "grab nodeData: " << nodeData.row << "  " << nodeData.col << endl;
 
     return Combine1<TypeA_t, FnTag, CTag>::
       combine(ForEach<A, FlattenTag, CTag>::apply(expr.child(), f, c),

@@ -22,7 +22,9 @@ namespace QDP {
 
   extern DeviceStorage theDeviceStorage; 
 
+
 }
+
 
 #endif
 
