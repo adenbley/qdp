@@ -228,6 +228,7 @@ namespace QDP {
       FlattenTag flattenTag;
       forEach(rhs, flattenTag , NullCombine());
 
+      
       IfaceCudp * iface;
       QDPCUDA::getHostMem(  (void**)(&iface),    sizeof(IfaceCudp));
 
@@ -269,35 +270,54 @@ namespace QDP {
 
       iface->numberLeafs = flattenTag.listLeaf.size();
       iface->numberNodes = flattenTag.listNode.size();
+
+
+
       if (iface->numberLeafs > 0) {
+	size_t leafdatasize = sizeof(FlattenTag::LeafData) * iface->numberLeafs;
 #ifdef GPU_DEBUG
-	cout << "get host memory for leaf data: ";
+	cout << "get tmp host memory for leaf data: " << leafdatasize << endl;
 #endif
-	QDPCUDA::getHostMem(  (void**)(&iface->leafDataArray),    sizeof(FlattenTag::LeafData) * iface->numberLeafs  );
-      }
-      if (iface->numberNodes > 0) {
+	FlattenTag::LeafData *leafDataArray;
+	QDPCUDA::getHostMem(    (void**)(&leafDataArray)                     ,    leafdatasize  );
+	int c=0;
+	for (FlattenTag::ListLeaf::iterator i = flattenTag.listLeaf.begin() ; i != flattenTag.listLeaf.end() ; ++i ) {
 #ifdef GPU_DEBUG
-	cout << "get host memory for node data: ";
+	  cout << "leaf data to iface: " << i->pointer << " " << i->misc << endl;
 #endif
-	QDPCUDA::getHostMem(  (void**)(&iface->nodeDataArray),    sizeof(FlattenTag::NodeData) * iface->numberNodes  );
+	  leafDataArray[c] = *i;
+	  c++;
+	}
+	QDPCUDA::getDeviceMem(  (void**)(&iface->leafDataArray),                  leafdatasize  );
+	QDPCUDA::copyToDevice(             iface->leafDataArray,leafDataArray,    leafdatasize  );
+	//QDPCUDA::copyToHost(  (void**)(&leafDataArray),iface->leafDataArray,    leafdatasize  );
+	//cout << leafDataArray[0].pointer << endl;
+
+	QDPCUDA::freeHostMem(                                   leafDataArray);
       }
 
-      int c=0;
-      for (FlattenTag::ListLeaf::iterator i = flattenTag.listLeaf.begin() ; i != flattenTag.listLeaf.end() ; ++i ) {
+
+
+      if (iface->numberNodes > 0) {
+	size_t nodedatasize = sizeof(FlattenTag::NodeData) * iface->numberNodes;
 #ifdef GPU_DEBUG
-	cout << "leaf data to iface: " << i->pointer << " " << i->misc << endl;
+	cout << "get tmp host memory for node data: ";
 #endif
-	iface->leafDataArray[c] = *i;
-	c++;
-      }
-      c=0;
-      for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
+	FlattenTag::NodeData *nodeDataArray;
+	QDPCUDA::getHostMem(    (void**)(&nodeDataArray)                         , nodedatasize );
+	int c=0;
+	for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
 #ifdef GPU_DEBUG
-      	cout << "node data to iface: " << i->pointer << endl;
+	  cout << "node data to iface: " << i->pointer << endl;
 #endif
-	iface->nodeDataArray[c] = *i;
-	c++;
+	  nodeDataArray[c] = *i;
+	  c++;
+	}
+	QDPCUDA::getDeviceMem(  (void**)(&iface->nodeDataArray),                   nodedatasize );
+	QDPCUDA::copyToDevice(           iface->nodeDataArray  ,nodeDataArray,     nodedatasize );
+	QDPCUDA::freeHostMem(                                   nodeDataArray);
       }
+
 //       for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
 // #ifdef GPU_DEBUG
 //       	cout << "node data to iface string length = " << i->size() << endl;
@@ -322,6 +342,8 @@ namespace QDP {
       //
       // for now 
       //
+
+
       theCudpJust( __PRETTY_FUNCTION__ , iface );
 
       
@@ -342,12 +364,12 @@ namespace QDP {
 #ifdef GPU_DEBUG
       cout << "free host memory for node pointers: ";
 #endif
-      QDPCUDA::freeHostMem(  (void*)(iface->nodeDataArray));
+      QDPCUDA::freeDeviceMem(  (void*)(iface->nodeDataArray));
 
 #ifdef GPU_DEBUG
       cout << "free host memory for leaf pointers: ";
 #endif
-      QDPCUDA::freeHostMem(  (void*)(iface->leafDataArray));
+      QDPCUDA::freeDeviceMem(  (void*)(iface->leafDataArray));
 
 #ifdef GPU_DEBUG
       cout << "free host memory for interface: ";
