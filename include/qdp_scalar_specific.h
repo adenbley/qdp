@@ -290,8 +290,6 @@ namespace QDP {
 	}
 	QDPCUDA::getDeviceMem(  (void**)(&iface->leafDataArray),                  leafdatasize  );
 	QDPCUDA::copyToDevice(             iface->leafDataArray,leafDataArray,    leafdatasize  );
-	//QDPCUDA::copyToHost(  (void**)(&leafDataArray),iface->leafDataArray,    leafdatasize  );
-	//cout << leafDataArray[0].pointer << endl;
 
 	QDPCUDA::freeHostMem(                                   leafDataArray);
       }
@@ -318,31 +316,6 @@ namespace QDP {
 	QDPCUDA::freeHostMem(                                   nodeDataArray);
       }
 
-//       for (FlattenTag::ListNode::iterator i = flattenTag.listNode.begin() ; i != flattenTag.listNode.end() ; ++i ) {
-// #ifdef GPU_DEBUG
-//       	cout << "node data to iface string length = " << i->size() << endl;
-// #endif
-// 	void * tmpHost;
-// 	QDPCUDA::getHostMem( (void **)&tmpHost , i->size() );
-// 	QDPCUDA::copyHostToHost( tmpHost , i->c_str() , i->size() );
-// 	QDPCUDA::getDeviceMem( (void **)(&iface->nodeDataArray[c].pointer) , i->size() );
-// 	QDPCUDA::copyToDevice( iface->nodeDataArray[c].pointer , tmpHost , i->size() );
-// 	QDPCUDA::freeHostMem( tmpHost );
-
-// 	// HACK fw
-// 	// QDPCUDA::hostRegister( const_cast<char *>(i->c_str()) , i->size() , 0 );
-// 	// QDPCUDA::getDeviceMem( (void **)(&iface->nodeDataArray[c].pointer) , i->size() );
-// 	// QDPCUDA::copyToDevice( iface->nodeDataArray[c].pointer , i->c_str() , i->size() );
-// 	// QDPCUDA::hostUnregister( const_cast<char *>(i->c_str()) );
-
-// 	c++;
-//       }
-
-
-      //
-      // for now 
-      //
-
 
       theCudpJust( __PRETTY_FUNCTION__ , iface );
 
@@ -356,10 +329,6 @@ namespace QDP {
 #ifdef GPU_DEBUG
       cout << "free device memory used for node data" << endl;
 #endif
-      // for (int i = 0 ; i < iface->numberNodes ; i++ ) {
-      // 	cout << "node" << i << ": ";
-      // 	QDPCUDA::freeDeviceMem( iface->nodeDataArray[i].pointer );
-      // }
 
 #ifdef GPU_DEBUG
       cout << "free host memory for node pointers: ";
@@ -381,20 +350,6 @@ namespace QDP {
 #ifdef GPU_DEBUG
       cout << "number of OScalars which device memory were freed: " << oscalarToDeviceTagfree.count << endl;
 #endif
-
-      // CUDA_iface_eval * ifeval_dev;
-      // QDPCUDA::getDeviceMem((void**)(&ifeval_dev),sizeof(CUDA_iface_eval));
-
-
-      // QDPCUDA::getDeviceMem((void**)(&ifeval->flatten),sizeof(FlattenTag));
-      // QDPCUDA::copyToDevice(ifeval->flatten,flatten,sizeof(FlattenTag));
-
-      // QDPCUDA::copyToDevice(ifeval_dev,ifeval,sizeof(CUDA_iface_eval));
-
-      //theCudpJust( __PRETTY_FUNCTION__ , iface );
-
-      //QDPCUDA::freeDeviceMem((void*)(ifeval->flatten));
-      //QDPCUDA::freeDeviceMem((void*)(ifeval_dev));
 
     }
 

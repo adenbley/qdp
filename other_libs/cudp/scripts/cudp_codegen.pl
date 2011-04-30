@@ -395,45 +395,7 @@ extern "C" void function_host(void * ptr)
 #ifdef GPU_DEBUG
     cout << "dest:" << ival->dest << endl;
     cout << "leafs:" << ival->numberLeafs << endl;
-//    for (int i=0;i<ival->numberLeafs;i++) {
-// 	cout << "leaf" << i << " " << ival->leafDataArray[i].pointer << " " << ival->leafDataArray[i].misc << endl;
-//    }
-    cout << "nodes:" << ival->numberNodes << endl;
-//    for (int i=0;i<ival->numberNodes;i++) {
-//	cout << "node" << i << " " << ival->nodeDataArray[i].pointer << endl;
-//   }
 #endif
-
-    //FlattenTag::LeafData * save_leafarray = ival->leafDataArray;
-    //FlattenTag::NodeData * save_nodearray = ival->nodeDataArray;
-
-    //IfaceCudp * ival_dev;
-    //ret = cudaMalloc((void **)(&ival_dev),sizeof(IfaceCudp));
-    //cudp_check_error("get device memory for kernel interface",ret);
-
-    //if (ival->numberLeafs > 0) {
-//	ret = cudaMalloc((void **)(&ival->leafDataArray),sizeof(FlattenTag::LeafData) * ival->numberLeafs);
-//	cudp_check_error("get device memory for leaf data pointers ",ret);
-//
-//	ret = cudaMemcpy(ival->leafDataArray,save_leafarray ,
-//			 sizeof(FlattenTag::LeafData) * ival->numberLeafs,
-//			 cudaMemcpyHostToDevice);
-//	cudp_check_error("copy leaf pointers to device",ret);
-  //  }
-
-    //if (ival->numberNodes > 0) {
-//	ret = cudaMalloc((void **)(&ival->nodeDataArray),sizeof(FlattenTag::NodeData) * ival->numberNodes);
-//	cudp_check_error("get device memory for node data pointers",ret);
-//
-//	ret = cudaMemcpy(ival->nodeDataArray,save_nodearray ,
-//			 sizeof(FlattenTag::NodeData) * ival->numberNodes,
-//			 cudaMemcpyHostToDevice);
-//	cudp_check_error("copy node pointers to device",ret);
-  //  }
-
-//    ret = cudaMemcpy(ival_dev,ival,sizeof(IfaceCudp),cudaMemcpyHostToDevice);
-//    cudp_check_error("copy interface to device",ret);
-
 
     int thr=1024;
 #ifdef GPU_DEBUG
@@ -474,19 +436,6 @@ extern "C" void function_host(void * ptr)
 	run_ok = kernel_call == cudaSuccess;
 	thr = thr >> 1;
     }
-
-//    ret = cudaFreeHost(ival);
-  //  cudp_check_error("free memory for host interface",ret);
-
-//    if (ival->numberLeafs > 0) {
-//	ret = cudaFree(ival->leafDataArray);
-//	cudp_check_error("free memory for leaf pointers",ret);
-  //  }
-//
-//    if (ival->numberNodes > 0) {
-//	ret = cudaFree(ival->nodeDataArray);
-//	cudp_check_error("free memory for node pointers",ret);
-  //  }
 
     ret = cudaFree(ival_dev);
     cudp_check_error("free memory for device interface",ret);

@@ -117,15 +117,10 @@ struct FnPeekColorMatrix
   }
 
   __device__
-  void unpackNode(void * ptr) const {
+  void unpackNode(FlattenTag::NodeData & nodeData) const {
 #ifdef __CUDA_ARCH__
-    struct pack_t {
-      int row;
-      int col;
-    };
-    pack_t *p=(pack_t*)(ptr);
-    row = p->row;
-    col = p->col;
+    row = nodeData.row;
+    col = nodeData.col;
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
       printf("FnPeekSpinMatrix::unpackNode %d %d \n",row,col);
 #endif
@@ -182,15 +177,11 @@ struct FnPeekColorVector
   }
 
   __device__
-  void unpackNode(void * ptr) const {
+  void unpackNode(FlattenTag::NodeData & nodeData) const {
 #ifdef __CUDA_ARCH__
-    struct pack_t {
-      int row;
-    };
-    pack_t *p=(pack_t*)(ptr);
-    row = p->row;
+    row = nodeData.row;
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
-      printf("FnPeekSpinMatrix::unpackNode %d \n",row);
+      printf("FnPeekSpinMatrix::unpackNode %d  \n",row);
 #endif
   }
 
@@ -254,15 +245,10 @@ struct FnPeekSpinMatrix
   }
 
   __device__
-  void unpackNode(void * ptr) const {
+  void unpackNode(FlattenTag::NodeData & nodeData) const {
 #ifdef __CUDA_ARCH__
-    struct pack_t {
-      int row;
-      int col;
-    };
-    pack_t *p=(pack_t*)(ptr);
-    row = p->row;
-    col = p->col;
+    row = nodeData.row;
+    col = nodeData.col;
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
       printf("FnPeekSpinMatrix::unpackNode %d %d \n",row,col);
 #endif
@@ -319,18 +305,13 @@ struct FnPeekSpinVector
   }
 
   __device__
-  void unpackNode(void * ptr) const {
+  void unpackNode(FlattenTag::NodeData & nodeData) const {
 #ifdef __CUDA_ARCH__
-    struct pack_t {
-      int row;
-    };
-    pack_t *p=(pack_t*)(ptr);
-    row = p->row;
+    row = nodeData.row;
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
-      printf("FnPeekSpinMatrix::unpackNode %d \n",row);
+      printf("FnPeekSpinMatrix::unpackNode %d  \n",row);
 #endif
   }
-
 
 private:
   mutable int row;
@@ -386,15 +367,10 @@ struct FnPokeColorMatrix
   }
 
   __device__
-  void unpackNode(void * ptr) const {
+  void unpackNode(FlattenTag::NodeData & nodeData) const {
 #ifdef __CUDA_ARCH__
-    struct pack_t {
-      int row;
-      int col;
-    };
-    pack_t *p=(pack_t*)(ptr);
-    row = p->row;
-    col = p->col;
+    row = nodeData.row;
+    col = nodeData.col;
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
       printf("FnPeekSpinMatrix::unpackNode %d %d \n",row,col);
 #endif
@@ -475,15 +451,11 @@ struct FnPokeColorVector
   }
 
   __device__
-  void unpackNode(void * ptr) const {
+  void unpackNode(FlattenTag::NodeData & nodeData) const {
 #ifdef __CUDA_ARCH__
-    struct pack_t {
-      int row;
-    };
-    pack_t *p=(pack_t*)(ptr);
-    row = p->row;
+    row = nodeData.row;
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
-      printf("FnPeekSpinMatrix::unpackNode %d \n",row);
+      printf("FnPeekSpinMatrix::unpackNode %d %d \n",row);
 #endif
   }
 
@@ -561,15 +533,10 @@ struct FnPokeSpinMatrix
   }
 
   __device__
-  void unpackNode(void * ptr) const {
+  void unpackNode(FlattenTag::NodeData & nodeData) const {
 #ifdef __CUDA_ARCH__
-    struct pack_t {
-      int row;
-      int col;
-    };
-    pack_t *p=(pack_t*)(ptr);
-    row = p->row;
-    col = p->col;
+    row = nodeData.row;
+    col = nodeData.col;
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
       printf("FnPeekSpinMatrix::unpackNode %d %d \n",row,col);
 #endif
@@ -649,15 +616,11 @@ struct FnPokeSpinVector
   }
 
   __device__
-  void unpackNode(void * ptr) const {
+  void unpackNode(FlattenTag::NodeData & nodeData) const {
 #ifdef __CUDA_ARCH__
-    struct pack_t {
-      int row;
-    };
-    pack_t *p=(pack_t*)(ptr);
-    row = p->row;
+    row = nodeData.row;
     if (blockIdx.x * blockDim.x + threadIdx.x == 0)
-      printf("FnPeekSpinMatrix::unpackNode %d %d \n",row);
+      printf("FnPeekSpinMatrix::unpackNode %d \n",row);
 #endif
   }
 
@@ -841,7 +804,7 @@ struct ForEach_Base<UnaryNode<FnTag, A>, FlattenTag , CTag>
 	printf("Oops: f.count >= f.numberLeafs!\n");
     }
 
-    expr.operation().unpackNode( f.nodeDataArray[ f.count_node ].pointer );
+    expr.operation().unpackNode( f.nodeDataArray[ f.count_node ] );
 
     f.count_node++;
 
