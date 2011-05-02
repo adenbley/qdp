@@ -162,6 +162,7 @@ namespace QDP {
 
 #ifdef BUILD_CUDP
 #include "qdp_cudp_just.h"
+#include "qdp_threadmetric.h"
 #include "qdp_device_storage.h"
 #include "cudp_iface.h"
 #endif

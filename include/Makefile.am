@@ -212,6 +212,7 @@ nobase_include_HEADERS = \
 		qdp_disk_map_slice.h \
 		qdp_cuda.h \
 		qdp_device_storage.h \
+		qdp_threadmetric.h \
 		qdp_pretty.h \
 		qdp_newtags.h \
 		newtags/qdp_flatten.h \

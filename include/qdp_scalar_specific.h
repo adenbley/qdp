@@ -13,7 +13,9 @@
 
 
 #ifdef BUILD_CUDP
+#include <algorithm>
 #include "qdp_device_storage.h"
+#include "qdp_threadmetric.h"
 #include "cudp_iface.h"
 #include "qdp_newtags.h"
 #endif
@@ -316,7 +318,20 @@ namespace QDP {
 	QDPCUDA::freeHostMem(                                   nodeDataArray);
       }
 
+      iface->totalsite = s.numSiteTable();
+      iface->threadsite = theCudaThreadMetric.threadsite;
+      iface->Nthread = theCudaThreadMetric.Nthread;
 
+      if (iface->totalsite % (iface->Nthread * iface->threadsite)) {
+	iface->Nblock_x = min( iface->totalsite / (iface->Nthread * iface->threadsite) + 1  ,  32*1024 );
+	iface->Nblock_y = ceil((double)(iface->totalsite / (iface->Nthread * iface->threadsite) + 1) / (double)(32*1024));
+      } else {
+	iface->Nblock_x = min(iface->totalsite / (iface->Nthread * iface->threadsite)  ,  32*1024 );
+	iface->Nblock_y = ceil((double)(iface->totalsite / (iface->Nthread * iface->threadsite)) / (double)(32*1024));
+      }
+      cout << "Grid_x_y = " << iface->Nblock_x << " " << iface->Nblock_y << endl;
+
+      
       theCudpJust( __PRETTY_FUNCTION__ , iface );
 
       

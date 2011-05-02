@@ -199,17 +199,47 @@ __device__ inline
 void evaluate(OLattice<T>& dest, const Op& op, const QDPExpr<RHS,OLattice<T1> >& rhs,
 	      const Subset& s)
 {
-  int i;
-  int linearIndex = blockIdx.x * blockDim.x + threadIdx.x;
-  if (s.hasOrderedRep())
-    i = linearIndex + s.start();
-  else {
-    const int *tab = s.siteTable().slice();
-    i = tab[ linearIndex ];
-  }
-  //int i = blockIdx.x * blockDim.x + threadIdx.x;
+  //int linearIndex = (blockIdx.x * blockDim.x + threadIdx.x)*s.threadsite;
+  // if (s.hasOrderedRep())
+  //   i = linearIndex + s.start();
+  // else {
+  //   const int *tab = s.siteTable().slice();
+  //   i = tab[ linearIndex ];
+  // }
 
-  op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
+  // if (s.Nthread != blockDim.x)
+  //   printf("think again!\n");
+
+  int idx_start = 
+    blockDim.x * s.threadsite * blockIdx.x + 
+    blockDim.x * s.threadsite * gridDim.x * blockIdx.y;
+
+  for (int i = 0 ; i < s.threadsite ; ++i) {
+    int idx = idx_start + threadIdx.x + i * blockDim.x;
+    if (idx < s.totalsite)   // necessary only if Nblock = .. +1
+      op(dest.elem(idx), forEach(rhs, EvalLeaf1(idx), OpCombine()));
+    // else
+    //   printf("out of range\n");
+  }
+
+  // for (int i=0;i<s.threadsite;++i) {
+  //   int idx=linearIndex+i+s.start();
+  //   if (idx < s.totalsite)
+  //     op(dest.elem(idx), forEach(rhs, EvalLeaf1(idx), OpCombine()));
+  //   else
+  //     printf("out of range\n");
+  // }
+
+  // int i;
+  // int linearIndex = blockIdx.x * blockDim.x + threadIdx.x;
+  // if (s.hasOrderedRep())
+  //   i = linearIndex + s.start();
+  // else {
+  //   const int *tab = s.siteTable().slice();
+  //   i = tab[ linearIndex ];
+  // }
+  // op(dest.elem(i), forEach(rhs, EvalLeaf1(i), OpCombine()));
+
 
   //   int numSiteTable = s.numSiteTable();
   //   user_arg<T,T1,Op,RHS> a(dest, rhs, op, s.siteTable().slice());

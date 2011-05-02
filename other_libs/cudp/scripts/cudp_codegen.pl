@@ -310,6 +310,8 @@ sub spu
     $ret.="    ".$pretty{"partOp"}." op".argsempty($pretty{"partOp"}).";\n";
     $ret.="    Subset s;\n";
     $ret.="    s.make( ival->hasOrderedRep , ival->start , ival->end , ival->siteTable );\n";
+    $ret.="    s.threadsite = ival->threadsite;\n";
+    $ret.="    s.totalsite = ival->totalsite;\n";
     $ret.="    dest.setF(ival->dest);\n";
     $ret.="    FlattenTag flattenTag;\n";
     $ret.="    flattenTag.numberLeafs = ival->numberLeafs;\n";
@@ -397,7 +399,25 @@ extern "C" void function_host(void * ptr)
     cout << "leafs:" << ival->numberLeafs << endl;
 #endif
 
-    int thr=1024;
+
+
+    dim3  blocksPerGrid( ival->Nblock_x , ival->Nblock_y , 1 );
+    dim3  threadsPerBlock( ival->Nthread , 1, 1);
+
+    kernel<<< blocksPerGrid , threadsPerBlock >>>( ival_dev );
+    cudaError_t kernel_call = cudaGetLastError();
+
+    cout << "kernel launched with " << ival->Nblock_x << " " << ival->Nblock_y << " blocks and " << ival->Nthread << " threads each..." << endl;
+    cout << "kernel call:         " << string(cudaGetErrorString(kernel_call)) << endl;
+
+    if (kernel_call != cudaSuccess)
+	exit(1);
+
+
+
+
+#if 0
+    int thr=128;
 #ifdef GPU_DEBUG
     cout << "trying " << thr << " threads/block on " << ival->numSiteTable << " sites" << endl;
 #endif
@@ -413,7 +433,7 @@ extern "C" void function_host(void * ptr)
     else
 	cout << "ERROR!" << endl;
 #endif
-
+ 
 
     bool run_ok=false;
     while (!run_ok) {
@@ -436,6 +456,9 @@ extern "C" void function_host(void * ptr)
 	run_ok = kernel_call == cudaSuccess;
 	thr = thr >> 1;
     }
+#endif
+
+
 
     ret = cudaFree(ival_dev);
     cudp_check_error("free memory for device interface",ret);

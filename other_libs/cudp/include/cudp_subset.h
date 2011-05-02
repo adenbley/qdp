@@ -86,6 +86,8 @@ private:
   Set *set;
 
 public:
+  int totalsite;
+  int threadsite;
 
   __device__
   void inline make(bool rep, int start, int end ,void * ptr) {

@@ -36,6 +36,11 @@ struct FlattenTag {
 
 
 struct IfaceCudp {
+  int totalsite;
+  int threadsite;
+  int Nthread;
+  int Nblock_x;
+  int Nblock_y;
   int         numSiteTable;
   bool        hasOrderedRep;
   int         start;

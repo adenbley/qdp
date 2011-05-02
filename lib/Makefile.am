@@ -31,7 +31,7 @@ libqdp_a_SOURCES = qdp_map.cc qdp_subset.cc qdp_random.cc qdp.cc \
 	qdp_qdpio.cc qdp_xmlio.cc qdp_stdio.cc \
         qdp_profile.cc qdp_strnlen.cc qdp_crc32.cc \
         qdp_stopwatch.cc qdp_qio_strings.cc qdp_map_obj_disk.cc \
-        qdp_rannyu.cc qdp_pretty.cc qdp_cuda.cu qdp_device_storage.cc
+        qdp_rannyu.cc qdp_pretty.cc qdp_cuda.cu qdp_device_storage.cc qdp_threadmetric.cc
 
 # Scalar	
 if ARCH_SCALAR
