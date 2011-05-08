@@ -58,7 +58,7 @@ public:
 
   //! Destructor for a subset
   __device__
-  virtual ~Subset() {}
+   ~Subset() {}
 
   //! The = operator
   __device__
