@@ -25,9 +25,11 @@ namespace QDP {
 #ifdef __CUDA_ARCH__
 	OLattice<T>& b = const_cast<OLattice<T>&>(a);
 
+#ifdef GPU_DEBUG
 	if (f.count_leaf >= f.numberLeafs) {
 	  printf("Oops: f.count >= f.numberLeafs!\n");
 	}
+#endif
 
 	b.setF( f.leafDataArray[ f.count_leaf ].pointer );
 #ifdef GPU_DEBUG
@@ -52,9 +54,11 @@ namespace QDP {
 #ifdef __CUDA_ARCH__
 	OScalar<T>& b = const_cast<OScalar<T>&>(a);
 
+#ifdef GPU_DEBUG
 	if (f.count_leaf >= f.numberLeafs) {
 	  printf("Oops: f.count >= f.numberLeafs (OScalar)!\n");
 	}
+#endif
 
 	b.setF( f.leafDataArray[ f.count_leaf ].pointer );
 #ifdef GPU_DEBUG

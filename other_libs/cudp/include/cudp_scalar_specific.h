@@ -1597,9 +1597,11 @@ struct ForEach<UnaryNode<FnMap, A>, FlattenTag, CTag>
 	       const CTag &c) 
   {
 #ifdef __CUDA_ARCH__
+#ifdef GPU_DEBUG
     if (f.count_node >= f.numberNodes) {
       printf("Oops: f.count >= f.numberNodes!\n");
     }
+#endif
 
     expr.operation().unpackNode( f.nodeDataArray[ f.count_node ].pointer );
 #ifdef GPU_DEBUG
