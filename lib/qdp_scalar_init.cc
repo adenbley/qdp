@@ -28,6 +28,26 @@ void QDP_initialize(int *argc, char ***argv)
   if (isInit)
     QDP_error_exit("QDP already inited");
 
+
+#ifdef BUILD_CUDP
+  char * qdp_install = getenv("QDP_INSTALL");
+  if (qdp_install) {
+    cout << "using QDP++ installation in: " << string( qdp_install ) << endl;
+  } else {
+    cout << "please set QDP_INSTALL to the QDP++ directory" << endl;
+    QDP_abort(1);
+  }
+  char * qdp_temp = getenv("QDP_TEMP");
+  if (qdp_temp) {
+    cout << "kernel directory: " << string( qdp_temp ) << endl;
+    theCudpJust.setPath( string( qdp_temp ) );
+    theCudpJust.loadAllShared();
+  } else {
+    cout << "please set QDP_TEMP to a directory for the kernels" << endl;
+    QDP_abort(1);
+  }
+#endif
+
   Layout::init();   // setup extremely basic functionality in Layout
 
   isInit = true;

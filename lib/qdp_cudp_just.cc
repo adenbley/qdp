@@ -1,6 +1,9 @@
 #include "qdp.h"
 #include "stdlib.h"
 #include <dlfcn.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <errno.h>
 
 
 #include "cudp_iface.h"
@@ -21,37 +24,38 @@ namespace QDP
 #ifdef GPU_DEBUG
       cout << "cudp function already compiled" << endl;
 #endif
-      (*call).second(data);
+      (*call).second.kernel(data);
     } else {
 #ifdef GPU_DEBUG
       cout << "building cudp function..." << endl;
 #endif
       Filename filename = buildFunction(pretty);
-      CudpFunction cudpFunction = loadShared(filename);
+      SharedLibEntry entry = loadShared(filename);
 
       // Sanity check
       for(MapFunction::iterator iter = mapFunction.begin() ; iter != mapFunction.end() ; ++iter ) 
-	if (iter->second == cudpFunction)
+	if (iter->second.kernel == entry.kernel)
 	  QDP_error_exit("Same memory address found for another cudp function. Giving up!\n");
 
-      mapFunction.insert(MapFunction::value_type(pretty,cudpFunction));
-      cudpFunction(data);
+      mapFunction.insert(MapFunction::value_type(pretty,entry));
+      entry.kernel(data);
     }
   }
 
   CudpJust::Filename CudpJust::buildFunction(string pretty)
   {
     char temp[]="/tmp/cudp_XXXXXX";
+    char * tempfn = &temp[5];
     mktemp(temp);
     if (!temp) {
       QDP_error_exit("error while creating temporary file /tmp/cudp_...\n");
     }
     cout << "building cudp function using temporary file: " << string(temp) << endl;
     string file_cu = string(temp) + ".cu";
-    string file_o  = string(temp) + ".o";
+    string file_o  = path + string(tempfn) + ".o";
 
     string gen;
-    gen = "$QDP_INSTALL/bin/cudp_codegen.pl " + string(temp) + ".cu";
+    gen = "$QDP_INSTALL/bin/cudp_codegen.pl " + file_cu;
     cout << gen << endl;
     FILE * fileGenGpu;
     fileGenGpu=popen(gen.c_str(),"w");
@@ -77,8 +81,10 @@ namespace QDP
   }
 
 
-  CudpJust::CudpFunction CudpJust::loadShared(CudpJust::Filename filename)
+  CudpJust::SharedLibEntry CudpJust::loadShared(CudpJust::Filename filename)
   {
+    CudpJust::SharedLibEntry entry;
+
     void *handle;
     handle = dlopen( filename.c_str() ,  RTLD_LAZY);
 
@@ -91,19 +97,34 @@ namespace QDP
 
     listHandle.push_back(handle);
 
-    void (*fptr)(void *);
-    char *err;
-    dlerror(); /* clear error code */
-    *(void **)(&fptr) = dlsym(handle, "function_host");
-    if ((err = dlerror()) != NULL) {
-      cout << string(err) << endl;
-      QDP_error_exit("dlsym error\n");
-    } 
+    {
+      void (*fptr)(void *);
+      char *err;
+      dlerror(); /* clear error code */
+      *(void **)(&fptr) = dlsym(handle, "function_host");
+      if ((err = dlerror()) != NULL) {
+	cout << string(err) << endl;
+	QDP_error_exit("dlsym error\n");
+      }
+      entry.kernel = fptr;
+    }
+
+    {
+      char *fptr;
+      char *err;
+      dlerror(); /* clear error code */
+      *(void **)(&fptr) = dlsym(handle, "pretty");
+      if ((err = dlerror()) != NULL) {
+	cout << string(err) << endl;
+	QDP_error_exit("dlsym error\n");
+      }
+      entry.pretty = fptr;
+    }
 
 #ifdef GPU_DEBUG
     cout << "symbol found" << endl;
 #endif
-    return fptr;
+    return entry;
   }
 
   void CudpJust::closeAllShared()
@@ -114,6 +135,55 @@ namespace QDP
 	dlclose(*iter);
       }
   }
+
+
+  bool CudpJust::hasEnding (std::string const &fullString, std::string const &ending)
+  {
+    if (fullString.length() > ending.length()) {
+      return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    } else {
+      return false;
+    }
+  }
+
+
+  int CudpJust::getdir(string dir, list<string> &files)
+  {
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+      cout << "Error(" << errno << ") opening " << dir << endl;
+      return errno;
+    }
+
+    cout << "kernels found:" << endl;
+    while ((dirp = readdir(dp)) != NULL) {
+      if (dirp->d_type == DT_REG) {
+	if (hasEnding(string(dirp->d_name),".o")) {
+	    cout << dir + "/" + string(dirp->d_name) << "\n";
+	    files.push_back(dir+"/"+string(dirp->d_name));
+	}
+      }
+    }
+    closedir(dp);
+    return 0;
+  }
+
+
+
+  void CudpJust::loadAllShared()
+  {
+    list<Filename> filenames;
+    if (!getdir( path , filenames )) {
+
+      for(list<Filename>::iterator iter = filenames.begin() ; iter != filenames.end() ; ++iter ) {
+	cout << "loading " << *iter << endl;
+	SharedLibEntry entry = loadShared( *iter );
+	mapFunction.insert(MapFunction::value_type(string(entry.pretty),entry));
+      }
+    }
+  }
+
 
 }
 

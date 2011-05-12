@@ -203,3 +203,20 @@ use it) and gmake too for its VPATH support.
 
  
 ---
+
+
+
+GPU support
+-----------
+0) Get CUDA 4.0 (or higher, RC2 is known to work!) 
+   and a device with sm_20 or higher!
+1) see configure --help for details how to configure the QDP++
+2) set QDP_INSTALL to the install path of QDP++
+3) set QDP_TEMP to a directoy (where you have write permissions)
+   This directory will be used for the compiled CUDA kernels.
+   Upon Chroma startup the kernels found in this directory are loaded
+   in this way no CUDA compilation is carried out multiple times.
+4) get Chroma from:
+   git://qcdsfware.ur.de/chroma.git (git branch: gpu)
+   
+

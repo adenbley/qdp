@@ -354,6 +354,9 @@ using namespace QDP;
 using namespace std;
 
 
+extern "C" char pretty[]="$pretty";
+
+
 __global__ void kernel(IfaceCudp * ival)
 {
 $spucode;
